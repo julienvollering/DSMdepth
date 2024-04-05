@@ -8,3 +8,4 @@
 *.qgs~
 data
 ms
+output/samplingCovariates.tif
