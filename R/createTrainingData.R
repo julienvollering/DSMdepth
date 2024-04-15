@@ -20,14 +20,14 @@ probeclean <- probe |>
   filter(!(from == "dgps2" & ptname == 251 & comment == "road, fyllmasse paa veg"))
 
 # Raster origo and resolution ####
-k10m <- rast("data/RAD_miclev_K_10m.tif") 
-plot(k10m)
-k10m[k10m < 0] <- NA
-plot(k10m)
+radK10m <- rast("data/RAD_miclev_K_10m.tif") 
+plot(radK10m)
+radK10m[radK10m < 0] <- NA
+plot(radK10m)
 
 # Depth per cell ####
 
-probecells <- extract(k10m, probeclean, cells = TRUE, xy = TRUE, ID = FALSE) |> 
+probecells <- extract(radK10m, probeclean, cells = TRUE, xy = TRUE, ID = FALSE) |> 
   select(-RAD_miclev_K_10m)
 probes <- bind_cols(select(probeclean, depth_cm), probecells)
 
@@ -37,5 +37,13 @@ celldepth <- probes |>
   group_by(cell) |> 
   summarize(depth_cm= mean(depth_cm), cell = first(cell), x=first(x), y=first(y)) |> 
   st_drop_geometry() |> 
-  st_as_sf(coords = c('x','y'), crs=st_crs(k10m))
+  st_as_sf(coords = c('x','y'), crs=st_crs(radK10m))
 write_sf(celldepth, "output/modeling.gpkg", layer="celldepth", append = FALSE)
+
+# Join predictors ####
+predictors <- rast("output/predictors.tif")
+training <- celldepth |> 
+  select(-cell) |> 
+  bind_cols(extract(predictors, celldepth, ID=FALSE, cell=TRUE)) |> 
+  select(depth_cm, cell, geometry, everything())
+write_sf(training, "output/modeling.gpkg", layer="training", append = FALSE)
