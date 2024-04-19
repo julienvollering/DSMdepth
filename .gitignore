@@ -6,6 +6,7 @@
 * alias
 *.qgs
 *.qgs~
+*.html
 data
 ms
 output/samplingCovariates.tif
@@ -15,3 +16,4 @@ output/DTW/
 output/MRVBF1m.tif
 output/MRRTF1m.tif
 output/predictors.tif
+output/RFprediction.tif
