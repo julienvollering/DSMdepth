@@ -10,7 +10,6 @@ df <- st_drop_geometry(training) |>
 plot(training[,"depth_cm"])
 
 # RF with default hyperparameters ####
-# Evaluation with random CV
 
 tsk_depth <- as_task_regr(df, target = "depth_cm", id = "depth")
 
@@ -29,7 +28,7 @@ prediction <- predict_spatial(predictors, lrn_rf, format = "terra")
 plot(prediction)
 writeRaster(prediction, "output/RFprediction.tif", overwrite=TRUE)
 
-# Variable importance
+# Variable importance ####
 library(iml)
 depth_x <- tsk_depth$data(cols = tsk_depth$feature_names)
 depth_y <- tsk_depth$data(cols = tsk_depth$target_names)
@@ -41,7 +40,7 @@ tibble(names = names(lrn_rf$model$variable.importance),
        perm.importance = lrn_rf$model$variable.importance) |> 
   arrange(desc(perm.importance))
 
-# 10-repeats 10-fold CV
+# 10-repeats 10-fold random CV ####
 rcv1010 <- rsmp("repeated_cv", repeats = 10, folds = 10)
 
 set.seed(123)

@@ -6,6 +6,7 @@
 * alias
 *.qgs
 *.qgs~
+*.qgz
 *.html
 data
 ms
@@ -17,3 +18,4 @@ output/MRVBF1m.tif
 output/MRRTF1m.tif
 output/predictors.tif
 output/RFprediction.tif
+output/DMKqualitative.png
