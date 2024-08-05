@@ -19,7 +19,7 @@ radTC10m <- rast("data/RAD_miclev_TC_10m.tif")
 radTC10m[radTC10m < 0] <- NA
 plot(radTC10m)
 
-probe <- read_csv("data/concatenatedRawProbe.csv")
+probe <- read_csv("data/depth/concatenatedRawProbe.csv")
 probe <- st_as_sf(probe, coords = c('utm32E', 'utm32N'), crs = 25832)
 probecells <- extract(radK10m, probe, cells = TRUE, xy=TRUE, ID=FALSE) |> 
   select(cell, x, y) |> 

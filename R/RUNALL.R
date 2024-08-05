@@ -1,2 +1,6 @@
-rmarkdown::render("modelDepth.R", output_format = "html_document",
-                  knit_root_dir = "../")
+library(rmarkdown)
+render("exploratoryDataAnalysis.R",output_format="html_document", knit_root_dir = "../")
+render("createPredictorStack.R",output_format="html_document", knit_root_dir = "../")
+render("createTrainingData.R",output_format="html_document", knit_root_dir = "../")
+render("modelDepth.R", output_format="html_document", knit_root_dir = "../")
+render("evaluateDMK.R",output_format="html_document", knit_root_dir = "../")

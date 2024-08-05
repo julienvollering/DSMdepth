@@ -2,22 +2,8 @@ library(tidyverse)
 library(terra)
 library(sf)
 
-# Cleaning probe data ####
-probe <- read_csv("data/concatenatedRawProbe.csv")
-probe <- st_as_sf(probe, coords = c('utm32E', 'utm32N'), crs = 25832)
-
-filter(probe, is.na(depth_cm)) # 2 of 160 sampling cells have soil altered by construction
-filter(probe, !is.na(comment)) |>
-  arrange(comment) |> 
-  print(n=160)
-
-# Remove depths which have changed since LIDAR and radiometric surveys in 2015. 
-# Do not remove depths that are affected by infrastructure already in 2015.
-# Checked all points with comments: "infill", "fyllmasse", "gravemasser", "road"
-probeclean <- probe |> 
-  filter(!is.na(depth_cm)) |> 
-  filter(!(from == "dgps2" & ptname == 276 & comment == "fyllmasse, ikke torv")) |> 
-  filter(!(from == "dgps2" & ptname == 251 & comment == "road, fyllmasse paa veg"))
+depthpts <- read_csv("data/depth/all.csv") |> 
+  st_as_sf(coords = c('X', 'Y'), crs = 25832)
 
 # Raster origo and resolution ####
 radK10m <- rast("data/RAD_miclev_K_10m.tif") 
@@ -27,17 +13,40 @@ plot(radK10m)
 
 # Depth per cell ####
 
-probecells <- extract(radK10m, probeclean, cells = TRUE, xy = TRUE, ID = FALSE) |> 
+depthpts <- st_transform(depthpts, crs(radK10m))
+depthcells <- extract(radK10m, depthpts, cells = TRUE, xy = TRUE, ID = FALSE)
+depth <- bind_cols(select(depthpts, source, depth_cm), depthcells) |> 
+  filter(!is.na(RAD_miclev_K_10m)) |> 
   select(-RAD_miclev_K_10m)
-probes <- bind_cols(select(probeclean, depth_cm), probecells)
 
 # Here, cell depth is simply the mean of measurements within the cell, regardless of their position.
 # May be improved to account for measurement locations.
-celldepth <- probes |> 
+celldepth <- depth |> 
   group_by(cell) |> 
-  summarize(depth_cm= mean(depth_cm), cell = first(cell), x=first(x), y=first(y)) |> 
   st_drop_geometry() |> 
+  summarize(depth_cm= mean(depth_cm), cell = first(cell), x=first(x), y=first(y)) |> 
   st_as_sf(coords = c('x','y'), crs=st_crs(radK10m))
+
+# # Here, cell depth is a *weighted* mean of measurements within the cell, weighted by distance to cell center
+# depth |> 
+#   nest(pts = c(source,depth_cm,geometry)) |> 
+#   st_as_sf(coords=c('x','y'), crs=st_crs(radK10m)) |> 
+#   slice_sample(n=2) |> 
+#   mutate(
+#     meandepth = map_dbl(pts, function(sf) {mean(sf$depth_cm)}),
+#     pts = mutate(pts, test = "test")
+#   )
+#   
+# myfunction <- function(pts, geometry, ...) {
+#   st_distance(pts[[1]], geometry)
+# }
+# 
+# myfunction(temp$pts, temp$geometry)
+
+
+
+# Write cell depths ####
+
 write_sf(celldepth, "output/modeling.gpkg", layer="celldepth", append = FALSE)
 
 # Join predictors ####

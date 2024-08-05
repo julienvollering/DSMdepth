@@ -21,7 +21,7 @@ covariates <- c(rad10m, slope10m)
 names(covariates) <- gsub("_miclev", "", names(covariates))
 names(covariates) <- gsub("_10m", "", names(covariates))
 
-probe <- read_csv("data/concatenatedRawProbe.csv")
+probe <- read_csv("data/depth/concatenatedRawProbe.csv")
 probe <- st_as_sf(probe, coords = c('utm32E', 'utm32N'), crs = 25832)
 probe <- select(probe, depth_cm) |> 
   st_transform(crs = crs(covariates))
