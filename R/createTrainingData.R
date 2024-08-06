@@ -7,7 +7,6 @@ depthpts <- read_csv("data/depth/all.csv") |>
 
 # Raster origo and resolution ####
 radK10m <- rast("data/RAD_miclev_K_10m.tif") 
-plot(radK10m)
 radK10m[radK10m < 0] <- NA
 plot(radK10m)
 
@@ -18,32 +17,35 @@ depthcells <- extract(radK10m, depthpts, cells = TRUE, xy = TRUE, ID = FALSE)
 depth <- bind_cols(select(depthpts, source, depth_cm), depthcells) |> 
   filter(!is.na(RAD_miclev_K_10m)) |> 
   select(-RAD_miclev_K_10m)
-
-# Here, cell depth is simply the mean of measurements within the cell, regardless of their position.
-# May be improved to account for measurement locations.
-celldepth <- depth |> 
-  group_by(cell) |> 
+cellcenters <- depth |> 
+  select(x, y) |> 
   st_drop_geometry() |> 
-  summarize(depth_cm= mean(depth_cm), cell = first(cell), x=first(x), y=first(y)) |> 
-  st_as_sf(coords = c('x','y'), crs=st_crs(radK10m))
+  st_as_sf(coords = c('x','y'), crs = st_crs(depth))
+depth <- depth |> 
+  mutate(mFromCellCenter = st_distance(depth, cellcenters, by_element = TRUE),
+         weight = units::drop_units(1/(mFromCellCenter)^2),
+         weighted_depth_cm = depth_cm*weight) |>
+  nest(pts = c(source, depth_cm, mFromCellCenter, weight, weighted_depth_cm, geometry)) |>
+  mutate(
+    depthMean = map_dbl(pts, function(sf) {mean(sf$depth_cm)}),
+    sumweights = map_dbl(pts, function(sf) {sum(sf$weight)}),
+    sumweighteddepth = map_dbl(pts, function(sf) {sum(sf$weighted_depth_cm)}),
+    depthIDW = sumweighteddepth/sumweights,
+    sourceProbe = map_lgl(pts, function(sf) {any(sf$source == "probe")}),
+    sourceGPR = map_lgl(pts, function(sf) {any(sf$source == "gpr")}),
+    sourceWisen2021 = map_lgl(pts, function(sf) {any(sf$source == "wisen2021")}),
+    sourceMyrarkivet = map_lgl(pts, function(sf) {any(sf$source == "myrarkivet")})
+  ) |> 
+  select(-sumweights, -sumweighteddepth)
+# depthMean is simply the overall mean of measurements within the cell, regardless of their position.
+# depthIDW is the depth at the cell center from IDW of measurements within the cell
 
-# # Here, cell depth is a *weighted* mean of measurements within the cell, weighted by distance to cell center
-# depth |> 
-#   nest(pts = c(source,depth_cm,geometry)) |> 
-#   st_as_sf(coords=c('x','y'), crs=st_crs(radK10m)) |> 
-#   slice_sample(n=2) |> 
-#   mutate(
-#     meandepth = map_dbl(pts, function(sf) {mean(sf$depth_cm)}),
-#     pts = mutate(pts, test = "test")
-#   )
-#   
-# myfunction <- function(pts, geometry, ...) {
-#   st_distance(pts[[1]], geometry)
-# }
-# 
-# myfunction(temp$pts, temp$geometry)
-
-
+plot(depth$depthMean, depth$depthIDW)
+cor(depth$depthMean, depth$depthIDW)
+celldepth <- depth |> 
+  mutate(depth_cm = round(depthIDW)) |>
+  select(-cell, -pts, -depthMean, -depthIDW) |> 
+  st_as_sf(coords = c('x','y'), crs = st_crs(radK10m))
 
 # Write cell depths ####
 
@@ -52,7 +54,6 @@ write_sf(celldepth, "output/modeling.gpkg", layer="celldepth", append = FALSE)
 # Join predictors ####
 predictors <- rast("output/predictors.tif")
 training <- celldepth |> 
-  select(-cell) |> 
-  bind_cols(extract(predictors, celldepth, ID=FALSE, cell=TRUE)) |> 
-  select(depth_cm, cell, geometry, everything())
+  bind_cols(extract(predictors, celldepth, ID=FALSE, cell=FALSE)) |> 
+  select(depth_cm, starts_with("source"), geometry, everything())
 write_sf(training, "output/modeling.gpkg", layer="training", append = FALSE)
