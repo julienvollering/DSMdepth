@@ -53,7 +53,7 @@ write_sf(celldepth, "output/modeling.gpkg", layer="celldepth", append = FALSE)
 
 # Join predictors ####
 predictors <- rast("output/predictors.tif")
-training <- celldepth |> 
+frame <- celldepth |> 
   bind_cols(extract(predictors, celldepth, ID=FALSE, cell=FALSE)) |> 
   select(depth_cm, starts_with("source"), geometry, everything())
-write_sf(training, "output/modeling.gpkg", layer="training", append = FALSE)
+write_sf(frame, "output/modeling.gpkg", layer="dataframe", append = FALSE)
