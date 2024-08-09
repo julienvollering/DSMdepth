@@ -230,9 +230,9 @@ wbt_wetness_index(sca = "output/whitebox/DTM50mDinfFAsca.tif",
 TWI50m <- rast("output/whitebox/TWI50m.tif")
 TWIbilinear50m <- resample(TWI50m, radK10m, method="bilinear")
 
-## Depth to water table ####
+## DTW: Depth to water table ####
 
-### Whitebox + GRASS GUI approach ####
+### Whitebox + ArcGIS Pro GUI approach ####
 library(whitebox)
 whitebox::wbt_init()
 writeRaster(dtm1mProjected, "output/DTW/DTMepsg32632.tif", overwrite=TRUE)
@@ -249,7 +249,7 @@ wbt_fill_depressions_wang_and_liu(
 
 #  https://www.whiteboxgeo.com/manual/wbt_book/available_tools/hydrological_analysis.html#D8FlowAccumulation
 wbt_d8_flow_accumulation(input = "output/DTW/DTMepsg32632filled.tif",
-                         output = "output/DTW/DTM10mD8FAca.tif",
+                         output = "output/DTW/DTMD8FAca.tif",
                          out_type = "catchment area")
 # Elapsed Time (excluding I/O): 21.934s
 
@@ -262,14 +262,13 @@ wbt_slope(dem = "output/DTW/DTMepsg32632.tif",
 # for the minimal flow initiation area (FIA), meaning how much area needs to 
 # accumulate downward the slope for resulting in a channel with simulated surface water. 
 # Commonly, t is set between 0.25 ha and 16 ha.
+# We try 0.25 and 4 ha (@agrenEvaluatingDigitalTerrain2014; @schonauerSpatiotemporalPredictionSoil2021)
 # Flow paths needs to be binary (null = no channel, 1 = channel), as start points for the cost function. 
 # select channels (above threshold) and transform them into binary variables 
 # r.cost can be run with three different methods of identifying the starting point(s)... 
 # ...from a raster map. All non-NULL cells are considered to be starting points. 
-D8FAca <- rast("output/DTW/DTM10mD8FAca.tif")
+D8FAca <- rast("output/DTW/DTMD8FAca.tif")
 FIA <- D8FAca
-FIA[FIA < 0.25*1e4] <- NA
-FIA[!is.na(FIA)] <- 1
 
 ar1507 <- st_read("data/Basisdata_1507_Alesund_25832_FKB-AR5_FGDB/Basisdata_1507_Alesund_25832_FKB-AR5_FGDB.gdb",
                   layer="fkb_ar5_omrade")
@@ -279,79 +278,55 @@ ar <- bind_rows(ar1507, ar1535)
 water <- filter(ar, arealtype == 82  | arealtype == 81) |> 
   st_transform(crs = crs(FIA)) |> 
   st_crop(FIA)
-FIAwater <- mask(FIA, water, inverse=TRUE, updatevalue=1)
-writeRaster(FIAwater, filename = "output/DTW/FIA2500m2.tif", overwrite=TRUE)
+
+FIAthresholds <- c(0.25, 0.5, 1, 2, 4, 8, 16)*1e4
+FIA <- rep(FIA, length(FIAthresholds))
+names(FIA) <- paste0("FIA",FIAthresholds,"m2")
+for (i in seq_along(FIAthresholds)) {
+  x <- FIAthresholds[i]
+  FIA[[i]] <- classify(FIA[[i]], matrix(c(0, x, NA,
+                                          x, Inf, 1), ncol=3, byrow = TRUE))
+}
+waterr <- rasterize(water, FIA) # Mask directly with 'water' not working -- terra issue?
+FIAwater <- mask(FIA, waterr, inverse=TRUE, updatevalue=1)
+plot(FIAwater)
+writeRaster(FIAwater, paste0("output/DTW/FIA",FIAthresholds,"m2.tif"), overwrite=TRUE)
 
 DTMepsg32632Slope <- rast("output/DTW/DTMepsg32632Slope.tif")
 RAD_miclev_TC_mask <- st_read("data/Orskogfjellet-site.gpkg", layer="RAD_miclev_TC_mask")
-RAD_miclev_TC_mask_500mbuffer <- st_buffer(RAD_miclev_TC_mask, dist= 500)
-DTMepsg32632SlopeMask <- mask(DTMepsg32632Slope, RAD_miclev_TC_mask_500mbuffer)
-writeRaster(DTMepsg32632SlopeMask, 
-            filename = "output/DTW/DTMepsg32632SlopeMask.tif", overwrite=TRUE)
+RAD_miclev_TC_mask_1kmbuffer <- st_buffer(RAD_miclev_TC_mask, dist= 1000)
+DTMepsg32632SlopeMask <- mask(DTMepsg32632Slope, RAD_miclev_TC_mask_1kmbuffer)
+DTMepsg32632SlopeMaskUnitless <- DTMepsg32632SlopeMask/100 # Conversion from %
+writeRaster(DTMepsg32632SlopeMaskUnitless, 
+            filename = "output/DTW/DTMepsg32632SlopeUnitless.tif", overwrite=TRUE)
 
-# GRASS r.cost (via QGIS) crashed with above inputs (FIA2500m2.tif and DTMepsg32632SlopeMask.tif)
-# Future workaround?
-# Divide study area into overlapping tiles
-# Maybe use 'gdistance' in R instead of GRASS r.cost, to script loop in R-environment.
+# ArcGIS Pro Distance Accumulation (v.3.1.0)
 
+# Input raster or feature source data     \FIA2500m2.tif
+# Output distance accumulation raster     \DTW-FIA2500m2.tif
+# Input barrier raster or feature data     
+# Input surface raster     
+# Input cost raster     \DTMepsg32632SlopeUnitless.tif
+# Vertical factor     BINARY 1 -30 30
+# Horizontal factor     BINARY 1 45
+# Out back direction raster     \DTW-FIA2500m2-dir.tif
+# Distance Method     PLANAR
 
-### GRASS from R approach ####
-# https://doi.org/10.5281/zenodo.5718133
+# Warning: Cost cells with a zero or negative value were encountered. Not all source cells may have been processed.
+# (Elapsed Time: 3 minutes 52 seconds)
 
-# # Setup GRASS
-# library("rgrass")
-# link2GI::linkGRASS(radK10m, ver_select = TRUE, quiet=FALSE)
-# link2GI::searchGRASSW(quiet=FALSE)
-# 
-# write_RAST(dtm1mProjected, vname = "dtm1mProjected")
-# # The function ‘r.hydrodem’ removes all depressions (flags = ‘a’) from the DEM 
-# # which is necessary for calculating interruption-free flow channels
-# execGRASS(
-#   cmd ='r.hydrodem', input = 'dtm1mProjected', output = 'filledHydroDem', 
-#   flags = c('a','overwrite'))
-# # D8 Flow Directions (flags = ‘s’), resulting in flow-direction layer 
-# # Additionally, the flow accumulation using the created D8 flow directions is created 
-# execGRASS(
-#   cmd = 'r.watershed', elevation = 'filledHydroDem', accumulation = 'accum', 
-#   flags = c('s', 'a', 'overwrite'))
-# # A grid of terrain slope is calculated on the original (not-filled) DEM. 
-# # Later, a cost function will be applied to these values, why units are set to [percent]. 
-# execGRASS(
-#   cmd = 'r.slope.aspect', elevation ='dtm1mProjected', slope = 'slope', format = 'percent', 
-#   flags = c('a','overwrite'))
-# # A function is defined for efficient calculations: 
-# calcDTW <- function(fia) { #fia <- 0.25
-#   # For calculating the flow paths, it is necessary to define a threshold (t) 
-#   # for the minimal flow initiation area (FIA), meaning how much area needs to 
-#   # accumulate downward the slope for resulting in a channel with simulated surface water. 
-#   # Commonly, t is set between 0.25 ha and 16 ha (32 ha). 
-#   t = fia * 10000/res(dtm1mProjected)[1]^2 
-#   # flow accumulation is based on number of cells. 
-#   # We need upstream contributing area [m^2]. FIA is corrected by resolution of the DEM. 
-#   # Flow paths needs to be binary (0 = no channel, 1 = channel), as start points for the cost function. 
-#   # select channels (above threshold) and transform them into binary variables 
-#   execGRASS(
-#     cmd = 'r.mapcalc', 
-#     expression = paste0('flowLines = if(accum >= ', t, ', 1, null())'), 
-#     flags = c('overwrite')) 
-#   # Finally, DTW calculated as minimum height difference (slope in percent scaled by resolution of the layer) 
-#   # between each cell and the flow path (surface water) layer using a cost function. 
-#   # The cost function (Awaida and Westervelt, 2020) starts at each point of the plot paths 
-#   # and sums up the height difference to each raster cell. 
-#   # calculate the least-cost of slope [%], starting from the channels
-#   execGRASS(
-#     cmd = 'r.cost', 
-#     input = 'slope', start_raster = 'flowLines', output = 'cost', null_cost = 0, 
-#     flags = c('overwrite','k')) #'k' for with Knight's move for more accurate results
-#   
-#   # read raster from gdal and save it as object 
-#   DTWxha<-rast(read_RAST('cost')) 
-#   # since GRASS r.slope.aspect gives a measure in percent, the cost-grid needs to be corrected by resolution and divided by 100 to achieve [m] 
-#   DTWxha1<- DTWxha*res(dtm1mProjected)[1]/100 
-#   writeRaster(DTWxha1, paste0('output/DTW/DTW_FIA_',fia,'_ha.tif'), overwrite = T)
-#   } 
-#   # and finally run the function for the the desired FIAs.
-#   lapply(c(0.25), calcDTW) 
+DTWfiles <- c(
+  "output/DTW/DTW-FIA2500m2.tif",
+  "output/DTW/DTW-FIA5000m2.tif",
+  "output/DTW/DTW-FIA10000m2.tif",
+  "output/DTW/DTW-FIA20000m2.tif",
+  "output/DTW/DTW-FIA40000m2.tif",
+  "output/DTW/DTW-FIA80000m2.tif",
+  "output/DTW/DTW-FIA160000m2.tif"
+)
+DTW <- rast(DTWfiles)
+plot(DTW, range = c(0,10), xlim = c(392100,393000), ylim=c(6933800,6934300))
+DTWmean1m <- resample(DTW, radK10m, method = "average")
 
 # Collate all predictors ####
 
@@ -359,17 +334,28 @@ predictors <- c(radK10m, radTh10m, radU10m, radTC10m,
                 elevation, 
                 terrainMean1m, 
                 terrain10m,
-                MRVBF, TWImean5m, TWI10m, TWIbilinear20m, TWIbilinear50m)
+                MRVBF, TWImean5m, TWI10m, TWIbilinear20m, TWIbilinear50m, 
+                DTWmean1m)
 names(predictors) <- c('radK', 'radTh', 'radU', 'radTC', 
                        'elevation', 
                        'slope1m', 'TPI1m', 'TRI1m', 'roughness1m',
                        'slope10m', 'TPI10m', 'TRI10m', 'roughness10m',
-                       'MRVBF', 'TWI5m', 'TWI10m', 'TWI20m', 'TWI50m')
+                       'MRVBF', 'TWI5m', 'TWI10m', 'TWI20m', 'TWI50m',
+                       'DTW2500', 'DTW5000','DTW10000','DTW20000','DTW40000',
+                       'DTW80000','DTW160000')
 
-radextent <- st_read("data/Orskogfjellet-site.gpkg", layer="RAD_10m_mask")
-predictors.extent <- crop(predictors, radextent)
-dtmextent <- ext(dtm1mProjected)
-predictors.extent <- crop(predictors, dtmextent)
-
+RAD_10m_mask <- st_read("data/Orskogfjellet-site.gpkg", layer="RAD_10m_mask")
+DTM_mask <- st_read("data/Haram Skodje Ørskog Vestnes 2pkt 2015/metadata/Haram Skodje Ørskog Vestnes 2pkt 2015_Klippefil.shp") |> 
+  st_transform(st_crs(RAD_10m_mask))
+sea_mask <- filter(ar, arealtype == 82) |> 
+  st_union() |> 
+  st_transform(crs = st_crs(RAD_10m_mask))
+studyarea_mask <- st_difference(st_intersection(RAD_10m_mask, DTM_mask), sea_mask)
+plot(st_geometry(studyarea_mask))
+predictors.extent <- crop(predictors, st_bbox(studyarea_mask))
 plot(predictors.extent)
-writeRaster(predictors, "output/predictors.tif")
+predictors.masked <- mask(predictors.extent, studyarea_mask)
+
+plot(predictors.masked)
+writeRaster(predictors.masked, "output/predictors.tif", overwrite=TRUE)
+st_write(st_geometry(studyarea_mask), "output/modeling.gpkg", "studyarea_mask")
