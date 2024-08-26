@@ -3,11 +3,12 @@ library(terra)
 library(sf)
 library(mlr3verse)
 library(mlr3spatial)
+library(mlr3spatiotempcv)
 
-training <- st_read("output/modeling.gpkg", layer="training")
-df <- st_drop_geometry(training) |> 
-  select(-cell)
-plot(training[,"depth_cm"])
+frame <- st_read("output/modeling.gpkg", layer="dataframe")
+plot(frame[,"depth_cm"])
+df <- st_drop_geometry(frame) |> 
+  select(!starts_with("source"))
 
 # RF with default hyperparameters ####
 
@@ -20,8 +21,6 @@ lrn_rf$train(tsk_depth)
 lrn_rf$model
 plot(lrn_rf$predict(tsk_depth)) + coord_flip()
 plot(lrn_rf$predict(tsk_depth), type = "residual")
-lrn_rf$oob_error()
-sqrt(lrn_rf$oob_error())
 
 predictors <- rast("output/predictors.tif")
 prediction <- predict_spatial(predictors, lrn_rf, format = "terra")
@@ -40,7 +39,12 @@ tibble(names = names(lrn_rf$model$variable.importance),
        perm.importance = lrn_rf$model$variable.importance) |> 
   arrange(desc(perm.importance))
 
-# 10-repeats 10-fold random CV ####
+# Evaluation ####
+
+lrn_rf$oob_error()
+sqrt(lrn_rf$oob_error())
+
+## 10-repeats 10-fold random CV ####
 rcv1010 <- rsmp("repeated_cv", repeats = 10, folds = 10)
 
 set.seed(123)
@@ -48,6 +52,48 @@ rr <- resample(tsk_depth, lrn_rf, rcv1010)
 rr$aggregate(msr("regr.rmse"))
 rr$aggregate(msr("regr.rsq"))
 
+## CAST: K-fold Nearest Neighbor Distance Matching ####
+
+# set.seed(42)
+# task = tsk("ecuador")
+# points = sf::st_as_sf(task$coordinates(), crs = task$crs, coords = c("x", "y"))
+# modeldomain = sf::st_as_sfc(sf::st_bbox(points))
+# 
+# set.seed(42)
+# cv_knndm = rsmp("spcv_knndm", modeldomain = modeldomain)
+# cv_knndm$instantiate(task)
+# 
+# intersect(cv_knndm$train_set(1), cv_knndm$test_set(1)) # good!
+# 
+# lrn_rf <- lrn("classif.ranger", num.trees = 100)
+# rr <- resample(task, lrn_rf, cv_knndm)
+# rr$aggregate(msr("classif.ce"))
+
+tsk_depth_sp <- frame |> 
+  dplyr::select(!starts_with("source")) |> 
+  as_task_regr_st(target = "depth_cm", id = "depth_spatial")
+
+ar5 <- st_read("data/Orskogfjellet-site.gpkg", layer="fkb_ar5_clipped") 
+ar5 <- st_transform(ar5, crs(frame))
+ar5.myr <- filter(ar5, arealtype == 60) |> 
+  st_geometry()
+plot(ar5.myr)
+sa <- st_read("output/modeling.gpkg", "studyarea_mask") |> 
+  st_geometry()
+plot(sa)
+modeldomain <- st_intersection(sa, ar5.myr) |> 
+  st_cast("MULTIPOLYGON") |> 
+  st_union() |> 
+  st_cast("POLYGON")
+plot(modeldomain)
+
+set.seed(42)
+?mlr_resamplings_spcv_knndm
+cv_knndm = rsmp("spcv_knndm", modeldomain = modeldomain)
+cv_knndm
+cv_knndm$instantiate(tsk_depth_sp)
+# Error in CAST::knndm(tpoints = points, modeldomain = self$param_set$values$modeldomain,  : 
+# tpoints and modeldomain must have the same CRS
 
 # Tuning ####
 # # May be implemented with nested resampling for evaluation. 
