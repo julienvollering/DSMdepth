@@ -16,9 +16,6 @@ plot(frame[,"depth_cm"],add=T)
 dmk <- st_read("data/Orskogfjellet-site.gpkg", "dmkmyr") |> 
   st_transform(st_crs(frame)) |> 
   mutate(depth_class = as.factor(depth_class))
-  
-plot(dmk[modeldomain,"depth_class"])
-frame <- st_join(frame, dmk[,"depth_class"])
 
 ## Predictive domain ####
 
@@ -39,11 +36,13 @@ predictorspts <- predictors |>
   st_as_sf()
 predpts <- predictorspts[modeldomain,] |> 
   st_transform(st_crs(frame))
-plot(predpts, pch = '.')
 predictors_modeldomain <- mask(predictors, vect(modeldomain))
 plot(predictors_modeldomain[[1]])
 
 st_crs(frame) == st_crs(predpts)
+
+plot(dmk[modeldomain,"depth_class"])
+frame <- st_join(frame, dmk[,"depth_class"])
 
 # RF with default hyperparameters ####
 
@@ -82,31 +81,33 @@ rf_fit <-
 ## Variable importance ####
 
 rf_fit
-rf_fit %>% 
+import_perm <- rf_fit %>% 
   extract_fit_parsnip() %>% 
-  vip::vip(num_features = 25)
+  vip::vi()
+vip::vip(import_perm, num_features = 25)
 
 ftnames <- rf_fit |> 
   extract_recipe() |> 
   summary() |> 
   filter(role == "predictor") |> 
   pull(variable)
-
-# import_perm <- rf_fit %>% 
-#   extract_fit_parsnip() |> 
-#   vip::vi(method = "permute", feature_names = ftnames, 
-#           train = st_drop_geometry(frame),
-#           target = "depth_cm")
-
 import_firm <- rf_fit %>% 
   extract_fit_parsnip() |> 
   vip::vi(method = "firm", feature_names = ftnames, 
           train = st_drop_geometry(frame))
+vip::vip(import_firm, num_features = 25)
 
-# import_shap <- rf_fit %>% 
-#   extract_fit_parsnip() |> 
-#   vip::vi(method = "shap", feature_names = ftnames, 
-#           train = st_drop_geometry(frame))
+pfun <- function(object, newdata) {  # needs to return a numeric vector
+  predict(object, new_data = newdata)$.pred  
+}
+# pfun(rf_fit, frame)
+import_shap <- rf_fit %>% 
+  extract_fit_parsnip() |> 
+  vip::vi(method = "shap", 
+          pred_wrapper = pfun,
+          feature_names = ftnames, 
+          train = st_drop_geometry(frame))
+vip::vip(import_shap, num_features = 25)
 
 # Error estimation ####
 
