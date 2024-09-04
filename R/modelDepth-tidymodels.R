@@ -78,7 +78,7 @@ rf_fit <-
   rf_workflow %>% 
   fit(frame)
 
-## Variable importance ####
+# Variable importance ####
 
 rf_fit
 import_perm <- rf_fit %>% 
@@ -162,7 +162,6 @@ for (k in seq_along(unique(knndm$clusters))) {
                                          assessment = knndm$indx_test[[k]]), 
                                     frame)
 }
-
 folds <- manual_rset(splits = custom_splits, 
                      ids = paste0("Fold", unique(knndm$clusters)))
 folds
@@ -216,4 +215,28 @@ frame |>
   group_by(depth_class) |> 
   summarize(n = n(), depth_cm = mean(depth_cm)) #sanity check
 
-# Residual structure ####
+# Residual spatial structure ####
+
+frame.resid <- rf_fit |> 
+  augment(new_data = frame) |> 
+  select(.pred, depth_cm, geom) |> 
+  mutate(.resid = .pred - depth_cm) |> 
+  st_as_sf(sf_column_name = 'geom', crs = st_crs(frame))
+
+plot(frame.resid[,'.resid'])
+
+library(gstat)
+emp_variog <- variogram(.resid ~ 1, cutoff = 1e4, 
+                        data = as(frame.resid, "Spatial"))
+print(emp_variog)
+plot(emp_variog)
+
+emp_variog <- variogram(.resid ~ 1, cutoff = 1000, 
+                        data = as(frame.resid, "Spatial"))
+print(emp_variog)
+plot(emp_variog)
+
+emp_variog <- variogram(.resid ~ 1, cutoff = 200, 
+                        data = as(frame.resid, "Spatial"))
+print(emp_variog)
+plot(emp_variog)
