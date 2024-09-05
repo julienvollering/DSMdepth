@@ -24,47 +24,47 @@ frame |>
 
 #cores <- parallel::detectCores()
 
-rf_mod <- 
+mod_rf <- 
   rand_forest(mtry = NULL, min_n = 5, trees = 1000) %>% 
   set_engine("ranger", importance = "permutation",
              scale.permutation.importance	= TRUE) %>% 
   set_mode("regression")
 
-rf_recipe <- 
+recipe_remotesensing <- 
   recipe(formula = depth_cm ~ ., data = select(frame, !starts_with("source"))) |> 
   remove_role(ar5cover, old_role = "predictor") |> 
   remove_role(ar5soil, old_role = "predictor") |> 
   remove_role(dmkdepth, old_role = "predictor") |> 
   remove_role(geom, old_role = "predictor")
   
-rf_recipe |> 
+recipe_remotesensing |> 
   summary() |> 
   print(n=30)
 
-rf_workflow <- 
+workflow_remotesensing <- 
   workflow() %>% 
-  add_model(rf_mod) %>% 
-  add_recipe(rf_recipe)
+  add_model(mod_rf) %>% 
+  add_recipe(recipe_remotesensing)
 
 set.seed(345)
-rf_fit <- 
-  rf_workflow %>% 
+fit_remotesensing <- 
+  workflow_remotesensing %>% 
   fit(frame)
 
 # Variable importance ####
 
-rf_fit
-import_perm <- rf_fit %>% 
+fit_remotesensing
+import_perm <- fit_remotesensing %>% 
   extract_fit_parsnip() %>% 
   vip::vi()
 vip::vip(import_perm, num_features = 25)
 
-ftnames <- rf_fit |> 
+ftnames <- fit_remotesensing |> 
   extract_recipe() |> 
   summary() |> 
   filter(role == "predictor") |> 
   pull(variable)
-import_firm <- rf_fit %>% 
+import_firm <- fit_remotesensing %>% 
   extract_fit_parsnip() |> 
   vip::vi(method = "firm", feature_names = ftnames, 
           train = st_drop_geometry(frame))
@@ -73,8 +73,8 @@ vip::vip(import_firm, num_features = 25)
 pfun <- function(object, newdata) {  # needs to return a numeric vector
   predict(object, new_data = newdata)$.pred  
 }
-# pfun(rf_fit, frame)
-import_shap <- rf_fit %>% 
+# pfun(fit_remotesensing, frame)
+import_shap <- fit_remotesensing %>% 
   extract_fit_parsnip() |> 
   vip::vi(method = "shap", 
           pred_wrapper = pfun,
@@ -84,31 +84,7 @@ vip::vip(import_shap, num_features = 25)
 
 # Error estimation ####
 
-## With tidymodels-native NNDM ####
-
-# library(spatialsample) #v.0.5.1
-# 
-# data(ames, package = "modeldata")
-# ames_sf <- sf::st_as_sf(ames, coords = c("Longitude", "Latitude"), crs = 4326)
-# 
-# # Using a small subset of the data, to make the example run faster:
-# temp <- ames_sf[1:100, ]
-# temp2 <- ames_sf[2001:2100, ]
-# plot(st_geometry(temp))
-# plot(st_geometry(temp2))
-# temp3 <- spatial_nndm_cv(temp, temp2)
-# autoplot(get_rsplit(temp3, 1))
-# 
-# set.seed(123)
-# tictoc::tic()
-# nndm <- spatial_nndm_cv(
-#   frame[1:100,],
-#   prediction_sites = slice_sample(predpts, n=1e4), # Issue to reprex: st_union(predictivedomain) causes no points to be excluded
-#   autocorrelation_range = NULL,
-#   min_analysis_proportion = 0.5
-# )
-# tictoc::toc() # 1 sec for 100 data pts, 300 sec for 500 pts
-# autoplot(get_rsplit(nndm, 1))
+evaluation_metrics <- metric_set(rmse, mae, rsq)
 
 ## With kNNDM from CAST into tidymodels workflow ####
 
@@ -117,8 +93,9 @@ library(CAST) #v.1.0.2
 predictorspts <- predictors |> 
   as.points(values = FALSE) |> 
   st_as_sf()
-predpts <- predictorspts[predictivedomain,]
-st_crs(frame) == st_crs(predpts)
+predpts <- predictorspts[predictivedomain,] |> 
+  st_transform(st_crs(frame))
+crs(frame) == crs(predpts)
 
 set.seed(123)
 predptssample <- dplyr::slice_sample(predpts, n=1e3)
@@ -145,54 +122,99 @@ folds <- manual_rset(splits = custom_splits,
                      ids = paste0("Fold", unique(knndm$clusters)))
 folds
 
-# Evaluate with CV folds
-evaluation_metrics <- metric_set(rmse, mae, rsq)
+### Evaluate remote sensing model ####
 
-rf_workflow |> 
+workflow_remotesensing |> 
   extract_preprocessor()
 
 set.seed(456)
-rf_fit_rs <- 
-  rf_workflow %>% 
+fit_remotesensing_knndm <- 
+  workflow_remotesensing %>% 
   fit_resamples(
     resamples = folds,
     metrics = evaluation_metrics)
-collect_metrics(rf_fit_rs)
+collect_metrics(fit_remotesensing_knndm)
 
-## Evaluate DMK ####
+### Evaluate DMK-only model ####
 
-intercept_mod <- 
-  linear_reg(mode = "regression", engine = "lm")
+recipe_dmkintercept <- 
+  recipe(formula = depth_cm ~ dmkdepth, data = frame) 
 
-intercept_recipe <- 
-  recipe(formula = depth_cm ~ depth_class, data = frame) 
-
-intercept_recipe |> 
+recipe_dmkintercept |> 
   summary()
 
-intercept_workflow <- 
+workflow_dmkintercept <- 
   workflow() %>% 
-  add_model(intercept_mod) %>% 
-  add_recipe(intercept_recipe)
+  add_model(linear_reg(mode = "regression", engine = "lm")) %>% 
+  add_recipe(recipe_dmkintercept)
 
-intercept_workflow |> 
+workflow_dmkintercept |> 
   extract_preprocessor()
 
 set.seed(456)
-intercept_fit_rs <- 
+fit_dmkintercept_knndm <- 
   intercept_workflow %>% 
   fit_resamples(
     resamples = folds,
     metrics = evaluation_metrics)
-collect_metrics(intercept_fit_rs)
+collect_metrics(fit_dmkintercept_knndm)
 
-intercept_fit <- 
-  intercept_workflow %>% 
+fit_dmkintercept <- 
+  workflow_dmkintercept %>% 
   fit(frame)
-extract_fit_parsnip(intercept_fit)
+extract_fit_parsnip(fit_dmkintercept)
 frame |> 
-  group_by(depth_class) |> 
+  group_by(dmkdepth) |> 
   summarize(n = n(), depth_cm = mean(depth_cm)) #sanity check
+
+### Evaluate leveraging model ####
+
+recipe_leveraging <- 
+  recipe(formula = depth_cm ~ ., data = select(frame, !starts_with("source"))) |> 
+  remove_role(geom, old_role = "predictor") |> 
+  step_unknown(dmkdepth) |> 
+  step_dummy(dmkdepth)
+recipe_leveraging
+prep(recipe_leveraging, training = select(frame, !starts_with("source")))
+
+workflow_leveraging <- 
+  workflow() %>% 
+  add_model(mod_rf) %>% 
+  add_recipe(recipe_leveraging)
+
+set.seed(456)
+fit_leveraging_knndm <- 
+  workflow_leveraging %>% 
+  fit_resamples(
+    resamples = folds,
+    metrics = evaluation_metrics)
+collect_metrics(fit_leveraging_knndm)
+
+## With tidymodels-native NNDM ####
+
+# library(spatialsample) #v.0.5.1
+# 
+# data(ames, package = "modeldata")
+# ames_sf <- sf::st_as_sf(ames, coords = c("Longitude", "Latitude"), crs = 4326)
+# 
+# # Using a small subset of the data, to make the example run faster:
+# temp <- ames_sf[1:100, ]
+# temp2 <- ames_sf[2001:2100, ]
+# plot(st_geometry(temp))
+# plot(st_geometry(temp2))
+# temp3 <- spatial_nndm_cv(temp, temp2)
+# autoplot(get_rsplit(temp3, 1))
+# 
+# set.seed(123)
+# tictoc::tic()
+# nndm <- spatial_nndm_cv(
+#   frame[1:100,],
+#   prediction_sites = slice_sample(predpts, n=1e4), # Issue to reprex: st_union(predictivedomain) causes no points to be excluded
+#   autocorrelation_range = NULL,
+#   min_analysis_proportion = 0.5
+# )
+# tictoc::toc() # 1 sec for 100 data pts, 300 sec for 500 pts
+# autoplot(get_rsplit(nndm, 1))
 
 # Residual spatial structure ####
 
