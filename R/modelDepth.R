@@ -4,7 +4,8 @@ library(tidymodels)
 
 # Reading data ####
 
-frame <- st_read("output/modeling.gpkg", layer="dataframe")
+frame <- st_read("output/modeling.gpkg", layer="dataframe") |> 
+  mutate(across(.cols = c(ar5cover, ar5soil, dmkdepth), .fns = as.factor))
 plot(frame[,"depth_cm"])
 predictors <- rast("output/predictors.tif")
 
@@ -13,12 +14,6 @@ plot(frame[,"depth_cm"],add=T)
 
 predictivedomain <- st_read("data/Orskogfjellet-site.gpkg", "mask_predictivedomain")
 plot(predictivedomain)
-
-dmk <- st_read("data/Orskogfjellet-site.gpkg", "dmkmyr") |> 
-  st_transform(st_crs(frame)) |> 
-  mutate(depth_class = as.factor(depth_class))
-plot(dmk[predictivedomain,"depth_class"])
-frame <- st_join(frame, dmk[,"depth_class"])
 
 # RF with default hyperparameters ####
 
@@ -37,12 +32,14 @@ rf_mod <-
 
 rf_recipe <- 
   recipe(formula = depth_cm ~ ., data = select(frame, !starts_with("source"))) |> 
-  remove_role(depth_class, old_role = "predictor") |> 
+  remove_role(ar5cover, old_role = "predictor") |> 
+  remove_role(ar5soil, old_role = "predictor") |> 
+  remove_role(dmkdepth, old_role = "predictor") |> 
   remove_role(geom, old_role = "predictor")
   
 rf_recipe |> 
   summary() |> 
-  print(n=28)
+  print(n=30)
 
 rf_workflow <- 
   workflow() %>% 

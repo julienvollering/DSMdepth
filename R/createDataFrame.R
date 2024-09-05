@@ -52,8 +52,27 @@ celldepth <- depth |>
 write_sf(celldepth, "output/modeling.gpkg", layer="celldepth", append = FALSE)
 
 # Join predictors ####
+
 predictors <- rast("output/predictors.tif")
 frame <- celldepth |> 
   bind_cols(extract(predictors, celldepth, ID=FALSE, cell=FALSE)) |> 
   select(depth_cm, starts_with("source"), geometry, everything())
+
+# Join auxiliary attributes ####
+
+ar5 <- st_read("data/Orskogfjellet-site.gpkg", layer="fkb_ar5_clipped") |> 
+  st_transform(st_crs(frame))
+frame <- st_join(frame, ar5[,c("arealtype", "grunnforhold")]) |> 
+  rename(ar5cover = arealtype, ar5soil = grunnforhold)
+
+dmk <- st_read("data/Orskogfjellet-site.gpkg", "dmkmyr") |> 
+  st_transform(st_crs(frame))
+frame <- st_join(frame, dmk[,"depth_class"]) |> 
+  rename(dmkdepth = depth_class)
+
+frame <- frame |> 
+  mutate(across(.cols = c(ar5cover, ar5soil, dmkdepth), .fns = as.factor))
+
+# Write data frame ####
+
 write_sf(frame, "output/modeling.gpkg", layer="dataframe", append = FALSE)
