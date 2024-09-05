@@ -39,8 +39,7 @@ ar5 <- st_transform(ar5, crs(frame))
 ar5.myr <- dplyr::filter(ar5, arealtype == 60) |> 
   st_geometry()
 plot(ar5.myr)
-sa <- st_read("output/modeling.gpkg", "studyarea_mask") |> 
-  st_geometry()
+sa <- st_read("data/Orskogfjellet-site.gpkg", "mask_studyarea")
 plot(sa)
 modeldomain <- st_intersection(sa, ar5.myr) |> 
   st_cast("MULTIPOLYGON") |> 

@@ -4,8 +4,6 @@ library(tidymodels)
 
 # Reading data ####
 
-## Data frame and predictor stack ####
-
 frame <- st_read("output/modeling.gpkg", layer="dataframe")
 plot(frame[,"depth_cm"])
 predictors <- rast("output/predictors.tif")
@@ -13,35 +11,13 @@ predictors <- rast("output/predictors.tif")
 plot(predictors$elevation)
 plot(frame[,"depth_cm"],add=T)
 
+predictivedomain <- st_read("data/Orskogfjellet-site.gpkg", "mask_predictivedomain")
+plot(predictivedomain)
+
 dmk <- st_read("data/Orskogfjellet-site.gpkg", "dmkmyr") |> 
   st_transform(st_crs(frame)) |> 
   mutate(depth_class = as.factor(depth_class))
-
-## Predictive domain ####
-
-ar5 <- st_read("data/Orskogfjellet-site.gpkg", layer="fkb_ar5_clipped") 
-ar5 <- st_transform(ar5, crs(frame))
-ar5.myr <- dplyr::filter(ar5, arealtype == 60) |> 
-  st_geometry()
-plot(ar5.myr)
-sa <- st_read("output/modeling.gpkg", "studyarea_mask") |> 
-  st_geometry()
-plot(sa)
-modeldomain <- st_intersection(sa, ar5.myr) |> 
-  st_cast("MULTIPOLYGON") |> 
-  st_union() |> 
-  st_cast("POLYGON")
-predictorspts <- predictors |> 
-  as.points(values = FALSE) |> 
-  st_as_sf()
-predpts <- predictorspts[modeldomain,] |> 
-  st_transform(st_crs(frame))
-predictors_modeldomain <- mask(predictors, vect(modeldomain))
-plot(predictors_modeldomain[[1]])
-
-st_crs(frame) == st_crs(predpts)
-
-plot(dmk[modeldomain,"depth_class"])
+plot(dmk[predictivedomain,"depth_class"])
 frame <- st_join(frame, dmk[,"depth_class"])
 
 # RF with default hyperparameters ####
@@ -130,7 +106,7 @@ vip::vip(import_shap, num_features = 25)
 # tictoc::tic()
 # nndm <- spatial_nndm_cv(
 #   frame[1:100,],
-#   prediction_sites = slice_sample(predpts, n=1e4), # Issue to reprex: st_union(modeldomain) causes no points to be excluded
+#   prediction_sites = slice_sample(predpts, n=1e4), # Issue to reprex: st_union(predictivedomain) causes no points to be excluded
 #   autocorrelation_range = NULL,
 #   min_analysis_proportion = 0.5
 # )
@@ -140,6 +116,12 @@ vip::vip(import_shap, num_features = 25)
 ## With kNNDM from CAST into tidymodels workflow ####
 
 library(CAST) #v.1.0.2
+
+predictorspts <- predictors |> 
+  as.points(values = FALSE) |> 
+  st_as_sf()
+predpts <- predictorspts[predictivedomain,]
+st_crs(frame) == st_crs(predpts)
 
 set.seed(123)
 predptssample <- dplyr::slice_sample(predpts, n=1e3)

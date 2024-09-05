@@ -1,4 +1,5 @@
 library(rmarkdown)
+render("createMasks.R",output_format="html_document", knit_root_dir = "../")
 render("concatenateDepthMeasurements.R",output_format="html_document", knit_root_dir = "../")
 render("exploratoryDataAnalysis.R",output_format="html_document", knit_root_dir = "../")
 render("createPredictorStack.R",output_format="html_document", knit_root_dir = "../")

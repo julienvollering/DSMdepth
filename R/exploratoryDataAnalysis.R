@@ -49,11 +49,10 @@ predictors <- rast("output/predictors.tif")
 plot(predictors)
 depthcells <- st_read("output/modeling.gpkg", "dataframe")
 
-ar5 <- st_read("data/Orskogfjellet-site.gpkg", layer="fkb_ar5_clipped")
-ar5 <- st_transform(ar5, crs(predictors))
-ar5.myr <- filter(ar5, arealtype == 60)
+ar5.myr <- st_read("data/Orskogfjellet-site.gpkg", layer="mask_ar5myr")
+st_crs(ar5.myr) == st_crs(predictors)
 plot(predictors[['elevation']])
-plot(st_geometry(ar5.myr), add=TRUE)
+plot(ar5.myr, add=TRUE)
 
 st_intersects(depthcells, ar5.myr, sparse=FALSE) |> 
   apply(1, any) |> 

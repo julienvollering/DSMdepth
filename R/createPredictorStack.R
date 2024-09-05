@@ -270,12 +270,8 @@ wbt_slope(dem = "output/DTW/DTMepsg32632.tif",
 D8FAca <- rast("output/DTW/DTMD8FAca.tif")
 FIA <- D8FAca
 
-ar1507 <- st_read("data/Basisdata_1507_Alesund_25832_FKB-AR5_FGDB/Basisdata_1507_Alesund_25832_FKB-AR5_FGDB.gdb",
-                  layer="fkb_ar5_omrade")
-ar1535 <- st_read("data/Basisdata_1535_Vestnes_25832_FKB-AR5_FGDB/Basisdata_1535_Vestnes_25832_FKB-AR5_FGDB.gdb",
-                  layer="fkb_ar5_omrade")
-ar <- bind_rows(ar1507, ar1535) 
-water <- filter(ar, arealtype == 82  | arealtype == 81) |> 
+ar5 <- st_read("data/Orskogfjellet-site.gpkg", layer="fkb_ar5_clipped")
+water <- filter(ar5, arealtype == 82  | arealtype == 81) |> 
   st_transform(crs = crs(FIA)) |> 
   st_crop(FIA)
 
@@ -344,18 +340,9 @@ names(predictors) <- c('radK', 'radTh', 'radU', 'radTC',
                        'DTW2500', 'DTW5000','DTW10000','DTW20000','DTW40000',
                        'DTW80000','DTW160000')
 
-RAD_10m_mask <- st_read("data/Orskogfjellet-site.gpkg", layer="RAD_10m_mask")
-DTM_mask <- st_read("data/Haram Skodje Ørskog Vestnes 2pkt 2015/metadata/Haram Skodje Ørskog Vestnes 2pkt 2015_Klippefil.shp") |> 
-  st_transform(st_crs(RAD_10m_mask))
-sea_mask <- filter(ar, arealtype == 82) |> 
-  st_union() |> 
-  st_transform(crs = st_crs(RAD_10m_mask))
-studyarea_mask <- st_difference(st_intersection(RAD_10m_mask, DTM_mask), sea_mask)
-plot(st_geometry(studyarea_mask))
-predictors.extent <- crop(predictors, st_bbox(studyarea_mask))
-plot(predictors.extent)
-predictors.masked <- mask(predictors.extent, studyarea_mask)
+sa <- st_read("data/Orskogfjellet-site.gpkg", "mask_studyarea")
+predictors.extent <- crop(predictors, st_bbox(sa))
+predictors.masked <- mask(predictors.extent, sa)
 
 plot(predictors.masked)
 writeRaster(predictors.masked, "output/predictors.tif", overwrite=TRUE)
-st_write(st_geometry(studyarea_mask), "output/modeling.gpkg", "studyarea_mask")
