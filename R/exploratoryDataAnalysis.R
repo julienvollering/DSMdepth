@@ -42,12 +42,32 @@ sqrt(9350*2) # Sill at 230 m of 136 cm
 sqrt(760*2) # Nugget at 10 m of 40 cm
 # Isolated but similar peatland basins in the landscape can explain semivariance decline beyond range. 
 
+# Sample attributes ####
+
+depthcells <- st_read("output/modeling.gpkg", "dataframe", stringsAsFactors = TRUE)
+count(depthcells, ar5cover)
+count(depthcells, ar5cover, ar5soil)
+count(depthcells, dmkdepth)
+depthcells |> 
+  st_drop_geometry() |> 
+  group_by(ar5cover) |> 
+  summarize(n = n(), depth_cm = mean(depth_cm))
+depthcells |> 
+  st_drop_geometry() |> 
+  filter(ar5cover %in% c(30,50,60)) |> 
+  group_by(ar5cover, ar5soil) |> 
+  summarize(n = n(), depth_cm = mean(depth_cm))
+depthcells |> 
+  st_drop_geometry() |> 
+  filter(ar5cover == 60) |> 
+  group_by(dmkdepth) |> 
+  summarize(n = n(), depth_cm = mean(depth_cm))
+  
 # Representativeness of the sample ####
 # Representativeness cf. mapped peatland in the study area
 
 predictors <- rast("output/predictors.tif")
 plot(predictors)
-depthcells <- st_read("output/modeling.gpkg", "dataframe")
 
 ar5.myr <- st_read("data/Orskogfjellet-site.gpkg", layer="mask_ar5myr")
 st_crs(ar5.myr) == st_crs(predictors)
