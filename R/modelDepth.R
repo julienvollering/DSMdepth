@@ -1,81 +1,27 @@
-library(tidyverse)
 library(terra)
 library(sf)
-library(mlr3verse)
-library(mlr3spatial)
-library(mlr3spatiotempcv)
+library(tidymodels)
+
+# Reading data ####
+
+## Data frame and predictor stack ####
 
 frame <- st_read("output/modeling.gpkg", layer="dataframe")
 plot(frame[,"depth_cm"])
-df <- st_drop_geometry(frame) |> 
-  select(!starts_with("source"))
-
-# RF with default hyperparameters ####
-
-tsk_depth <- as_task_regr(df, target = "depth_cm", id = "depth")
-
-lrn_rf <- lrn("regr.ranger", num.trees = 1000, importance = "permutation")
-
-set.seed(123)
-lrn_rf$train(tsk_depth)
-lrn_rf$model
-plot(lrn_rf$predict(tsk_depth)) + coord_flip()
-plot(lrn_rf$predict(tsk_depth), type = "residual")
-
 predictors <- rast("output/predictors.tif")
-prediction <- predict_spatial(predictors, lrn_rf, format = "terra")
-plot(prediction)
-writeRaster(prediction, "output/RFprediction.tif", overwrite=TRUE)
 
-# Variable importance ####
-library(iml)
-depth_x <- tsk_depth$data(cols = tsk_depth$feature_names)
-depth_y <- tsk_depth$data(cols = tsk_depth$target_names)
-predictor <- Predictor$new(lrn_rf, data = depth_x, y = depth_y)
-set.seed(123)
-importance = FeatureImp$new(predictor, loss = "mse", n.repetitions = 100)
-importance$plot()
-tibble(names = names(lrn_rf$model$variable.importance),
-       perm.importance = lrn_rf$model$variable.importance) |> 
-  arrange(desc(perm.importance))
+plot(predictors$elevation)
+plot(frame[,"depth_cm"],add=T)
 
-# Evaluation ####
+dmk <- st_read("data/Orskogfjellet-site.gpkg", "dmkmyr") |> 
+  st_transform(st_crs(frame)) |> 
+  mutate(depth_class = as.factor(depth_class))
 
-lrn_rf$oob_error()
-sqrt(lrn_rf$oob_error())
-
-## 10-repeats 10-fold random CV ####
-rcv1010 <- rsmp("repeated_cv", repeats = 10, folds = 10)
-
-set.seed(123)
-rr <- resample(tsk_depth, lrn_rf, rcv1010)
-rr$aggregate(msr("regr.rmse"))
-rr$aggregate(msr("regr.rsq"))
-
-## CAST: K-fold Nearest Neighbor Distance Matching ####
-
-# set.seed(42)
-# task = tsk("ecuador")
-# points = sf::st_as_sf(task$coordinates(), crs = task$crs, coords = c("x", "y"))
-# modeldomain = sf::st_as_sfc(sf::st_bbox(points))
-# 
-# set.seed(42)
-# cv_knndm = rsmp("spcv_knndm", modeldomain = modeldomain)
-# cv_knndm$instantiate(task)
-# 
-# intersect(cv_knndm$train_set(1), cv_knndm$test_set(1)) # good!
-# 
-# lrn_rf <- lrn("classif.ranger", num.trees = 100)
-# rr <- resample(task, lrn_rf, cv_knndm)
-# rr$aggregate(msr("classif.ce"))
-
-tsk_depth_sp <- frame |> 
-  dplyr::select(!starts_with("source")) |> 
-  as_task_regr_st(target = "depth_cm", id = "depth_spatial")
+## Predictive domain ####
 
 ar5 <- st_read("data/Orskogfjellet-site.gpkg", layer="fkb_ar5_clipped") 
 ar5 <- st_transform(ar5, crs(frame))
-ar5.myr <- filter(ar5, arealtype == 60) |> 
+ar5.myr <- dplyr::filter(ar5, arealtype == 60) |> 
   st_geometry()
 plot(ar5.myr)
 sa <- st_read("output/modeling.gpkg", "studyarea_mask") |> 
@@ -85,42 +31,212 @@ modeldomain <- st_intersection(sa, ar5.myr) |>
   st_cast("MULTIPOLYGON") |> 
   st_union() |> 
   st_cast("POLYGON")
-plot(modeldomain)
+predictorspts <- predictors |> 
+  as.points(values = FALSE) |> 
+  st_as_sf()
+predpts <- predictorspts[modeldomain,] |> 
+  st_transform(st_crs(frame))
+predictors_modeldomain <- mask(predictors, vect(modeldomain))
+plot(predictors_modeldomain[[1]])
 
-set.seed(42)
-?mlr_resamplings_spcv_knndm
-cv_knndm = rsmp("spcv_knndm", modeldomain = modeldomain)
-cv_knndm
-cv_knndm$instantiate(tsk_depth_sp)
-# Error in CAST::knndm(tpoints = points, modeldomain = self$param_set$values$modeldomain,  : 
-# tpoints and modeldomain must have the same CRS
+st_crs(frame) == st_crs(predpts)
 
-# Tuning ####
-# # May be implemented with nested resampling for evaluation. 
-# # https://www.tidymodels.org/learn/work/nested-resampling/
+plot(dmk[modeldomain,"depth_class"])
+frame <- st_join(frame, dmk[,"depth_class"])
+
+# RF with default hyperparameters ####
+
+glimpse(frame)
+frame |> 
+  pull(depth_cm) |> 
+  summary()
+
+#cores <- parallel::detectCores()
+
+rf_mod <- 
+  rand_forest(mtry = NULL, min_n = 5, trees = 1000) %>% 
+  set_engine("ranger", importance = "permutation",
+             scale.permutation.importance	= TRUE) %>% 
+  set_mode("regression")
+
+rf_recipe <- 
+  recipe(formula = depth_cm ~ ., data = select(frame, !starts_with("source"))) |> 
+  remove_role(depth_class, old_role = "predictor") |> 
+  remove_role(geom, old_role = "predictor")
+  
+rf_recipe |> 
+  summary() |> 
+  print(n=28)
+
+rf_workflow <- 
+  workflow() %>% 
+  add_model(rf_mod) %>% 
+  add_recipe(rf_recipe)
+
+set.seed(345)
+rf_fit <- 
+  rf_workflow %>% 
+  fit(frame)
+
+# Variable importance ####
+
+rf_fit
+import_perm <- rf_fit %>% 
+  extract_fit_parsnip() %>% 
+  vip::vi()
+vip::vip(import_perm, num_features = 25)
+
+ftnames <- rf_fit |> 
+  extract_recipe() |> 
+  summary() |> 
+  filter(role == "predictor") |> 
+  pull(variable)
+import_firm <- rf_fit %>% 
+  extract_fit_parsnip() |> 
+  vip::vi(method = "firm", feature_names = ftnames, 
+          train = st_drop_geometry(frame))
+vip::vip(import_firm, num_features = 25)
+
+pfun <- function(object, newdata) {  # needs to return a numeric vector
+  predict(object, new_data = newdata)$.pred  
+}
+# pfun(rf_fit, frame)
+import_shap <- rf_fit %>% 
+  extract_fit_parsnip() |> 
+  vip::vi(method = "shap", 
+          pred_wrapper = pfun,
+          feature_names = ftnames, 
+          train = st_drop_geometry(frame))
+vip::vip(import_shap, num_features = 25)
+
+# Error estimation ####
+
+## With tidymodels-native NNDM ####
+
+# library(spatialsample) #v.0.5.1
 # 
-# # A mlr task has to be created in order to use the package
-# # We make an mlr task with the iris dataset here
-# # (Classification task with makeClassifTask, Regression Task with makeRegrTask)
-# depthtask.mlr <- mlr::makeRegrTask(data = df, target = "depth_cm")
-# depthtask.mlr
+# data(ames, package = "modeldata")
+# ames_sf <- sf::st_as_sf(ames, coords = c("Longitude", "Latitude"), crs = 4326)
 # 
-# # Tuning process; Tuning measure is mse
-# # “final recommended hyperparameter setting is calculated by taking the best 5% of all SMBO iterations” (Probst et al., 2019)
+# # Using a small subset of the data, to make the example run faster:
+# temp <- ames_sf[1:100, ]
+# temp2 <- ames_sf[2001:2100, ]
+# plot(st_geometry(temp))
+# plot(st_geometry(temp2))
+# temp3 <- spatial_nndm_cv(temp, temp2)
+# autoplot(get_rsplit(temp3, 1))
+# 
 # set.seed(123)
-# res <- tuneRanger::tuneRanger(depthtask.mlr, iters = 100, num.trees = 1000)
-# 
-# # Mean of best 5 % of the results
-# res
-# 
-# # Model with the new tuned hyperparameters
-# lrn_rf_tuned <- lrn("regr.ranger", num.trees = 1000, mtry = 15, min.node.size = 2,
-#                     sample.fraction = 0.9, importance = "permutation")
-# 
-# set.seed(123)
-# lrn_rf_tuned$train(tsk_depth)
-# lrn_rf_tuned$model
-# lrn_rf_tuned$oob_error()
-# sqrt(lrn_rf_tuned$oob_error())
+# tictoc::tic()
+# nndm <- spatial_nndm_cv(
+#   frame[1:100,],
+#   prediction_sites = slice_sample(predpts, n=1e4), # Issue to reprex: st_union(modeldomain) causes no points to be excluded
+#   autocorrelation_range = NULL,
+#   min_analysis_proportion = 0.5
+# )
+# tictoc::toc() # 1 sec for 100 data pts, 300 sec for 500 pts
+# autoplot(get_rsplit(nndm, 1))
 
-sessionInfo()
+## With kNNDM from CAST into tidymodels workflow ####
+
+library(CAST) #v.1.0.2
+
+set.seed(123)
+predptssample <- dplyr::slice_sample(predpts, n=1e3)
+# Vary number of folds
+knndm_list <- c(20,15,10,5) |>
+  purrr::map(\(x) knndm(tpoints = frame, 
+                        predpoints = predptssample,
+                        k = x))
+# Pick number of folds that minimizes W
+knndm <- knndm_list[[which.min(map_dbl(knndm_list, \(x) x$W))]]
+knndm
+plot(knndm, type = "simple")
+ggplot() + geom_sf(data = dplyr::mutate(frame, cvfold = as.factor(knndm$clusters)), 
+                   aes(color=cvfold), size=0.5, shape=3)
+
+# Creating rsample splits
+custom_splits <- list()
+for (k in seq_along(unique(knndm$clusters))) {
+  custom_splits[[k]] <- make_splits(list(analysis = knndm$indx_train[[k]], 
+                                         assessment = knndm$indx_test[[k]]), 
+                                    frame)
+}
+folds <- manual_rset(splits = custom_splits, 
+                     ids = paste0("Fold", unique(knndm$clusters)))
+folds
+
+# Evaluate with CV folds
+evaluation_metrics <- metric_set(rmse, mae, rsq)
+
+rf_workflow |> 
+  extract_preprocessor()
+
+set.seed(456)
+rf_fit_rs <- 
+  rf_workflow %>% 
+  fit_resamples(
+    resamples = folds,
+    metrics = evaluation_metrics)
+collect_metrics(rf_fit_rs)
+
+## Evaluate DMK ####
+
+intercept_mod <- 
+  linear_reg(mode = "regression", engine = "lm")
+
+intercept_recipe <- 
+  recipe(formula = depth_cm ~ depth_class, data = frame) 
+
+intercept_recipe |> 
+  summary()
+
+intercept_workflow <- 
+  workflow() %>% 
+  add_model(intercept_mod) %>% 
+  add_recipe(intercept_recipe)
+
+intercept_workflow |> 
+  extract_preprocessor()
+
+set.seed(456)
+intercept_fit_rs <- 
+  intercept_workflow %>% 
+  fit_resamples(
+    resamples = folds,
+    metrics = evaluation_metrics)
+collect_metrics(intercept_fit_rs)
+
+intercept_fit <- 
+  intercept_workflow %>% 
+  fit(frame)
+extract_fit_parsnip(intercept_fit)
+frame |> 
+  group_by(depth_class) |> 
+  summarize(n = n(), depth_cm = mean(depth_cm)) #sanity check
+
+# Residual spatial structure ####
+
+frame.resid <- rf_fit |> 
+  augment(new_data = frame) |> 
+  select(.pred, depth_cm, geom) |> 
+  mutate(.resid = .pred - depth_cm) |> 
+  st_as_sf(sf_column_name = 'geom', crs = st_crs(frame))
+
+plot(frame.resid[,'.resid'])
+
+library(gstat)
+emp_variog <- variogram(.resid ~ 1, cutoff = 1e4, 
+                        data = as(frame.resid, "Spatial"))
+print(emp_variog)
+plot(emp_variog)
+
+emp_variog <- variogram(.resid ~ 1, cutoff = 1000, 
+                        data = as(frame.resid, "Spatial"))
+print(emp_variog)
+plot(emp_variog)
+
+emp_variog <- variogram(.resid ~ 1, cutoff = 200, 
+                        data = as(frame.resid, "Spatial"))
+print(emp_variog)
+plot(emp_variog)
