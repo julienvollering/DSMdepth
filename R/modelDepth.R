@@ -5,8 +5,8 @@ library(tidymodels)
 # Reading data ####
 
 frame <- st_read("output/modeling.gpkg", layer="dataframe") |> 
-  mutate(across(.cols = c(ar5cover, ar5soil, dmkdepth), .fns = as.factor))
-plot(frame[,"depth_cm"])
+  mutate(across(.cols = c(ar5cover, ar5soil, dmkdepth), .fns = as.factor)) |> 
+  filter(!(ar5cover %in% c(11,12)))
 predictors <- rast("output/predictors.tif")
 
 plot(predictors$elevation)
@@ -21,8 +21,6 @@ glimpse(frame)
 frame |> 
   pull(depth_cm) |> 
   summary()
-
-#cores <- parallel::detectCores()
 
 mod_rf <- 
   rand_forest(mtry = NULL, min_n = 5, trees = 1000) %>% 
@@ -153,19 +151,20 @@ workflow_dmkintercept |>
 
 set.seed(456)
 fit_dmkintercept_knndm <- 
-  intercept_workflow %>% 
+  workflow_dmkintercept %>% 
   fit_resamples(
     resamples = folds,
     metrics = evaluation_metrics)
 collect_metrics(fit_dmkintercept_knndm)
 
+# sanity check
 fit_dmkintercept <- 
   workflow_dmkintercept %>% 
   fit(frame)
 extract_fit_parsnip(fit_dmkintercept)
 frame |> 
   group_by(dmkdepth) |> 
-  summarize(n = n(), depth_cm = mean(depth_cm)) #sanity check
+  summarize(n = n(), depth_cm = mean(depth_cm)) # sanity check
 
 ### Evaluate leveraging model ####
 
@@ -175,7 +174,7 @@ recipe_leveraging <-
   step_unknown(dmkdepth) |> 
   step_dummy(dmkdepth)
 recipe_leveraging
-prep(recipe_leveraging, training = select(frame, !starts_with("source")))
+prep(recipe_leveraging, training = frame)
 
 workflow_leveraging <- 
   workflow() %>% 
@@ -218,7 +217,7 @@ collect_metrics(fit_leveraging_knndm)
 
 # Residual spatial structure ####
 
-frame.resid <- rf_fit |> 
+frame.resid <- fit_remotesensing |> 
   augment(new_data = frame) |> 
   select(.pred, depth_cm, geom) |> 
   mutate(.resid = .pred - depth_cm) |> 
