@@ -296,3 +296,7 @@ emp_variog <- variogram(.resid ~ 1, cutoff = 200,
                         data = as(frame.resid, "Spatial"))
 print(emp_variog)
 plot(emp_variog)
+
+# sessionInfo ####
+
+sessioninfo::session_info()
