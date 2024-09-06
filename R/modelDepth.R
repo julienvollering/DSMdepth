@@ -84,8 +84,7 @@ vip::vip(import_shap, num_features = 25)
 
 evaluation_metrics <- metric_set(rmse, mae, rsq)
 
-## With kNNDM from CAST into tidymodels workflow ####
-
+# With kNNDM from CAST into tidymodels workflow
 library(CAST) #v.1.0.2
 
 predictorspts <- predictors |> 
@@ -109,6 +108,8 @@ plot(knndm, type = "simple")
 ggplot() + geom_sf(data = dplyr::mutate(frame, cvfold = as.factor(knndm$clusters)), 
                    aes(color=cvfold), size=0.5, shape=3)
 
+## Overall ####
+
 # Creating rsample splits
 custom_splits <- list()
 for (k in seq_along(unique(knndm$clusters))) {
@@ -120,7 +121,7 @@ folds <- manual_rset(splits = custom_splits,
                      ids = paste0("Fold", unique(knndm$clusters)))
 folds
 
-### Evaluate remote sensing model ####
+### Remote sensing model ####
 
 workflow_remotesensing |> 
   extract_preprocessor()
@@ -133,7 +134,7 @@ fit_remotesensing_knndm <-
     metrics = evaluation_metrics)
 collect_metrics(fit_remotesensing_knndm)
 
-### Evaluate DMK-only model ####
+### DMK-only model ####
 
 recipe_dmkintercept <- 
   recipe(formula = depth_cm ~ dmkdepth, data = frame) 
@@ -166,7 +167,7 @@ frame |>
   group_by(dmkdepth) |> 
   summarize(n = n(), depth_cm = mean(depth_cm)) # sanity check
 
-### Evaluate leveraging model ####
+### Leveraging model ####
 
 recipe_leveraging <- 
   recipe(formula = depth_cm ~ ., data = select(frame, !starts_with("source"))) |> 
@@ -188,6 +189,61 @@ fit_leveraging_knndm <-
     resamples = folds,
     metrics = evaluation_metrics)
 collect_metrics(fit_leveraging_knndm)
+
+## Extrapolating beyond mire ####
+
+frame |> 
+  st_drop_geometry() |> 
+  group_by(ar5cover == 60) |> 
+  summarise(mean(depth_cm))
+
+# Creating rsample splits
+custom_splits_extrap <- list()
+for (k in seq_along(unique(knndm$clusters))) {
+  custom_splits_extrap[[k]] <- make_splits(
+    list(analysis = intersect(knndm$indx_train[[k]], 
+                              which(frame$ar5cover == 60)), 
+         assessment = intersect(knndm$indx_test[[k]], 
+                                which(frame$ar5cover != 60))), 
+    frame)
+}
+names(custom_splits_extrap) <- paste0("Fold", unique(knndm$clusters))
+custom_splits_extrap <- discard(custom_splits_extrap, \(x) length(x$out_id) == 0)
+  
+folds_extrap <- manual_rset(splits = custom_splits_extrap, 
+                            ids = names(custom_splits_extrap))
+folds_extrap
+
+### Remote sensing model ####
+
+workflow_remotesensing |> 
+  extract_preprocessor()
+
+set.seed(456)
+fit_remotesensing_extrap <- 
+  workflow_remotesensing %>% 
+  fit_resamples(
+    resamples = folds_extrap,
+    metrics = metric_set(rmse, mae),
+    control = control_resamples(save_pred = TRUE))
+# Warnings for calculating rsq on assessment folds of 1.
+collect_metrics(fit_remotesensing_extrap)
+
+remotesensing_extrap <- collect_predictions(fit_remotesensing_extrap) |> 
+  select(.pred, depth_cm)
+plot(remotesensing_extrap)
+cor.test(remotesensing_extrap$depth_cm, remotesensing_extrap$.pred)
+
+### 30cm model ####
+
+frame |> 
+  st_drop_geometry() |> 
+  filter(ar5cover != 60) |> 
+  mutate(.pred = 30,
+         .resid = .pred - depth_cm,
+         absoluteError = abs(.resid)) |>
+  summarise(mae = mean(absoluteError),
+            rmse = sqrt(mean(.resid^2))) 
 
 ## With tidymodels-native NNDM ####
 
