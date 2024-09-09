@@ -5,3 +5,10 @@ render("R/createPredictorStack.R",output_format="html_document", knit_root_dir =
 render("R/createDataFrame.R",output_format="html_document", knit_root_dir = "../")
 render("R/exploratoryDataAnalysis.R",output_format="html_document", knit_root_dir = "../")
 render("R/modelDepth.R", output_format="html_document", knit_root_dir = "../")
+
+render("R/Skrim/createMasks.R",output_format="html_document", knit_root_dir = "../")
+render("R/Skrim/concatenateDepthMeasurements.R",output_format="html_document", knit_root_dir = "../")
+render("R/Skrim/createPredictorStack.R",output_format="html_document", knit_root_dir = "../")
+render("R/Skrim/createDataFrame.R",output_format="html_document", knit_root_dir = "../")
+render("R/Skrim/exploratoryDataAnalysis.R",output_format="html_document", knit_root_dir = "../")
+render("R/Skrim/modelDepth.R", output_format="html_document", knit_root_dir = "../")
