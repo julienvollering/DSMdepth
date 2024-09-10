@@ -11,13 +11,4 @@
 notebook.md
 data
 ms
-output/celldepth.csv
-output/samplingCovariates.tif
-output/DTMepsg32632.tif
-output/whitebox/
-output/DTW/
-output/MRVBF1m.tif
-output/MRRTF1m.tif
-output/predictors.tif
-output/RFprediction.tif
-output/DMKqualitative.png
+output/
