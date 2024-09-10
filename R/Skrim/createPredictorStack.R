@@ -2,56 +2,42 @@ library(tidyverse)
 library(sf)
 library(terra)
 
+crssite <- st_crs("epsg:25833")
+sa <- st_read("data/Skrim/Skrim-site.gpkg", "fieldsite_outline_utm") |> 
+  st_cast("POLYGON") |> 
+  st_geometry() |> 
+  st_transform(crssite)
+
+dtm1m <- rast("data/Skrim/DTMmerged.tif")
+
 # Radiometrics #### 
-radK10m <- rast("data/RAD_miclev_K_10m.tif") 
-radK10m[radK10m < 0] <- NA
-plot(radK10m)
+radK <- rast("data/Skrim/NGU-2013-029/Kong_Rad_Area3_K/Kong_Rad_Area3_K.ERS") 
+radTh <- rast("data/Skrim/NGU-2013-029/Kong_Rad_Area3_Th/Kong_Rad_Area3_Th.ERS") 
+radU <- rast("data/Skrim/NGU-2013-029/Kong_Rad_Area3_U/Kong_Rad_Area3_U.ERS") 
+radTC <- rast("data/Skrim/NGU-2013-029/Kong_Rad_Area3_TC/Kong_Rad_Area3_TC.ERS") 
 
-radTh10m <- rast("data/RAD_miclev_Th_10m.tif") 
-radTh10m[radTh10m < 0] <- NA
-plot(radTh10m)
-
-radU10m <- rast("data/RAD_miclev_U_10m.tif") 
-radU10m[radU10m < 0] <- NA
-plot(radU10m)
-
-radTC10m <- rast("data/RAD_miclev_TC_10m.tif") 
-radTC10m[radTC10m < 0] <- NA
-plot(radTC10m)
-
-probe <- read_csv("data/depth/concatenatedRawProbe.csv")
-probe <- st_as_sf(probe, coords = c('utm32E', 'utm32N'), crs = 25832)
-probecells <- extract(radK10m, probe, cells = TRUE, xy=TRUE, ID=FALSE) |> 
-  select(cell, x, y) |> 
-  distinct(cell, .keep_all = TRUE) |> 
-  st_as_sf(coords = c('x','y'), crs=crs(radK10m))
+rad <- c(radK, radTh, radU, radTC) |> 
+  crop(y = st_transform(st_buffer(sa, 1000), st_crs(radK)))
+rad10m <- rad |> 
+  project(y = "epsg:25833",  
+          method = "cubicspline",
+          res = 10,
+          origin = origin(dtm1m))
+plot(rad10m)
 
 # Simple terrain ####
-dtm1m <- rast("data/DTMmerged.tif")
 plot(dtm1m)
 origin(dtm1m)
 
-# Reproject then upscale rather than upscale then reproject
-tictoc::tic()
-dtm1mProjected <- project(dtm1m, crs(radK10m), origin = origin(radK10m),
-                          res = 1, method = "bilinear")
-tictoc::toc() # 267 sec
-plot(dtm1mProjected)
-writeRaster(dtm1mProjected, "output/DTMepsg32632.tif")
-#dtm1mProjected <- rast("output/DTMepsg32632.tif")
-
 ## Elevation ####
-origin(radK10m)
-origin(dtm1mProjected)
-elevation <- resample(dtm1mProjected, radK10m, method = "average")
-# elevation2 <- aggregate(dtm1mProjected, fact=10, fun = "mean")
-# plot(extract(elevation, probecells)[,2], 
-#      extract(elevation2, probecells)[,2])
+origin(rad10m)
+origin(dtm1m)
+elevation <- resample(dtm1m, rad10m, method = "average")
 
 ## Mean 1m-slope, -TPI, -TRI, -Roughness ####
-terrain1m <- terrain(dtm1mProjected, v = c("slope", 'TPI', 'TRI', 'roughness'), 
+terrain1m <- terrain(dtm1m, v = c("slope", 'TPI', 'TRI', 'roughness'), 
                      unit = "degrees", neighbors = 8)
-terrainMean1m <- resample(terrain1m, radK10m, method = "average")
+terrainMean1m <- resample(terrain1m, rad10m, method = "average")
 plot(terrainMean1m)
 terrainMean1m
 
@@ -61,35 +47,18 @@ terrain10m <- terrain(elevation, v = c("slope", 'TPI', 'TRI', 'roughness'),
 plot(terrain10m)
 terrain10m
 
-# Comparison Mean 1m- vs 10m-
-op <- par(mfrow=c(2,2))
-walk2(as_tibble(values(terrainMean1m)[probecells$cell,]),
-      as_tibble(values(terrain10m)[probecells$cell,]),
-      \(x, y) plot(x, y))
-par(op)
-
-# Difference in slope between sampling design and predictor stack.
-# For sampling design, slope was calculated in QGIS at 1m resolution 
-# then resampled to radiometric raster by method = "average"
-# Rationale for change: terrain predictors should all be derived from the same, resampled DTM.
-slopeSampling <- rast("data/slope.tif")
-plot(extract(terrainMean1m$slope, probecells)$slope, 
-     extract(slopeSampling, probecells)$slope)
-plot(extract(terrain10m$slope, probecells)$slope, 
-     extract(slopeSampling, probecells)$slope)
-
 # Geomorphometric/hydrological ####
 # Use DTM with larger extent than the extent of radiometric data -- to avoid edge effects 
 
 ## Multiresolution Index of Valley Bottom Flatness (MRVBF) ####
 # https://saga-gis.sourceforge.io/saga_tool_doc/2.2.0/ta_morphometry_8.html
 
-# SAGA 9.3.2
-# [2024-04-12/09:30:14] [Multiresolution Index of Valley Bottom Flatness (MRVBF)] Execution started...
+# SAGA 9.3.1
+# [2024-09-10/07:27:01] [Multiresolution Index of Valley Bottom Flatness (MRVBF)] Execution started...
 # __________
 # [Multiresolution Index of Valley Bottom Flatness (MRVBF)] Parameters:
-#   Grid System: 1; 24000x 21600y; 380001x 6928200.2y
-# Elevation: DTMepsg32632
+#   Grid System: 1; 30010x 15010y; 185425.5x 6605995.5y
+# Elevation: DTMmerged
 # MRVBF: MRVBF
 # MRRTF: MRRTF
 # Initial Threshold for Slope: 16
@@ -114,15 +83,11 @@ plot(extract(terrain10m$slope, probecells)$slope,
 # step: 11, resolution: 19683.00, threshold slope 0.02
 # step: 12, resolution: 59049.00, threshold slope 0.01
 # __________
-# total execution time: 5357000 milliseconds (01h 29m 17s)
+# total execution time: 8196000 milliseconds (02h 16m 36s)
 # 
-# [2024-04-12/10:59:32] [Multiresolution Index of Valley Bottom Flatness (MRVBF)] Execution succeeded (01h 29m 17s)
-MRVBF1m <- rast("output/MRVBF1m.tif")
-tictoc::tic()
-MRVBFprojected <- project(MRVBF1m, crs(radK10m), origin = origin(radK10m),
-                          res = 1, method = "bilinear")
-tictoc::toc() # 40 sec
-MRVBF <- resample(MRVBFprojected, radK10m, method = "average")
+# [2024-09-10/09:43:38] [Multiresolution Index of Valley Bottom Flatness (MRVBF)] Execution succeeded (02h 16m 36s)
+MRVBF1m <- rast("output/Skrim/MRVBF1m.tif")
+MRVBF <- resample(MRVBF1m, rad10m, method = "average")
 
 ## TWI ####
 # Derived from minimum 5m resolution
@@ -131,146 +96,130 @@ library(whitebox)
 whitebox::wbt_init()
 
 # 5 m
-template5m <- rast(crs = crs(radK10m), extent=ext(radK10m), resolution=5)
-dtm5mProjected <- resample(dtm1mProjected, template5m, method="average")
-writeRaster(dtm5mProjected, "output/whitebox/DTM5mepsg32632.tif", overwrite=TRUE)
+template5m <- rast(crs = crs(rad10m), extent=ext(rad10m), resolution=5)
+dtm5m <- resample(dtm1m, template5m, method="average")
+writeRaster(dtm5m, "output/Skrim/whitebox/DTM5m.tif", overwrite=TRUE)
 
 wbt_fill_depressions_wang_and_liu(
-  dem = "output/whitebox/DTM5mepsg32632.tif",
-  output = "output/whitebox/DTM5mepsg32632filled.tif") 
+  dem = "output/Skrim/whitebox/DTM5m.tif",
+  output = "output/Skrim/whitebox/DTM5mfilled.tif") 
 # Elapsed Time (excluding I/O): 7s
 
-wbt_d_inf_flow_accumulation(input = "output/whitebox/DTM5mepsg32632filled.tif",
-                            output = "output/whitebox/DTM5mDinfFAsca.tif",
+wbt_d_inf_flow_accumulation(input = "output/Skrim/whitebox/DTM5mfilled.tif",
+                            output = "output/Skrim/whitebox/DTM5mDinfFAsca.tif",
                             out_type = "Specific Contributing Area")
 # Elapsed Time (excluding I/O): 3s
 
-wbt_slope(dem = "output/whitebox/DTM5mepsg32632filled.tif",
-          output = "output/whitebox/DTM5mepsg32632Slope.tif",
+wbt_slope(dem = "output/Skrim/whitebox/DTM5mfilled.tif",
+          output = "output/Skrim/whitebox/DTM5mSlope.tif",
           units = "degrees")
 # Elapsed Time (excluding I/O): 3s
 
-wbt_wetness_index(sca = "output/whitebox/DTM5mDinfFAsca.tif",
-                  slope = "output/whitebox/DTM5mepsg32632Slope.tif",
-                  output = "output/whitebox/TWI5m.tif")
+wbt_wetness_index(sca = "output/Skrim/whitebox/DTM5mDinfFAsca.tif",
+                  slope = "output/Skrim/whitebox/DTM5mSlope.tif",
+                  output = "output/Skrim/whitebox/TWI5m.tif")
 # Elapsed Time (excluding I/O): 0.417s
 
-TWI5m <- rast("output/whitebox/TWI5m.tif")
-TWImean5m <- resample(TWI5m, radK10m, method="average")
-# TWIbilinear5m <- resample(TWI5m, radK10m, method="bilinear")
-# plot(extract(TWImean5m, probecells)$TWI5m,
-#      extract(TWIbilinear5m, probecells)$TWI5m)
+TWI5m <- rast("output/Skrim/whitebox/TWI5m.tif")
+TWImean5m <- resample(TWI5m, rad10m, method="average")
 
 # 10 m
-writeRaster(elevation, "output/whitebox/DTM10mepsg32632.tif", overwrite=TRUE)
+writeRaster(elevation, "output/Skrim/whitebox/DTM10m.tif", overwrite=TRUE)
 
 wbt_fill_depressions_wang_and_liu(
-  dem = "output/whitebox/DTM10mepsg32632.tif",
-  output = "output/whitebox/DTM10mepsg32632filled.tif")
+  dem = "output/Skrim/whitebox/DTM10m.tif",
+  output = "output/Skrim/whitebox/DTM10mfilled.tif") 
 
-wbt_d_inf_flow_accumulation(input = "output/whitebox/DTM10mepsg32632filled.tif",
-                            output = "output/whitebox/DTM10mDinfFAsca.tif",
+wbt_d_inf_flow_accumulation(input = "output/Skrim/whitebox/DTM10mfilled.tif",
+                            output = "output/Skrim/whitebox/DTM10mDinfFAsca.tif",
                             out_type = "Specific Contributing Area")
 
-wbt_slope(dem = "output/whitebox/DTM10mepsg32632filled.tif",
-          output = "output/whitebox/DTM10mepsg32632Slope.tif",
+wbt_slope(dem = "output/Skrim/whitebox/DTM10mfilled.tif",
+          output = "output/Skrim/whitebox/DTM10mSlope.tif",
           units = "degrees")
 
-wbt_wetness_index(sca = "output/whitebox/DTM10mDinfFAsca.tif",
-                  slope = "output/whitebox/DTM10mepsg32632Slope.tif",
-                  output = "output/whitebox/TWI10m.tif")
+wbt_wetness_index(sca = "output/Skrim/whitebox/DTM10mDinfFAsca.tif",
+                  slope = "output/Skrim/whitebox/DTM10mSlope.tif",
+                  output = "output/Skrim/whitebox/TWI10m.tif")
 
-TWI10m <- rast("output/whitebox/TWI10m.tif")
+TWI10m <- rast("output/Skrim/whitebox/TWI10m.tif")
 
 # 20 m
-template20m <- rast(crs = crs(radK10m), extent=ext(radK10m), resolution=20)
-dtm20mProjected <- resample(dtm1mProjected, template20m, method="average")
-writeRaster(dtm20mProjected, "output/whitebox/DTM20mepsg32632.tif", overwrite=TRUE)
+template20m <- rast(crs = crs(rad10m), extent=ext(rad10m), resolution=20)
+dtm20m <- resample(dtm1m, template20m, method="average")
+writeRaster(dtm20m, "output/Skrim/whitebox/DTM20m.tif", overwrite=TRUE)
 
 wbt_fill_depressions_wang_and_liu(
-  dem = "output/whitebox/DTM20mepsg32632.tif",
-  output = "output/whitebox/DTM20mepsg32632filled.tif") 
+  dem = "output/Skrim/whitebox/DTM20m.tif",
+  output = "output/Skrim/whitebox/DTM20mfilled.tif") 
 
-wbt_d_inf_flow_accumulation(input = "output/whitebox/DTM20mepsg32632filled.tif",
-                            output = "output/whitebox/DTM20mDinfFAsca.tif",
+wbt_d_inf_flow_accumulation(input = "output/Skrim/whitebox/DTM20mfilled.tif",
+                            output = "output/Skrim/whitebox/DTM20mDinfFAsca.tif",
                             out_type = "Specific Contributing Area")
 
-wbt_slope(dem = "output/whitebox/DTM20mepsg32632filled.tif",
-          output = "output/whitebox/DTM20mepsg32632Slope.tif",
+wbt_slope(dem = "output/Skrim/whitebox/DTM20mfilled.tif",
+          output = "output/Skrim/whitebox/DTM20mSlope.tif",
           units = "degrees")
 
-wbt_wetness_index(sca = "output/whitebox/DTM20mDinfFAsca.tif",
-                  slope = "output/whitebox/DTM20mepsg32632Slope.tif",
-                  output = "output/whitebox/TWI20m.tif")
+wbt_wetness_index(sca = "output/Skrim/whitebox/DTM20mDinfFAsca.tif",
+                  slope = "output/Skrim/whitebox/DTM20mSlope.tif",
+                  output = "output/Skrim/whitebox/TWI20m.tif")
 
-TWI20m <- rast("output/whitebox/TWI20m.tif")
-TWIbilinear20m <- resample(TWI20m, radK10m, method="bilinear")
+TWI20m <- rast("output/Skrim/whitebox/TWI20m.tif")
+TWIbilinear20m <- resample(TWI20m, rad10m, method="bilinear")
 
 # 50 m
-template50m <- rast(crs = crs(radK10m), extent=ext(radK10m), resolution=50)
-dtm50mProjected <- resample(dtm1mProjected, template50m, method="average")
-writeRaster(dtm50mProjected, "output/whitebox/DTM50mepsg32632.tif", overwrite=TRUE)
+template50m <- rast(crs = crs(rad10m), extent=ext(rad10m), resolution=50)
+dtm50m <- resample(dtm1m, template50m, method="average")
+writeRaster(dtm50m, "output/Skrim/whitebox/DTM50m.tif", overwrite=TRUE)
 
 wbt_fill_depressions_wang_and_liu(
-  dem = "output/whitebox/DTM50mepsg32632.tif",
-  output = "output/whitebox/DTM50mepsg32632filled.tif") 
+  dem = "output/Skrim/whitebox/DTM50m.tif",
+  output = "output/Skrim/whitebox/DTM50mfilled.tif") 
 
-wbt_d_inf_flow_accumulation(input = "output/whitebox/DTM50mepsg32632filled.tif",
-                            output = "output/whitebox/DTM50mDinfFAsca.tif",
+wbt_d_inf_flow_accumulation(input = "output/Skrim/whitebox/DTM50mfilled.tif",
+                            output = "output/Skrim/whitebox/DTM50mDinfFAsca.tif",
                             out_type = "Specific Contributing Area")
 
-wbt_slope(dem = "output/whitebox/DTM50mepsg32632filled.tif",
-          output = "output/whitebox/DTM50mepsg32632Slope.tif",
+wbt_slope(dem = "output/Skrim/whitebox/DTM50mfilled.tif",
+          output = "output/Skrim/whitebox/DTM50mSlope.tif",
           units = "degrees")
 
-wbt_wetness_index(sca = "output/whitebox/DTM50mDinfFAsca.tif",
-                  slope = "output/whitebox/DTM50mepsg32632Slope.tif",
-                  output = "output/whitebox/TWI50m.tif")
+wbt_wetness_index(sca = "output/Skrim/whitebox/DTM50mDinfFAsca.tif",
+                  slope = "output/Skrim/whitebox/DTM50mSlope.tif",
+                  output = "output/Skrim/whitebox/TWI50m.tif")
 
-TWI50m <- rast("output/whitebox/TWI50m.tif")
-TWIbilinear50m <- resample(TWI50m, radK10m, method="bilinear")
+TWI50m <- rast("output/Skrim/whitebox/TWI50m.tif")
+TWIbilinear50m <- resample(TWI50m, rad10m, method="bilinear")
 
 ## DTW: Depth to water table ####
 
 ### Whitebox + ArcGIS Pro GUI approach ####
 library(whitebox)
 whitebox::wbt_init()
-writeRaster(dtm1mProjected, "output/DTW/DTMepsg32632.tif", overwrite=TRUE)
-
-# Purchased license required
-# wbt_depth_to_water(
-#   dem = "output/DTW/DTMepsg32632.tif",
-#   output = "output/DTW/DTW.tif")
+writeRaster(dtm1m, "output/Skrim/DTW/DTM.tif", overwrite=TRUE)
 
 wbt_fill_depressions_wang_and_liu(
-  dem = "output/DTW/DTMepsg32632.tif",
-  output = "output/DTW/DTMepsg32632filled.tif") 
-# Elapsed Time (excluding I/O): 2min 27.571s
+  dem = "output/Skrim/DTW/DTM.tif",
+  output = "output/Skrim/DTW/DTMfilled.tif") 
+# Elapsed Time (excluding I/O): 5min 32.530s
 
 #  https://www.whiteboxgeo.com/manual/wbt_book/available_tools/hydrological_analysis.html#D8FlowAccumulation
-wbt_d8_flow_accumulation(input = "output/DTW/DTMepsg32632filled.tif",
-                         output = "output/DTW/DTMD8FAca.tif",
+wbt_d8_flow_accumulation(input = "output/Skrim/DTW/DTMfilled.tif",
+                         output = "output/Skrim/DTW/DTMD8FAca.tif",
                          out_type = "catchment area")
-# Elapsed Time (excluding I/O): 21.934s
+# Elapsed Time (excluding I/O): 27.934s
 
-wbt_slope(dem = "output/DTW/DTMepsg32632.tif",
-          output = "output/DTW/DTMepsg32632Slope.tif",
+wbt_slope(dem = "output/Skrim/DTW/DTM.tif",
+          output = "output/Skrim/DTW/DTMSlope.tif",
           units = "percent")
 # Elapsed Time (excluding I/O): 28.35s
 
-# For calculating the flow paths, it is necessary to define a threshold (t) 
-# for the minimal flow initiation area (FIA), meaning how much area needs to 
-# accumulate downward the slope for resulting in a channel with simulated surface water. 
-# Commonly, t is set between 0.25 ha and 16 ha.
-# We try 0.25 and 4 ha (@agrenEvaluatingDigitalTerrain2014; @schonauerSpatiotemporalPredictionSoil2021)
-# Flow paths needs to be binary (null = no channel, 1 = channel), as start points for the cost function. 
-# select channels (above threshold) and transform them into binary variables 
-# r.cost can be run with three different methods of identifying the starting point(s)... 
-# ...from a raster map. All non-NULL cells are considered to be starting points. 
-D8FAca <- rast("output/DTW/DTMD8FAca.tif")
+D8FAca <- rast("output/Skrim/DTW/DTMD8FAca.tif")
 FIA <- D8FAca
 
-ar5 <- st_read("data/Orskogfjellet-site.gpkg", layer="fkb_ar5_clipped")
+ar5 <- st_read("data/Skrim/Basisdata_3303_Kongsberg_25832_FKB-AR5_FGDB.gdb", 
+               layer="fkb_ar5_omrade")
 water <- filter(ar5, arealtype == 82  | arealtype == 81) |> 
   st_transform(crs = crs(FIA)) |> 
   st_crop(FIA)
@@ -286,15 +235,14 @@ for (i in seq_along(FIAthresholds)) {
 waterr <- rasterize(water, FIA) # Mask directly with 'water' not working -- terra issue?
 FIAwater <- mask(FIA, waterr, inverse=TRUE, updatevalue=1)
 plot(FIAwater)
-writeRaster(FIAwater, paste0("output/DTW/FIA",FIAthresholds,"m2.tif"), overwrite=TRUE)
+writeRaster(FIAwater, paste0("output/Skrim/DTW/FIA",FIAthresholds,"m2.tif"), overwrite=TRUE)
 
-DTMepsg32632Slope <- rast("output/DTW/DTMepsg32632Slope.tif")
-RAD_miclev_TC_mask <- st_read("data/Orskogfjellet-site.gpkg", layer="RAD_miclev_TC_mask")
-RAD_miclev_TC_mask_1kmbuffer <- st_buffer(RAD_miclev_TC_mask, dist= 1000)
-DTMepsg32632SlopeMask <- mask(DTMepsg32632Slope, RAD_miclev_TC_mask_1kmbuffer)
-DTMepsg32632SlopeMaskUnitless <- DTMepsg32632SlopeMask/100 # Conversion from %
-writeRaster(DTMepsg32632SlopeMaskUnitless, 
-            filename = "output/DTW/DTMepsg32632SlopeUnitless.tif", overwrite=TRUE)
+DTMSlope <- rast("output/Skrim/DTW/DTMSlope.tif")
+sa_1kmbuffer <- st_buffer(sa, dist= 1000)
+DTMSlopeMask <- mask(DTMSlope, vect(sa_1kmbuffer))
+DTMSlopeMaskUnitless <- DTMSlopeMask/100 # Conversion from %
+writeRaster(DTMSlopeMaskUnitless, 
+            filename = "output/Skrim/DTW/DTMSlopeUnitless.tif", overwrite=TRUE)
 
 # ArcGIS Pro Distance Accumulation (v.3.1.0)
 
@@ -302,31 +250,28 @@ writeRaster(DTMepsg32632SlopeMaskUnitless,
 # Output distance accumulation raster     \DTW-FIA2500m2.tif
 # Input barrier raster or feature data     
 # Input surface raster     
-# Input cost raster     \DTMepsg32632SlopeUnitless.tif
+# Input cost raster     \DTMSlopeUnitless.tif
 # Vertical factor     BINARY 1 -30 30
 # Horizontal factor     BINARY 1 45
 # Out back direction raster     \DTW-FIA2500m2-dir.tif
 # Distance Method     PLANAR
 
-# Warning: Cost cells with a zero or negative value were encountered. Not all source cells may have been processed.
-# (Elapsed Time: 3 minutes 52 seconds)
-
 DTWfiles <- c(
-  "output/DTW/DTW-FIA2500m2.tif",
-  "output/DTW/DTW-FIA5000m2.tif",
-  "output/DTW/DTW-FIA10000m2.tif",
-  "output/DTW/DTW-FIA20000m2.tif",
-  "output/DTW/DTW-FIA40000m2.tif",
-  "output/DTW/DTW-FIA80000m2.tif",
-  "output/DTW/DTW-FIA160000m2.tif"
+  "output/Skrim/DTW/DTW-FIA2500m2.tif",
+  "output/Skrim/DTW/DTW-FIA5000m2.tif",
+  "output/Skrim/DTW/DTW-FIA10000m2.tif",
+  "output/Skrim/DTW/DTW-FIA20000m2.tif",
+  "output/Skrim/DTW/DTW-FIA40000m2.tif",
+  "output/Skrim/DTW/DTW-FIA80000m2.tif",
+  "output/Skrim/DTW/DTW-FIA160000m2.tif"
 )
 DTW <- rast(DTWfiles)
-plot(DTW, range = c(0,10), xlim = c(392100,393000), ylim=c(6933800,6934300))
-DTWmean1m <- resample(DTW, radK10m, method = "average")
+plot(DTW, range = c(0,10), xlim = c(2e5,2e5+1000), ylim=c(6615e3,6615e3+1000))
+DTWmean1m <- resample(DTW, rad10m, method = "average")
 
 # Collate all predictors ####
 
-predictors <- c(radK10m, radTh10m, radU10m, radTC10m, 
+predictors <- c(rad10m, 
                 elevation, 
                 terrainMean1m, 
                 terrain10m,
@@ -340,9 +285,8 @@ names(predictors) <- c('radK', 'radTh', 'radU', 'radTC',
                        'DTW2500', 'DTW5000','DTW10000','DTW20000','DTW40000',
                        'DTW80000','DTW160000')
 
-sa <- st_read("data/Orskogfjellet-site.gpkg", "mask_studyarea")
 predictors.extent <- crop(predictors, st_bbox(sa))
-predictors.masked <- mask(predictors.extent, sa)
+predictors.masked <- mask(predictors.extent, vect(st_buffer(sa, 1000)))
 
 plot(predictors.masked)
-writeRaster(predictors.masked, "output/predictors.tif", overwrite=TRUE)
+writeRaster(predictors.masked, "output/Skrim/predictors.tif", overwrite=TRUE)
