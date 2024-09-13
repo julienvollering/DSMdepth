@@ -137,7 +137,8 @@ collect_metrics(fit_remotesensing_knndm)
 ### DMK-only model ####
 
 recipe_dmkintercept <- 
-  recipe(formula = depth_cm ~ dmkdepth, data = frame) 
+  recipe(formula = depth_cm ~ dmkdepth, data = frame) |> 
+  step_unknown(dmkdepth)
 
 recipe_dmkintercept |> 
   summary()
@@ -157,10 +158,9 @@ fit_dmkintercept_knndm <-
     resamples = folds,
     metrics = evaluation_metrics,
     control = control_resamples(save_pred = TRUE))
+# warning: A correlation computation is required, but `estimate` is constant and has 0 standard deviation
+# Some folds contain only one dmkdepth level
 collect_metrics(fit_dmkintercept_knndm)
-collect_predictions(fit_dmkintercept_knndm) |> 
-  drop_na(.pred) |> 
-  nrow()
 
 # sanity check
 fit_dmkintercept <- 

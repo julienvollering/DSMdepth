@@ -137,7 +137,8 @@ collect_metrics(fit_remotesensing_knndm)
 ### DMK-only model ####
 
 recipe_dmkintercept <- 
-  recipe(formula = depth_cm ~ dmkdepth, data = frame) 
+  recipe(formula = depth_cm ~ dmkdepth, data = frame) |> 
+  step_unknown(dmkdepth)
 
 recipe_dmkintercept |> 
   summary()
