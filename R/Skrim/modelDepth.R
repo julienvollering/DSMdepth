@@ -4,15 +4,15 @@ library(tidymodels)
 
 # Reading data ####
 
-frame <- st_read("output/modeling.gpkg", layer="dataframe") |> 
+frame <- st_read("output/Skrim/modeling.gpkg", layer="dataframe") |> 
   mutate(across(.cols = c(ar5cover, ar5soil, dmkdepth), .fns = as.factor)) |> 
   filter(!(ar5cover %in% c(11,12)))
-predictors <- rast("output/predictors.tif")
+predictors <- rast("output/Skrim/predictors.tif")
 
 plot(predictors$elevation)
 plot(frame[,"depth_cm"],add=T)
 
-predictivedomain <- st_read("data/Orskogfjellet-site.gpkg", "mask_predictivedomain")
+predictivedomain <- st_read("data/Skrim/Skrim-site.gpkg", "mask_predictivedomain")
 plot(predictivedomain)
 
 # RF with default hyperparameters ####
@@ -155,8 +155,12 @@ fit_dmkintercept_knndm <-
   workflow_dmkintercept %>% 
   fit_resamples(
     resamples = folds,
-    metrics = evaluation_metrics)
+    metrics = evaluation_metrics,
+    control = control_resamples(save_pred = TRUE))
 collect_metrics(fit_dmkintercept_knndm)
+collect_predictions(fit_dmkintercept_knndm) |> 
+  drop_na(.pred) |> 
+  nrow()
 
 # sanity check
 fit_dmkintercept <- 
@@ -187,8 +191,12 @@ fit_leveraging_knndm <-
   workflow_leveraging %>% 
   fit_resamples(
     resamples = folds,
-    metrics = evaluation_metrics)
+    metrics = evaluation_metrics,
+    control = control_resamples(save_pred = TRUE))
 collect_metrics(fit_leveraging_knndm)
+collect_predictions(fit_leveraging_knndm) |> 
+  drop_na(.pred) |> 
+  nrow()
 
 ## Extrapolating beyond mire ####
 
