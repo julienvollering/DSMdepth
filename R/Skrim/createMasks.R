@@ -10,6 +10,8 @@ sa <- st_read("data/Skrim/Skrim-site.gpkg", "fieldsite_outline_utm") |>
   st_geometry() |> 
   st_transform(crssite)
 plot(sa)
+st_area(sa) |> 
+  units::set_units("km^2")
 
 # AR5 myr ####
 
