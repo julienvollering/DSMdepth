@@ -4,6 +4,13 @@ library(terra)
 library(gstat)
 library(clhs)
 
+# Study area
+
+predictors <- rast("output/predictors.tif")
+sa <- st_read("data/Orskogfjellet-site.gpkg", "mask_studyarea")
+extract(predictors, sa, ID = FALSE) |> 
+  summary()
+
 # Spatial structure in peat depth ####
 
 depthpts <- read_csv("data/depth/all.csv") |> 

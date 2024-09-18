@@ -4,6 +4,14 @@ library(terra)
 library(gstat)
 library(clhs)
 
+# Study area
+
+predictors <- rast("output/Skrim/predictors.tif")
+sa <- st_read("data/Skrim/Skrim-site.gpkg", "fieldsite_outline_utm") |> 
+  st_transform(crs(predictors))
+extract(predictors, sa, ID = FALSE) |> 
+  summary()
+
 # Spatial structure in peat depth ####
 
 depthpts <- read_csv("data/Skrim/depth_all.csv") |> 
