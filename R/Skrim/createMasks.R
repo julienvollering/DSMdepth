@@ -18,6 +18,13 @@ st_area(sa) |>
 ar5 <- st_read("data/Skrim/Basisdata_3303_Kongsberg_25832_FKB-AR5_FGDB.gdb", 
                layer="fkb_ar5_omrade")
 ar5 <- st_transform(ar5, crssite)
+st_intersection(ar5, sa) |> 
+  mutate(area = st_area(SHAPE)) |> 
+  st_drop_geometry() |> 
+  group_by(arealtype) |> 
+  summarize(area = units::set_units(sum(area), "km^2")) |> 
+  mutate(percent = area / sum((area)) * 100)
+
 ar5.myr <- dplyr::filter(ar5, arealtype == 60) |> 
   st_union() |> 
   st_cast("POLYGON") |> 
