@@ -108,16 +108,20 @@ Read Gatis et al. [-@gatisMappingUplandPeat2019] and related work [@minasnyDigit
 
 ## Sites
 
-We assessed how well we could predict peat depth at two sites with conspicuously different physical geography: Skrimfjella in eastern Norway and Ørskogfjellet in western Norway (*insert figure ref*).
+We assessed how well we could predict peat depth at two sites with conspicuously different physical geography: Skrimfjella in eastern Norway and Ørskogfjellet in western Norway (Fig. \@ref(fig:sites)c).
 These sites were chosen because they were covered by radiometric data from airborne surveys, relatively little built-up area, and road access.  
 
-At Skrimfjella we delineated a study area of \unit{34\,km^{2}} based on radiometric coverage and accessibility.   
+```{r sites, out.height="90%", echo = FALSE, fig.cap = "Study areas at Ørskogfjellet (a) and Skrimfjella (b) within southern Norway (c). Land cover shown here is from the AR50 national land resource database and has simplified geometry with respect to the AR5 database used in the study."}
+knitr::include_graphics("figures/sites-patchwork.pdf")
+```
+
+At Skrimfjella we delineated a study area of \unit{34\,km^{2}} based on radiometric coverage and accessibility (Fig. \@ref(fig:sites)b).   
 The landscape within our delineation is classified as *inland hills and mountains* [@simensenDiversityDistributionLandscape2021].
 It is almost without human infrastructure, dominated by forest, and borders on a large nature reserve.
 The study area has a mean elevation of \unit{438\,m} above sea level (range 223--711, IQR 351--509), and its mean slope at \unit{10\,m} resolution is 10.8° (IQR 4.6--15.1°).
 In Norway's AR5 national land dataset, \unit{1.5\,km^{2}} (4.5 %) of the study area is classified as peatland.
 
-At Ørskogfjellet we defined a study area of \unit{124\,km^{2}} which basically followed the footprint of the radiometric survey. 
+At Ørskogfjellet we defined a study area of \unit{124\,km^{2}} which basically followed the footprint of the radiometric survey (Fig. \@ref(fig:sites)a). 
 This study area comprises a wide range of major landscape types: *coastal plains*, *coastal fjord*, *inland valleys*, as well as *inland hills and mountains* [@simensenDiversityDistributionLandscape2021].
 It is mostly forested, but also contains considerable farmland and open upland, and has several large lakes.
 Its mean elevation is \unit{211\,m} above sea level (range 0--807, IQR 73--310), and its mean slope at \unit{10\,m} resolution is 13.0° (IQR 4.7--18.3°).
@@ -133,7 +137,7 @@ Subsubsection text here.
 
 # Results
 
-Include a 12cm width figure of Nikolaus Copernicus from [Wikipedia](https://en.wikipedia.org/wiki/File:Nikolaus_Kopernikus.jpg) with caption using R Markdown (Figure \@ref(fig:portrait)).
+Include a 12cm width figure of Nikolaus Copernicus from [Wikipedia](https://en.wikipedia.org/wiki/File:Nikolaus_Kopernikus.jpg) with caption using R Markdown (Fig. \@ref(fig:portrait)).
 
 ```{r portrait, out.width = "8.3cm", echo = FALSE, fig.cap = "one column figure"}
 knitr::include_graphics("Nikolaus_Kopernikus.jpg")
