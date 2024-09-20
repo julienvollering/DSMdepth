@@ -194,9 +194,6 @@ df |>
   complete.cases() |> 
   all()
 
-select(df, !any_of(c(metadata, auxiliary))) |> 
-  slice_sample(n = 1000) |> 
-  GGally::ggpairs()
 corrplot::corrplot(cor(select(df, !any_of(c(metadata, auxiliary)))), 
                    method = 'ellipse', diag = F)
 
