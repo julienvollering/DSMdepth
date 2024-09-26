@@ -119,21 +119,56 @@ At Skrimfjella we delineated a study area of \unit{34\,km^{2}} based on radiomet
 The landscape within our delineation is classified as *inland hills and mountains* [@simensenDiversityDistributionLandscape2021].
 It is almost without human infrastructure, dominated by forest, and borders on a large nature reserve.
 The study area has a mean elevation of \unit{438\,m} above sea level (range 223--711, IQR 351--509), and its mean slope at \unit{10\,m} resolution is 10.8° (IQR 4.6--15.1°).
-In Norway's AR5 national land dataset, \unit{1.5\,km^{2}} (4.5 %) of the study area is classified as peatland.
+In Norway's AR5 national land capability dataset [@ahlstromAR5Klassifikasjonssystem2019], \unit{1.5\,km^{2}} (4.5 %) of the study area is classified as mire --- defined as areas with mire vegetation and at least \unit{30\,cm} of peat depth.
 
 At Ørskogfjellet we defined a study area of \unit{124\,km^{2}} which basically followed the footprint of the radiometric survey (Fig. \@ref(fig:sites)a). 
 This study area comprises a wide range of major landscape types: *coastal plains*, *coastal fjord*, *inland valleys*, as well as *inland hills and mountains* [@simensenDiversityDistributionLandscape2021].
 It is mostly forested, but also contains considerable farmland and open upland, and has several large lakes.
 Its mean elevation is \unit{211\,m} above sea level (range 0--807, IQR 73--310), and its mean slope at \unit{10\,m} resolution is 13.0° (IQR 4.7--18.3°).
-The AR5 data set counts \unit{15.3\,km^{2}} (12.4 %) of the study area as peatland.
+The AR5 dataset counts \unit{15.3\,km^{2}} (12.4 %) of the study area as mire.
 
-## Measuring peat depth
+## Peat depth measurements
+
+At both study sites, our measurements of peat depth were made for the purpose of training a machine learning model of peat depth, and we designed our sampling with this in mind [@brusSamplingDigitalSoil2019]. 
+Broadly, we aimed for a sample that was representative the predictor space of the most important predictors of peat depth [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
+A sample that preserves the properties of the multivariate distribution of predictor and outcome variables is most likely to maintain any complex, non-linear relationships that exist in the population while avoiding spurious ones [@brusSamplingDigitalSoil2019].
+We chose for our sampling and modelling a spatial resolution of \unit{10\,m}.
+We considered this a reasonable compromise between digital terrain model resolution (\unit{1\,m}) and small mires on the one hand, and airborne radiometric resolution (\unit{50\,m}) on the other.
 
 ### Skrimfjella
+
+We measured peat depth in selected locations (\unit{10\,m} raster cells) at Skrimfjella.
+The locations were chosen only from areas delineated as mire in the AR5 national land capability dataset.
+Within this mire area, we stratified our sample across values of elevation, slope, and potassium ground concentration [from processed airborne gamma ray spectrometry, @baranwalHelicopterborneMagneticElectromagnetic2013].
+Specifically, we used the *eSample* function in the *iSDM* R package (v.1.0) to chose an environmentally systematic sample.
+This function defines the environmental space as a two-dimensional convex hull around the ordinated data, then creates a regular grid across that space, and lastly finds for each grid cell the datum that is nearest [@hattabUnifiedFrameworkModel2017].
+Elevation was extracted from the \unit{10\,m} national digital terrain model, slope calculated in degrees, and potassium ground concentration downscaled with bilinear resampling.
+We set a target sample size of 100, excluded the top and bottom percentile from the convex hull, and with these parameters *eSample* returned 105 raster cells.
+
+In addition to the peat depth locations, we had another arm of our sampling design for measuring peatland occurrence, as binary variable.
+We wanted to measure peatland occurrence outside of mapped mire areas because the AR5 dataset is known to underestimate peatland coverage [especially in forests, @brynLandCoverNorway2018], and because airborne radiometrics may help identify unmapped peatland [@gatisMappingUplandPeat2019; @olearyDigitalSoilMapping2022].
+The occurrence locations were sampled from the part of the study area that (1) was mapped as something other than mire in the AR5 database and (2) had a slope < 20°. 
+We performed environmentally systematic sampling of this population with the same procedure as for the depth locations, and *eSample* returned 106 raster cells.
+
+Field work at Skrimfjella was conducted in August 2020.
+We navigated to the centers of the raster cells in the depth and occurrence samples by handheld GPS, checking that positional error was below \unit{3\,m}.
+For each depth sample location, we measured peat depth three times (at the vertices of a triangle with \unit{2\,m} sides) to get a more representative value for the \unit{10\,m} raster cell, and to dampen the effect of outlying measurements [@parryEvaluatingApproachesEstimating2014].
+We used a metal probe pushed downward until resistance indicated the base of the peat column.
+Probe locations were adjusted up to \unit{20\,cm} if the base of the peat column seemed to be blocked by an obvious artifact.
+For each occurrence sample location, we recorded the presence or absence of peatland --- primarily by digging and examining the top \unit{20\,cm} of soil (where this was possible).
+We judged whether the soil was a peat soil based on its density, texture, and color.
+Occasionally, when the soil itself was difficult to judge, we made our determination also based on the presence or absence of mire vegetation.
+Although peat soil is strictly defined by organic content (which we did not analyse), we believe our protocol produced reasonable determinations of presence or absence that would generally satisfy most of the varying definitions of peatland [@minasnyMappingMonitoringPeatland2023].
+
+GPR data.
 
 ### Ørskogfjellet
 
 Subsubsection text here. 
+
+## Peat depth predictors
+
+## Predictive models of peat depth 
 
 # Results
 
