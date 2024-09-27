@@ -14,12 +14,51 @@ filter(probe, is.na(depth_cm))
 
 # GPR data ####
 
+## Calibrate wave velocity ####
+caldata <- read_csv("data/Skrim/GPRcalibration.csv")
+
+m0 <- lm(depth ~ OWTT + 0, data = caldata)
+summary(m0) # OWTT  0.03867
+
+modelfit <- data.frame(OWTT = seq(0, max(caldata$OWTT)*1.05, length.out = 100))
+modelfit <- modelfit %>% 
+  bind_cols(predict(m0, modelfit, se.fit = TRUE, interval = "confidence")$fit) %>% 
+  rename(depth = fit)
+
+calplot <- caldata %>% 
+  ggplot(aes(x=OWTT, y=depth)) +
+  geom_point(pch=16, size=2) +
+  geom_ribbon(data=modelfit, aes(ymin=lwr, ymax=upr), alpha=0.4) +
+  geom_line(data=modelfit) +
+  geom_abline(slope = 0.03, intercept = 0, color="red", lty=2) +
+  annotate("text", x = 60, y = 3.5, label = "R-squared = 0.874") +
+  annotate("text", x = 60, y = 1.7, label = "0.03 m/ns (fresh water)", color="red", angle=22) +
+  annotate("text", x = 60, y = 2.5, label = "0.039 m/ns", angle=28) +
+  labs(x = "one-way travel time (ns)", y = "depth (m)") +
+  coord_cartesian(expand = FALSE) +
+  theme_bw()
+
+ggsave('output/Skrim/calibrationGPR.svg', calplot, width = 119, height = 84, units = "mm")
+v <- units::set_units(m0$coefficients[[1]], "m/ns")
+
+## TWTT to depth ####
 mire1 <- st_read("data/Skrim/GPRpicks.gpkg", "mire1")
 mire2 <- st_read("data/Skrim/GPRpicks.gpkg", "mire2")
 mire3 <- st_read("data/Skrim/GPRpicks.gpkg", "mire3")
 gpr <- bind_rows(mire1, mire2, mire3) |> 
-  mutate(depth_cm = Depth*100) |> 
+  mutate(depth_cm = TWT/2*units::drop_units(v)*100) |> 
   select(depth_cm)
+
+gprlines <- bind_rows(mire1, mire2, mire3) %>% 
+  group_by(Name) |> 
+  arrange(Trace) |>
+  select(Name) |>
+  summarize(Name = first(Name), do_union=FALSE) |> 
+  st_cast("LINESTRING")
+gprlines |> 
+  mutate(length = st_length(gprlines)) |> 
+  pull(length) |> 
+  sum()
 
 # Concatenate sources ####
 
@@ -35,4 +74,5 @@ all |>
   group_by(source) |> 
   summarize(n = n(), meandepth=mean(depth_cm))
 
+st_delete("data/Skrim/depth_all.csv")
 st_write(all, "data/Skrim/depth_all.csv", layer_options = "GEOMETRY=AS_XY", append=FALSE)
