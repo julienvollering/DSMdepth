@@ -115,13 +115,15 @@ These sites were chosen because they were covered by radiometric data from airbo
 knitr::include_graphics("figures/sites-patchwork.pdf")
 ```
 
-At Skrimfjella we delineated a study area of \unit{34\,km^{2}} based on radiometric coverage and accessibility (Fig. \@ref(fig:sites)b).   
+At Skrimfjella we delineated a study area of \unit{34\,km^{2}} based on radiometric coverage and accessibility (Fig. \@ref(fig:sites)b).
+The study area has a diverse bedrock, with 32 % alkali feltspat granite, 26 % mergelstein, 10 % granite, and eight other types with > 1 % coverage (NGU, 1:250 000 dataset).
 The landscape within our delineation is classified as *inland hills and mountains* [@simensenDiversityDistributionLandscape2021].
 It is almost without human infrastructure, dominated by forest, and borders on a large nature reserve.
 The study area has a mean elevation of \unit{438\,m} above sea level (range 223--711, IQR 351--509), and its mean slope at \unit{10\,m} resolution is 10.8° (IQR 4.6--15.1°).
 In Norway's AR5 national land capability dataset [@ahlstromAR5Klassifikasjonssystem2019], \unit{1.5\,km^{2}} (4.5 %) of the study area is classified as mire --- defined as areas with mire vegetation and at least \unit{30\,cm} of peat depth.
 
-At Ørskogfjellet we defined a study area of \unit{124\,km^{2}} which basically followed the footprint of the radiometric survey (Fig. \@ref(fig:sites)a). 
+At Ørskogfjellet we defined a study area of \unit{124\,km^{2}} which basically followed the footprint of the radiometric survey (Fig. \@ref(fig:sites)a).
+According to the Geological Survey of Norway, bedrock in the area is 84 % granitic gneiss,  11 % granite, and 5 % aluminium silicate gneiss (NGU, 1:250 000 dataset). 
 This study area comprises a wide range of major landscape types: *coastal plains*, *coastal fjord*, *inland valleys*, as well as *inland hills and mountains* [@simensenDiversityDistributionLandscape2021].
 It is mostly forested, but also contains considerable farmland and open upland, and has several large lakes.
 Its mean elevation is \unit{211\,m} above sea level (range 0--807, IQR 73--310), and its mean slope at \unit{10\,m} resolution is 13.0° (IQR 4.7--18.3°).

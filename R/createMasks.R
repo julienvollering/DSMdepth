@@ -36,6 +36,22 @@ ar5.myr <- dplyr::filter(ar5, arealtype == 60) |>
 st_write(ar5.myr, "data/Orskogfjellet-site.gpkg", "mask_ar5myr", 
          append = FALSE)
 
+# Bedrock ####
+
+bedrock <- st_read("data/Geologi_15_BerggrunnN250/BerggrunnN250.gdb", 
+                   layer="BergartFlate_N250") |> 
+  select(contains("bergart"))
+bedrock <- st_transform(bedrock, st_crs(RAD_10m_mask)) |> 
+  group_by(hovedbergart, hovedbergart_navn) |>
+  summarize()
+st_intersection(bedrock, sa) |> 
+  mutate(area = st_area(SHAPE)) |> 
+  st_drop_geometry() |> 
+  group_by(hovedbergart, hovedbergart_navn) |> 
+  summarize(area = units::set_units(sum(area), "km^2"), .groups = "drop") |> 
+  mutate(percent = area / sum((area)) * 100) |> 
+  arrange(desc(percent))
+
 # Model predictive domain ####
 
 predictivedomain <- st_intersection(sa, ar5.myr) |> 
@@ -45,3 +61,7 @@ predictivedomain <- st_intersection(sa, ar5.myr) |>
 plot(predictivedomain)
 st_write(predictivedomain, "data/Orskogfjellet-site.gpkg", "mask_predictivedomain", 
          append = FALSE)
+
+# sessionInfo ####
+
+sessioninfo::session_info()
