@@ -172,7 +172,14 @@ Finally, we used the calculated wave velocity (\unit{0.0387\,m\,ns^{-1}}, $R^2 =
 
 ### Ørskogfjellet
 
-Subsubsection text here. 
+At Ørskogfjellet we also measured peat depth in a sample of \unit{10\,m} raster cells, selected from the part of the study area classified in the AR5 dataset as mire.
+Before selecting locations, we determined a minimal sample size that would adequately capture the terrain and radiometric properties of the entire mire area.
+Specifically, we aimed to identify the size at which adding locations produced diminishing decreases in divergence between sample and population distributions --- i.e. the elbow point in a curve of similarity between sample and population [@maloneMethodsImproveUtility2019].
+This approach has been found to identify sample sizes that correspond with diminishing returns in predictive model performance on external evaluation data [@sauretteDivergenceMetricsDetermining2023].
+We defined a sequence of increasing sample sizes (50--500) and for ten replicate samples at each size [drawn by conditioned latin hypercube sampling, @minasnyConditionedLatinHypercube2006; @roudierClhsPackageConditioned2011], we calculated the mean Kullback-Leibler divergence between sample and population distributions [@maloneMethodsImproveUtility2019; @sauretteDivergenceMetricsDetermining2023].
+The variables in the divergence calculation were terrain slope and four radiometrics: potassium, thorium, uranium, and total count.
+Next, we fitted a asymptotic regression of mean divergence on sample size, and identified the sample size at which the curve reached 95 % of the fitted asymptote.
+Through this procedure we found that we could adequately capture the population distribution with a sample of 160 locations.
 
 ## Peat depth predictors
 
