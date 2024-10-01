@@ -178,7 +178,7 @@ The AR5 dataset counts \unit{15.3\,km^{2}} (12.4 \%) of the study area as mire.
 
 \subsection{Peat depth measurements}
 
-At both study sites, our measurements of peat depth were made for the purpose of training a machine learning model of peat depth, and we designed our sampling with this in mind \citep{brusSamplingDigitalSoil2019}.
+At both study sites, our measurements of peat depth were made for the purpose of training a Random Forest model of peat depth, and we designed our sampling with this in mind \citep{brusSamplingDigitalSoil2019}.
 Broadly, we aimed for a sample that was representative the predictor space of the most important predictors of peat depth \citep{wadouxSamplingDesignOptimization2019, maComparisonConditionedLatin2020}.
 A sample that preserves the properties of the multivariate distribution of predictor and outcome variables is most likely to maintain any complex, non-linear relationships that exist in the population while avoiding spurious ones \citep{brusSamplingDigitalSoil2019}.
 We chose for our sampling and modelling a spatial resolution of \unit{10\,m}.
@@ -229,6 +229,17 @@ We defined a sequence of increasing sample sizes (50--500) and for ten replicate
 The variables in the divergence calculation were terrain slope and four radiometrics: potassium, thorium, uranium, and total count.
 Next, we fitted a asymptotic regression of mean divergence on sample size, and identified the sample size at which the curve reached 95 \% of the fitted asymptote.
 Through this procedure we found that we could adequately capture the population distribution with a sample of 160 locations.
+
+To choose 160 locations, we performed feature space coverage sampling.
+This approach has been found to produce higher accuracy in Random Forest models than conditioned latin hypercube sampling \citep{wadouxSamplingDesignOptimization2019, maComparisonConditionedLatin2020}.
+Feature space coverage sampling aims to disperse samples as uniformly as possible in multidimensional predictor space, and is implemented by choosing locations that are closest to cluster centers in a k-means clustering of the standardized predictor space \citep{brusSamplingDigitalSoil2019}.
+Feature space coverage sampling works best when all dimensions are important predictors of the outcome \citep{wadouxSamplingDesignOptimization2019}, and we used the same five predictors that we used to choose sample size: terrain slope and four radiometrics.
+We adjusted the feature space coverage sampling to ensure that locations were accessible within time constraints, and assessed how this changed our sample from an ideal feature space coverage sample.
+Adjusting for accessibility is justified because the smaller sample size that would result if accessibility were ignored can degrade model accuracy as much or more as deviations from ideal sampling designs \citep{wadouxSamplingDesignOptimization2019, maComparisonConditionedLatin2020}.
+To adjust, we first restricted the sampling population to mire areas that were within an arbitrary cost distance of publicly-accessible roads.
+Cost distance was calculated using GRASS's r.walk function, with friction costs defined by AR5 land classes \citep{GRASSv8-2}.
+After creating a feature space coverage sample with this restriction, we also inspected a map of the sample and substituted 16 inaccessible locations with accessible locations from the same or a nearby cluster.
+Our two accessibility adjustments increased the distance in standardized predictor space between sample locations and cluster centers by 78 \% (with respect to the ideal sample), but distance in our sample was still only 46 \% of the mean distance to cluster centers --- i.e., accessibility did not force locations far from cluster centers relative to the size of the clusters.
 
 \subsection{Peat depth predictors}
 

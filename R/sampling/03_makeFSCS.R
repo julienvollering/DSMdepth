@@ -190,6 +190,9 @@ distadj <- diag(adjrdist)
 #Restricting access by r.walk.cost and manually increases distances by %: 
 #(using per cluster minimums and means as references)
 (sum(distadj) - sum(mindist))/(sum(meandist) - sum(mindist))
+sum(distadj - mindist)/sum(meandist - mindist)
+sum(distadj)/sum(mindist) #1.776308
+sum(distadj)/sum(meandist) #0.4621858
 
 plot(meandist, ylim=c(0,max(meandist)))
 points(mindist, col='blue')
