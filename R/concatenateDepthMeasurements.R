@@ -1,6 +1,8 @@
 library(tidyverse)
 library(sf)
 
+sa <- st_read("data/Orskogfjellet-site.gpkg", "mask_studyarea")
+
 # Probe data ####
 
 probe <- read_csv("data/depth/concatenatedRawProbe.csv")
@@ -151,6 +153,28 @@ wisen2021 <- mutate(wisen2021, hasSpatDuplicate = map_lgl(dupcheck, \(x) length(
 
 # Filter out duplicates, because some show discrepancies suggestive of error (@wisenE39Romsdalsfjorden202020212021)
 wisen2021 <- filter(wisen2021, !hasSpatDuplicate)
+
+# Sum up profile length
+wisen2021.32632 <- wisen2021 |> 
+  st_transform(st_crs(sa))
+wisen2021.32632 <- wisen2021.32632[sa,]
+threshold_distance <- 10
+buffers_sf <- st_buffer(wisen2021.32632, dist = threshold_distance/2) |> 
+  st_union() |> 
+  st_cast("POLYGON") |> 
+  st_sf() |> 
+  rowid_to_column("group_id")
+wisen2021lines <- wisen2021.32632 |> 
+  st_join(buffers_sf) |> 
+  arrange(file, line, trace) |>
+  group_by(file, line) |>
+  summarize(file = first(file), line = first(line), 
+            do_union=FALSE, .groups = "drop") |> 
+  st_cast("LINESTRING")
+wisen2021lines |> 
+  mutate(length = st_length(wisen2021lines)) |> 
+  pull(length) |> 
+  sum()
 
 # Myrarkivet ####
 
