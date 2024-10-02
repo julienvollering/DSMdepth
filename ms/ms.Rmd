@@ -194,6 +194,21 @@ Cost distance was calculated using GRASS's *r.walk* function, with friction cost
 After creating a feature space coverage sample with this restriction, we also inspected a map of the sample and substituted 16 inaccessible locations with accessible locations from the same or a nearby cluster.
 Our two accessibility adjustments increased the distance in standardized predictor space between sample locations and cluster centers by 78 % (with respect to the ideal sample), but distance in our sample was still only 46 % of the mean distance to cluster centers --- i.e., accessibility did not force locations far from cluster centers relative to the size of the clusters.
 
+Field work at Ørskogfjellet was conducted in August 2023.
+We navigated to the centers of the raster cells in the sample using real time kinematic differential GNSS (Topcon Positioning Systems, USA), to ensure sub-meter positional accuracy.
+At each location we measured peat depth three times by manual probing, with probe locations spaced approximately \unit{2.5\,m} apart.
+In areas with dense sampling locations, we also measured peat depth with GPR along snaking transects passing through the centers of the sampling cells (seven transects, \unit{6.2\,km} total length).
+We used the same GPR system as at Skrimfjella, but with a \unit{100\,MHz} Malå rough terrain antenna (Guideline Geo AB, Sweden) at some transects.
+To navigate the GPR transects, we placed flags at the cell centers of the sample locations, and used a handheld GNSS receiver to guide the GPR operator.
+At sampling locations crossed by a GPR transect, we arranged the manual probe positions along the transect (for better calibration of the GPR wave speed velocity), while other locations were probed in a triangular pattern around the cell center like at Skrimfjella.
+
+We processed the GPR data with Reflexw software (v.8.5; Sandmeier Scientific Software, Germany), applying a dewow filter, time-zero correction, bandpass filter, gain filter, and a dynamic correction that accounts for the non-vertical wave path between offset transmitter and receiver antennae.
+The last correction is important for the rough terrain antenna, which has an antenna separation (\unit{2.2\,m}) --- comparable to typical peat depths.
+As with the data from Skrimfjella, we picked the base of the peat column from strong reflectors in the radargram, and calibrated wave velocity with manual probe measurements in a linear regression.
+The points in the regression were created by joining to each probe measurement the travel time of the nearest pick, but only if these were within \unit{2\,m} of each other.
+In total we had 78 calibration points along \unit{7.8\,km} of interpretable GPR traces (transect length exceeded because of extra GPR data).
+Finally, we used the calculated wave velocity (\unit{0.0427\,m\,ns^{-1}}, $R^2 = 0.946$) to convert the travel times of all picks to calibrated peat depths.
+
 ## Peat depth predictors
 
 ## Predictive models of peat depth 

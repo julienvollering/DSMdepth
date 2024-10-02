@@ -29,6 +29,36 @@ gprpicks <- st_read("data/depth/GPRpicks.gpkg", "picks-round2")
 gprpicks <- select(gprpicks, file = field_1, trace =field_4, TWTT = field_6) |> 
   st_transform(st_crs(probe))
 
+gprlines <- gprpicks %>% 
+  group_by(file) |> 
+  arrange(trace) |>
+  select(file) |>
+  summarize(file = first(file), do_union=FALSE) |> 
+  st_cast("LINESTRING")
+gprlines |> 
+  mutate(length = st_length(gprlines)) |> 
+  pull(length) |> 
+  sum()
+
+# Distance threshold to divide trace sequences into separate lines
+threshold_distance <- 10
+buffers_sf <- st_buffer(gprpicks, dist = threshold_distance/2) |> 
+  st_union() |> 
+  st_cast("POLYGON") |> 
+  st_sf() |> 
+  rowid_to_column("group_id")
+gprlines <- gprpicks |> 
+  st_join(buffers_sf) |> 
+  arrange(trace) |>
+  group_by(file, group_id) |>
+  summarize(file = first(file), group_id = first(group_id), 
+            do_union=FALSE, .groups = "drop") |> 
+  st_cast("LINESTRING")
+gprlines |> 
+  mutate(length = st_length(gprlines)) |> 
+  pull(length) |> 
+  sum()
+
 ## Convert GPR TWTT to depth ####
 
 ### Spatially join probe to GPR ####
@@ -142,4 +172,5 @@ all |>
   group_by(source) |> 
   summarize(n = n(), meandepth=mean(depth_cm))
 
+st_delete("data/depth/all.csv")
 st_write(all, "data/depth/all.csv", layer_options = "GEOMETRY=AS_XY", append=FALSE)
