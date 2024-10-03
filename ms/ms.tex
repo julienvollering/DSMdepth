@@ -267,10 +267,71 @@ We georeferenced the map and digitized the borehole locations and depths.
 
 \subsection{Peat depth predictors}
 
-We created the same suite of 25 quantitative peat depth predictors for both sites.
+We created the same suite of 25 quantitative peat depth predictors for both sites (Table \ref{tab:preds}).
 All predictors were derived either from an airborne radiometric survey or from a digital terrain model.
 From the radiometric surveys we simply used the four variables produced by the surveyors (Geological Survey of Norway): ground concentration of Potassium, Thorium, Uranium, as well as total count.
 From the digital terrain models we calculated several simple terrain variables and a series of more complex geomorphometric and hydrological variables.
+
+\begin{table}
+
+\caption{\label{tab:preds}Quantitative predictors of peat depth.}
+\centering
+\begin{tabular}[t]{l|l}
+\hline
+name & description\\
+\hline
+radK & Potassium ground concentration\\
+\hline
+radTh & Thorium ground concentration\\
+\hline
+radU & Uranium ground concentration\\
+\hline
+radTC & Total count of gamma radiation\\
+\hline
+elevation & Mean elevation\\
+\hline
+slope1m & Mean of 1 m slope\\
+\hline
+TPI1m & Mean of 1 m topographic position index\\
+\hline
+TRI1m & Mean of 1 m terrain ruggedness index\\
+\hline
+roughness1m & Mean of 1 m roughness\\
+\hline
+slope10m & 10 m slope\\
+\hline
+TPI10m & 10 m topographic position index\\
+\hline
+TRI10m & 10 m terrain ruggedness index\\
+\hline
+roughness10m & 10 m roughness\\
+\hline
+MRVBF & Multi-resolution valley bottom flatness\\
+\hline
+TWI5m & Mean of 5 m topographic wetness index\\
+\hline
+TWI10m & 10 m topographic wetness index\\
+\hline
+TWI20m & Bilinear interpolation of 20 m topographic wetness index\\
+\hline
+TWI50m & Bilinear interpolation of 50 m topographic wetness index\\
+\hline
+DTW2500 & Depth-to-water index, flow initiation area of 2500 m\textasciicircum{}2\\
+\hline
+DTW5000 & Depth-to-water index, flow initiation area of 5000 m\textasciicircum{}2\\
+\hline
+DTW10000 & Depth-to-water index, flow initiation area of 10000 m\textasciicircum{}2\\
+\hline
+DTW20000 & Depth-to-water index, flow initiation area of 20000 m\textasciicircum{}2\\
+\hline
+DTW40000 & Depth-to-water index, flow initiation area of 40000 m\textasciicircum{}2\\
+\hline
+DTW80000 & Depth-to-water index, flow initiation area of 80000 m\textasciicircum{}2\\
+\hline
+DTW160000 & Depth-to-water index, flow initiation area of 160000 m\textasciicircum{}2\\
+\hline
+\end{tabular}
+\end{table}
 
 The radiometric survey covering Skrimfjella was conducted in 2008--2011.
 The survey was flown at an average altitude of \unit{75\,m} and average speed of \unit{108\,km\,h^{-1}}, with flight lines spaced \unit{200\,m} apart.

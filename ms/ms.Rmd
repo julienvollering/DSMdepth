@@ -220,10 +220,15 @@ We georeferenced the map and digitized the borehole locations and depths.
 
 ## Peat depth predictors
 
-We created the same suite of 25 quantitative peat depth predictors for both sites.
+We created the same suite of 25 quantitative peat depth predictors for both sites (Table \@ref(tab:preds)).
 All predictors were derived either from an airborne radiometric survey or from a digital terrain model.
 From the radiometric surveys we simply used the four variables produced by the surveyors (Geological Survey of Norway): ground concentration of Potassium, Thorium, Uranium, as well as total count.
 From the digital terrain models we calculated several simple terrain variables and a series of more complex geomorphometric and hydrological variables.
+
+```{r preds, echo=FALSE, message=FALSE}
+df <- readr::read_csv("tables/predictors.csv")
+knitr::kable(df, booktabs = FALSE, caption = "Quantitative predictors of peat depth.")
+```
 
 The radiometric survey covering Skrimfjella was conducted in 2008--2011. 
 The survey was flown at an average altitude of \unit{75\,m} and average speed of \unit{108\,km\,h^{-1}}, with flight lines spaced \unit{200\,m} apart.
