@@ -178,12 +178,13 @@ df <- st_read("output/modeling.gpkg", "dataframe") |>
   st_drop_geometry() |> 
   as_tibble()
 metadata <- c("sourceProbe", "sourceGPR", "sourceWisen2021", "sourceMyrarkivet")
-any(!complete.cases(df))
+auxiliary <- c("ar5cover", "ar5soil", "dmkdepth")
+sum(!complete.cases(df))
 
-select(df, !any_of(metadata)) |> 
+select(df, !any_of(c(metadata, auxiliary))) |> 
   slice_sample(n = 1000) |> 
   pairs(pch='.')
-corrplot::corrplot(cor(select(df, !any_of(metadata)) ), 
+corrplot::corrplot(cor(select(df, !any_of(c(metadata, auxiliary))) ), 
                    method = 'ellipse', diag = F)
 
 dflong <- df |> 
