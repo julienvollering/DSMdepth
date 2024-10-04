@@ -182,7 +182,7 @@ At both study sites, our measurements of peat depth were made for the purpose of
 Broadly, we aimed for a sample that was representative the predictor space of the most important predictors of peat depth \citep{wadouxSamplingDesignOptimization2019, maComparisonConditionedLatin2020}.
 A sample that preserves the properties of the multivariate distribution of predictor and outcome variables is most likely to maintain any complex, non-linear relationships that exist in the population while avoiding spurious ones \citep{brusSamplingDigitalSoil2019}.
 We chose for our sampling and modelling a spatial resolution of \unit{10\,m}.
-We considered this a reasonable compromise between digital terrain model resolution (\unit{1\,m}) and small mires on the one hand, and airborne radiometric resolution (\unit{50\,m}) on the other.
+We considered this a reasonable compromise between digital terrain model (DTM) resolution (\unit{1\,m}) and small mires on the one hand, and airborne radiometric resolution (\unit{50\,m}) on the other.
 
 \subsubsection{Skrimfjella}
 
@@ -191,7 +191,7 @@ The locations were chosen only from areas delineated as mire in the AR5 national
 Within this mire area, we stratified our sample across values of elevation, slope, and potassium ground concentration \citep[from processed airborne gamma ray spectrometry,][]{baranwalHelicopterborneMagneticElectromagnetic2013}.
 Specifically, we used the \emph{eSample} function in the \emph{iSDM} R package (v.1.0) to chose an environmentally systematic sample.
 This function defines the environmental space as a two-dimensional convex hull around the ordinated data, then creates a regular grid across that space, and lastly finds for each grid cell the datum that is nearest \citep{hattabUnifiedFrameworkModel2017}.
-Elevation was extracted from the \unit{10\,m} national digital terrain model, slope calculated in degrees, and potassium ground concentration downscaled with bilinear resampling.
+Elevation was extracted from the \unit{10\,m} national DTM, slope calculated in degrees, and potassium ground concentration downscaled with bilinear resampling.
 We set a target sample size of 100, excluded the top and bottom percentile from the convex hull, and with these parameters \emph{eSample} returned 105 raster cells.
 
 In addition to the peat depth locations, we had another arm of our sampling design for measuring peatland occurrence, as binary variable.
@@ -234,6 +234,7 @@ To choose 160 locations, we performed feature space coverage sampling.
 This approach has been found to produce higher accuracy in Random Forest models than conditioned latin hypercube sampling \citep{wadouxSamplingDesignOptimization2019, maComparisonConditionedLatin2020}.
 Feature space coverage sampling aims to disperse samples as uniformly as possible in multidimensional predictor space, and is implemented by choosing locations that are closest to cluster centers in a k-means clustering of the standardized predictor space \citep{brusSamplingDigitalSoil2019}.
 Feature space coverage sampling works best when all dimensions are important predictors of the outcome \citep{wadouxSamplingDesignOptimization2019}, and we used the same five predictors that we used to choose sample size: terrain slope and four radiometrics.
+The radiometric variables were downscaled to \unit{10\,m} resolution with cubic B-spline resampling in QGIS \citep[v.3,][]{QGISsoftware}.
 We adjusted the feature space coverage sampling to ensure that locations were accessible within time constraints, and assessed how this changed our sample from an ideal feature space coverage sample.
 Adjusting for accessibility is justified because the smaller sample size that would result if accessibility were ignored can degrade model accuracy as much or more as deviations from ideal sampling designs \citep{wadouxSamplingDesignOptimization2019, maComparisonConditionedLatin2020}.
 To adjust, we first restricted the sampling population to mire areas that were within an arbitrary cost distance of publicly-accessible roads.
@@ -268,9 +269,9 @@ We georeferenced the map and digitized the borehole locations and depths.
 \subsection{Peat depth predictors}
 
 We created the same suite of 25 quantitative peat depth predictors for both sites (Table \ref{tab:preds}).
-All predictors were derived either from an airborne radiometric survey or from a digital terrain model.
+All quantitative predictors were derived either from an airborne radiometric survey or from a DTM.
 From the radiometric surveys we simply used the four variables produced by the surveyors (Geological Survey of Norway): ground concentration of Potassium, Thorium, Uranium, as well as total count.
-From the digital terrain models we calculated several simple terrain variables and a series of more complex geomorphometric and hydrological variables.
+From the DTMs we calculated several land surface parameters, ranging from simple terrain indices to more complex geomorphometric and hydrological variables \citep{maxwellLandsurfaceParametersSpatial2022}.
 
 \begin{table}
 
@@ -338,12 +339,25 @@ The survey was flown at an average altitude of \unit{75\,m} and average speed of
 Spectrometer count rates were calibrated annually to known concentrations of Potassium, Thorium, and Uranium in mobile pads.
 The Geological Survey of Norway processed data from the spectrometer following standard procedures outlined by the International Atomic Energy Association, and the processing included: correction for aircraft and cosmic background radiation, correction for radon in the air, window stripping of the gamma ray spectrum, correction for flying height, conversion of count rates to ground concentrations, and finally gridding to \unit{50\,m} resolution with micro-leveling.
 Further details about the survey and data processing are provided in Baranwal et al. \citeyearpar{baranwalHelicopterborneMagneticElectromagnetic2013}.
+We downscaled the processed data to \unit{10\,m} resolution by cubic spline resampling, using the \emph{terra} package in R.
 
 A very similar radiometric survey covering Ørskogfjellet was conducted in December 2014 and January 2015.
 This survey was flown at an average altitude of \unit{80\,m} and average speed of \unit{88\,km\,h^{-1}}, with flight lines also spaced \unit{200\,m} apart.
 Spectrometer count rates were calibrated in 2013 to known concentrations of Potassium, Thorium, and Uranium in mobile pads.
-The spectrometer data were processed following the same procedure as for the survey at Skrimfjella, except that a convolution filter was added to smoothen the gridded data.
+The spectrometer data were processed following the same procedure as for the survey at Skrimfjella, except that a convolution filter was added to smooth the gridded data.
 Further details about the survey and data processing are provided in Ofstad \citeyearpar{ofstadHelicopterborneMagneticRadiometric2015}.
+The \unit{10\,m} resolution predictors from this survey were identical to the layers used in the sampling design (resampled from \unit{50\,m} resolution with cubic B-splines).
+
+For terrain-derived variables, we obtained \unit{1\,m} resolution DTMs from the Norwegian Mapping Authority.
+The DTM for Skrimfjella was produced from airborne laser scanning surveys in 2015 and 2022, with laser point density of \unit{5\,pts\,m^{-2}}.
+For Ørskogfjellet, the DTM was produced from a 2015 survey with \unit{2\,pts\,m^{-2}}.
+Where necessary, DTMs were resampled to the coordinate reference system of the radiometric data.
+We used the \emph{terra} R package to calculate: slope, topographic position index (difference from mean of eight neighbors), terrain ruggedness index (mean of absolute differences from eight neighbors), and roughness (range in the nine-cell neighborhood).
+These variables were derived at two scales to produce different predictors; we either calculated from \unit{1\,m} DTM resolution and then aggregated, or aggregated to \unit{10\,m} DTM resolution and then calculated the indices.
+This kind of multiscale feature engineering of land surface parameters has been found to greatly improve machine learning predictions of soil properties \citep{millerImpactMultiscalePredictor2015, newmanAssessingSpatiallyHeterogeneous2023}.
+We chose \unit{1\,m} and \unit{10\,m} resolutions because we know that peat depth tends to vary at fine scales in Norway \citep{maxwellLandsurfaceParametersSpatial2022}.
+
+We also explored one categorical predictor --- peat depth class --- derived from historical map data.
 
 \subsection{Predictive models of peat depth}
 

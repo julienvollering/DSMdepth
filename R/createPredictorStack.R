@@ -27,6 +27,14 @@ probecells <- extract(radK10m, probe, cells = TRUE, xy=TRUE, ID=FALSE) |>
   st_as_sf(coords = c('x','y'), crs=crs(radK10m))
 
 # Simple terrain ####
+
+# Lidar point density of DTM
+saland <- st_read("data/Orskogfjellet-site.gpkg", "mask_studyarealand")
+laserdensity <- rast("data/Haram Skodje Ørskog Vestnes 2pkt 2015/metadata/Haram Skodje Ørskog Vestnes 2pkt 2015_Punkttetthet_DTM.tif")
+extract(laserdensity, saland, ID=FALSE) |> 
+  summary()
+
+# Inspect data
 dtm1m <- rast("data/DTMmerged.tif")
 plot(dtm1m)
 origin(dtm1m)

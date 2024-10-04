@@ -26,6 +26,18 @@ rad10m <- rad |>
 plot(rad10m)
 
 # Simple terrain ####
+
+# Lidar point density of DTM
+sa <- st_read("data/Skrim/Skrim-site.gpkg", "fieldsite_outline_utm") |> 
+  st_transform(crssite)
+metadata <- st_read("data/Skrim/eksport_926374_20240909/dtm1/metadata/dtm1_Metadata.shp") |> 
+  select(Pkttetthet, Aarstall)
+st_intersection(sa, metadata) |> 
+  mutate(area = units::drop_units(st_area(geom)),
+         areaprop = area/sum(area)) |> 
+  st_drop_geometry()
+
+# Inspect data
 plot(dtm1m)
 origin(dtm1m)
 

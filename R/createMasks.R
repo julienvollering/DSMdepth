@@ -19,6 +19,16 @@ st_area(sa) |>
 st_write(sa, "data/Orskogfjellet-site.gpkg", "mask_studyarea", 
          append = FALSE)
 
+# Study area land ####
+
+water <- ar5 |> 
+  filter(arealtype == 81 | arealtype == 82) |> 
+  st_union() |> 
+  st_transform(st_crs(RAD_10m_mask))
+st_difference(sa, water) |> 
+  st_write("data/Orskogfjellet-site.gpkg", "mask_studyarealand", 
+           append = FALSE)
+
 # AR5 myr ####
 
 ar5 <- st_transform(ar5, st_crs(RAD_10m_mask))
