@@ -213,7 +213,7 @@ Besides the depth and occurrence measurements described above, we also measured 
 We used the Malå ProEx GPR system (Guideline Geo AB, Sweden) with its \unit{500\,MHz} shielded antenna mounted in a plastic sledge, and its control unit connected to a GNSS receiver.
 At each of the three mires we recorded GPR traces along walking transects that covered the extent of the mire, mostly in traversing, zigzag patterns with between \unit{5\,m} and \unit{20\,m} spacing at their vertices.
 Along the GPR transects we also probed peat depth at marked trace locations, to be able to calibrate the GPR wave speed velocity.
-We processed the GPR data with Reflex2DQuick software (v.3.0; Sandmeier Scientific Software, Germany), applying a time-zero correction, a dewow filter, and a gain filter based on observed energy decay.
+We processed the GPR data with Reflex2DQuick software (v.3.0, Sandmeier Scientific Software, Germany), applying a time-zero correction, a dewow filter, and a gain filter based on observed energy decay.
 Then we picked strong reflectors in the radargrams that we interpreted as the base of the peat column.
 We used picks at marked trace locations to calibrate wave speed velocity; we pooled calibration points across the three mires and fitted a linear regression of depth on one-way travel time with the intercept fixed at zero.
 In total we had 46 calibration points along \unit{3.5\,km} of GPR transects.
@@ -250,7 +250,7 @@ We used the same GPR system as at Skrimfjella, but with a \unit{100\,MHz} Malå 
 To navigate the GPR transects, we placed flags at the cell centers of the sample locations, and used a handheld GNSS receiver to guide the GPR operator.
 At sampling locations crossed by a GPR transect, we arranged the manual probe positions along the transect (for better calibration of the GPR wave speed velocity), while other locations were probed in a triangular pattern around the cell center like at Skrimfjella.
 
-We processed the GPR data with Reflexw software (v.8.5; Sandmeier Scientific Software, Germany), applying a dewow filter, time-zero correction, bandpass filter, gain filter, and a dynamic correction that accounts for the non-vertical wave path between offset transmitter and receiver antennae.
+We processed the GPR data with Reflexw software (v.8.5, Sandmeier Scientific Software, Germany), applying a dewow filter, time-zero correction, bandpass filter, gain filter, and a dynamic correction that accounts for the non-vertical wave path between offset transmitter and receiver antennae.
 The last correction is important for the rough terrain antenna, which has an antenna separation (\unit{2.2\,m}) --- comparable to typical peat depths.
 As with the data from Skrimfjella, we picked the base of the peat column from strong reflectors in the radargram, and calibrated wave velocity with manual probe measurements in a linear regression.
 The points in the regression were created by joining to each probe measurement the travel time of the nearest pick, but only if these were within \unit{2\,m} of each other.
@@ -352,10 +352,18 @@ For terrain-derived variables, we obtained \unit{1\,m} resolution DTMs from the 
 The DTM for Skrimfjella was produced from airborne laser scanning surveys in 2015 and 2022, with laser point density of \unit{5\,pts\,m^{-2}}.
 For Ørskogfjellet, the DTM was produced from a 2015 survey with \unit{2\,pts\,m^{-2}}.
 Where necessary, DTMs were resampled to the coordinate reference system of the radiometric data.
-We used the \emph{terra} R package to calculate: slope, topographic position index (difference from mean of eight neighbors), terrain ruggedness index (mean of absolute differences from eight neighbors), and roughness (range in the nine-cell neighborhood).
+
+We used the \emph{terra} R package to calculate from the DTMs: slope, topographic position index (difference from mean of eight neighbors), terrain ruggedness index (mean of absolute differences from eight neighbors), and roughness (range in the nine-cell neighborhood).
 These variables were derived at two scales to produce different predictors; we either calculated from \unit{1\,m} DTM resolution and then aggregated, or aggregated to \unit{10\,m} DTM resolution and then calculated the indices.
 This kind of multiscale feature engineering of land surface parameters has been found to greatly improve machine learning predictions of soil properties \citep{millerImpactMultiscalePredictor2015, newmanAssessingSpatiallyHeterogeneous2023}.
 We chose \unit{1\,m} and \unit{10\,m} resolutions because we know that peat depth tends to vary at fine scales in Norway \citep{maxwellLandsurfaceParametersSpatial2022}.
+We also calculated the the Multi-Resolution Valley Bottom Flatness index, which indicates the degree of valley bottom flatness at a given location via a multiscale algorithm \citep{gallantMultiresolutionIndexValley2003}.
+We calculated this index in SAGA GIS \citep[v.9.3.2,][]{conradSystemAutomatedGeoscientific2015} with default parameters.
+
+Next, we calculated the Topographic Wetness Index \citep{quinnPredictionHillslopeFlow1991}.
+This index is notoriously scale-dependent and often matches real hydrological conditions best when calculated from moderate-to-coarse resolution DTMs \citep{agrenEvaluatingDigitalTerrain2014, riihimakiTopographicWetnessIndex2021}, so we calculated it from \unit{5\,m}, \unit{10\,m}, \unit{20\,m}, and \unit{50\,m} DTM resolution.
+The calculations were performed with Whitebox software \citep{lindsayWhiteboxGATCase2016}, accessed through the \emph{whitebox} R package \citep[v2.4,][]{wuWhiteboxWhiteboxToolsFrontend2022}.
+We filled depressions in the DTM with the algorithm in Wang \& Liu \citeyearpar{wangEfficientMethodIdentifying2006}, and used the deterministic infinity flow accumulation algorithm \citep{tarbotonNewMethodDetermination1997}.
 
 We also explored one categorical predictor --- peat depth class --- derived from historical map data.
 
