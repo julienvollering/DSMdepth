@@ -374,7 +374,12 @@ This catchments area layer was then thresholded at seven different levels (\emph
 In addition, all surface water features mapped in the AR5 dataset were also transferred to the raster layer.
 For each of the seven surface water layers, we derived the depth-to-water index using the \emph{Distance Accumulation} tool in ArcGIS Pro (v.3.1, ESRI, USA), which has an efficient algorithm to find the cumulative distance over a cost surface to the least-cost source.
 
-We also explored one categorical predictor --- peat depth class --- derived from historical map data.
+In addition to the quantitative predictors described above, we prepared one categorical predictor --- peat depth class --- from a historical national map dataset called \emph{DMK} \citep{ahlstromAR5Klassifikasjonssystem2019}.
+The DMK peat depth classes are: \textless{} \unit{1\,m} (\emph{shallow}), \textgreater{} \unit{1\,m} (\emph{deep}), and \emph{unknown}.
+This dataset stems from field measurements made in 1964--2007 as part of a wider land cover mapping in Norway.
+The mapping was primarily for identifying agricultural and silvicultural resources, so it covers productive areas below the tree line and has greater coverage of peat depth class in peatlands judged to be arable or afforestable \citep{bjordalMarkslagsklassifikasjonOkonomiskKartverk2007, ahlstromAR5Klassifikasjonssystem2019}.
+Mappers generally assigned peat depth classes to polygons of at least \unit{0.5\,ha}, although delineating polygons down to \unit{0.2\,ha} was allowed if peat depth showed a ``particularly marked difference'' \citep{bjordalMarkslagsklassifikasjonOkonomiskKartverk2007}.
+We rasterized the peat depth class attribute to our \unit{10\,m} grid.
 
 \subsection{Predictive models of peat depth}
 
