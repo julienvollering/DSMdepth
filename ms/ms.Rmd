@@ -261,6 +261,15 @@ This index is notoriously scale-dependent and often matches real hydrological co
 The calculations were performed with Whitebox software [@lindsayWhiteboxGATCase2016], accessed through the *whitebox* R package [v2.4, @wuWhiteboxWhiteboxToolsFrontend2022].
 We filled depressions in the DTM with the algorithm in Wang & Liu [-@wangEfficientMethodIdentifying2006], and used the deterministic infinity flow accumulation algorithm [@tarbotonNewMethodDetermination1997].
 
+The last terrain-based predictor we included was the depth-to-water index [@murphyMappingWetlandsComparison2007].
+This index approximates a location's vertical height above the surface water feature that it is likely to drain towards.
+It is calculated as the minimum cumulative slope (scaled by cell size) to a surface water feature [eq. 5 in @murphyTopographicModellingSoil2009].
+We calculated unitless slope from the \unit{1\,m} DTM using the Whitebox software.
+Also using Whitebox, we defined surface water features from the DTM by filling depressions and then calculating flow accumulation to define catchment areas for each cell [@schonauerSpatiotemporalPredictionSoil2021; @schonauerRcodeCalculatingDepthtowater2021].
+This catchments area layer was then thresholded at seven different levels (*flow initiation areas* from \unit{0.25\,ha} to \unit{16\,ha}) to estimate surface water features under moisture scenarios varying from wet to dry [@murphyModellingMappingTopographic2011; @agrenEvaluatingDigitalTerrain2014; @schonauerSpatiotemporalPredictionSoil2021].
+In addition, all surface water features mapped in the AR5 dataset were also transferred to the raster layer.
+For each of the seven surface water layers, we derived the depth-to-water index using the *Distance Accumulation* tool in ArcGIS Pro (v.3.1, ESRI, USA), which has an efficient algorithm to find the cumulative distance over a cost surface to the least-cost source.
+
 We also explored one categorical predictor --- peat depth class --- derived from historical map data. 
 
 ## Predictive models of peat depth 

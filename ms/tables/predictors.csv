@@ -17,10 +17,10 @@ TWI5m,Mean of 5 m topographic wetness index
 TWI10m,10 m topographic wetness index
 TWI20m,Bilinear interpolation of 20 m topographic wetness index
 TWI50m,Bilinear interpolation of 50 m topographic wetness index
-DTW2500,"Depth-to-water index, flow initiation area of 2500 m^2"
-DTW5000,"Depth-to-water index, flow initiation area of 5000 m^2"
-DTW10000,"Depth-to-water index, flow initiation area of 10000 m^2"
-DTW20000,"Depth-to-water index, flow initiation area of 20000 m^2"
-DTW40000,"Depth-to-water index, flow initiation area of 40000 m^2"
-DTW80000,"Depth-to-water index, flow initiation area of 80000 m^2"
-DTW160000,"Depth-to-water index, flow initiation area of 160000 m^2"
+DTW2500,"Depth-to-water index, flow initiation area of 0.25 ha"
+DTW5000,"Depth-to-water index, flow initiation area of 0.5 ha"
+DTW10000,"Depth-to-water index, flow initiation area of 1 ha"
+DTW20000,"Depth-to-water index, flow initiation area of 2 ha"
+DTW40000,"Depth-to-water index, flow initiation area of 4 ha"
+DTW80000,"Depth-to-water index, flow initiation area of 8 ha"
+DTW160000,"Depth-to-water index, flow initiation area of 16 ha"
