@@ -132,7 +132,7 @@ The AR5 dataset counts \unit{15.3\,km^{2}} (12.4 %) of the study area as mire.
 ## Peat depth measurements
 
 At both study sites, our measurements of peat depth were made for the purpose of training a Random Forest model of peat depth, and we designed our sampling with this in mind [@brusSamplingDigitalSoil2019]. 
-Broadly, we aimed for a sample that was representative the predictor space of the most important predictors of peat depth [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
+Broadly, we aimed for a sample that was representative of the predictor space defined by the most important predictors of peat depth [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
 A sample that preserves the properties of the multivariate distribution of predictor and outcome variables is most likely to maintain any complex, non-linear relationships that exist in the population while avoiding spurious ones [@brusSamplingDigitalSoil2019].
 We chose for our sampling and modelling a spatial resolution of \unit{10\,m}.
 We considered this a reasonable compromise between digital terrain model (DTM) resolution (\unit{1\,m}) and small mires on the one hand, and airborne radiometric resolution (\unit{50\,m}) on the other.
@@ -251,7 +251,7 @@ Where necessary, DTMs were resampled to the coordinate reference system of the r
 
 We used the *terra* R package to calculate from the DTMs: slope, topographic position index (difference from mean of eight neighbors), terrain ruggedness index (mean of absolute differences from eight neighbors), and roughness (range in the nine-cell neighborhood).
 These variables were derived at two scales to produce different predictors; we either calculated from \unit{1\,m} DTM resolution and then aggregated, or aggregated to \unit{10\,m} DTM resolution and then calculated the indices.
-This kind of multiscale feature engineering of land surface parameters has been found to greatly improve machine learning predictions of soil properties [@millerImpactMultiscalePredictor2015; @newmanAssessingSpatiallyHeterogeneous2023].
+This kind of multiscale feature engineering of land surface parameters has been found to improve machine learning predictions of soil properties [@millerImpactMultiscalePredictor2015; @dornikOptimalScalingPredictors2022; @newmanAssessingSpatiallyHeterogeneous2023].
 We chose \unit{1\,m} and \unit{10\,m} resolutions because we know that peat depth tends to vary at fine scales in Norway [@maxwellLandsurfaceParametersSpatial2022].
 We also calculated the the Multi-Resolution Valley Bottom Flatness index, which indicates the degree of valley bottom flatness at a given location via a multiscale algorithm [@gallantMultiresolutionIndexValley2003].
 We calculated this index in SAGA GIS [v.9.3.2, @conradSystemAutomatedGeoscientific2015] with default parameters.
