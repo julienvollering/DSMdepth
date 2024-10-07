@@ -279,6 +279,18 @@ We rasterized the peat depth class attribute to our \unit{10\,m} grid.
 
 ## Predictive models of peat depth 
 
+We used Random Forests (RF) to predict peat depth at both sites.
+RF is a tree-based ensemble machine learning algorithm that builds many decision trees on bootstrapped samples of the training data, randomly subsets predictors in the trees, and averages the predictions of the trees [@breimanRandomForests2001].
+We chose RF because it can handle complex interactions between predictors, is robust to overfitting, and generally shows higher performance in digital soil mapping applications than other algorithms [@beguinPredictingSoilProperties2017; @nussbaumEvaluationDigitalSoil2018; @lamichhaneDigitalSoilMapping2019].
+It is suited for use on relatively small training data sets and its predictions can be interrogated to learn about predictor importance [@khaledianSelectingAppropriateMachine2020].
+Evaluating variable importance in a maximally-predictive model aligns with the aim of this study.
+
+RF by itself is not a spatial model, and it will only predict spatial structure in the outcome to the degree that the structure is captured by predictors.
+We considered using regression kriging, a hybrid between non-spatial and spatial techniques that would be achieved by adding to the RF predictions a geostatistically-interpolated surface of RF residuals [@henglGenericFrameworkSpatial2004].
+The spatial component in regression kriging often improves map accuracy compared to a non-spatial model [@beguinPredictingSoilProperties2017; @lamichhaneDigitalSoilMapping2019; @mollaMachineLearningGeostatistical2023], but it can do so only if the spatial autocorrelation range in the non-spatial residuals is large compared to distances between samples and prediction locations [@henglGenericFrameworkSpatial2004].
+If the outcome varies at fine scales and the samples are clustered in small parts of the study area, a spatial component will hardly improve overall map accuracy.
+We used semivariograms to assess the spatial structure in the residuals of the RF predictions, and found that simple RF rather regression kriging was justified at both sites. 
+
 # Results
 
 Include a 12cm width figure of Nikolaus Copernicus from [Wikipedia](https://en.wikipedia.org/wiki/File:Nikolaus_Kopernikus.jpg) with caption using R Markdown (Fig. \@ref(fig:portrait)).
