@@ -291,6 +291,15 @@ The spatial component in regression kriging often improves map accuracy compared
 If the outcome varies at fine scales and the samples are clustered in small parts of the study area, a spatial component will hardly improve overall map accuracy.
 We used semivariograms to assess the spatial structure in the residuals of the RF predictions, and found that simple RF rather regression kriging was justified at both sites. 
 
+For each site we followed the same modelling workflow, so the description below applies to Skrimfjella and Ørskogfjellet.
+First we trained a RF to predict peat depth based on our 25 quantitative predictors, to simulate applications where radiometric and terrain data are available, but no maps of peat depth.
+Next we trained a RF with all 26 predictors (DMK peat depth class included), to fully leverage data available at these sites and check the added value of the national DMK dataset.
+Finally, we fit a simple linear model to only DMK depth class, to provide a fair comparison between the accuracy of the RF models and the existing national map of peat depth calibrated on the same data.
+We implemented models in the *tidymodels* framework in R [@kuhnTidymodelsCollectionPackages2020], with the *ranger* R package for RFs [v.0.16, @wrightRangerFastImplementation2017].
+RFs were fit with 1000 trees, minimum node size of 5, and the number of predictors randomly sampled at each split was the square root of the total number of predictors (*ranger* default).
+
+In the absence of additional field work to collect a model-based independent validation set, we used a spatial cross-validation scheme to evaluate model performance.
+
 # Results
 
 Include a 12cm width figure of Nikolaus Copernicus from [Wikipedia](https://en.wikipedia.org/wiki/File:Nikolaus_Kopernikus.jpg) with caption using R Markdown (Fig. \@ref(fig:portrait)).
