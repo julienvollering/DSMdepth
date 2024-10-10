@@ -298,7 +298,13 @@ Finally, we fit a simple linear model to only DMK depth class, to provide a fair
 We implemented models in the *tidymodels* framework in R [@kuhnTidymodelsCollectionPackages2020], with the *ranger* R package for RFs [v.0.16, @wrightRangerFastImplementation2017].
 RFs were fit with 1000 trees, minimum node size of 5, and the number of predictors randomly sampled at each split was the square root of the total number of predictors (*ranger* default).
 
-In the absence of additional field work to collect a model-based independent validation set, we used a spatial cross-validation scheme to evaluate model performance.
+In the absence of additional field work to collect a design-based independent validation set, we used a spatially stratified cross-validation scheme to evaluate model performance [@wadouxSpatialCrossvalidationNot2021; @meyerMachineLearningbasedGlobal2022].
+Specifically, we used k-Means Nearest Neighbor Distance Matching (kNNDM), which creates cross-validation folds that mimic the spatial prediction task that is defined as the goal [@linnenbrinkKNNDMCVKfold2024].
+In particular, kNNDM looks for the spatial assignment of training data to folds that minimizes the difference between two distributions: nearest neighbor distances between training and test locations in the cross-validation, and nearest neighbor distances between training and prediction locations for the model.
+That way, the spatial separation between folds is similar to the separation between training and prediction locations --- which increases the quality of the map accuracy estimate [@linnenbrinkKNNDMCVKfold2024].
+For spatially clustered training data, this approach strikes a balance between the risk of optimistic metrics from random cross-validation and the risk of pessimistic metrics from other forms of spatially stratified cross-validation [@wadouxSpatialCrossvalidationNot2021].
+We implemented the kNNDM with the *CAST* R package [v.1.0.2, @meyerCASTPackageTraining2024], setting prediction locations to all AR5 mire cells in the study area, and choosing a number of folds (5--20) that produced the best match between the two NND distributions.
+In general, the performance of digital soil mapping must be evaluated with reference to a specific purpose [i.e., map vs. model validation, interpolation vs. extrapolation, @robertsCrossvalidationStrategiesData2017; @milaNearestNeighbourDistance2022], and using kNNDM with a defined prediction domain increases the likelihood of quality accuracy estimates for a particular map.
 
 # Results
 
