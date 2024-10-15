@@ -190,6 +190,53 @@ ggsave(filename = 'sites-patchwork.pdf', path = "ms/figures",
 #                               type='https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}')
 # plot(map)
 
+# Variable importance ####
+
+orskog <- read_csv("output/variable_importance.csv") %>% 
+  filter(type != "perm.ranger")
+skrim <- read_csv("output/Skrim/variable_importance.csv") %>% 
+  filter(type != "perm.ranger")
+
+orskog.rank <- orskog %>% 
+  group_by(Variable) %>% 
+  summarize(Imp.median = median(Importance))
+skrim.rank <- skrim %>% 
+  group_by(Variable) %>% 
+  summarize(Imp.median = median(Importance))
+
+g1 <- left_join(orskog, orskog.rank, by = join_by(Variable)) %>% 
+  ggplot() +
+  geom_point(aes(x = fct_reorder(Variable, Imp.median), 
+                 y = Importance, 
+                 color = type)) +
+  coord_flip() +
+  scale_color_discrete(labels = c(firm = "FIRM", 
+                                  perm.vip = "permutation", 
+                                  shap = "Shapley")) +
+  theme_minimal() +
+  theme(axis.title.y = element_blank(),
+        legend.title = element_blank())
+
+g2 <- left_join(skrim, skrim.rank, by = join_by(Variable)) %>% 
+  ggplot() +
+  geom_point(aes(x = fct_reorder(Variable, Imp.median), 
+                 y = Importance, 
+                 color = type)) +
+  coord_flip() +
+  scale_color_discrete(labels = c(firm = "FIRM", 
+                                  perm.vip = "permutation", 
+                                  shap = "Shapley")) +
+  theme_minimal() +
+  theme(axis.title.y = element_blank(),
+        legend.title = element_blank())
+
+## Combined ####
+
+g1 + g2 + plot_layout(ncol = 1, guides = 'collect', axes = 'collect') +
+  plot_annotation(tag_levels = 'a', tag_prefix = '(', tag_suffix = ')') 
+ggsave(filename = 'variable_importance.pdf', path = "ms/figures",
+       width =(210-30)/1.5, height = (240-40)/1.25, units = 'mm') #copernicus.cls page 210x240
+
 # sessionInfo ####
 
 sessioninfo::session_info()

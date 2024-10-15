@@ -52,33 +52,52 @@ fit_remotesensing <-
 # Variable importance ####
 
 fit_remotesensing
-import_perm <- fit_remotesensing %>% 
+import_perm_ranger <- fit_remotesensing %>% 
   extract_fit_parsnip() %>% 
-  vip::vi()
-vip::vip(import_perm, num_features = 25)
-
-ftnames <- fit_remotesensing |> 
-  extract_recipe() |> 
-  summary() |> 
-  filter(role == "predictor") |> 
-  pull(variable)
-import_firm <- fit_remotesensing %>% 
-  extract_fit_parsnip() |> 
-  vip::vi(method = "firm", feature_names = ftnames, 
-          train = st_drop_geometry(frame))
-vip::vip(import_firm, num_features = 25)
+  vip::vi(scale = TRUE)
+vip::vip(import_perm_ranger, num_features = 25)
 
 pfun <- function(object, newdata) {  # needs to return a numeric vector
   predict(object, new_data = newdata)$.pred  
 }
 # pfun(fit_remotesensing, frame)
+ftnames <- fit_remotesensing |> 
+  extract_recipe() |> 
+  summary() |> 
+  filter(role == "predictor") |> 
+  pull(variable)
+
+set.seed(403)  
+import_perm_vip <- fit_remotesensing %>% 
+  extract_fit_parsnip() |> 
+  vip::vi(method = "permute", feature_names = ftnames, 
+          train = st_drop_geometry(frame), 
+          target = "depth_cm", metric = "rmse",
+          pred_wrapper = pfun, nsim = 10, scale = TRUE)
+vip::vip(import_perm_vip, geom = "boxplot")
+vip::vip(import_perm_vip, num_features = 25)
+
+import_firm <- fit_remotesensing %>% 
+  extract_fit_parsnip() |> 
+  vip::vi(method = "firm", ice = TRUE, feature_names = ftnames, 
+          train = st_drop_geometry(frame), scale = TRUE)
+vip::vip(import_firm, num_features = 25)
+
 import_shap <- fit_remotesensing %>% 
   extract_fit_parsnip() |> 
   vip::vi(method = "shap", 
           pred_wrapper = pfun,
           feature_names = ftnames, 
-          train = st_drop_geometry(frame))
+          train = st_drop_geometry(frame),
+          scale = TRUE)
 vip::vip(import_shap, num_features = 25)
+
+bind_rows(perm.ranger = import_perm_ranger, 
+          perm.vip = import_perm_vip, 
+          firm = import_firm, 
+          shap = import_shap,
+          .id = 'type') |> 
+  readr::write_csv("output/variable_importance.csv")
 
 # Error estimation ####
 
@@ -92,7 +111,7 @@ predictorspts <- predictors |>
   st_as_sf()
 predpts <- predictorspts[predictivedomain,] |> 
   st_transform(st_crs(frame))
-crs(frame) == crs(predpts)
+st_crs(frame) == st_crs(predpts)
 
 set.seed(123)
 predptssample <- dplyr::slice_sample(predpts, n=1e3)

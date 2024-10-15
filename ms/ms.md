@@ -1,6 +1,6 @@
 ---
 title: Wall-to-wall mapping of peat depth from Lidar terrain and airborne radiometrics in Norwegian landscapes
-journal: "`r rticles::copernicus_journal_abbreviations(journal_name = 'soil')`"
+journal: "soil"
 author:
   - given_name: Julien
     surname: Vollering
@@ -112,9 +112,9 @@ Read Gatis et al. [-@gatisMappingUplandPeat2019] and related work [@minasnyDigit
 We assessed how well we could predict peat depth at two sites with conspicuously different physical geography: Skrimfjella in eastern Norway and Ørskogfjellet in western Norway (Fig. \@ref(fig:sites)c).
 These sites were chosen because they were covered by radiometric data from airborne surveys, relatively little built-up area, and road access.  
 
-```{r sites, out.height="90%", echo = FALSE, fig.cap = "Study areas at Ørskogfjellet (a) and Skrimfjella (b) within southern Norway (c). Land cover shown here is from the AR50 national land resource database and has simplified geometry with respect to the AR5 database used in the study."}
-knitr::include_graphics("figures/sites-patchwork.pdf")
-```
+\begin{figure}
+\includegraphics[height=0.9\textheight]{figures/sites-patchwork} \caption{Study areas at Ørskogfjellet (a) and Skrimfjella (b) within southern Norway (c). Land cover shown here is from the AR50 national land resource database and has simplified geometry with respect to the AR5 database used in the study.}(\#fig:sites)
+\end{figure}
 
 At Skrimfjella we delineated a study area of \unit{34\,km^{2}} based on radiometric coverage and accessibility (Fig. \@ref(fig:sites)b).
 The study area has a diverse bedrock, with 32 % alkali feltspat granite, 26 % mergelstein, 10 % granite, and eight other types with > 1 % coverage (NGU, 1:250 000 dataset).
@@ -226,10 +226,66 @@ We created the same suite of 25 quantitative peat depth predictors for both site
 All quantitative predictors were derived either from an airborne radiometric survey or from a DTM.
 From the radiometric surveys we simply used the four variables produced by the surveyors (Geological Survey of Norway): ground concentration of Potassium, Thorium, Uranium, as well as total count.
 From the DTMs we calculated several land surface parameters, ranging from simple terrain indices to more complex geomorphometric and hydrological variables [@maxwellLandsurfaceParametersSpatial2022].
-```{r preds, echo=FALSE, message=FALSE}
-df <- readr::read_csv("tables/predictors.csv")
-knitr::kable(df, booktabs = FALSE, caption = "Quantitative predictors of peat depth.")
-```
+\begin{table}
+
+\caption{(\#tab:preds)Quantitative predictors of peat depth.}
+\centering
+\begin{tabular}[t]{l|l}
+\hline
+name & description\\
+\hline
+radK & Potassium ground concentration\\
+\hline
+radTh & Thorium ground concentration\\
+\hline
+radU & Uranium ground concentration\\
+\hline
+radTC & Total count of gamma radiation\\
+\hline
+elevation & Mean elevation\\
+\hline
+slope1m & Mean of 1 m slope\\
+\hline
+TPI1m & Mean of 1 m topographic position index\\
+\hline
+TRI1m & Mean of 1 m terrain ruggedness index\\
+\hline
+roughness1m & Mean of 1 m roughness\\
+\hline
+slope10m & 10 m slope\\
+\hline
+TPI10m & 10 m topographic position index\\
+\hline
+TRI10m & 10 m terrain ruggedness index\\
+\hline
+roughness10m & 10 m roughness\\
+\hline
+MRVBF & Multi-resolution valley bottom flatness\\
+\hline
+TWI5m & Mean of 5 m topographic wetness index\\
+\hline
+TWI10m & 10 m topographic wetness index\\
+\hline
+TWI20m & Bilinear interpolation of 20 m topographic wetness index\\
+\hline
+TWI50m & Bilinear interpolation of 50 m topographic wetness index\\
+\hline
+DTW2500 & Depth-to-water index, flow initiation area of 0.25 ha\\
+\hline
+DTW5000 & Depth-to-water index, flow initiation area of 0.5 ha\\
+\hline
+DTW10000 & Depth-to-water index, flow initiation area of 1 ha\\
+\hline
+DTW20000 & Depth-to-water index, flow initiation area of 2 ha\\
+\hline
+DTW40000 & Depth-to-water index, flow initiation area of 4 ha\\
+\hline
+DTW80000 & Depth-to-water index, flow initiation area of 8 ha\\
+\hline
+DTW160000 & Depth-to-water index, flow initiation area of 16 ha\\
+\hline
+\end{tabular}
+\end{table}
 
 The radiometric survey covering Skrimfjella was conducted in 2008--2011. 
 The survey was flown at an average altitude of \unit{75\,m} and average speed of \unit{108\,km\,h^{-1}}, with flight lines spaced \unit{200\,m} apart.
@@ -316,9 +372,9 @@ We calculated variable importance with the *vip* R package (v.0.4.1), by three d
 
 Include a 12cm width figure of Nikolaus Copernicus from [Wikipedia](https://en.wikipedia.org/wiki/File:Nikolaus_Kopernikus.jpg) with caption using R Markdown (Fig. \@ref(fig:portrait)).
 
-```{r portrait, out.width = "8.3cm", echo = FALSE, fig.cap = "one column figure"}
-knitr::include_graphics("Nikolaus_Kopernikus.jpg")
-```
+\begin{figure}
+\includegraphics[width=8.3cm]{Nikolaus_Kopernikus} \caption{one column figure}(\#fig:portrait)
+\end{figure}
 
 ## Tables
 
@@ -344,10 +400,22 @@ Or you can use markdown to create the table with booktabs = FALSE (<https://gith
 
 See Table \@ref(tab:test).
 
-```{r test, echo=FALSE}
-df = mtcars[1:3, 1:3]
-knitr::kable(df, booktabs = FALSE, caption = "My caption")
-```
+\begin{table}
+
+\caption{(\#tab:test)My caption}
+\centering
+\begin{tabular}[t]{l|r|r|r}
+\hline
+  & mpg & cyl & disp\\
+\hline
+Mazda RX4 & 21.0 & 6 & 160\\
+\hline
+Mazda RX4 Wag & 21.0 & 6 & 160\\
+\hline
+Datsun 710 & 22.8 & 4 & 108\\
+\hline
+\end{tabular}
+\end{table}
 
 # Discussion
 

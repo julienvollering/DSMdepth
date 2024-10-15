@@ -369,7 +369,7 @@ The last terrain-based predictor we included was the depth-to-water index \citep
 This index approximates a location's vertical height above the surface water feature that it is likely to drain towards.
 It is calculated as the minimum cumulative slope (scaled by cell size) to a surface water feature \citep[eq. 5 in][]{murphyTopographicModellingSoil2009}.
 We calculated unitless slope from the \unit{1\,m} DTM using the Whitebox software.
-Also using Whitebox, we defined surface water features from the DTM by filling depressions and then calculating flow accumulation to define catchment areas for each cell \citep{schonauerSpatiotemporalPredictionSoil2021, schonauerRcodeCalculatingDepthtowater2021}.
+Also using Whitebox, we defined surface water features from the DTM by filling depressions and then calculating flow accumulation to define catchment areas for each cell \citep{schonauerSpatiotemporalPredictionSoil2021, schonauerRcodeCalculatingDepthwater2021}.
 This catchments area layer was then thresholded at seven different levels (\emph{flow initiation areas} from \unit{0.25\,ha} to \unit{16\,ha}) to estimate surface water features under moisture scenarios varying from wet to dry \citep{murphyModellingMappingTopographic2011, agrenEvaluatingDigitalTerrain2014, schonauerSpatiotemporalPredictionSoil2021}.
 In addition, all surface water features mapped in the AR5 dataset were also transferred to the raster layer.
 For each of the seven surface water layers, we derived the depth-to-water index using the \emph{Distance Accumulation} tool in ArcGIS Pro (v.3.1, ESRI, USA), which has an efficient algorithm to find the cumulative distance over a cost surface to the least-cost source.
@@ -409,6 +409,11 @@ That way, the spatial separation between folds is similar to the separation betw
 For spatially clustered training data, this approach strikes a balance between the risk of optimistic metrics from random cross-validation and the risk of pessimistic metrics from other forms of spatially stratified cross-validation \citep{wadouxSpatialCrossvalidationNot2021}.
 We implemented the kNNDM with the \emph{CAST} R package \citep[v.1.0.2,][]{meyerCASTPackageTraining2024}, setting prediction locations to all AR5 mire cells in the study area, and choosing a number of folds (5--20) that produced the best match between the two NND distributions.
 In general, the performance of digital soil mapping must be evaluated with reference to a specific purpose \citep[i.e., map vs.~model validation, interpolation vs.~extrapolation,][]{robertsCrossvalidationStrategiesData2017, milaNearestNeighbourDistance2022}, and using kNNDM with a defined prediction domain increases the likelihood of quality accuracy estimates for a particular map.
+
+We quantified global variable importance for the RFs with the 25 quantitative predictors.
+Global variable importance measures the influence of a given predictor on the output of the model, aggregated across all locations.
+We calculated variable importance with the \emph{vip} R package (v.0.4.1), by three different methods: \emph{FIRM}, \emph{permutation}, and \emph{Shapley} \citep{greenwellVariableImportancePlots2020}.
+\emph{Permutation} values were aggregated from ten iterations with RMSE as the performance measure.
 
 \section{Results}
 
