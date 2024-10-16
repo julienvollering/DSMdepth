@@ -390,25 +390,27 @@ It is suited for use on relatively small training data sets and its predictions 
 Evaluating variable importance in a maximally-predictive model aligns with the aim of this study.
 
 RF by itself is not a spatial model, and it will only predict spatial structure in the outcome to the degree that the structure is captured by predictors.
-We considered using regression kriging, a hybrid between non-spatial and spatial techniques that would be achieved by adding to the RF predictions a geostatistically-interpolated surface of RF residuals \citep{henglGenericFrameworkSpatial2004}.
+We considered using regression kriging --- a hybrid between non-spatial and spatial techniques that would be achieved by adding to the RF predictions a geostatistically-interpolated surface of RF residuals \citep{henglGenericFrameworkSpatial2004}.
 The spatial component in regression kriging often improves map accuracy compared to a non-spatial model \citep{beguinPredictingSoilProperties2017, lamichhaneDigitalSoilMapping2019, mollaMachineLearningGeostatistical2023}, but it can do so only if the spatial autocorrelation range in the non-spatial residuals is large compared to distances between samples and prediction locations \citep{henglGenericFrameworkSpatial2004, szaboMappingSoilHydraulic2019, takoutsingComparingPredictionPerformance2022}.
 If the outcome varies at fine scales and the samples are clustered in small parts of the study area, a spatial component will hardly improve overall map accuracy.
-We used semivariograms to assess the spatial structure in the residuals of the RF predictions, and found that simple RF rather regression kriging was justified at both sites.
+We used semivariograms to assess the spatial structure in the residuals of the RF predictions, and found that (non-spatial) RF rather regression kriging was justified at both sites.
 
-For each site we followed the same modelling workflow, so the description below applies to Skrimfjella and Ørskogfjellet.
+For each site we followed the same modelling workflow.
 First we trained a RF to predict peat depth based on our 25 quantitative predictors, to simulate applications where radiometric and terrain data are available, but no maps of peat depth.
-Next we trained a RF with all 26 predictors (DMK peat depth class included), to fully leverage data available at these sites and check the added value of the national DMK dataset.
+Next we trained a RF with all 26 predictors (DMK peat depth class included), to fully leverage the relevant available data and check the added value of the national DMK dataset.
 Finally, we fit a simple linear model to only DMK depth class, to provide a fair comparison between the accuracy of the RF models and the existing national map of peat depth calibrated on the same data.
 We implemented models in the \emph{tidymodels} framework in R \citep{kuhnTidymodelsCollectionPackages2020}, with the \emph{ranger} R package for RFs \citep[v.0.16,][]{wrightRangerFastImplementation2017}.
 RFs were fit with 1000 trees, minimum node size of 5, and the number of predictors randomly sampled at each split was the square root of the total number of predictors (\emph{ranger} default).
+We did not tune these hyperparameters because RFs are relatively insensitive to tuning \citep{probstHyperparametersTuningStrategies2019}, and because it would require nested spatial cross-validation to prevent data leakage \citep{schratzHyperparameterTuningPerformance2019}.
 
-In the absence of additional field work to collect a design-based independent validation set, we used a spatially stratified cross-validation scheme to evaluate model performance \citep{wadouxSpatialCrossvalidationNot2021, meyerMachineLearningbasedGlobal2022}.
+The performance of digital soil mapping must be evaluated with reference to a specific purpose \citep[i.e., map vs.~model validation, interpolation vs.~extrapolation,][]{robertsCrossvalidationStrategiesData2017, milaNearestNeighbourDistance2022}, and here we aimed to evaluate maps covering the study areas.
+In the absence of additional field work to collect a design-based independent validation set, we used a spatial cross-validation scheme to evaluate model performance \citep{wadouxSpatialCrossvalidationNot2021, meyerMachineLearningbasedGlobal2022}.
 Specifically, we used k-Means Nearest Neighbor Distance Matching (kNNDM), which creates cross-validation folds that mimic the spatial prediction task that is defined as the goal \citep{linnenbrinkKNNDMCVKfold2024}.
 In particular, kNNDM looks for the spatial assignment of training data to folds that minimizes the difference between two distributions: nearest neighbor distances between training and test locations in the cross-validation, and nearest neighbor distances between training and prediction locations for the model.
 That way, the spatial separation between folds is similar to the separation between training and prediction locations --- which increases the quality of the map accuracy estimate \citep{linnenbrinkKNNDMCVKfold2024}.
-For spatially clustered training data, this approach strikes a balance between the risk of optimistic metrics from random cross-validation and the risk of pessimistic metrics from other forms of spatially stratified cross-validation \citep{wadouxSpatialCrossvalidationNot2021}.
+For spatially clustered training data, this approach strikes a balance between the risk of optimistic metrics from random cross-validation and the risk of pessimistic metrics from other forms of spatial cross-validation \citep{wadouxSpatialCrossvalidationNot2021}.
 We implemented the kNNDM with the \emph{CAST} R package \citep[v.1.0.2,][]{meyerCASTPackageTraining2024}, setting prediction locations to all AR5 mire cells in the study area, and choosing a number of folds (5--20) that produced the best match between the two NND distributions.
-In general, the performance of digital soil mapping must be evaluated with reference to a specific purpose \citep[i.e., map vs.~model validation, interpolation vs.~extrapolation,][]{robertsCrossvalidationStrategiesData2017, milaNearestNeighbourDistance2022}, and using kNNDM with a defined prediction domain increases the likelihood of quality accuracy estimates for a particular map.
+From the cross-validation we quantified \emph{root mean squared error} (accuracy), \emph{R\textsuperscript{2}} (correlation), and \emph{Lin's concordance correlation coefficient} (accuracy + correlation).
 
 We quantified global variable importance for the RFs with the 25 quantitative predictors.
 Global variable importance measures the influence of a given predictor on the output of the model, aggregated across all locations.
