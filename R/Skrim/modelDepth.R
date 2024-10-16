@@ -49,6 +49,12 @@ fit_remotesensing <-
   workflow_remotesensing %>% 
   fit(frame)
 
+fit_remotesensing %>% 
+  augment(new_data = frame) %>%
+  ggplot(aes(depth_cm, .pred)) +
+  geom_point() +
+  geom_abline()
+
 # Variable importance ####
 
 fit_remotesensing
@@ -101,7 +107,7 @@ bind_rows(perm.ranger = import_perm_ranger,
 
 # Error estimation ####
 
-evaluation_metrics <- metric_set(rmse, mae, rsq)
+evaluation_metrics <- metric_set(rmse, mae, rsq, ccc)
 
 # With kNNDM from CAST into tidymodels workflow
 library(CAST) #v.1.0.2
@@ -150,8 +156,17 @@ fit_remotesensing_knndm <-
   workflow_remotesensing %>% 
   fit_resamples(
     resamples = folds,
-    metrics = evaluation_metrics)
+    metrics = evaluation_metrics,
+    control = control_resamples(save_pred = TRUE))
 collect_metrics(fit_remotesensing_knndm)
+
+preds <- fit_remotesensing_knndm %>% 
+  collect_predictions() |> 
+  select(id, depth_cm, .pred)
+preds %>% 
+  ggplot(aes(depth_cm, .pred)) +
+  geom_point() +
+  geom_abline()
 
 ### DMK-only model ####
 
@@ -193,7 +208,7 @@ frame |>
 ### Leveraging model ####
 
 recipe_leveraging <- 
-  recipe(formula = depth_cm ~ ., data = select(frame, !starts_with("source"))) |> 
+  recipe(formula = depth_cm ~ ., data = select(frame, !starts_with(c("source", "ar5")))) |> 
   remove_role(geom, old_role = "predictor") |> 
   step_unknown(dmkdepth) |> 
   step_dummy(dmkdepth)
@@ -216,6 +231,13 @@ collect_metrics(fit_leveraging_knndm)
 collect_predictions(fit_leveraging_knndm) |> 
   drop_na(.pred) |> 
   nrow()
+
+bind_rows(
+  remotesensing = collect_metrics(fit_remotesensing_knndm),
+  dmkintercept = collect_metrics(fit_dmkintercept_knndm),
+  leveraging = collect_metrics(fit_leveraging_knndm), 
+  .id = "model") |> 
+  readr::write_csv("output/Skrim/modelmetrics.csv")
 
 ## Extrapolating beyond mire ####
 

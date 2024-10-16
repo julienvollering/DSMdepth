@@ -1,3 +1,5 @@
+# Sites map ####
+
 library(sf)
 library(terra)
 library(tidyterra)
@@ -7,8 +9,6 @@ library(ggtext)
 library(ggrepel)
 library(ggspatial)
 library(rnaturalearth)
-
-# Sites map ####
 
 ## Inset ####
 
@@ -27,7 +27,7 @@ skrim <- st_read("data/Skrim/Skrim-site.gpkg", "fieldsite_outline_utm") |>
 both <- bind_rows(orskog, skrim)
 labels <- both |> 
   st_centroid() |> 
-  mutate(site = c("Ørskogfjellet", "Skrimfjella"))
+  mutate(site = c("\u00D8rskogfjellet", "Skrimfjella"))
 
 g1 <- ggplot() +
   geom_sf(data = nor50, fill = "white") + 
@@ -190,7 +190,58 @@ ggsave(filename = 'sites-patchwork.pdf', path = "ms/figures",
 #                               type='https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}')
 # plot(map)
 
+# Model metrics ####
+
+library(tidyverse)
+
+orskog <- read_csv("output/modelmetrics.csv") 
+skrim <- read_csv("output/Skrim/modelmetrics.csv")
+plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>% 
+  filter(.metric != 'mae') %>% 
+  mutate(
+    site = fct_relevel(site, "orskog"),
+    .metric = fct_relevel(.metric, "ccc", "rsq", "rmse"),
+    metric = case_when(
+      .metric == "ccc" ~ "Concordance \ncorrelation coefficient",
+      .metric == "rsq" ~ "R-squared",
+      .metric == "rmse" ~ "RMSE"),
+    model = case_when(
+      model == "dmkintercept" ~ "DMK peat depth class (1)",
+      model == "remotesensing" ~ "Quantitative predictors (25)",
+      model == "leveraging" ~ "All predictors (26)"),
+    model = fct_reorder(model, mean)
+    )
+str(plotting)
+
+g1 <- ggplot(plotting) +
+  geom_linerange(aes(y = model, 
+                     x = mean, 
+                     xmin = mean - std_err, 
+                     xmax = mean + std_err, 
+                     color = site),
+                 position = position_dodge2(width= 0.2, reverse = TRUE)) +
+  geom_point(aes(y = model, x = mean, color = site),
+             position = position_dodge2(width= 0.2, reverse = TRUE)) +
+  geom_text(aes(y = model, x = mean, label = signif(mean, 2), group = site),
+            position = position_dodge2(width= 0.9, reverse = TRUE),
+            color = "grey50", size = 3) +
+  facet_wrap(~metric, nrow = 1, scales = "free_x", axes ="margins") +
+  scale_color_discrete(labels = c(orskog = "\u00D8rskogfjellet", 
+                                  skrim = "Skrimfjella")) +
+  theme_bw() +
+  theme(axis.title = element_blank(),
+        legend.title = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = "inside",
+        legend.position.inside = c(-0.15, 1.12),
+        legend.key.spacing.y = unit(-2, "mm"),)
+ggsave(filename = 'modelmetrics.pdf', path = "ms/figures",
+       width =210-30, height = (240-40)/3.5, units = 'mm') #copernicus.cls page 210x240
+
 # Variable importance ####
+
+library(tidyverse)
+library(patchwork)
 
 orskog <- read_csv("output/variable_importance.csv") %>% 
   filter(type != "perm.ranger")
