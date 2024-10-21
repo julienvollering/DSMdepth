@@ -15,167 +15,6 @@ plot(frame[,"depth_cm"],add=T)
 predictivedomain <- st_read("data/Orskogfjellet-site.gpkg", "mask_predictivedomain")
 plot(predictivedomain)
 
-# RF of full training data ####
-
-glimpse(frame)
-frame |> 
-  pull(depth_cm) |> 
-  summary()
-
-mod_rf <- 
-  rand_forest(mtry = NULL, min_n = 5, trees = 1000) %>% 
-  set_engine("ranger", importance = "permutation",
-             scale.permutation.importance	= TRUE) %>% 
-  set_mode("regression")
-
-recipe_RT <- 
-  recipe(formula = depth_cm ~ ., data = select(frame, !starts_with("source"))) |> 
-  remove_role(ar5cover, old_role = "predictor") |> 
-  remove_role(ar5soil, old_role = "predictor") |> 
-  remove_role(dmkdepth, old_role = "predictor") |> 
-  remove_role(geom, old_role = "predictor")
-  
-recipe_RT |> 
-  summary() |> 
-  print(n=30)
-
-workflow_RT <- 
-  workflow() %>% 
-  add_model(mod_rf) %>% 
-  add_recipe(recipe_RT)
-
-set.seed(345)
-fit_RT <- 
-  workflow_RT %>% 
-  fit(frame)
-
-fit_RT %>% 
-  augment(new_data = frame) %>% 
-  probably::cal_plot_regression(depth_cm, .pred, smooth = FALSE)
-
-# Uncertainty with QRF ####
-
-mod_qrf <- 
-  rand_forest(mtry = NULL, min_n = 5, trees = 1000) %>% 
-  set_engine("ranger", quantreg = TRUE, seed = 345) %>% 
-  set_mode("regression")
-workflow_RT_uncertainty <- 
-  workflow() %>% 
-  add_model(mod_qrf) %>% 
-  add_recipe(recipe_RT)
-
-set.seed(345)
-fit_RT_uncertainty <- 
-  workflow_RT_uncertainty %>% 
-  fit(frame)
-
-# Note: no tidymodels-native syntax for quantile predictions yet (https://github.com/tidymodels/parsnip/issues/119)
-# Workaround derived from https://github.com/tidymodels/probably/issues/131#issue-2137662307
-quant_predict <- function(fit, new_data, level = 0.9) {
-  alpha <- (1 - level)
-  quant_pred <- predict(fit, new_data, type = "quantiles", 
-                        quantiles = c(alpha / 2, 1 - (alpha / 2)))
-  quant_pred <- dplyr::as_tibble(quant_pred)
-  quant_pred <- stats::setNames(quant_pred, c(".pred_lower", ".pred_upper"))
-  quant_pred
-}
-
-frame_baked <- workflows::extract_recipe(fit_RT_uncertainty) %>% 
-  bake(frame)
-quantiles_RT <- quant_predict(fit_RT_uncertainty$fit$fit$fit, 
-                                      frame_baked) %>% 
-  mutate(observed = frame$depth_cm, .before = 1)
-
-quantiles_RT %>% 
-  arrange(observed) %>% 
-  rowid_to_column() %>%
-  select(rowid, .pred_lower, .pred_upper, observed) %>%
-  pivot_longer(cols = !matches("rowid"), names_to = "what", values_to = "value") %>% 
-  ggplot(aes(x= rowid, y = value, color = what)) +
-  geom_point()
-quantiles_RT <- quantiles_RT %>% 
-  mutate(coverage = ifelse(observed >= .pred_lower & 
-                             observed <= .pred_upper, 1, 0))
-quantiles_RT %>% 
-  pull(coverage) %>%
-  mean()
-
-# Variable importance ####
-
-fit_RT
-import_perm_ranger <- fit_RT %>% 
-  extract_fit_parsnip() %>% 
-  vip::vi(scale = TRUE)
-vip::vip(import_perm_ranger, num_features = 25)
-
-pfun <- function(object, newdata) {  # needs to return a numeric vector
-  predict(object, new_data = newdata)$.pred  
-}
-# pfun(fit_RT, frame)
-ftnames <- fit_RT |> 
-  extract_recipe() |> 
-  summary() |> 
-  filter(role == "predictor") |> 
-  pull(variable)
-
-set.seed(403)  
-import_perm_vip <- fit_RT %>% 
-  extract_fit_parsnip() |> 
-  vip::vi(method = "permute", feature_names = ftnames, 
-          train = st_drop_geometry(frame), 
-          target = "depth_cm", metric = "rmse",
-          pred_wrapper = pfun, nsim = 10, scale = TRUE)
-vip::vip(import_perm_vip, geom = "boxplot")
-vip::vip(import_perm_vip, num_features = 25)
-
-import_firm <- fit_RT %>% 
-  extract_fit_parsnip() |> 
-  vip::vi(method = "firm", ice = TRUE, feature_names = ftnames, 
-          train = st_drop_geometry(frame), scale = TRUE)
-vip::vip(import_firm, num_features = 25)
-
-import_shap <- fit_RT %>% 
-  extract_fit_parsnip() |> 
-  vip::vi(method = "shap", 
-          pred_wrapper = pfun,
-          feature_names = ftnames, 
-          train = st_drop_geometry(frame),
-          scale = TRUE)
-vip::vip(import_shap, num_features = 25)
-
-bind_rows(perm.ranger = import_perm_ranger, 
-          perm.vip = import_perm_vip, 
-          firm = import_firm, 
-          shap = import_shap,
-          .id = 'type') |> 
-  readr::write_csv("output/variable_importance.csv")
-
-# Residual spatial structure ####
-
-frame.resid <- fit_RT |> 
-  augment(new_data = frame) |> 
-  select(.pred, depth_cm, geom) |> 
-  mutate(.resid = .pred - depth_cm) |> 
-  st_as_sf(sf_column_name = 'geom', crs = st_crs(frame))
-
-plot(frame.resid[,'.resid'])
-
-library(gstat)
-emp_variog <- variogram(.resid ~ 1, cutoff = 1e4, 
-                        data = as(frame.resid, "Spatial"))
-print(emp_variog)
-plot(emp_variog)
-
-emp_variog <- variogram(.resid ~ 1, cutoff = 1000, 
-                        data = as(frame.resid, "Spatial"))
-print(emp_variog)
-plot(emp_variog)
-
-emp_variog <- variogram(.resid ~ 1, cutoff = 200, 
-                        data = as(frame.resid, "Spatial"))
-print(emp_variog)
-plot(emp_variog)
-
 # Make CV folds ####
 
 # With kNNDM from CAST into tidymodels workflow
@@ -215,11 +54,33 @@ folds
 
 # Error estimation with CV ####
 
+mod_rf <- 
+  rand_forest(mtry = NULL, min_n = 5, trees = 1000) %>% 
+  set_engine("ranger", importance = "permutation",
+             scale.permutation.importance	= TRUE) %>% 
+  set_mode("regression")
+
 evaluation_metrics <- metric_set(rmse, mae, rsq, ccc)
 
 ## Within mires ####
 
 ### preds: radiometric + terrain ####
+
+recipe_RT <- 
+  recipe(formula = depth_cm ~ ., data = select(frame, !starts_with("source"))) |> 
+  remove_role(ar5cover, old_role = "predictor") |> 
+  remove_role(ar5soil, old_role = "predictor") |> 
+  remove_role(dmkdepth, old_role = "predictor") |> 
+  remove_role(geom, old_role = "predictor")
+
+recipe_RT |> 
+  summary() |> 
+  print(n=30)
+
+workflow_RT <- 
+  workflow() %>% 
+  add_model(mod_rf) %>% 
+  add_recipe(recipe_RT)
 
 workflow_RT |> 
   extract_preprocessor()
@@ -419,6 +280,25 @@ frame |>
 
 # Uncertainty with CV ####
 
+mod_qrf <- 
+  rand_forest(mtry = NULL, min_n = 5, trees = 1000) %>% 
+  set_engine("ranger", quantreg = TRUE, seed = 345) %>% 
+  set_mode("regression")
+workflow_RT_uncertainty <- 
+  workflow() %>% 
+  add_model(mod_qrf) %>% 
+  add_recipe(recipe_RT)
+
+# Note: no tidymodels-native syntax for quantile predictions yet (https://github.com/tidymodels/parsnip/issues/119)
+# Workaround derived from https://github.com/tidymodels/probably/issues/131#issue-2137662307
+quant_predict <- function(fit, new_data, level = 0.9) {
+  alpha <- (1 - level)
+  quant_pred <- predict(fit, new_data, type = "quantiles", 
+                        quantiles = c(alpha / 2, 1 - (alpha / 2)))
+  quant_pred <- dplyr::as_tibble(quant_pred)
+  quant_pred <- stats::setNames(quant_pred, c(".pred_lower", ".pred_upper"))
+  quant_pred
+}
 # Fit the model and get predictions using resampling
 quantiles.cv <- map(folds$splits, function(spliti) {
   train_data <- analysis(spliti)
@@ -460,6 +340,120 @@ quantiles.cv %>%
 
 quantiles.cv %>% 
   st_write("output/modeling.gpkg", layer = "quantiles.cv", append = FALSE)
+
+# Full training data ####
+
+set.seed(345)
+fit_RT <- 
+  workflow_RT %>% 
+  fit(frame)
+
+fit_RT %>% 
+  augment(new_data = frame) %>% 
+  probably::cal_plot_regression(depth_cm, .pred, smooth = FALSE)
+
+## Uncertainty ####
+
+set.seed(345)
+fit_RT_uncertainty <- 
+  workflow_RT_uncertainty %>% 
+  fit(frame)
+
+frame_baked <- workflows::extract_recipe(fit_RT_uncertainty) %>% 
+  bake(frame)
+quantiles_RT <- quant_predict(fit_RT_uncertainty$fit$fit$fit, 
+                              frame_baked) %>% 
+  mutate(observed = frame$depth_cm, .before = 1)
+
+quantiles_RT %>% 
+  arrange(observed) %>% 
+  rowid_to_column() %>%
+  select(rowid, .pred_lower, .pred_upper, observed) %>%
+  pivot_longer(cols = !matches("rowid"), names_to = "what", values_to = "value") %>% 
+  ggplot(aes(x= rowid, y = value, color = what)) +
+  geom_point()
+quantiles_RT <- quantiles_RT %>% 
+  mutate(coverage = ifelse(observed >= .pred_lower & 
+                             observed <= .pred_upper, 1, 0))
+quantiles_RT %>% 
+  pull(coverage) %>%
+  mean()
+
+## Variable importance ####
+
+fit_RT
+import_perm_ranger <- fit_RT %>% 
+  extract_fit_parsnip() %>% 
+  vip::vi(scale = TRUE)
+vip::vip(import_perm_ranger, num_features = 25)
+
+pfun <- function(object, newdata) {  # needs to return a numeric vector
+  predict(object, new_data = newdata)$.pred  
+}
+# pfun(fit_RT, frame)
+ftnames <- fit_RT |> 
+  extract_recipe() |> 
+  summary() |> 
+  filter(role == "predictor") |> 
+  pull(variable)
+
+set.seed(403)  
+import_perm_vip <- fit_RT %>% 
+  extract_fit_parsnip() |> 
+  vip::vi(method = "permute", feature_names = ftnames, 
+          train = st_drop_geometry(frame), 
+          target = "depth_cm", metric = "rmse",
+          pred_wrapper = pfun, nsim = 10, scale = TRUE)
+vip::vip(import_perm_vip, geom = "boxplot")
+vip::vip(import_perm_vip, num_features = 25)
+
+import_firm <- fit_RT %>% 
+  extract_fit_parsnip() |> 
+  vip::vi(method = "firm", ice = TRUE, feature_names = ftnames, 
+          train = st_drop_geometry(frame), scale = TRUE)
+vip::vip(import_firm, num_features = 25)
+
+import_shap <- fit_RT %>% 
+  extract_fit_parsnip() |> 
+  vip::vi(method = "shap", 
+          pred_wrapper = pfun,
+          feature_names = ftnames, 
+          train = st_drop_geometry(frame),
+          scale = TRUE)
+vip::vip(import_shap, num_features = 25)
+
+bind_rows(perm.ranger = import_perm_ranger, 
+          perm.vip = import_perm_vip, 
+          firm = import_firm, 
+          shap = import_shap,
+          .id = 'type') |> 
+  readr::write_csv("output/variable_importance.csv")
+
+## Residual spatial structure ####
+
+frame.resid <- fit_RT |> 
+  augment(new_data = frame) |> 
+  select(.pred, depth_cm, geom) |> 
+  mutate(.resid = .pred - depth_cm) |> 
+  st_as_sf(sf_column_name = 'geom', crs = st_crs(frame))
+
+plot(frame.resid[,'.resid'])
+
+library(gstat)
+emp_variog <- variogram(.resid ~ 1, cutoff = 1e4, 
+                        data = as(frame.resid, "Spatial"))
+print(emp_variog)
+plot(emp_variog)
+
+emp_variog <- variogram(.resid ~ 1, cutoff = 1000, 
+                        data = as(frame.resid, "Spatial"))
+print(emp_variog)
+plot(emp_variog)
+
+emp_variog <- variogram(.resid ~ 1, cutoff = 200, 
+                        data = as(frame.resid, "Spatial"))
+print(emp_variog)
+plot(emp_variog)
 
 # sessionInfo ####
 

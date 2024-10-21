@@ -15,12 +15,44 @@ plot(frame[,"depth_cm"],add=T)
 predictivedomain <- st_read("data/Skrim/Skrim-site.gpkg", "mask_predictivedomain")
 plot(predictivedomain)
 
-# RF of full training data ####
+# Make CV folds ####
 
-glimpse(frame)
-frame |> 
-  pull(depth_cm) |> 
-  summary()
+# With kNNDM from CAST into tidymodels workflow
+library(CAST) #v.1.0.2
+
+predictorspts <- predictors |> 
+  as.points(values = FALSE) |> 
+  st_as_sf()
+predpts <- predictorspts[predictivedomain,] |> 
+  st_transform(st_crs(frame))
+st_crs(frame) == st_crs(predpts)
+
+set.seed(123)
+predptssample <- dplyr::slice_sample(predpts, n=1e3)
+# Vary number of folds
+knndm_list <- c(20,15,10,5) |>
+  purrr::map(\(x) knndm(tpoints = frame, 
+                        predpoints = predptssample,
+                        k = x))
+# Pick number of folds that minimizes W
+knndm <- knndm_list[[which.min(map_dbl(knndm_list, \(x) x$W))]]
+knndm
+plot(knndm, type = "simple")
+ggplot() + geom_sf(data = dplyr::mutate(frame, cvfold = as.factor(knndm$clusters)), 
+                   aes(color=cvfold), size=0.5, shape=3)
+
+# Creating rsample splits
+custom_splits <- list()
+for (k in seq_along(unique(knndm$clusters))) {
+  custom_splits[[k]] <- make_splits(list(analysis = knndm$indx_train[[k]], 
+                                         assessment = knndm$indx_test[[k]]), 
+                                    frame)
+}
+folds <- manual_rset(splits = custom_splits, 
+                     ids = paste0("Fold", unique(knndm$clusters)))
+folds
+
+# Error estimation with CV ####
 
 mod_rf <- 
   rand_forest(mtry = NULL, min_n = 5, trees = 1000) %>% 
@@ -28,13 +60,19 @@ mod_rf <-
              scale.permutation.importance	= TRUE) %>% 
   set_mode("regression")
 
+evaluation_metrics <- metric_set(rmse, mae, rsq, ccc)
+
+## Within mires ####
+
+### preds: radiometric + terrain ####
+
 recipe_RT <- 
   recipe(formula = depth_cm ~ ., data = select(frame, !starts_with("source"))) |> 
   remove_role(ar5cover, old_role = "predictor") |> 
   remove_role(ar5soil, old_role = "predictor") |> 
   remove_role(dmkdepth, old_role = "predictor") |> 
   remove_role(geom, old_role = "predictor")
-  
+
 recipe_RT |> 
   summary() |> 
   print(n=30)
@@ -44,16 +82,203 @@ workflow_RT <-
   add_model(mod_rf) %>% 
   add_recipe(recipe_RT)
 
-set.seed(345)
-fit_RT <- 
-  workflow_RT %>% 
-  fit(frame)
+workflow_RT |> 
+  extract_preprocessor()
 
-fit_RT %>% 
-  augment(new_data = frame) %>% 
+set.seed(456)
+fit_RT_knndm <- 
+  workflow_RT %>% 
+  fit_resamples(
+    resamples = folds,
+    metrics = evaluation_metrics,
+    control = control_resamples(save_pred = TRUE))
+collect_metrics(fit_RT_knndm)
+
+preds <- fit_RT_knndm %>% 
+  collect_predictions() |> 
+  select(id, depth_cm, .pred)
+preds %>% 
   probably::cal_plot_regression(depth_cm, .pred, smooth = FALSE)
 
-# Uncertainty with QRF ####
+### preds: DMK ####
+
+recipe_D <- 
+  recipe(formula = depth_cm ~ dmkdepth, data = frame) |> 
+  step_unknown(dmkdepth)
+
+recipe_D |> 
+  summary()
+
+workflow_D <- 
+  workflow() %>% 
+  add_model(linear_reg(mode = "regression", engine = "lm")) %>% 
+  add_recipe(recipe_D)
+
+workflow_D |> 
+  extract_preprocessor()
+
+set.seed(456)
+fit_D_knndm <-        # warning: A correlation computation is required, but `estimate` is constant and has 0 standard deviation
+  workflow_D %>%      # Some folds contain only one dmkdepth level
+  fit_resamples(
+    resamples = folds,
+    metrics = evaluation_metrics)
+collect_metrics(fit_D_knndm)
+
+# sanity check
+fit_D <- 
+  workflow_D %>% 
+  fit(frame)
+extract_fit_parsnip(fit_D)
+frame |> 
+  group_by(dmkdepth) |> 
+  summarize(n = n(), depth_cm = mean(depth_cm)) # sanity check
+
+### preds: terrain ####
+
+recipe_T <- 
+  recipe(formula = depth_cm ~ 
+           elevation + 
+           slope1m + TPI1m + TRI1m + roughness1m + 
+           slope10m + TPI10m + TRI10m + roughness10m + 
+           MRVBF + 
+           TWI5m + TWI10m + TWI20m + TWI50m + 
+           DTW2500 + DTW5000 + DTW10000 + DTW20000 + DTW40000 + DTW80000 + DTW160000, 
+         data = frame)
+prep(recipe_T, training = frame)
+
+workflow_T <- 
+  workflow() %>% 
+  add_model(mod_rf) %>% 
+  add_recipe(recipe_T)
+
+set.seed(456)
+fit_T_knndm <- 
+  workflow_T %>% 
+  fit_resamples(
+    resamples = folds,
+    metrics = evaluation_metrics)
+collect_metrics(fit_T_knndm)
+
+### preds: terrain + DMK ####
+
+recipe_TD <- 
+  recipe(formula = depth_cm ~ 
+           elevation + 
+           slope1m + TPI1m + TRI1m + roughness1m + 
+           slope10m + TPI10m + TRI10m + roughness10m + 
+           MRVBF + 
+           TWI5m + TWI10m + TWI20m + TWI50m + 
+           DTW2500 + DTW5000 + DTW10000 + DTW20000 + DTW40000 + DTW80000 + DTW160000 +
+           dmkdepth, 
+         data = frame) %>% 
+  step_unknown(dmkdepth) |> 
+  step_dummy(dmkdepth)
+prep(recipe_TD, training = frame)
+
+workflow_TD <- 
+  workflow() %>% 
+  add_model(mod_rf) %>% 
+  add_recipe(recipe_TD)
+
+set.seed(456)
+fit_TD_knndm <- 
+  workflow_TD %>% 
+  fit_resamples(
+    resamples = folds,
+    metrics = evaluation_metrics)
+collect_metrics(fit_TD_knndm)
+
+### preds: radiometric + terrain + DMK ####
+
+recipe_RTD <- 
+  recipe(formula = depth_cm ~ ., data = select(frame, !starts_with(c("source", "ar5")))) |> 
+  remove_role(geom, old_role = "predictor") |> 
+  step_unknown(dmkdepth) |> 
+  step_dummy(dmkdepth)
+recipe_RTD
+prep(recipe_RTD, training = frame)
+
+workflow_RTD <- 
+  workflow() %>% 
+  add_model(mod_rf) %>% 
+  add_recipe(recipe_RTD)
+
+set.seed(456)
+fit_RTD_knndm <- 
+  workflow_RTD %>% 
+  fit_resamples(
+    resamples = folds,
+    metrics = evaluation_metrics)
+collect_metrics(fit_RTD_knndm)
+
+### collect metrics ####
+
+bind_rows(
+  RadiometricTerrain = collect_metrics(fit_RT_knndm),
+  DMK = collect_metrics(fit_D_knndm),
+  Terrain = collect_metrics(fit_T_knndm),
+  TerrainDMK = collect_metrics(fit_TD_knndm),
+  RadiometricTerrainDMK = collect_metrics(fit_RTD_knndm), 
+  .id = "model") |> 
+  readr::write_csv("output/Skrim/modelmetrics.csv")
+
+## Extrapolating beyond mire ####
+
+frame |> 
+  st_drop_geometry() |> 
+  group_by(ar5cover == 60) |> 
+  summarise(mean(depth_cm))
+
+# Creating rsample splits
+custom_splits_extrap <- list()
+for (k in seq_along(unique(knndm$clusters))) {
+  custom_splits_extrap[[k]] <- make_splits(
+    list(analysis = intersect(knndm$indx_train[[k]], 
+                              which(frame$ar5cover == 60)), 
+         assessment = intersect(knndm$indx_test[[k]], 
+                                which(frame$ar5cover != 60))), 
+    frame)
+}
+names(custom_splits_extrap) <- paste0("Fold", unique(knndm$clusters))
+custom_splits_extrap <- discard(custom_splits_extrap, \(x) length(x$out_id) == 0)
+  
+folds_extrap <- manual_rset(splits = custom_splits_extrap, 
+                            ids = names(custom_splits_extrap))
+folds_extrap
+
+### preds: radiometric + terrain ####
+
+workflow_RT |> 
+  extract_preprocessor()
+
+set.seed(456)
+fit_RT_extrap <- 
+  workflow_RT %>% 
+  fit_resamples(
+    resamples = folds_extrap,
+    metrics = metric_set(rmse, mae),
+    control = control_resamples(save_pred = TRUE))
+# Warnings for calculating rsq on assessment folds of 1.
+collect_metrics(fit_RT_extrap)
+
+RT_extrap <- collect_predictions(fit_RT_extrap) |> 
+  select(.pred, depth_cm)
+plot(RT_extrap)
+cor.test(RT_extrap$depth_cm, RT_extrap$.pred)
+
+### preds: none (assume 30cm) ####
+
+frame |> 
+  st_drop_geometry() |> 
+  filter(ar5cover != 60) |> 
+  mutate(.pred = 30,
+         .resid = .pred - depth_cm,
+         absoluteError = abs(.resid)) |>
+  summarise(mae = mean(absoluteError),
+            rmse = sqrt(mean(.resid^2))) 
+
+# Uncertainty with CV ####
 
 mod_qrf <- 
   rand_forest(mtry = NULL, min_n = 5, trees = 1000) %>% 
@@ -63,11 +288,6 @@ workflow_RT_uncertainty <-
   workflow() %>% 
   add_model(mod_qrf) %>% 
   add_recipe(recipe_RT)
-
-set.seed(345)
-fit_RT_uncertainty <- 
-  workflow_RT_uncertainty %>% 
-  fit(frame)
 
 # Note: no tidymodels-native syntax for quantile predictions yet (https://github.com/tidymodels/parsnip/issues/119)
 # Workaround derived from https://github.com/tidymodels/probably/issues/131#issue-2137662307
@@ -79,11 +299,70 @@ quant_predict <- function(fit, new_data, level = 0.9) {
   quant_pred <- stats::setNames(quant_pred, c(".pred_lower", ".pred_upper"))
   quant_pred
 }
+# Fit the model and get predictions using resampling
+quantiles.cv <- map(folds$splits, function(spliti) {
+  train_data <- analysis(spliti)
+  test_data <- assessment(spliti)
+  # Fit QRF model
+  set.seed(345)
+  qrf_wf <- workflow_RT_uncertainty %>% 
+    fit(train_data)
+  # Make predictions
+  test_data_baked <- workflows::extract_recipe(qrf_wf) %>% 
+    bake(test_data)
+  predictions <- quant_predict(qrf_wf$fit$fit$fit, test_data_baked)
+  # Return results
+  bind_cols(predictions, test_data)
+}) %>% 
+  bind_rows()
+
+# Evaluate prediction intervals
+quantiles.cv <- quantiles.cv %>%
+  mutate(coverage = ifelse(depth_cm >= .pred_lower & depth_cm <= .pred_upper, 1, 0),
+         .before = 1)
+
+mean(quantiles.cv$coverage)
+hist(quantiles.cv$.pred_upper - quantiles.cv$.pred_lower)
+quantiles.cv %>% 
+  arrange(depth_cm) %>% 
+  rowid_to_column() %>%
+  select(rowid, .pred_lower, .pred_upper, depth_cm) %>%
+  pivot_longer(cols = !matches("rowid"), names_to = "what", values_to = "value") %>% 
+  ggplot(aes(x= rowid, y = value, color = what)) +
+  geom_point()
+
+quantiles.cv <- quantiles.cv %>% 
+  st_as_sf(sf_column_name = 'geom')
+quantiles.cv %>% 
+  filter(coverage == 0) %>% 
+  ggplot() +
+  geom_sf()
+
+quantiles.cv %>% 
+  st_write("output/Skrim/modeling.gpkg", layer = "quantiles.cv", append = FALSE)
+
+# Full training data ####
+
+set.seed(345)
+fit_RT <- 
+  workflow_RT %>% 
+  fit(frame)
+
+fit_RT %>% 
+  augment(new_data = frame) %>% 
+  probably::cal_plot_regression(depth_cm, .pred, smooth = FALSE)
+
+# Uncertainty ####
+
+set.seed(345)
+fit_RT_uncertainty <- 
+  workflow_RT_uncertainty %>% 
+  fit(frame)
 
 frame_baked <- workflows::extract_recipe(fit_RT_uncertainty) %>% 
   bake(frame)
 quantiles_RT <- quant_predict(fit_RT_uncertainty$fit$fit$fit, 
-                                         frame_baked) %>% 
+                              frame_baked) %>% 
   mutate(observed = frame$depth_cm, .before = 1)
 
 quantiles_RT %>% 
@@ -175,298 +454,6 @@ emp_variog <- variogram(.resid ~ 1, cutoff = 200,
                         data = as(frame.resid, "Spatial"))
 print(emp_variog)
 plot(emp_variog)
-
-# Make CV folds ####
-
-# With kNNDM from CAST into tidymodels workflow
-library(CAST) #v.1.0.2
-
-predictorspts <- predictors |> 
-  as.points(values = FALSE) |> 
-  st_as_sf()
-predpts <- predictorspts[predictivedomain,] |> 
-  st_transform(st_crs(frame))
-st_crs(frame) == st_crs(predpts)
-
-set.seed(123)
-predptssample <- dplyr::slice_sample(predpts, n=1e3)
-# Vary number of folds
-knndm_list <- c(20,15,10,5) |>
-  purrr::map(\(x) knndm(tpoints = frame, 
-                        predpoints = predptssample,
-                        k = x))
-# Pick number of folds that minimizes W
-knndm <- knndm_list[[which.min(map_dbl(knndm_list, \(x) x$W))]]
-knndm
-plot(knndm, type = "simple")
-ggplot() + geom_sf(data = dplyr::mutate(frame, cvfold = as.factor(knndm$clusters)), 
-                   aes(color=cvfold), size=0.5, shape=3)
-
-# Creating rsample splits
-custom_splits <- list()
-for (k in seq_along(unique(knndm$clusters))) {
-  custom_splits[[k]] <- make_splits(list(analysis = knndm$indx_train[[k]], 
-                                         assessment = knndm$indx_test[[k]]), 
-                                    frame)
-}
-folds <- manual_rset(splits = custom_splits, 
-                     ids = paste0("Fold", unique(knndm$clusters)))
-folds
-
-# Error estimation with CV ####
-
-evaluation_metrics <- metric_set(rmse, mae, rsq, ccc)
-
-## Within mires ####
-
-### preds: radiometric + terrain ####
-
-workflow_RT |> 
-  extract_preprocessor()
-
-set.seed(456)
-fit_RT_knndm <- 
-  workflow_RT %>% 
-  fit_resamples(
-    resamples = folds,
-    metrics = evaluation_metrics,
-    control = control_resamples(save_pred = TRUE))
-collect_metrics(fit_RT_knndm)
-
-preds <- fit_RT_knndm %>% 
-  collect_predictions() |> 
-  select(id, depth_cm, .pred)
-preds %>% 
-  probably::cal_plot_regression(depth_cm, .pred, smooth = FALSE)
-
-### preds: DMK ####
-
-recipe_D <- 
-  recipe(formula = depth_cm ~ dmkdepth, data = frame) |> 
-  step_unknown(dmkdepth)
-
-recipe_D |> 
-  summary()
-
-workflow_D <- 
-  workflow() %>% 
-  add_model(linear_reg(mode = "regression", engine = "lm")) %>% 
-  add_recipe(recipe_D)
-
-workflow_D |> 
-  extract_preprocessor()
-
-set.seed(456)
-fit_D_knndm <- 
-  workflow_D %>% 
-  fit_resamples(
-    resamples = folds,
-    metrics = evaluation_metrics,
-    control = control_resamples(save_pred = TRUE))
-# warning: A correlation computation is required, but `estimate` is constant and has 0 standard deviation
-# Some folds contain only one dmkdepth level
-collect_metrics(fit_D_knndm)
-
-# sanity check
-fit_D <- 
-  workflow_D %>% 
-  fit(frame)
-extract_fit_parsnip(fit_D)
-frame |> 
-  group_by(dmkdepth) |> 
-  summarize(n = n(), depth_cm = mean(depth_cm)) # sanity check
-
-### preds: terrain ####
-
-recipe_T <- 
-  recipe(formula = depth_cm ~ 
-           elevation + 
-           slope1m + TPI1m + TRI1m + roughness1m + 
-           slope10m + TPI10m + TRI10m + roughness10m + 
-           MRVBF + 
-           TWI5m + TWI10m + TWI20m + TWI50m + 
-           DTW2500 + DTW5000 + DTW10000 + DTW20000 + DTW40000 + DTW80000 + DTW160000, 
-         data = frame)
-prep(recipe_T, training = frame)
-
-workflow_T <- 
-  workflow() %>% 
-  add_model(mod_rf) %>% 
-  add_recipe(recipe_T)
-
-set.seed(456)
-fit_T_knndm <- 
-  workflow_T %>% 
-  fit_resamples(
-    resamples = folds,
-    metrics = evaluation_metrics)
-collect_metrics(fit_T_knndm)
-
-### preds: terrain + DMK ####
-
-recipe_TD <- 
-  recipe(formula = depth_cm ~ 
-           elevation + 
-           slope1m + TPI1m + TRI1m + roughness1m + 
-           slope10m + TPI10m + TRI10m + roughness10m + 
-           MRVBF + 
-           TWI5m + TWI10m + TWI20m + TWI50m + 
-           DTW2500 + DTW5000 + DTW10000 + DTW20000 + DTW40000 + DTW80000 + DTW160000 +
-           dmkdepth, 
-         data = frame) %>% 
-  step_unknown(dmkdepth) |> 
-  step_dummy(dmkdepth)
-prep(recipe_TD, training = frame)
-
-workflow_TD <- 
-  workflow() %>% 
-  add_model(mod_rf) %>% 
-  add_recipe(recipe_TD)
-
-set.seed(456)
-fit_TD_knndm <- 
-  workflow_TD %>% 
-  fit_resamples(
-    resamples = folds,
-    metrics = evaluation_metrics)
-collect_metrics(fit_TD_knndm)
-
-### preds: radiometric + terrain + DMK ####
-
-recipe_RTD <- 
-  recipe(formula = depth_cm ~ ., data = select(frame, !starts_with(c("source", "ar5")))) |> 
-  remove_role(geom, old_role = "predictor") |> 
-  step_unknown(dmkdepth) |> 
-  step_dummy(dmkdepth)
-recipe_RTD
-prep(recipe_RTD, training = frame)
-
-workflow_RTD <- 
-  workflow() %>% 
-  add_model(mod_rf) %>% 
-  add_recipe(recipe_RTD)
-
-set.seed(456)
-fit_RTD_knndm <- 
-  workflow_RTD %>% 
-  fit_resamples(
-    resamples = folds,
-    metrics = evaluation_metrics,
-    control = control_resamples(save_pred = TRUE))
-collect_metrics(fit_RTD_knndm)
-collect_predictions(fit_RTD_knndm) |> 
-  drop_na(.pred) |> 
-  nrow()
-
-### collect metrics ####
-
-bind_rows(
-  RadiometricTerrain = collect_metrics(fit_RT_knndm),
-  DMK = collect_metrics(fit_D_knndm),
-  Terrain = collect_metrics(fit_T_knndm),
-  TerrainDMK = collect_metrics(fit_TD_knndm),
-  RadiometricTerrainDMK = collect_metrics(fit_RTD_knndm), 
-  .id = "model") |> 
-  readr::write_csv("output/Skrim/modelmetrics.csv")
-
-## Extrapolating beyond mire ####
-
-frame |> 
-  st_drop_geometry() |> 
-  group_by(ar5cover == 60) |> 
-  summarise(mean(depth_cm))
-
-# Creating rsample splits
-custom_splits_extrap <- list()
-for (k in seq_along(unique(knndm$clusters))) {
-  custom_splits_extrap[[k]] <- make_splits(
-    list(analysis = intersect(knndm$indx_train[[k]], 
-                              which(frame$ar5cover == 60)), 
-         assessment = intersect(knndm$indx_test[[k]], 
-                                which(frame$ar5cover != 60))), 
-    frame)
-}
-names(custom_splits_extrap) <- paste0("Fold", unique(knndm$clusters))
-custom_splits_extrap <- discard(custom_splits_extrap, \(x) length(x$out_id) == 0)
-  
-folds_extrap <- manual_rset(splits = custom_splits_extrap, 
-                            ids = names(custom_splits_extrap))
-folds_extrap
-
-### Remote sensing model ####
-
-workflow_RT |> 
-  extract_preprocessor()
-
-set.seed(456)
-fit_RT_extrap <- 
-  workflow_RT %>% 
-  fit_resamples(
-    resamples = folds_extrap,
-    metrics = metric_set(rmse, mae),
-    control = control_resamples(save_pred = TRUE))
-# Warnings for calculating rsq on assessment folds of 1.
-collect_metrics(fit_RT_extrap)
-
-RT_extrap <- collect_predictions(fit_RT_extrap) |> 
-  select(.pred, depth_cm)
-plot(RT_extrap)
-cor.test(RT_extrap$depth_cm, RT_extrap$.pred)
-
-### 30cm model ####
-
-frame |> 
-  st_drop_geometry() |> 
-  filter(ar5cover != 60) |> 
-  mutate(.pred = 30,
-         .resid = .pred - depth_cm,
-         absoluteError = abs(.resid)) |>
-  summarise(mae = mean(absoluteError),
-            rmse = sqrt(mean(.resid^2))) 
-
-# Uncertainty with CV ####
-
-# Fit the model and get predictions using resampling
-quantiles.cv <- map(folds$splits, function(spliti) {
-  train_data <- analysis(spliti)
-  test_data <- assessment(spliti)
-  # Fit QRF model
-  set.seed(345)
-  qrf_wf <- workflow_RT_uncertainty %>% 
-    fit(train_data)
-  # Make predictions
-  test_data_baked <- workflows::extract_recipe(qrf_wf) %>% 
-    bake(test_data)
-  predictions <- quant_predict(qrf_wf$fit$fit$fit, test_data_baked)
-  # Return results
-  bind_cols(predictions, test_data)
-}) %>% 
-  bind_rows()
-
-# Evaluate prediction intervals
-quantiles.cv <- quantiles.cv %>%
-  mutate(coverage = ifelse(depth_cm >= .pred_lower & depth_cm <= .pred_upper, 1, 0),
-         .before = 1)
-
-mean(quantiles.cv$coverage)
-hist(quantiles.cv$.pred_upper - quantiles.cv$.pred_lower)
-quantiles.cv %>% 
-  arrange(depth_cm) %>% 
-  rowid_to_column() %>%
-  select(rowid, .pred_lower, .pred_upper, depth_cm) %>%
-  pivot_longer(cols = !matches("rowid"), names_to = "what", values_to = "value") %>% 
-  ggplot(aes(x= rowid, y = value, color = what)) +
-  geom_point()
-
-quantiles.cv <- quantiles.cv %>% 
-  st_as_sf(sf_column_name = 'geom')
-quantiles.cv %>% 
-  filter(coverage == 0) %>% 
-  ggplot() +
-  geom_sf()
-
-quantiles.cv %>% 
-  st_write("output/Skrim/modeling.gpkg", layer = "quantiles.cv", append = FALSE)
 
 # sessionInfo ####
 
