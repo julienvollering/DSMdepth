@@ -428,32 +428,6 @@ quantiles.cv %>%
   ggplot() +
   geom_sf()
 
-## With tidymodels-native NNDM ####
-
-# library(spatialsample) #v.0.5.1
-# 
-# data(ames, package = "modeldata")
-# ames_sf <- sf::st_as_sf(ames, coords = c("Longitude", "Latitude"), crs = 4326)
-# 
-# # Using a small subset of the data, to make the example run faster:
-# temp <- ames_sf[1:100, ]
-# temp2 <- ames_sf[2001:2100, ]
-# plot(st_geometry(temp))
-# plot(st_geometry(temp2))
-# temp3 <- spatial_nndm_cv(temp, temp2)
-# autoplot(get_rsplit(temp3, 1))
-# 
-# set.seed(123)
-# tictoc::tic()
-# nndm <- spatial_nndm_cv(
-#   frame[1:100,],
-#   prediction_sites = slice_sample(predpts, n=1e4), # Issue to reprex: st_union(predictivedomain) causes no points to be excluded
-#   autocorrelation_range = NULL,
-#   min_analysis_proportion = 0.5
-# )
-# tictoc::toc() # 1 sec for 100 data pts, 300 sec for 500 pts
-# autoplot(get_rsplit(nndm, 1))
-
 # Residual spatial structure ####
 
 frame.resid <- fit_remotesensing |> 
