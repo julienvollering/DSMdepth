@@ -206,15 +206,17 @@ plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>%
       .metric == "rsq" ~ "R-squared",
       .metric == "rmse" ~ "RMSE"),
     model = case_when(
-      model == "dmkintercept" ~ "DMK peat depth class (1)",
-      model == "terrain" ~ "Terrain (21)",
-      model == "remotesensing" ~ "Radiometric + Terrain (25)",
-      model == "leveraging" ~ "All (26)"),
+      model == "DMK" ~ "DMK depth class (1)",
+      model == "Terrain" ~ "Terrain (21)",
+      model == "TerrainDMK" ~ "Terrain + DMK (22)",
+      model == "RadiometricTerrain" ~ "Radiometric + Terrain (25)",
+      model == "RadiometricTerrainDMK" ~ "All predictors (26)"),
     model = fct_relevel(model,
-                        "DMK peat depth class (1)",
+                        "DMK depth class (1)",
                         "Terrain (21)",
+                        "Terrain + DMK (22)",
                         "Radiometric + Terrain (25)",
-                        "All (26)"))
+                        "All predictors (26)"))
 str(plotting)
 
 g1 <- ggplot(plotting) +
@@ -223,12 +225,12 @@ g1 <- ggplot(plotting) +
                      xmin = mean - std_err, 
                      xmax = mean + std_err, 
                      color = site),
-                 position = position_dodge2(width= 0.2, reverse = TRUE)) +
+                 position = position_dodge2(width= 0.3, reverse = TRUE)) +
   geom_point(aes(y = model, x = mean, color = site),
-             position = position_dodge2(width= 0.2, reverse = TRUE)) +
+             position = position_dodge2(width= 0.3, reverse = TRUE)) +
   geom_text(aes(y = model, x = mean, label = signif(mean, 2), group = site),
-            position = position_dodge2(width= 0.9, reverse = TRUE),
-            color = "grey50", size = 3) +
+            position = position_dodge2(width= 1, reverse = TRUE),
+            color = "grey50", size = 2.5) +
   facet_wrap(~metric, nrow = 1, scales = "free_x", axes ="margins") +
   scale_color_discrete(labels = c(orskog = "\u00D8rskogfjellet", 
                                   skrim = "Skrimfjella")) +
@@ -236,11 +238,12 @@ g1 <- ggplot(plotting) +
   theme(axis.title = element_blank(),
         legend.title = element_blank(),
         panel.grid = element_blank(),
+        axis.ticks.y = element_blank(),
         legend.position = "inside",
-        legend.position.inside = c(-0.15, 1.12),
+        legend.position.inside = c(-0.15, 1.08),
         legend.key.spacing.y = unit(-2, "mm"),)
 ggsave(filename = 'modelmetrics.pdf', path = "ms/figures",
-       width =210-30, height = (240-40)/3.5, units = 'mm') #copernicus.cls page 210x240
+       width =210-30, height = (240-40)/2.5, units = 'mm') #copernicus.cls page 210x240
 
 # Variable importance ####
 

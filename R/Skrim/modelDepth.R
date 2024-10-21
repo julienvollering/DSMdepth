@@ -28,28 +28,28 @@ mod_rf <-
              scale.permutation.importance	= TRUE) %>% 
   set_mode("regression")
 
-recipe_remotesensing <- 
+recipe_RT <- 
   recipe(formula = depth_cm ~ ., data = select(frame, !starts_with("source"))) |> 
   remove_role(ar5cover, old_role = "predictor") |> 
   remove_role(ar5soil, old_role = "predictor") |> 
   remove_role(dmkdepth, old_role = "predictor") |> 
   remove_role(geom, old_role = "predictor")
   
-recipe_remotesensing |> 
+recipe_RT |> 
   summary() |> 
   print(n=30)
 
-workflow_remotesensing <- 
+workflow_RT <- 
   workflow() %>% 
   add_model(mod_rf) %>% 
-  add_recipe(recipe_remotesensing)
+  add_recipe(recipe_RT)
 
 set.seed(345)
-fit_remotesensing <- 
-  workflow_remotesensing %>% 
+fit_RT <- 
+  workflow_RT %>% 
   fit(frame)
 
-fit_remotesensing %>% 
+fit_RT %>% 
   augment(new_data = frame) %>% 
   probably::cal_plot_regression(depth_cm, .pred, smooth = FALSE)
 
@@ -59,14 +59,14 @@ mod_qrf <-
   rand_forest(mtry = NULL, min_n = 5, trees = 1000) %>% 
   set_engine("ranger", quantreg = TRUE, seed = 345) %>% 
   set_mode("regression")
-workflow_remotesensing_uncertainty <- 
+workflow_RT_uncertainty <- 
   workflow() %>% 
   add_model(mod_qrf) %>% 
-  add_recipe(recipe_remotesensing)
+  add_recipe(recipe_RT)
 
 set.seed(345)
-fit_remotesensing_uncertainty <- 
-  workflow_remotesensing_uncertainty %>% 
+fit_RT_uncertainty <- 
+  workflow_RT_uncertainty %>% 
   fit(frame)
 
 # Note: no tidymodels-native syntax for quantile predictions yet (https://github.com/tidymodels/parsnip/issues/119)
@@ -80,30 +80,30 @@ quant_predict <- function(fit, new_data, level = 0.9) {
   quant_pred
 }
 
-frame_baked <- workflows::extract_recipe(fit_remotesensing_uncertainty) %>% 
+frame_baked <- workflows::extract_recipe(fit_RT_uncertainty) %>% 
   bake(frame)
-quantiles_remotesensing <- quant_predict(fit_remotesensing_uncertainty$fit$fit$fit, 
+quantiles_RT <- quant_predict(fit_RT_uncertainty$fit$fit$fit, 
                                          frame_baked) %>% 
   mutate(observed = frame$depth_cm, .before = 1)
 
-quantiles_remotesensing %>% 
+quantiles_RT %>% 
   arrange(observed) %>% 
   rowid_to_column() %>%
   select(rowid, .pred_lower, .pred_upper, observed) %>%
   pivot_longer(cols = !matches("rowid"), names_to = "what", values_to = "value") %>% 
   ggplot(aes(x= rowid, y = value, color = what)) +
   geom_point()
-quantiles_remotesensing <- quantiles_remotesensing %>% 
+quantiles_RT <- quantiles_RT %>% 
   mutate(coverage = ifelse(observed >= .pred_lower & 
                              observed <= .pred_upper, 1, 0))
-quantiles_remotesensing %>% 
+quantiles_RT %>% 
   pull(coverage) %>%
   mean()
 
 # Variable importance ####
 
-fit_remotesensing
-import_perm_ranger <- fit_remotesensing %>% 
+fit_RT
+import_perm_ranger <- fit_RT %>% 
   extract_fit_parsnip() %>% 
   vip::vi(scale = TRUE)
 vip::vip(import_perm_ranger, num_features = 25)
@@ -111,15 +111,15 @@ vip::vip(import_perm_ranger, num_features = 25)
 pfun <- function(object, newdata) {  # needs to return a numeric vector
   predict(object, new_data = newdata)$.pred  
 }
-# pfun(fit_remotesensing, frame)
-ftnames <- fit_remotesensing |> 
+# pfun(fit_RT, frame)
+ftnames <- fit_RT |> 
   extract_recipe() |> 
   summary() |> 
   filter(role == "predictor") |> 
   pull(variable)
 
 set.seed(403)  
-import_perm_vip <- fit_remotesensing %>% 
+import_perm_vip <- fit_RT %>% 
   extract_fit_parsnip() |> 
   vip::vi(method = "permute", feature_names = ftnames, 
           train = st_drop_geometry(frame), 
@@ -128,13 +128,13 @@ import_perm_vip <- fit_remotesensing %>%
 vip::vip(import_perm_vip, geom = "boxplot")
 vip::vip(import_perm_vip, num_features = 25)
 
-import_firm <- fit_remotesensing %>% 
+import_firm <- fit_RT %>% 
   extract_fit_parsnip() |> 
   vip::vi(method = "firm", ice = TRUE, feature_names = ftnames, 
           train = st_drop_geometry(frame), scale = TRUE)
 vip::vip(import_firm, num_features = 25)
 
-import_shap <- fit_remotesensing %>% 
+import_shap <- fit_RT %>% 
   extract_fit_parsnip() |> 
   vip::vi(method = "shap", 
           pred_wrapper = pfun,
@@ -152,7 +152,7 @@ bind_rows(perm.ranger = import_perm_ranger,
 
 # Residual spatial structure ####
 
-frame.resid <- fit_remotesensing |> 
+frame.resid <- fit_RT |> 
   augment(new_data = frame) |> 
   select(.pred, depth_cm, geom) |> 
   mutate(.resid = .pred - depth_cm) |> 
@@ -219,66 +219,66 @@ evaluation_metrics <- metric_set(rmse, mae, rsq, ccc)
 
 ## Within mires ####
 
-### Remote sensing model ####
+### preds: radiometric + terrain ####
 
-workflow_remotesensing |> 
+workflow_RT |> 
   extract_preprocessor()
 
 set.seed(456)
-fit_remotesensing_knndm <- 
-  workflow_remotesensing %>% 
+fit_RT_knndm <- 
+  workflow_RT %>% 
   fit_resamples(
     resamples = folds,
     metrics = evaluation_metrics,
     control = control_resamples(save_pred = TRUE))
-collect_metrics(fit_remotesensing_knndm)
+collect_metrics(fit_RT_knndm)
 
-preds <- fit_remotesensing_knndm %>% 
+preds <- fit_RT_knndm %>% 
   collect_predictions() |> 
   select(id, depth_cm, .pred)
 preds %>% 
   probably::cal_plot_regression(depth_cm, .pred, smooth = FALSE)
 
-### DMK-only model ####
+### preds: DMK ####
 
-recipe_dmkintercept <- 
+recipe_D <- 
   recipe(formula = depth_cm ~ dmkdepth, data = frame) |> 
   step_unknown(dmkdepth)
 
-recipe_dmkintercept |> 
+recipe_D |> 
   summary()
 
-workflow_dmkintercept <- 
+workflow_D <- 
   workflow() %>% 
   add_model(linear_reg(mode = "regression", engine = "lm")) %>% 
-  add_recipe(recipe_dmkintercept)
+  add_recipe(recipe_D)
 
-workflow_dmkintercept |> 
+workflow_D |> 
   extract_preprocessor()
 
 set.seed(456)
-fit_dmkintercept_knndm <- 
-  workflow_dmkintercept %>% 
+fit_D_knndm <- 
+  workflow_D %>% 
   fit_resamples(
     resamples = folds,
     metrics = evaluation_metrics,
     control = control_resamples(save_pred = TRUE))
 # warning: A correlation computation is required, but `estimate` is constant and has 0 standard deviation
 # Some folds contain only one dmkdepth level
-collect_metrics(fit_dmkintercept_knndm)
+collect_metrics(fit_D_knndm)
 
 # sanity check
-fit_dmkintercept <- 
-  workflow_dmkintercept %>% 
+fit_D <- 
+  workflow_D %>% 
   fit(frame)
-extract_fit_parsnip(fit_dmkintercept)
+extract_fit_parsnip(fit_D)
 frame |> 
   group_by(dmkdepth) |> 
   summarize(n = n(), depth_cm = mean(depth_cm)) # sanity check
 
-### Terrain model ####
+### preds: terrain ####
 
-recipe_terrain <- 
+recipe_T <- 
   recipe(formula = depth_cm ~ 
            elevation + 
            slope1m + TPI1m + TRI1m + roughness1m + 
@@ -287,53 +287,85 @@ recipe_terrain <-
            TWI5m + TWI10m + TWI20m + TWI50m + 
            DTW2500 + DTW5000 + DTW10000 + DTW20000 + DTW40000 + DTW80000 + DTW160000, 
          data = frame)
-prep(recipe_terrain, training = frame)
+prep(recipe_T, training = frame)
 
-workflow_terrain <- 
+workflow_T <- 
   workflow() %>% 
   add_model(mod_rf) %>% 
-  add_recipe(recipe_terrain)
+  add_recipe(recipe_T)
 
 set.seed(456)
-fit_terrain_knndm <- 
-  workflow_terrain %>% 
+fit_T_knndm <- 
+  workflow_T %>% 
   fit_resamples(
     resamples = folds,
     metrics = evaluation_metrics)
-collect_metrics(fit_terrain_knndm)
+collect_metrics(fit_T_knndm)
 
-### Leveraging model ####
+### preds: terrain + DMK ####
 
-recipe_leveraging <- 
+recipe_TD <- 
+  recipe(formula = depth_cm ~ 
+           elevation + 
+           slope1m + TPI1m + TRI1m + roughness1m + 
+           slope10m + TPI10m + TRI10m + roughness10m + 
+           MRVBF + 
+           TWI5m + TWI10m + TWI20m + TWI50m + 
+           DTW2500 + DTW5000 + DTW10000 + DTW20000 + DTW40000 + DTW80000 + DTW160000 +
+           dmkdepth, 
+         data = frame) %>% 
+  step_unknown(dmkdepth) |> 
+  step_dummy(dmkdepth)
+prep(recipe_TD, training = frame)
+
+workflow_TD <- 
+  workflow() %>% 
+  add_model(mod_rf) %>% 
+  add_recipe(recipe_TD)
+
+set.seed(456)
+fit_TD_knndm <- 
+  workflow_TD %>% 
+  fit_resamples(
+    resamples = folds,
+    metrics = evaluation_metrics)
+collect_metrics(fit_TD_knndm)
+
+### preds: radiometric + terrain + DMK ####
+
+recipe_RTD <- 
   recipe(formula = depth_cm ~ ., data = select(frame, !starts_with(c("source", "ar5")))) |> 
   remove_role(geom, old_role = "predictor") |> 
   step_unknown(dmkdepth) |> 
   step_dummy(dmkdepth)
-recipe_leveraging
-prep(recipe_leveraging, training = frame)
+recipe_RTD
+prep(recipe_RTD, training = frame)
 
-workflow_leveraging <- 
+workflow_RTD <- 
   workflow() %>% 
   add_model(mod_rf) %>% 
-  add_recipe(recipe_leveraging)
+  add_recipe(recipe_RTD)
 
 set.seed(456)
-fit_leveraging_knndm <- 
-  workflow_leveraging %>% 
+fit_RTD_knndm <- 
+  workflow_RTD %>% 
   fit_resamples(
     resamples = folds,
     metrics = evaluation_metrics,
     control = control_resamples(save_pred = TRUE))
-collect_metrics(fit_leveraging_knndm)
-collect_predictions(fit_leveraging_knndm) |> 
+collect_metrics(fit_RTD_knndm)
+collect_predictions(fit_RTD_knndm) |> 
   drop_na(.pred) |> 
   nrow()
 
+### collect metrics ####
+
 bind_rows(
-  remotesensing = collect_metrics(fit_remotesensing_knndm),
-  dmkintercept = collect_metrics(fit_dmkintercept_knndm),
-  terrain = collect_metrics(fit_terrain_knndm),
-  leveraging = collect_metrics(fit_leveraging_knndm), 
+  RadiometricTerrain = collect_metrics(fit_RT_knndm),
+  DMK = collect_metrics(fit_D_knndm),
+  Terrain = collect_metrics(fit_T_knndm),
+  TerrainDMK = collect_metrics(fit_TD_knndm),
+  RadiometricTerrainDMK = collect_metrics(fit_RTD_knndm), 
   .id = "model") |> 
   readr::write_csv("output/Skrim/modelmetrics.csv")
 
@@ -363,23 +395,23 @@ folds_extrap
 
 ### Remote sensing model ####
 
-workflow_remotesensing |> 
+workflow_RT |> 
   extract_preprocessor()
 
 set.seed(456)
-fit_remotesensing_extrap <- 
-  workflow_remotesensing %>% 
+fit_RT_extrap <- 
+  workflow_RT %>% 
   fit_resamples(
     resamples = folds_extrap,
     metrics = metric_set(rmse, mae),
     control = control_resamples(save_pred = TRUE))
 # Warnings for calculating rsq on assessment folds of 1.
-collect_metrics(fit_remotesensing_extrap)
+collect_metrics(fit_RT_extrap)
 
-remotesensing_extrap <- collect_predictions(fit_remotesensing_extrap) |> 
+RT_extrap <- collect_predictions(fit_RT_extrap) |> 
   select(.pred, depth_cm)
-plot(remotesensing_extrap)
-cor.test(remotesensing_extrap$depth_cm, remotesensing_extrap$.pred)
+plot(RT_extrap)
+cor.test(RT_extrap$depth_cm, RT_extrap$.pred)
 
 ### 30cm model ####
 
@@ -400,7 +432,7 @@ quantiles.cv <- map(folds$splits, function(spliti) {
   test_data <- assessment(spliti)
   # Fit QRF model
   set.seed(345)
-  qrf_wf <- workflow_remotesensing_uncertainty %>% 
+  qrf_wf <- workflow_RT_uncertainty %>% 
     fit(train_data)
   # Make predictions
   test_data_baked <- workflows::extract_recipe(qrf_wf) %>% 
