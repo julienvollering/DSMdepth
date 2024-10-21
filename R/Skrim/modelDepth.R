@@ -15,7 +15,7 @@ plot(frame[,"depth_cm"],add=T)
 predictivedomain <- st_read("data/Skrim/Skrim-site.gpkg", "mask_predictivedomain")
 plot(predictivedomain)
 
-# RF with default hyperparameters ####
+# RF of full training data ####
 
 glimpse(frame)
 frame |> 
@@ -50,10 +50,55 @@ fit_remotesensing <-
   fit(frame)
 
 fit_remotesensing %>% 
-  augment(new_data = frame) %>%
-  ggplot(aes(depth_cm, .pred)) +
-  geom_point() +
-  geom_abline()
+  augment(new_data = frame) %>% 
+  probably::cal_plot_regression(depth_cm, .pred, smooth = FALSE)
+
+# Uncertainty with QRF ####
+
+mod_qrf <- 
+  rand_forest(mtry = NULL, min_n = 5, trees = 1000) %>% 
+  set_engine("ranger", quantreg = TRUE, seed = 345) %>% 
+  set_mode("regression")
+workflow_remotesensing_uncertainty <- 
+  workflow() %>% 
+  add_model(mod_qrf) %>% 
+  add_recipe(recipe_remotesensing)
+
+set.seed(345)
+fit_remotesensing_uncertainty <- 
+  workflow_remotesensing_uncertainty %>% 
+  fit(frame)
+
+# Note: no tidymodels-native syntax for quantile predictions yet (https://github.com/tidymodels/parsnip/issues/119)
+# Workaround derived from https://github.com/tidymodels/probably/issues/131#issue-2137662307
+quant_predict <- function(fit, new_data, level = 0.9) {
+  alpha <- (1 - level)
+  quant_pred <- predict(fit, new_data, type = "quantiles", 
+                        quantiles = c(alpha / 2, 1 - (alpha / 2)))
+  quant_pred <- dplyr::as_tibble(quant_pred)
+  quant_pred <- stats::setNames(quant_pred, c(".pred_lower", ".pred_upper"))
+  quant_pred
+}
+
+frame_baked <- workflows::extract_recipe(fit_remotesensing_uncertainty) %>% 
+  bake(frame)
+quantiles_remotesensing <- quant_predict(fit_remotesensing_uncertainty$fit$fit$fit, 
+                                         frame_baked) %>% 
+  mutate(observed = frame$depth_cm, .before = 1)
+
+quantiles_remotesensing %>% 
+  arrange(observed) %>% 
+  rowid_to_column() %>%
+  select(rowid, .pred_lower, .pred_upper, observed) %>%
+  pivot_longer(cols = !matches("rowid"), names_to = "what", values_to = "value") %>% 
+  ggplot(aes(x= rowid, y = value, color = what)) +
+  geom_point()
+quantiles_remotesensing <- quantiles_remotesensing %>% 
+  mutate(coverage = ifelse(observed >= .pred_lower & 
+                             observed <= .pred_upper, 1, 0))
+quantiles_remotesensing %>% 
+  pull(coverage) %>%
+  mean()
 
 # Variable importance ####
 
@@ -105,9 +150,33 @@ bind_rows(perm.ranger = import_perm_ranger,
           .id = 'type') |> 
   readr::write_csv("output/Skrim/variable_importance.csv")
 
-# Error estimation ####
+# Residual spatial structure ####
 
-evaluation_metrics <- metric_set(rmse, mae, rsq, ccc)
+frame.resid <- fit_remotesensing |> 
+  augment(new_data = frame) |> 
+  select(.pred, depth_cm, geom) |> 
+  mutate(.resid = .pred - depth_cm) |> 
+  st_as_sf(sf_column_name = 'geom', crs = st_crs(frame))
+
+plot(frame.resid[,'.resid'])
+
+library(gstat)
+emp_variog <- variogram(.resid ~ 1, cutoff = 1e4, 
+                        data = as(frame.resid, "Spatial"))
+print(emp_variog)
+plot(emp_variog)
+
+emp_variog <- variogram(.resid ~ 1, cutoff = 1000, 
+                        data = as(frame.resid, "Spatial"))
+print(emp_variog)
+plot(emp_variog)
+
+emp_variog <- variogram(.resid ~ 1, cutoff = 200, 
+                        data = as(frame.resid, "Spatial"))
+print(emp_variog)
+plot(emp_variog)
+
+# Make CV folds ####
 
 # With kNNDM from CAST into tidymodels workflow
 library(CAST) #v.1.0.2
@@ -133,8 +202,6 @@ plot(knndm, type = "simple")
 ggplot() + geom_sf(data = dplyr::mutate(frame, cvfold = as.factor(knndm$clusters)), 
                    aes(color=cvfold), size=0.5, shape=3)
 
-## Overall ####
-
 # Creating rsample splits
 custom_splits <- list()
 for (k in seq_along(unique(knndm$clusters))) {
@@ -145,6 +212,12 @@ for (k in seq_along(unique(knndm$clusters))) {
 folds <- manual_rset(splits = custom_splits, 
                      ids = paste0("Fold", unique(knndm$clusters)))
 folds
+
+# Error estimation with CV ####
+
+evaluation_metrics <- metric_set(rmse, mae, rsq, ccc)
+
+## Within mires ####
 
 ### Remote sensing model ####
 
@@ -164,9 +237,7 @@ preds <- fit_remotesensing_knndm %>%
   collect_predictions() |> 
   select(id, depth_cm, .pred)
 preds %>% 
-  ggplot(aes(depth_cm, .pred)) +
-  geom_point() +
-  geom_abline()
+  probably::cal_plot_regression(depth_cm, .pred, smooth = FALSE)
 
 ### DMK-only model ####
 
@@ -294,31 +365,49 @@ frame |>
   summarise(mae = mean(absoluteError),
             rmse = sqrt(mean(.resid^2))) 
 
-# Residual spatial structure ####
+# Uncertainty with CV ####
 
-frame.resid <- fit_remotesensing |> 
-  augment(new_data = frame) |> 
-  select(.pred, depth_cm, geom) |> 
-  mutate(.resid = .pred - depth_cm) |> 
-  st_as_sf(sf_column_name = 'geom', crs = st_crs(frame))
+# Fit the model and get predictions using resampling
+quantiles.cv <- map(folds$splits, function(spliti) {
+  train_data <- analysis(spliti)
+  test_data <- assessment(spliti)
+  # Fit QRF model
+  set.seed(345)
+  qrf_wf <- workflow_remotesensing_uncertainty %>% 
+    fit(train_data)
+  # Make predictions
+  test_data_baked <- workflows::extract_recipe(qrf_wf) %>% 
+    bake(test_data)
+  predictions <- quant_predict(qrf_wf$fit$fit$fit, test_data_baked)
+  # Return results
+  bind_cols(predictions, test_data)
+}) %>% 
+  bind_rows()
 
-plot(frame.resid[,'.resid'])
+# Evaluate prediction intervals
+quantiles.cv <- quantiles.cv %>%
+  mutate(coverage = ifelse(depth_cm >= .pred_lower & depth_cm <= .pred_upper, 1, 0),
+         .before = 1)
 
-library(gstat)
-emp_variog <- variogram(.resid ~ 1, cutoff = 1e4, 
-                        data = as(frame.resid, "Spatial"))
-print(emp_variog)
-plot(emp_variog)
+mean(quantiles.cv$coverage)
+hist(quantiles.cv$.pred_upper - quantiles.cv$.pred_lower)
+quantiles.cv %>% 
+  arrange(depth_cm) %>% 
+  rowid_to_column() %>%
+  select(rowid, .pred_lower, .pred_upper, depth_cm) %>%
+  pivot_longer(cols = !matches("rowid"), names_to = "what", values_to = "value") %>% 
+  ggplot(aes(x= rowid, y = value, color = what)) +
+  geom_point()
 
-emp_variog <- variogram(.resid ~ 1, cutoff = 1000, 
-                        data = as(frame.resid, "Spatial"))
-print(emp_variog)
-plot(emp_variog)
+quantiles.cv <- quantiles.cv %>% 
+  st_as_sf(sf_column_name = 'geom')
+quantiles.cv %>% 
+  filter(coverage == 0) %>% 
+  ggplot() +
+  geom_sf()
 
-emp_variog <- variogram(.resid ~ 1, cutoff = 200, 
-                        data = as(frame.resid, "Spatial"))
-print(emp_variog)
-plot(emp_variog)
+quantiles.cv %>% 
+  st_write("output/Skrim/modeling.gpkg", layer = "quantiles.cv", append = FALSE)
 
 # sessionInfo ####
 
