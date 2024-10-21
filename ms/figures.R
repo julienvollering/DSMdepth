@@ -207,10 +207,14 @@ plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>%
       .metric == "rmse" ~ "RMSE"),
     model = case_when(
       model == "dmkintercept" ~ "DMK peat depth class (1)",
-      model == "remotesensing" ~ "Quantitative predictors (25)",
-      model == "leveraging" ~ "All predictors (26)"),
-    model = fct_reorder(model, mean)
-    )
+      model == "terrain" ~ "Terrain (21)",
+      model == "remotesensing" ~ "Radiometric + Terrain (25)",
+      model == "leveraging" ~ "All (26)"),
+    model = fct_relevel(model,
+                        "DMK peat depth class (1)",
+                        "Terrain (21)",
+                        "Radiometric + Terrain (25)",
+                        "All (26)"))
 str(plotting)
 
 g1 <- ggplot(plotting) +

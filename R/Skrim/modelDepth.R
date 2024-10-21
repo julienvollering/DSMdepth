@@ -276,6 +276,32 @@ frame |>
   group_by(dmkdepth) |> 
   summarize(n = n(), depth_cm = mean(depth_cm)) # sanity check
 
+### Terrain model ####
+
+recipe_terrain <- 
+  recipe(formula = depth_cm ~ 
+           elevation + 
+           slope1m + TPI1m + TRI1m + roughness1m + 
+           slope10m + TPI10m + TRI10m + roughness10m + 
+           MRVBF + 
+           TWI5m + TWI10m + TWI20m + TWI50m + 
+           DTW2500 + DTW5000 + DTW10000 + DTW20000 + DTW40000 + DTW80000 + DTW160000, 
+         data = frame)
+prep(recipe_terrain, training = frame)
+
+workflow_terrain <- 
+  workflow() %>% 
+  add_model(mod_rf) %>% 
+  add_recipe(recipe_terrain)
+
+set.seed(456)
+fit_terrain_knndm <- 
+  workflow_terrain %>% 
+  fit_resamples(
+    resamples = folds,
+    metrics = evaluation_metrics)
+collect_metrics(fit_terrain_knndm)
+
 ### Leveraging model ####
 
 recipe_leveraging <- 
@@ -306,6 +332,7 @@ collect_predictions(fit_leveraging_knndm) |>
 bind_rows(
   remotesensing = collect_metrics(fit_remotesensing_knndm),
   dmkintercept = collect_metrics(fit_dmkintercept_knndm),
+  terrain = collect_metrics(fit_terrain_knndm),
   leveraging = collect_metrics(fit_leveraging_knndm), 
   .id = "model") |> 
   readr::write_csv("output/Skrim/modelmetrics.csv")
