@@ -194,8 +194,15 @@ df |>
   complete.cases() |> 
   all()
 
+svg("output/Skrim/exploratoryDataAnalysis-corr.svg", width = 12, height = 12)
 corrplot::corrplot(cor(select(df, !any_of(c(metadata, auxiliary)))), 
-                   method = 'ellipse', diag = F)
+                   method = 'number', 
+                   type = 'upper',
+                   diag = TRUE,
+                   order = 'hclust', 
+                   number.cex = 1,
+                   addCoefasPercent=TRUE)
+dev.off()
 
 dflong <- df |> 
   select(!any_of(c(metadata, auxiliary))) |> 
@@ -205,4 +212,5 @@ ggplot(dflong) +
   geom_point(aes(x = value, y = depth_cm), pch=20) + 
   facet_wrap(facets = vars(covariate), scales = "free_x") +
   theme_minimal() 
-ggsave("output/Skrim/exploratoryDataAnalysis.svg", height = 10, width = 20, unit="in")
+ggsave("output/Skrim/exploratoryDataAnalysis-pairs.svg", 
+       height = 10, width = 20, unit="in")

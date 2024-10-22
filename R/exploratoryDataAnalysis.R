@@ -181,18 +181,27 @@ metadata <- c("sourceProbe", "sourceGPR", "sourceWisen2021", "sourceMyrarkivet")
 auxiliary <- c("ar5cover", "ar5soil", "dmkdepth")
 sum(!complete.cases(df))
 
-select(df, !any_of(c(metadata, auxiliary))) |> 
-  slice_sample(n = 1000) |> 
-  pairs(pch='.')
-corrplot::corrplot(cor(select(df, !any_of(c(metadata, auxiliary))) ), 
-                   method = 'ellipse', diag = F)
+svg("output/exploratoryDataAnalysis-corr.svg", width = 12, height = 12)
+corrplot::corrplot(cor(select(df, !any_of(c(metadata, auxiliary)))), 
+                   method = 'number', 
+                   type = 'upper',
+                   diag = TRUE,
+                   order = 'hclust', 
+                   number.cex = 1,
+                   addCoefasPercent=TRUE)
+dev.off()
+
+select(df, !any_of(c(metadata, auxiliary))) %>% 
+  cor() %>% 
+  round(2)
 
 dflong <- df |> 
-  select(!any_of(metadata)) |> 
+  select(!any_of(c(metadata, auxiliary))) |> 
   pivot_longer(cols = -1, names_to = "covariate")
 
 ggplot(dflong) + 
   geom_point(aes(x = value, y = depth_cm), pch=20) + 
   facet_wrap(facets = vars(covariate), scales = "free_x") +
   theme_minimal() 
-ggsave("output/exploratoryDataAnalysis.svg", height = 10, width = 20, unit="in")
+ggsave("output/exploratoryDataAnalysis-pairs.svg", 
+       height = 10, width = 20, unit="in")
