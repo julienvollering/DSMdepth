@@ -450,7 +450,14 @@ Moreover, the quality of uncertainty estimates should be evaluated, just as the 
 Therefore, we produced prediction intervals with quantile regression forests \citep{meinshausenQuantileRegressionForests2006}, and used the same spatial cross-validation to evaluate the prediction interval coverage probability \citep{shresthaMachineLearningApproaches2006}.
 The quantile regression forests were trained with predictor configuration that showed the highest performance at each site (under the assumption that these models would be put into production) and we extracted 90 \% prediction intervals.
 
-Extrapolation.
+While the primary aim of the DSM was to predict peat depth within peatlands (where peat \textgreater{} 30 cm), we also performed a minimal evaluation of our ability to estimate peat depth outside of mapped peatland.
+In other words, we tested if predictions of deep peat indicated unmapped peatland occurrence in the wider landscape.
+It is practically difficult to obtain suitable data for this problem, because locations with non-zero peat depth outside of mapped peatland are unknown and relatively rare.
+Therefore, we made do with the same data that we used for the peat depth predictions, which included a fraction of locations not mapped as peatland.
+We used the same spatial cross-validation as for the peat depth predictions, but this time we trained the models only on locations mapped as peatland, and evaluated them only on locations not mapped as peatland.
+In this way, we simulated the situation where a model trained on known peatland is used to predict peat depth outside the known peatland.
+We evaluated models with radiometric and terrain predictors, or terrain predictors alone (since DMK peat depth class is always undefined outside known peatlands).
+From the cross-validation we quantified \emph{Root Mean Squared Error} and \emph{Mean Absolute Error}, and we tested the strength of the correlation between predicted and observed peat depth.
 
 \subsubsection{Model interpretation}
 
