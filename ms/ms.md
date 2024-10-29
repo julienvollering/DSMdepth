@@ -350,7 +350,7 @@ We rasterized the peat depth class attribute to our \unit{10\,m} grid.
 
 We used Random Forests (RF) to predict peat depth at both sites.
 RF is a tree-based ensemble machine learning algorithm that builds many decision trees on bootstrapped samples of the training data, randomly subsets predictors in the trees, and averages the predictions of the trees [@breimanRandomForests2001].
-We chose RF because it can handle complex interactions between predictors, is robust to overfitting, and generally shows higher performance in digital soil mapping applications than other algorithms [@beguinPredictingSoilProperties2017; @nussbaumEvaluationDigitalSoil2018; @lamichhaneDigitalSoilMapping2019].
+We chose RF because it can handle complex interactions between predictors, is robust to overfitting, and generally shows higher performance in DSM applications than other algorithms [@beguinPredictingSoilProperties2017; @nussbaumEvaluationDigitalSoil2018; @lamichhaneDigitalSoilMapping2019].
 It is suited for use on relatively small training data sets and its predictions can be interrogated to learn about predictor importance [@khaledianSelectingAppropriateMachine2020].
 Evaluating variable importance in a maximally-predictive model aligns with the aim of this study.
 
@@ -380,7 +380,7 @@ Comparing the different configurations allowed us to isolate the added value of 
 We did not explore configurations comprising radiometrics without terrain, because Lidar terrain surveys typically precede airborne radiometric surveys.
 The models with only DMK peat depth class were simple linear models rather than RFs, and served to provide a fair comparison between the accuracy of the RF models and the existing national map of peat depth, calibrated on the same data.
 
-The performance of digital soil mapping must be evaluated with reference to a specific purpose [i.e., map vs. model validation, interpolation vs. extrapolation, @robertsCrossvalidationStrategiesData2017; @milaNearestNeighbourDistance2022], and here we aimed to evaluate maps of peat depth across the study areas.
+The performance of DSM must be evaluated with reference to a specific purpose [i.e., map vs. model validation, interpolation vs. extrapolation, @robertsCrossvalidationStrategiesData2017; @milaNearestNeighbourDistance2022], and here we aimed to evaluate maps of peat depth across the study areas.
 In the absence of additional field work to collect a design-based independent validation set, we used a spatial cross-validation scheme to evaluate model performance [@wadouxSpatialCrossvalidationNot2021; @meyerMachineLearningbasedGlobal2022].
 Specifically, we used k-Means Nearest Neighbor Distance Matching (kNNDM), which creates cross-validation folds that mimic the spatial prediction task that is defined as the goal [@linnenbrinkKNNDMCVKfold2024].
 In particular, kNNDM looks for the spatial assignment of training data to folds that minimizes the difference between two distributions: nearest neighbor distances between training and test locations in the cross-validation, and nearest neighbor distances between training and prediction locations for the model.
@@ -389,7 +389,10 @@ For spatially clustered training data, this approach strikes a balance between t
 We implemented the kNNDM with the *CAST* R package [v.1.0.2, @meyerCASTPackageTraining2024], setting prediction locations to all AR5 mire cells in the study area, and choosing a number of folds (5--20) that produced the best match between the two NND distributions.
 From the cross-validation we quantified *Root Mean Squared Error* (accuracy, original scale), *R^2^* (correlation, standardized scale), and *Lin's concordance correlation coefficient* (accuracy and correlation, standardized scale).
 
-Uncertainty.
+DSM products have much more value when their predictions are accompanied by uncertainty estimates, and all DSM should strive to assess uncertainty [@arrouaysImpressionsDigitalSoil2020; @wadouxMachineLearningDigital2020].
+Moreover, the quality of uncertainty estimates should be evaluated, just as the quality of predictions are   [@heuvelinkSpatialStatisticsSoil2022].
+Therefore, we produced prediction intervals with quantile regression forests [@meinshausenQuantileRegressionForests2006], and used the same spatial cross-validation to evaluate the prediction interval coverage probability [@shresthaMachineLearningApproaches2006].
+The quantile regression forests were trained with predictor configuration that showed the highest performance at each site (under the assumption that these models would be put into production) and we extracted 90 % prediction intervals.
 
 Extrapolation.
 
