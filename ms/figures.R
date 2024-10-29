@@ -164,6 +164,8 @@ g2 + g3 + g1 + plot_layout(design = layout) +
   plot_annotation(tag_levels = 'a', tag_prefix = '(', tag_suffix = ')') 
 ggsave(filename = 'sites-patchwork.pdf', path = "ms/figures",
        width =210-30, height = 240-40, units = 'mm') #copernicus.cls page 210x240
+# ggsave(filename = 'sites-patchwork.svg', path = "ms/figures",
+#        width =210-30, height = 240-40, units = 'mm')
 
 ## With tmap instead of ggplot2 ####
 # library(tmap)
@@ -206,17 +208,17 @@ plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>%
       .metric == "rsq" ~ "R-squared",
       .metric == "rmse" ~ "RMSE"),
     model = case_when(
-      model == "DMK" ~ "DMK depth class (1)",
-      model == "Terrain" ~ "Terrain (21)",
-      model == "TerrainDMK" ~ "Terrain + DMK (22)",
-      model == "RadiometricTerrain" ~ "Radiometric + Terrain (25)",
-      model == "RadiometricTerrainDMK" ~ "All predictors (26)"),
+      model == "DMK" ~ "DMK class (1)",
+      model == "Terrain" ~ "terrain (21)",
+      model == "TerrainDMK" ~ "terrain + DMK class (22)",
+      model == "RadiometricTerrain" ~ "radiometric + terrain (25)",
+      model == "RadiometricTerrainDMK" ~ "all predictors (26)"),
     model = fct_relevel(model,
-                        "DMK depth class (1)",
-                        "Terrain (21)",
-                        "Terrain + DMK (22)",
-                        "Radiometric + Terrain (25)",
-                        "All predictors (26)"))
+                        "DMK class (1)",
+                        "terrain (21)",
+                        "terrain + DMK class (22)",
+                        "radiometric + terrain (25)",
+                        "all predictors (26)"))
 str(plotting)
 
 g1 <- ggplot(plotting) +
@@ -244,6 +246,8 @@ g1 <- ggplot(plotting) +
         legend.key.spacing.y = unit(-2, "mm"),)
 ggsave(filename = 'modelmetrics.pdf', path = "ms/figures",
        width =210-30, height = (240-40)/2.5, units = 'mm') #copernicus.cls page 210x240
+# ggsave(filename = 'modelmetrics.svg', path = "ms/figures",
+#        width =210-30, height = (240-40)/2.5, units = 'mm')
 
 # Variable importance ####
 
@@ -263,12 +267,18 @@ skrim.rank <- skrim %>%
   summarize(Imp.median = median(Importance))
 
 g1 <- left_join(orskog, orskog.rank, by = join_by(Variable)) %>% 
+  mutate(Variable = case_when(
+    Variable == "dmkdepth_grunn.myr" ~ "DMK_shallow",
+    Variable == "dmkdepth_unknown" ~ "DMK_unknown",
+    TRUE ~ Variable)) %>%
   ggplot() +
-  geom_point(aes(x = fct_reorder(Variable, Imp.median), 
-                 y = Importance, 
-                 color = type)) +
+  geom_col(aes(x = fct_reorder(Variable, Imp.median), 
+               y = Importance,
+               group = type,
+               fill = type),
+           position = position_dodge2()) +
   coord_flip() +
-  scale_color_discrete(labels = c(firm = "FIRM", 
+  scale_fill_discrete(labels = c(firm = "FIRM", 
                                   perm.vip = "permutation", 
                                   shap = "Shapley")) +
   theme_minimal() +
@@ -276,14 +286,20 @@ g1 <- left_join(orskog, orskog.rank, by = join_by(Variable)) %>%
         legend.title = element_blank())
 
 g2 <- left_join(skrim, skrim.rank, by = join_by(Variable)) %>% 
+  mutate(Variable = case_when(
+    Variable == "dmkdepth_grunn" ~ "DMK_shallow",
+    Variable == "dmkdepth_unknown" ~ "DMK_unknown",
+    TRUE ~ Variable)) %>%
   ggplot() +
-  geom_point(aes(x = fct_reorder(Variable, Imp.median), 
-                 y = Importance, 
-                 color = type)) +
+  geom_col(aes(x = fct_reorder(Variable, Imp.median), 
+               y = Importance,
+               group = type,
+               fill = type),
+           position = position_dodge2()) +
   coord_flip() +
-  scale_color_discrete(labels = c(firm = "FIRM", 
-                                  perm.vip = "permutation", 
-                                  shap = "Shapley")) +
+  scale_fill_discrete(labels = c(firm = "FIRM", 
+                                 perm.vip = "permutation", 
+                                 shap = "Shapley")) +
   theme_minimal() +
   theme(axis.title.y = element_blank(),
         legend.title = element_blank())
@@ -294,7 +310,75 @@ g1 + g2 + plot_layout(ncol = 1, guides = 'collect', axes = 'collect') +
   plot_annotation(tag_levels = 'a', tag_prefix = '(', tag_suffix = ')') 
 ggsave(filename = 'variable_importance.pdf', path = "ms/figures",
        width =(210-30)/1.5, height = (240-40)/1.25, units = 'mm') #copernicus.cls page 210x240
+# ggsave(filename = 'variable_importance.svg', path = "ms/figures",
+#        width =(210-30)/1.5, height = (240-40)/1.25, units = 'mm')
 
+# Partial dependence plots ####
+
+library(tidyverse)
+library(patchwork)
+
+orskog <- read_csv("output/pdpice.csv")
+orskog.vi <- read_csv("output/variable_importance.csv") %>% 
+  filter(type != "perm.ranger")
+orskog.rank <- orskog.vi %>% 
+  group_by(Variable) %>% 
+  summarize(Imp.median = median(Importance)) %>% 
+  arrange(desc(Imp.median)) %>% 
+  slice_head(n = 6)
+orskog <- left_join(orskog, orskog.rank, by = join_by(feature == Variable)) %>%
+  drop_na(Imp.median) %>%
+  mutate(
+    feature = case_when(
+      feature == "dmkdepth_grunn.myr" ~ "DMK_shallow",
+      feature == "dmkdepth_unknown" ~ "DMK_unknown",
+      TRUE ~ feature),
+    feature = fct_reorder(feature, -Imp.median))
+
+g1 <- ggplot(data = orskog, aes(x = .borders, y = .value, group = .id)) + 
+  geom_line(data = filter(orskog, .type == 'ice'), alpha = 0.01) +
+  geom_line(data = filter(orskog, .type == 'pdp'), color = "red") +
+  geom_rug(data = filter(orskog, .type == "observed"), sides = "b") +
+  coord_cartesian(ylim = c(0, 400)) +
+  facet_wrap(~feature, scales = "free_x") + 
+  theme_bw() +
+  theme(axis.title = element_blank(),
+        panel.grid = element_blank())
+
+skrim <- read_csv("output/Skrim/pdpice.csv")
+skrim.vi <- read_csv("output/Skrim/variable_importance.csv") %>% 
+  filter(type != "perm.ranger")
+skrim.rank <- skrim.vi %>% 
+  group_by(Variable) %>% 
+  summarize(Imp.median = median(Importance)) %>% 
+  arrange(desc(Imp.median)) %>% 
+  slice_head(n = 6)
+skrim <- left_join(skrim, skrim.rank, by = join_by(feature == Variable)) %>%
+  drop_na(Imp.median) %>%
+  mutate(
+    feature = case_when(
+      feature == "dmkdepth_grunn.myr" ~ "DMK_shallow",
+      feature == "dmkdepth_unknown" ~ "DMK_unknown",
+      TRUE ~ feature),
+    feature = fct_reorder(feature, -Imp.median))
+
+g2 <- ggplot(data = skrim, aes(x = .borders, y = .value, group = .id)) + 
+  geom_line(data = filter(skrim, .type == 'ice'), alpha = 0.01) +
+  geom_line(data = filter(skrim, .type == 'pdp'), color = "red") +
+  geom_rug(data = filter(skrim, .type == "observed"), sides = "b") +
+  coord_cartesian(ylim = c(0, 250)) +
+  facet_wrap(~feature, scales = "free_x") + 
+  theme_bw() +
+  theme(axis.title = element_blank(),
+        panel.grid = element_blank())
+
+g1 + g2 + plot_layout(ncol = 1, guides = 'collect', axes = 'collect') +
+  plot_annotation(tag_levels = 'a', tag_prefix = '(', tag_suffix = ')') 
+ggsave(filename = 'partial_dependence.pdf', path = "ms/figures",
+       width =(210-30), height = (240-40), units = 'mm') #copernicus.cls page 210x240
+# ggsave(filename = 'partial_dependence.svg', path = "ms/figures",
+#        width =(210-30), height = (240-40), units = 'mm')
+  
 # sessionInfo ####
 
 sessioninfo::session_info()

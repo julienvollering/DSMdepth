@@ -52,23 +52,23 @@ sqrt(760*2) # Nugget at 10 m of 40 cm
 # Sample attributes ####
 
 depthcells <- st_read("output/modeling.gpkg", "dataframe", stringsAsFactors = TRUE)
-count(depthcells, ar5cover)
-count(depthcells, ar5cover, ar5soil)
-count(depthcells, dmkdepth)
+dplyr::count(depthcells, ar5cover)
+dplyr::count(depthcells, ar5cover, ar5soil)
+dplyr::count(depthcells, dmkdepth)
 depthcells |> 
   st_drop_geometry() |> 
   group_by(ar5cover) |> 
-  summarize(n = n(), depth_cm = mean(depth_cm))
+  dplyr::summarize(n = n(), depth_cm = mean(depth_cm))
 depthcells |> 
   st_drop_geometry() |> 
   filter(ar5cover %in% c(30,50,60)) |> 
   group_by(ar5cover, ar5soil) |> 
-  summarize(n = n(), depth_cm = mean(depth_cm))
+  dplyr::summarize(n = n(), depth_cm = mean(depth_cm))
 depthcells |> 
   st_drop_geometry() |> 
   filter(ar5cover == 60) |> 
   group_by(dmkdepth) |> 
-  summarize(n = n(), depth_cm = mean(depth_cm))
+  dplyr::summarize(n = n(), depth_cm = mean(depth_cm))
   
 # Representativeness of the sample ####
 # Representativeness cf. mapped peatland in the study area
@@ -179,7 +179,10 @@ df <- st_read("output/modeling.gpkg", "dataframe") |>
   as_tibble()
 metadata <- c("sourceProbe", "sourceGPR", "sourceWisen2021", "sourceMyrarkivet")
 auxiliary <- c("ar5cover", "ar5soil", "dmkdepth")
-sum(!complete.cases(df))
+df |> 
+  select(!any_of(c(metadata, auxiliary))) |> 
+  complete.cases() |> 
+  all()
 
 svg("output/exploratoryDataAnalysis-corr.svg", width = 12, height = 12)
 corrplot::corrplot(cor(select(df, !any_of(c(metadata, auxiliary)))), 

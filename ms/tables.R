@@ -30,7 +30,8 @@ tribble(
   "DTW20000", "Depth-to-water index, flow initiation area of 2 ha",
   "DTW40000", "Depth-to-water index, flow initiation area of 4 ha",
   "DTW80000", "Depth-to-water index, flow initiation area of 8 ha",
-  "DTW160000", "Depth-to-water index, flow initiation area of 16 ha") |> 
+  "DTW160000", "Depth-to-water index, flow initiation area of 16 ha",
+  "DMK", "DMK peat depth class, categorical with 3 levels") |> 
   write_csv("ms/tables/predictors.csv")
 
 # sessionInfo ####
