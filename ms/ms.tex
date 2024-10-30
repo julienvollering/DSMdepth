@@ -167,7 +167,7 @@ The study area has a diverse bedrock, with 32 \% alkali feltspat granite, 26 \% 
 The landscape within our delineation is classified as \emph{inland hills and mountains} \citep{simensenDiversityDistributionLandscape2021}.
 It is almost without human infrastructure, dominated by forest, and borders on a large nature reserve.
 The study area has a mean elevation of \unit{438\,m} above sea level (range 223--711, IQR 351--509), and its mean slope at \unit{10\,m} resolution is 10.8° (IQR 4.6--15.1°).
-In Norway's AR5 national land capability dataset \citep{ahlstromAR5Klassifikasjonssystem2019}, \unit{1.5\,km^{2}} (4.5 \%) of the study area is classified as mire --- defined as areas with mire vegetation and at least \unit{30\,cm} of peat depth.
+In Norway's AR5 national land capability dataset \citep{ahlstromAR5Klassifikasjonssystem2019}, \unit{1.5\,km^{2}} (4.5 \%) of the study area is classified as mire -- defined as areas with mire vegetation and at least \unit{30\,cm} of peat depth.
 
 At Ørskogfjellet we defined a study area of \unit{124\,km^{2}} which basically followed the footprint of the radiometric survey (Fig. \ref{fig:sites}a).
 According to the Geological Survey of Norway, bedrock in the area is 84 \% granitic gneiss, 11 \% granite, and 5 \% aluminium silicate gneiss (NGU, 1:250 000 dataset).
@@ -205,7 +205,7 @@ We navigated to the centers of the raster cells in the depth and occurrence samp
 For each depth sample location, we measured peat depth three times (at the vertices of a triangle with \unit{2\,m} sides) to get a more representative value for the \unit{10\,m} raster cell, and to dampen the effect of outlying measurements \citep{parryEvaluatingApproachesEstimating2014}.
 We used a metal probe pushed downward until resistance indicated the base of the peat column.
 Probe locations were adjusted up to \unit{20\,cm} if the base of the peat column seemed to be blocked by an obvious artifact.
-For each occurrence sample location, we recorded the presence or absence of peatland --- primarily by digging and examining the top \unit{20\,cm} of soil (where this was possible).
+For each occurrence sample location, we recorded the presence or absence of peatland -- primarily by digging and examining the top \unit{20\,cm} of soil (where this was possible).
 We judged whether the soil was a peat soil based on its density, texture, and color.
 Occasionally, when the soil itself was difficult to judge, we made our determination also based on the presence or absence of mire vegetation.
 Although peat soil is strictly defined by organic content (which we did not analyse), we believe our protocol produced reasonable determinations of presence or absence that would generally satisfy most of the varying definitions of peatland \citep{minasnyMappingMonitoringPeatland2023}.
@@ -224,7 +224,7 @@ Finally, we used the calculated wave velocity (\unit{0.0387\,m\,ns^{-1}}, \(R^2 
 
 At Ørskogfjellet we also measured peat depth in a sample of \unit{10\,m} raster cells, selected from the part of the study area classified in the AR5 dataset as mire.
 Before selecting locations, we determined a minimal sample size that would adequately capture the terrain and radiometric properties of the entire mire area.
-Specifically, we aimed to identify the size at which adding locations produced diminishing decreases in divergence between sample and population distributions --- i.e.~the elbow point in a curve of similarity between sample and population \citep{maloneMethodsImproveUtility2019}.
+Specifically, we aimed to identify the size at which adding locations produced diminishing decreases in divergence between sample and population distributions -- i.e.~the elbow point in a curve of similarity between sample and population \citep{maloneMethodsImproveUtility2019}.
 This approach has been found to identify sample sizes that correspond with diminishing returns in predictive model performance on external evaluation data \citep{sauretteDivergenceMetricsDetermining2023}.
 We defined a sequence of sample sizes (50--500) and for ten replicate samples at each size \citep[drawn by conditioned latin hypercube sampling,][]{minasnyConditionedLatinHypercube2006, roudierClhsPackageConditioned2011}, we calculated the mean Kullback-Leibler divergence between sample and population distributions \citep{maloneMethodsImproveUtility2019, sauretteDivergenceMetricsDetermining2023}.
 The variables in the divergence calculation were terrain slope and four radiometrics: potassium, thorium, uranium, and total count.
@@ -241,7 +241,7 @@ Adjusting for accessibility is justified because the smaller sample size that wo
 To adjust, we first restricted the sampling population to mire areas that were within an arbitrary cost distance of publicly-accessible roads.
 Cost distance was calculated using GRASS's \emph{r.walk} function, with friction costs defined by AR5 land classes \citep{GRASSv8-2}.
 After creating a feature space coverage sample with this restriction, we also inspected a map of the sample and substituted 16 inaccessible locations with accessible locations from the same or a nearby cluster.
-Our two accessibility adjustments increased the distance in standardized predictor space between sample locations and cluster centers by 78 \% (with respect to the ideal sample), but distance in our sample was still only 46 \% of the mean distance to cluster centers --- i.e., accessibility did not force locations far from cluster centers relative to the size of the clusters.
+Our two accessibility adjustments increased the distance in standardized predictor space between sample locations and cluster centers by 78 \% (with respect to the ideal sample), but distance in our sample was still only 46 \% of the mean distance to cluster centers -- i.e., accessibility did not force locations far from cluster centers relative to the size of the clusters.
 
 Field work at Ørskogfjellet was conducted in August 2023.
 We navigated to the centers of the raster cells in the sample using real time kinematic differential GNSS (Topcon Positioning Systems, USA), to ensure sub-meter positional accuracy.
@@ -252,7 +252,7 @@ To navigate the GPR transects, we placed flags at the cell centers of the sample
 At sampling locations crossed by a GPR transect, we arranged the manual probe positions along the transect (for better calibration of the GPR wave speed velocity), while other locations were probed in a triangular pattern around the cell center like at Skrimfjella.
 
 We processed the GPR data with Reflexw software (v.8.5, Sandmeier Scientific Software, Germany), applying a dewow filter, time-zero correction, bandpass filter, gain filter, and a dynamic correction that accounts for the non-vertical wave path between offset transmitter and receiver antennae.
-The last correction is important for the rough terrain antenna, which has an antenna separation (\unit{2.2\,m}) --- comparable to typical peat depths.
+The last correction is important for the rough terrain antenna, which has an antenna separation (\unit{2.2\,m}) -- comparable to typical peat depths.
 As with the data from Skrimfjella, we picked the base of the peat column from strong reflectors in the radargram, and calibrated wave velocity with manual probe measurements in a linear regression.
 The points in the regression were created by joining to each probe measurement the travel time of the nearest pick, but only if these were within \unit{2\,m} of each other.
 In total we had 78 calibration points along \unit{7.8\,km} of interpretable GPR traces (transect length exceeded because of extra GPR data).
@@ -385,7 +385,7 @@ For each of the seven surface water layers, we derived the depth-to-water index 
 
 \subsubsection{Peat depth class}
 
-We prepared one categorical predictor --- peat depth class --- from a historical national map dataset called \emph{DMK} \citep{ahlstromAR5Klassifikasjonssystem2019}.
+We prepared one categorical predictor -- peat depth class -- from a historical national map dataset called \emph{DMK} \citep{ahlstromAR5Klassifikasjonssystem2019}.
 The DMK peat depth classes are: \textless{} \unit{1\,m} (\emph{shallow}), \textgreater{} \unit{1\,m} (\emph{deep}), and \emph{unknown}.
 This dataset stems from field measurements made in 1964--2007 as part of a wider land cover mapping in Norway.
 The mapping was primarily for identifying agricultural and silvicultural resources, so it covers productive areas below the tree line and has greater coverage of peat depth class in peatlands judged to be arable or afforestable \citep{bjordalMarkslagsklassifikasjonOkonomiskKartverk2007, ahlstromAR5Klassifikasjonssystem2019}.
@@ -403,7 +403,7 @@ It is suited for use on relatively small training data sets and its predictions 
 Evaluating variable importance in a maximally-predictive model aligns with the aim of this study.
 
 RF by itself is not a spatial model, and it will only predict spatial structure in the outcome to the degree that the structure is captured by predictors.
-We considered using regression kriging --- a hybrid between non-spatial and spatial techniques that would be achieved by adding to the RF predictions a geostatistically-interpolated surface of RF residuals \citep{henglGenericFrameworkSpatial2004}.
+We considered using regression kriging -- a hybrid between non-spatial and spatial techniques that would be achieved by adding to the RF predictions a geostatistically-interpolated surface of RF residuals \citep{henglGenericFrameworkSpatial2004}.
 The spatial component in regression kriging often improves map accuracy compared to a non-spatial model \citep{beguinPredictingSoilProperties2017, lamichhaneDigitalSoilMapping2019, mollaMachineLearningGeostatistical2023}, but it can do so only if the spatial autocorrelation range in the non-spatial residuals is large compared to distances between samples and prediction locations \citep{henglGenericFrameworkSpatial2004, szaboMappingSoilHydraulic2019, takoutsingComparingPredictionPerformance2022}.
 If the outcome varies at fine scales and the samples are clustered in small parts of the study area, a spatial component will hardly improve overall map accuracy.
 We used semivariograms to assess the spatial structure in the residuals of the RF predictions, and found that (non-spatial) RF rather regression kriging was justified at both sites.
@@ -441,7 +441,7 @@ The performance of DSM must be evaluated with reference to a specific purpose \c
 In the absence of additional field work to collect a design-based independent validation set, we used a spatial cross-validation scheme to evaluate model performance \citep{wadouxSpatialCrossvalidationNot2021, meyerMachineLearningbasedGlobal2022}.
 Specifically, we used k-Means Nearest Neighbor Distance Matching (kNNDM), which creates cross-validation folds that mimic the spatial prediction task that is defined as the goal \citep{linnenbrinkKNNDMCVKfold2024}.
 In particular, kNNDM looks for the spatial assignment of training data to folds that minimizes the difference between two distributions: nearest neighbor distances between training and test locations in the cross-validation, and nearest neighbor distances between training and prediction locations for the model.
-That way, the spatial separation between folds is similar to the separation between training and prediction locations --- which increases the quality of the map accuracy estimate \citep{linnenbrinkKNNDMCVKfold2024}.
+That way, the spatial separation between folds is similar to the separation between training and prediction locations -- which increases the quality of the map accuracy estimate \citep{linnenbrinkKNNDMCVKfold2024}.
 For spatially clustered training data, this approach strikes a balance between the risk of optimistic metrics from random cross-validation and the risk of pessimistic metrics from other forms of spatial cross-validation \citep{wadouxSpatialCrossvalidationNot2021}.
 We implemented the kNNDM with the \emph{CAST} R package \citep[v.1.0.2,][]{meyerCASTPackageTraining2024}, setting prediction locations to all AR5 mire cells in the study area, and choosing a number of folds (5--20) that produced the best match between the two NND distributions.
 From the cross-validation we quantified \emph{Root Mean Squared Error} (accuracy, original scale), \emph{R\textsuperscript{2}} (correlation, standardized scale), and \emph{Lin's concordance correlation coefficient} (accuracy and correlation, standardized scale).
@@ -456,11 +456,11 @@ In other words, we tested whether our peatland-trained models of peat depth coul
 It is generally impractical to obtain good data for this purpose, because locations with non-zero peat depth outside of mapped peatland are unknown and relatively rare.
 For Skrimfjella, we had independent data from the arm of our sampling design that measured peatland occurrence outside of mapped mire areas.
 For Ørskogfjelle we did not have such data.
-Therefore, we first --- for both sites --- performed an evaluation with just our peat depth measurements, which included a fraction of locations not mapped as peatland.
+Therefore, we first -- for both sites -- performed an evaluation with just our peat depth measurements, which included a fraction of locations not mapped as peatland.
 For this evaluation we used the same spatial cross-validation folds as previously, but now we trained the models only on locations mapped as peatland (in the training folds), and evaluated them only on locations not mapped as peatland (in the test fold).
 In this way, we simulated the situation where a model trained on known peatland is used to predict peat depth outside the known peatland.
 From the cross-validation we quantified \emph{Root Mean Squared Error} and \emph{Mean Absolute Error}, and we tested the strength of the correlation between predicted and observed peat depth.
-Second --- for Skrimfjella --- we simply trained a model on all peat depth measurements and then used the independent occurrence dataset to calculate the area under the curve of the receiver operating characteristic, to evaluate the model's ability to discriminate between peat presence and absence.
+Second -- for Skrimfjella -- we simply trained a model on all peat depth measurements and then used the independent occurrence dataset to calculate the area under the curve of the receiver operating characteristic, to evaluate the model's ability to discriminate between peat presence and absence.
 Since DMK peat depth class is always undefined outside known peatlands, we evaluated models with two predictor configurations: terrain predictors alone or terrain and radiometric predictors together.
 
 \subsubsection{Model interpretation}
@@ -470,7 +470,7 @@ Global variable importance measures the influence of a given predictor on the ou
 Partial dependence plots depict the shape of the fitted relationship between a given predictor and the outcome.
 Both are useful for understanding the mechanisms behind the model's predictions and the roles of the predictors in the model.
 
-For both sites, we interpreted a model trained on a non-collinear subset of variables from the best performing predictor configuration --- because correlation between predictors degrades variable importance measures \citep{stroblConditionalVariableImportance2008, biauRandomForestGuided2016} and can produce misleading visualizations of predictor-outcome relationships \citep{biecekExplanatoryModelAnalysis2021, dwivediExplainableAIXAI2023}.
+For both sites, we interpreted a model trained on a non-collinear subset of variables from the best performing predictor configuration -- because correlation between predictors degrades variable importance measures \citep{stroblConditionalVariableImportance2008, biauRandomForestGuided2016} and can produce misleading visualizations of predictor-outcome relationships \citep{biecekExplanatoryModelAnalysis2021, dwivediExplainableAIXAI2023}.
 Specifically, we eliminated variables from the best performing predictor configuration to obtain a set with no pairwise Pearson correlation above 0.7.
 Thus, highly-correlated sets of predictors are represented by a single variable for the purposes of model interpretation.
 
