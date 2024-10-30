@@ -426,7 +426,7 @@ Specifically, we trained models with:
 \item
   terrain and DMK peat depth class (23 variables)
 \item
-  radiometric and terrain predictors (25 continuous variables)
+  terrain and radiometric predictors (25 continuous variables)
 \item
   all predictors (26 variables)
 \end{enumerate}
@@ -454,9 +454,9 @@ While the primary aim of the DSM was to predict peat depth within peatlands (whe
 In other words, we tested if predictions of deep peat indicated unmapped peatland occurrence in the wider landscape.
 It is practically difficult to obtain suitable data for this problem, because locations with non-zero peat depth outside of mapped peatland are unknown and relatively rare.
 Therefore, we made do with the same data that we used for the peat depth predictions, which included a fraction of locations not mapped as peatland.
-We used the same spatial cross-validation as for the peat depth predictions, but this time we trained the models only on locations mapped as peatland, and evaluated them only on locations not mapped as peatland.
+We used the same spatial cross-validation folds, but this time we trained the models only on locations mapped as peatland (in the training folds), and evaluated them only on locations not mapped as peatland (in the test fold).
 In this way, we simulated the situation where a model trained on known peatland is used to predict peat depth outside the known peatland.
-We evaluated models with radiometric and terrain predictors, or terrain predictors alone (since DMK peat depth class is always undefined outside known peatlands).
+Since DMK peat depth class is always undefined outside known peatlands, we evaluated two predictor configurations: terrain predictors alone or terrain and radiometric predictors.
 From the cross-validation we quantified \emph{Root Mean Squared Error} and \emph{Mean Absolute Error}, and we tested the strength of the correlation between predicted and observed peat depth.
 
 \subsubsection{Model interpretation}
