@@ -231,7 +231,9 @@ The categorical predictor was peat depth class, from a national map dataset.
 Complete descriptions of predictors follow below.
 ```{r preds, echo=FALSE, message=FALSE}
 df <- readr::read_csv("tables/predictors.csv")
-knitr::kable(df, booktabs = FALSE, caption = "Candidate predictors of peat depth.")
+knitr::kable(df, booktabs = FALSE, vline = "", linesep = "",
+             col.names = c("Name", "Description"),
+             caption = "Candidate predictors of peat depth.")
 ```
 
 ### Radiometric
@@ -365,7 +367,7 @@ We calculated variable importance with the *vip* R package (v.0.4.1), by three d
 *Permutation* values were obtained from ten iterations, with RMSE as the performance measure.
 
 We calculated partial dependence with the *pdp* R package [v.0.8.1, @greenwellPdpPackageConstructing2017].
-For the top six most important variables, we plotted both partial dependence and individual conditional expectation (ICE), to show the average effect of the predictor on the outcome and the variation in the effect across observations, repectively [@goldsteinPeekingBlackBox2015].
+For the top six most important variables, we plotted both partial dependence and individual conditional expectation (ICE), to show the average effect of the predictor on the outcome and the variation in the effect across observations, respectively [@goldsteinPeekingBlackBox2015].
 Non-parallel ICE lines indicate the presence of interactions between predictors.
 
 # Results

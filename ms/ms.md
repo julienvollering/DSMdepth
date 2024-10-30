@@ -233,60 +233,35 @@ Complete descriptions of predictors follow below.
 
 \caption{(\#tab:preds)Candidate predictors of peat depth.}
 \centering
-\begin{tabular}[t]{l|l}
+\begin{tabular}[t]{ll}
 \hline
-name & description\\
+Name & Description\\
 \hline
 radK & Potassium ground concentration\\
-\hline
 radTh & Thorium ground concentration\\
-\hline
 radU & Uranium ground concentration\\
-\hline
 radTC & Total count of gamma radiation\\
-\hline
 elevation & Mean elevation\\
-\hline
 slope1m & Mean of 1 m slope\\
-\hline
 TPI1m & Mean of 1 m topographic position index\\
-\hline
 TRI1m & Mean of 1 m terrain ruggedness index\\
-\hline
 roughness1m & Mean of 1 m roughness\\
-\hline
 slope10m & 10 m slope\\
-\hline
 TPI10m & 10 m topographic position index\\
-\hline
 TRI10m & 10 m terrain ruggedness index\\
-\hline
 roughness10m & 10 m roughness\\
-\hline
 MRVBF & Multi-resolution valley bottom flatness\\
-\hline
 TWI5m & Mean of 5 m topographic wetness index\\
-\hline
 TWI10m & 10 m topographic wetness index\\
-\hline
 TWI20m & Bilinear interpolation of 20 m topographic wetness index\\
-\hline
 TWI50m & Bilinear interpolation of 50 m topographic wetness index\\
-\hline
 DTW2500 & Depth-to-water index, flow initiation area of 0.25 ha\\
-\hline
 DTW5000 & Depth-to-water index, flow initiation area of 0.5 ha\\
-\hline
 DTW10000 & Depth-to-water index, flow initiation area of 1 ha\\
-\hline
 DTW20000 & Depth-to-water index, flow initiation area of 2 ha\\
-\hline
 DTW40000 & Depth-to-water index, flow initiation area of 4 ha\\
-\hline
 DTW80000 & Depth-to-water index, flow initiation area of 8 ha\\
-\hline
 DTW160000 & Depth-to-water index, flow initiation area of 16 ha\\
-\hline
 DMK & DMK peat depth class, categorical with 3 levels\\
 \hline
 \end{tabular}
@@ -423,7 +398,7 @@ We calculated variable importance with the *vip* R package (v.0.4.1), by three d
 *Permutation* values were obtained from ten iterations, with RMSE as the performance measure.
 
 We calculated partial dependence with the *pdp* R package [v.0.8.1, @greenwellPdpPackageConstructing2017].
-For the top six most important variables, we plotted both partial dependence and individual conditional expectation (ICE), to show the average effect of the predictor on the outcome and the variation in the effect across observations, repectively [@goldsteinPeekingBlackBox2015].
+For the top six most important variables, we plotted both partial dependence and individual conditional expectation (ICE), to show the average effect of the predictor on the outcome and the variation in the effect across observations, respectively [@goldsteinPeekingBlackBox2015].
 Non-parallel ICE lines indicate the presence of interactions between predictors.
 
 # Results
