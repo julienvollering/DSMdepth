@@ -459,50 +459,25 @@ Non-parallel ICE lines indicate the presence of interactions between predictors.
 
 \section{Results}
 
-Include a 12cm width figure of Nikolaus Copernicus from \href{https://en.wikipedia.org/wiki/File:Nikolaus_Kopernikus.jpg}{Wikipedia} with caption using R Markdown (Fig. \ref{fig:portrait}).
+We obtained depth measurements for 372 cells (XX \% of mapped peatland) at Skrimfjella and 1889 cells (XX \% of mapped peatland) at Ørskogfjellet.
+The mean depths of these \unit{10\,m} cells differed by only \unit{6\,cm} between Skrimfjella and Ørskogfjellet (Table \ref{tab:depthsByClass}).
 
-\begin{figure}
-\includegraphics[width=8.3cm]{Nikolaus_Kopernikus} \caption{one column figure}\label{fig:portrait}
-\end{figure}
-
-\subsection{Tables}
-
-You can add \LaTeX table in an R Markdown document to meet the template requirements (Table \ref{tab:latextable}).
-
-\begin{table}[t]
-\caption{TEXT}
-\begin{tabular}{l c r}
-\tophline
-
-a & b & c \\
-\middlehline
-1 & 2 & 3 \\
-
-\bottomhline
+\begin{table}[tbp]
+\caption{Mean peat depth (cm) in \unit{10\,m} cells at Skrimfjella and Ørskogfjellet. The cells are also shown stratified by AR5 land class and DMK peat depth class.}
+\begin{tabular}{llllllll}
+\hline
+    &                            & \multicolumn{3}{c}{Skrimfjella} & \multicolumn{3}{c}{Ørskogfjellet} \\ \cline{3-8} 
+    &                            & n        & \%      & depth      & n          & \%      & depth      \\ \hline
+    &                            & 372      & 100     & 119        & 1889       & 100     & 125        \\
+AR5 & Fully cultivated           &          &         &            & 21         & 1       & 30         \\
+    & Forest                     & 52       & 14      & 65         & 272        & 14      & 71         \\
+    & Open firm ground           & 19       & 5       & 98         & 134        & 7       & 39         \\
+    & Peatland                   & 301      & 81      & 130        & 1451       & 77      & 145        \\
+DMK & deep (\textgreater 100 cm) & 94       & 25      & 100        & 659        & 35      & 219        \\
+    & shallow (\textless 100 cm) & 6        & 2       & 50         & 839        & 44      & 82         \\
+    & unknown                    & 272      & 73      & 127        & 391        & 21      & 59         \\ \hline
 \end{tabular}
-\belowtable{Table Footnotes}
-\label{tab:latextable}
-\end{table}
-
-Or you can use markdown to create the table with booktabs = FALSE (\url{https://github.com/rstudio/rticles/issues/558\#issuecomment-1907981541}).
-
-See Table \ref{tab:test}.
-
-\begin{table}
-
-\caption{\label{tab:test}My caption}
-\centering
-\begin{tabular}[t]{l|r|r|r}
-\hline
-  & mpg & cyl & disp\\
-\hline
-Mazda RX4 & 21.0 & 6 & 160\\
-\hline
-Mazda RX4 Wag & 21.0 & 6 & 160\\
-\hline
-Datsun 710 & 22.8 & 4 & 108\\
-\hline
-\end{tabular}
+\label{tab:depthsByClass}
 \end{table}
 
 \section{Discussion}
