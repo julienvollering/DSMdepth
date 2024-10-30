@@ -4,12 +4,15 @@ library(sf)
 
 depthpts <- read_csv("data/Skrim/depth_all.csv") |> 
   st_as_sf(coords = c('X', 'Y'), crs = 25833)
+occpts <- st_read("data/Skrim/Skrim-site.gpkg", "occurrence")
 
 # Raster origo and resolution ####
 radK10m <- rast("output/Skrim/predictors.tif")[[1]] 
 plot(radK10m)
 
-# Depth per cell ####
+# Depth frame ####
+
+## Depth per cell ####
 
 crs(depthpts) == crs(radK10m)
 depthcells <- extract(radK10m, depthpts, cells = TRUE, xy = TRUE, ID = FALSE)
@@ -44,18 +47,18 @@ celldepth <- depth |>
   select(-cell, -pts, -depthMean, -depthIDW) |> 
   st_as_sf(coords = c('x','y'), crs = st_crs(radK10m))
 
-# Write cell depths ####
+## Write cell depths ####
 
 write_sf(celldepth, "output/Skrim/modeling.gpkg", layer="celldepth", append = FALSE)
 
-# Join predictors ####
+## Join predictors ####
 
 predictors <- rast("output/Skrim/predictors.tif")
 frame <- celldepth |> 
   bind_cols(extract(predictors, celldepth, ID=FALSE, cell=FALSE)) |> 
   select(depth_cm, starts_with("source"), geometry, everything())
 
-# Join auxiliary attributes ####
+## Join auxiliary attributes ####
 
 ar5 <- st_read("data/Skrim/Basisdata_3303_Kongsberg_25832_FKB-AR5_FGDB.gdb", 
                layer="fkb_ar5_omrade") |> 
@@ -76,6 +79,37 @@ frame <- st_join(frame, dmk[,"myr"]) |>
 frame <- frame |> 
   mutate(across(.cols = c(ar5cover, ar5soil, dmkdepth), .fns = as.factor))
 
-# Write data frame ####
+## Write data frame ####
 
 write_sf(frame, "output/Skrim/modeling.gpkg", layer="dataframe", append = FALSE)
+
+# Occurrence frame ####
+
+## Occurrence per cell ####
+
+crs(occpts) == crs(radK10m)
+occcells <- extract(radK10m, occpts, cells = TRUE, xy = TRUE, ID = FALSE)
+occcells %>% 
+  pull(cell) %>% 
+  duplicated() %>% 
+  any()
+
+## Join predictors ####
+
+frame.occ <- occpts |> 
+  select(occurrence = peat) %>% 
+  bind_cols(extract(predictors, occpts, ID=FALSE, cell=FALSE))
+
+## Join auxiliary attributes ####
+
+frame.occ <- st_join(frame.occ, ar5[,c("arealtype", "grunnforhold")]) |> 
+  rename(ar5cover = arealtype, ar5soil = grunnforhold)
+frame.occ %>% 
+  st_drop_geometry() %>% 
+  group_by(ar5cover, ar5soil) %>%
+  count()
+
+## Write data frame ####
+
+write_sf(frame.occ, "output/Skrim/modeling.gpkg", layer="dataframe.occurrence", 
+         append = FALSE)

@@ -132,11 +132,12 @@ The AR5 dataset counts \unit{15.3\,km^{2}} (12.4 %) of the study area as mire.
 
 ## Peat depth measurements
 
-At both study sites, our measurements of peat depth were made for the purpose of training a Random Forest model of peat depth, and we designed our sampling with this in mind [@brusSamplingDigitalSoil2019]. 
+At both study sites, our measurements of peat depth were made for the purpose of training a Random Forest (RF) model of peat depth, and we designed our sampling with this in mind [@brusSamplingDigitalSoil2019]. 
 Broadly, we aimed for a sample that was representative of the predictor space defined by the most important predictors of peat depth [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
 A sample that preserves the properties of the multivariate distribution of predictor and outcome variables is most likely to maintain any complex, non-linear relationships that exist in the population while avoiding spurious ones [@brusSamplingDigitalSoil2019].
 We chose for our sampling and modelling a spatial resolution of \unit{10\,m}.
 We considered this a reasonable compromise between digital terrain model (DTM) resolution (\unit{1\,m}) and small mires on the one hand, and airborne radiometric resolution (\unit{50\,m}) on the other.
+The point measurements of peat depth described below were ultimately aggregated to \unit{10\,m} resolution by taking the mean of point values within each cell, inversely weighted by their distances to the cell center.
 
 ### Skrimfjella
 
@@ -185,7 +186,7 @@ Next, we fitted a asymptotic regression of mean divergence on sample size, and i
 Through this procedure we found that we could adequately capture the population distribution with a sample of 160 locations.
 
 To choose 160 locations, we performed feature space coverage sampling.
-This approach has been found to produce higher accuracy in Random Forest models than conditioned latin hypercube sampling [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
+This approach has been found to produce higher accuracy in RFs than conditioned latin hypercube sampling [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
 Feature space coverage sampling aims to disperse samples as uniformly as possible in multidimensional predictor space, and is implemented by choosing locations that are closest to cluster centers in a k-means clustering of the standardized predictor space [@brusSamplingDigitalSoil2019].
 Feature space coverage sampling works best when all dimensions are important predictors of the outcome [@wadouxSamplingDesignOptimization2019], and we used the same five predictors that we used to choose sample size: terrain slope and four radiometrics.
 The radiometric variables were downscaled to \unit{10\,m} resolution with cubic B-spline resampling in QGIS [v.3, @QGISsoftware].
@@ -290,7 +291,7 @@ We rasterized the peat depth class attribute to our \unit{10\,m} grid.
 
 ### Modelling approach
 
-We used Random Forests (RF) to predict peat depth at both sites.
+We used RF to predict peat depth at both sites.
 RF is a tree-based ensemble machine learning algorithm that builds many decision trees on bootstrapped samples of the training data, randomly subsets predictors in the trees, and averages the predictions of the trees [@breimanRandomForests2001].
 We chose RF because it can handle complex interactions between predictors, is robust to overfitting, and generally shows higher performance in DSM applications than other algorithms [@beguinPredictingSoilProperties2017; @nussbaumEvaluationDigitalSoil2018; @lamichhaneDigitalSoilMapping2019].
 It is suited for use on relatively small training data sets and its predictions can be interrogated to learn about predictor importance [@khaledianSelectingAppropriateMachine2020].
@@ -336,14 +337,17 @@ Moreover, the quality of uncertainty estimates should be evaluated, just as the 
 Therefore, we produced prediction intervals with quantile regression forests [@meinshausenQuantileRegressionForests2006], and used the same spatial cross-validation to evaluate the prediction interval coverage probability [@shresthaMachineLearningApproaches2006].
 The quantile regression forests were trained with predictor configuration that showed the highest performance at each site (under the assumption that these models would be put into production) and we extracted 90 % prediction intervals.
 
-While the primary aim of the DSM was to predict peat depth within peatlands (where peat > 30 cm), we also performed a minimal evaluation of our ability to estimate peat depth outside of mapped peatland.
-In other words, we tested if predictions of deep peat indicated unmapped peatland occurrence in the wider landscape.
-It is practically difficult to obtain suitable data for this problem, because locations with non-zero peat depth outside of mapped peatland are unknown and relatively rare.
-Therefore, we made do with the same data that we used for the peat depth predictions, which included a fraction of locations not mapped as peatland.
-We used the same spatial cross-validation folds, but this time we trained the models only on locations mapped as peatland (in the training folds), and evaluated them only on locations not mapped as peatland (in the test fold).
+While the primary aim of the DSM was to predict peat depth within mapped peatlands (where peat depth > 30 cm), we also performed a minimal evaluation of our ability to estimate peat depth or occurrence outside of mapped peatland.
+In other words, we tested whether our peatland-trained models of peat depth could indicate which other locations were most likely to have peat.
+It is generally impractical to obtain good data for this purpose, because locations with non-zero peat depth outside of mapped peatland are unknown and relatively rare.
+For Skrimfjella, we had independent data from the arm of our sampling design that measured peatland occurrence outside of mapped mire areas.
+For Ørskogfjelle we did not have such data.
+Therefore, we first --- for both sites --- performed an evaluation with just our peat depth measurements, which included a fraction of locations not mapped as peatland.
+For this evaluation we used the same spatial cross-validation folds as previously, but now we trained the models only on locations mapped as peatland (in the training folds), and evaluated them only on locations not mapped as peatland (in the test fold).
 In this way, we simulated the situation where a model trained on known peatland is used to predict peat depth outside the known peatland.
-Since DMK peat depth class is always undefined outside known peatlands, we evaluated two predictor configurations: terrain predictors alone or terrain and radiometric predictors.
 From the cross-validation we quantified *Root Mean Squared Error* and *Mean Absolute Error*, and we tested the strength of the correlation between predicted and observed peat depth.
+Second --- for Skrimfjella --- we simply trained a model on all peat depth measurements and then used the independent occurrence dataset to calculate the area under the curve of the receiver operating characteristic, to evaluate the model's ability to discriminate between peat presence and absence.
+Since DMK peat depth class is always undefined outside known peatlands, we evaluated models with two predictor configurations: terrain predictors alone or terrain and radiometric predictors together.
 
 ### Model interpretation
 
