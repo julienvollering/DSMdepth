@@ -23,6 +23,9 @@ probeclean <- probe |>
   filter(!(from == "dgps2" & ptname == 276 & comment == "fyllmasse, ikke torv")) |> 
   filter(!(from == "dgps2" & ptname == 251 & comment == "road, fyllmasse paa veg"))
 
+probe |> 
+  filter(grepl("plus|\\+", comment, ignore.case = TRUE))
+
 arrange(probeclean, desc(HRMS))
 
 # GPR data ####

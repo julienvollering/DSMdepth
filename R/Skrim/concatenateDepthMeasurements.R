@@ -12,6 +12,9 @@ probe <- pivot_longer(probe, cols = starts_with("probe"),
                       values_to = "depth_cm")
 filter(probe, is.na(depth_cm)) 
 
+probe |> 
+  filter(grepl("plus|\\+", note))
+
 # GPR data ####
 
 ## Calibrate wave velocity ####

@@ -159,6 +159,7 @@ We navigated to the centers of the raster cells in the depth and occurrence samp
 For each depth sample location, we measured peat depth three times (at the vertices of a triangle with \unit{2\,m} sides) to get a more representative value for the \unit{10\,m} raster cell, and to dampen the effect of outlying measurements [@parryEvaluatingApproachesEstimating2014].
 We used a metal probe pushed downward until resistance indicated the base of the peat column.
 Probe locations were adjusted up to \unit{20\,cm} if the base of the peat column seemed to be blocked by an obvious artifact.
+A single probe measurement was right-censored because the peat column was deeper than the probe.
 For each occurrence sample location, we recorded the presence or absence of peatland -- primarily by digging and examining the top \unit{20\,cm} of soil (where this was possible).
 We judged whether the soil was a peat soil based on its density, texture, and color.
 Occasionally, when the soil itself was difficult to judge, we made our determination also based on the presence or absence of mire vegetation.
@@ -200,6 +201,7 @@ Our two accessibility adjustments increased the distance in standardized predict
 Field work at Ørskogfjellet was conducted in August 2023.
 We navigated to the centers of the raster cells in the sample using real time kinematic differential GNSS (Topcon Positioning Systems, USA), to ensure sub-meter positional accuracy.
 At each location we measured peat depth three times by manual probing, with probe locations spaced approximately \unit{2.5\,m} apart.
+For a tiny fraction of these measurements (5 total), it was not possible to reach the base of the peat column, and a right-censored depth was recorded. 
 In areas with dense sampling locations, we also measured peat depth with GPR along snaking transects passing through the centers of the sampling cells (seven transects, \unit{6.2\,km} total length).
 We used the same GPR system as at Skrimfjella, but with a \unit{100\,MHz} Malå rough terrain antenna (Guideline Geo AB, Sweden) at some transects.
 To navigate the GPR transects, we placed flags at the cell centers of the sample locations, and used a handheld GNSS receiver to guide the GPR operator.
