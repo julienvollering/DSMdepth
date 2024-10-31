@@ -195,7 +195,7 @@ This function defines the environmental space as a two-dimensional convex hull a
 Elevation was extracted from the \unit{10\,m} national DTM, slope calculated in degrees, and potassium ground concentration downscaled with bilinear resampling.
 We set a target sample size of 100, excluded the top and bottom percentile from the convex hull, and with these parameters \emph{eSample} returned 105 raster cells.
 
-In addition to the peat depth locations, we had another arm of our sampling design for measuring peatland occurrence, as binary variable.
+In addition to the peat depth locations, we had another arm of our sampling design for measuring peatland occurrence, as a binary variable.
 We wanted to measure peatland occurrence outside of mapped mire areas because the AR5 dataset is known to underestimate peatland coverage \citep[especially in forests,][]{brynLandCoverNorway2018}, and because airborne radiometrics may help identify unmapped peatland \citep{gatisMappingUplandPeat2019, olearyDigitalSoilMapping2022}.
 The occurrence locations were sampled from the part of the study area that (1) was mapped as something other than mire in the AR5 database and (2) had a slope \textless{} 20°.
 We performed environmentally systematic sampling of this population with the same procedure as for the depth locations, and \emph{eSample} returned 106 raster cells.
@@ -228,7 +228,7 @@ Before selecting locations, we determined a minimal sample size that would adequ
 Specifically, we aimed to identify the size at which adding locations produced diminishing decreases in divergence between sample and population distributions -- i.e.~the elbow point in a curve of similarity between sample and population \citep{maloneMethodsImproveUtility2019}.
 This approach has been found to identify sample sizes that correspond with diminishing returns in predictive model performance on external evaluation data \citep{sauretteDivergenceMetricsDetermining2023}.
 We defined a sequence of sample sizes (50--500) and for ten replicate samples at each size \citep[drawn by conditioned latin hypercube sampling,][]{minasnyConditionedLatinHypercube2006, roudierClhsPackageConditioned2011}, we calculated the mean Kullback-Leibler divergence between sample and population distributions \citep{maloneMethodsImproveUtility2019, sauretteDivergenceMetricsDetermining2023}.
-The variables in the divergence calculation were terrain slope and four radiometrics: potassium, thorium, uranium, and total count.
+The predictors in the divergence calculation were terrain slope and four radiometrics: potassium, thorium, uranium, and total count.
 Next, we fitted a asymptotic regression of mean divergence on sample size, and identified the sample size at which the curve reached 95 \% of the fitted asymptote.
 Through this procedure we found that we could adequately capture the population distribution with a sample of 160 locations.
 
@@ -236,7 +236,7 @@ To choose 160 locations, we performed feature space coverage sampling.
 This approach has been found to produce higher accuracy in RFs than conditioned latin hypercube sampling \citep{wadouxSamplingDesignOptimization2019, maComparisonConditionedLatin2020}.
 Feature space coverage sampling aims to disperse samples as uniformly as possible in multidimensional predictor space, and is implemented by choosing locations that are closest to cluster centers in a k-means clustering of the standardized predictor space \citep{brusSamplingDigitalSoil2019}.
 Feature space coverage sampling works best when all dimensions are important predictors of the outcome \citep{wadouxSamplingDesignOptimization2019}, and we used the same five predictors that we used to choose sample size: terrain slope and four radiometrics.
-The radiometric variables were downscaled to \unit{10\,m} resolution with cubic B-spline resampling in QGIS \citep[v.3,][]{QGISsoftware}.
+The radiometric predictors were downscaled to \unit{10\,m} resolution with cubic B-spline resampling in QGIS \citep[v.3,][]{QGISsoftware}.
 We adjusted the feature space coverage sampling to ensure that locations were accessible within time constraints, and assessed how this changed our sample from an ideal feature space coverage sample.
 Adjusting for accessibility is justified because the smaller sample size that would result if accessibility were ignored can degrade model accuracy as much or more as deviations from ideal sampling designs \citep{wadouxSamplingDesignOptimization2019, maComparisonConditionedLatin2020}.
 To adjust, we first restricted the sampling population to mire areas that were within an arbitrary cost distance of publicly-accessible roads.
@@ -334,13 +334,13 @@ The \unit{10\,m} resolution predictors from this survey were identical to the la
 
 \subsubsection{Terrain}
 
-For terrain-derived variables, we obtained \unit{1\,m} resolution DTMs from the Norwegian Mapping Authority.
+For terrain-derived predictors, we obtained \unit{1\,m} resolution DTMs from the Norwegian Mapping Authority.
 The DTM for Skrimfjella was produced from airborne laser scanning surveys in 2015 and 2022, with laser point density of \unit{5\,pts\,m^{-2}}.
 For Ørskogfjellet, the DTM was produced from a 2015 survey with \unit{2\,pts\,m^{-2}}.
 Where necessary, DTMs were resampled to the coordinate reference system of the radiometric data.
 
 We used the \emph{terra} R package to calculate from the DTMs: slope, topographic position index (difference from mean of eight neighbors), terrain ruggedness index (mean of absolute differences from eight neighbors), and roughness (range in the nine-cell neighborhood).
-These variables were derived at two scales to produce different predictors; we either calculated from \unit{1\,m} DTM resolution and then aggregated, or aggregated to \unit{10\,m} DTM resolution and then calculated the indices.
+These were derived at two scales to produce eight different predictors; we either calculated from \unit{1\,m} DTM resolution and then aggregated, or aggregated to \unit{10\,m} DTM resolution and then calculated the indices.
 This kind of multiscale feature engineering of land surface parameters has been found to improve machine learning predictions of soil properties \citep{millerImpactMultiscalePredictor2015, dornikOptimalScalingPredictors2022, newmanAssessingSpatiallyHeterogeneous2023}.
 We know that peat depth tends to vary at fine scales in Norway, which is why we chose \unit{1\,m} and \unit{10\,m} resolutions \citep{maxwellLandsurfaceParametersSpatial2022}.
 We also calculated the the Multi-Resolution Valley Bottom Flatness index, which indicates the degree of valley bottom flatness at a given location via a multiscale algorithm \citep{gallantMultiresolutionIndexValley2003}.
@@ -398,7 +398,7 @@ Specifically, we trained models with:
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  only DMK peat depth class (2 binary indicator variables from 3 levels)
+  only DMK peat depth class (2 indicator variables from 3 levels)
 \item
   only terrain (21 continuous variables)
 \item
@@ -406,7 +406,7 @@ Specifically, we trained models with:
 \item
   terrain and radiometric predictors (25 continuous variables)
 \item
-  all predictors (26 variables)
+  all predictors (27 variables)
 \end{enumerate}
 
 These different configurations simulate different scenarios of data availability that are common in Norway or internationally.
@@ -483,6 +483,16 @@ DMK & deep (\textgreater 100 cm) & 94       & 25      & 100        & 659        
 \end{tabular}
 \label{tab:depthsByClass}
 \end{table}
+
+None of the models were able to predict peat depth across the study areas with high accuracy (Fig. \ref{fig:modelMetrics}).
+For Skrimfjella the best model achieved a concordance correlation coefficient of 0.3, an \emph{R\textsuperscript{2}} of 0.34, and an RMSE of \unit{78\,cm}.
+For Ørskogfjellet, the same values were 0.39, 0.33, and \unit{75\,cm}, so the best model at Ørskogfjellet was slightly more accurate than the best model at Skrimfjella.
+
+\begin{figure}
+\centering
+\includegraphics{figures/modelmetrics.pdf}
+\caption{\label{fig:modelMetrics}Performance of models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error.}
+\end{figure}
 
 \section{Discussion}
 

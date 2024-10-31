@@ -208,17 +208,17 @@ plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>%
       .metric == "rsq" ~ "R-squared",
       .metric == "rmse" ~ "RMSE"),
     model = case_when(
-      model == "DMK" ~ "DMK class (1)",
+      model == "DMK" ~ "DMK class (2)",
       model == "Terrain" ~ "terrain (21)",
-      model == "TerrainDMK" ~ "terrain + DMK class (22)",
+      model == "TerrainDMK" ~ "terrain + DMK class (23)",
       model == "RadiometricTerrain" ~ "radiometric + terrain (25)",
-      model == "RadiometricTerrainDMK" ~ "all predictors (26)"),
+      model == "RadiometricTerrainDMK" ~ "all predictors (27)"),
     model = fct_relevel(model,
-                        "DMK class (1)",
+                        "DMK class (2)",
                         "terrain (21)",
-                        "terrain + DMK class (22)",
+                        "terrain + DMK class (23)",
                         "radiometric + terrain (25)",
-                        "all predictors (26)"))
+                        "all predictors (27)"))
 str(plotting)
 
 g1 <- ggplot(plotting) +
