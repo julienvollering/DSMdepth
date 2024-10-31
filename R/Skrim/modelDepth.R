@@ -22,6 +22,7 @@ predictorspts <- predictors |>
 predpts <- predictorspts[predictivedomain,] |> 
   st_transform(st_crs(frame))
 st_crs(frame) == st_crs(predpts)
+nrow(frame)/nrow(predpts)
 
 set.seed(123)
 predptssample <- slice_sample(predpts, n=1e3)

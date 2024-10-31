@@ -374,8 +374,10 @@ Non-parallel ICE lines indicate the presence of interactions between predictors.
 
 # Results
 
-We obtained depth measurements for 372 cells (XX % of mapped peatland) at Skrimfjella and 1889 cells (XX % of mapped peatland) at Ørskogfjellet.
-The mean depths of these \unit{10\,m} cells differed by only \unit{6\,cm} between Skrimfjella and Ørskogfjellet (Table \ref{tab:depthsByClass}).
+We obtained depth measurements for 372 cells at Skrimfjella (area equivalent to 2.4 % of mapped peatland) and 1878 cells at Ørskogfjellet (area equivalent to 1.2 % of mapped peatland).
+Roughly 80 % of these \unit{10\,m} cells were within mapped peatland, and the remainder in forest, open upland, or farmland (Table \ref{tab:depthsByClass}).
+Coverage of DMK peat depth classes was higher at Ørskogfjellet than at Skrimfjella (79 % versus 27 % of cells), and at Ørskogfjellet the *deep* and *shallow* classes showed a larger difference in measured depth.
+Overall mean peat depths were similar at Skrimfjella and Ørskogfjellet:  \unit{119\,cm} and \unit{126\,cm}, respectively. 
 
 ```{r depthsByClass, echo=FALSE, results='asis'}
 depthsByClass <- readr::read_file("tables/depthsByClass.tex")
