@@ -211,13 +211,13 @@ plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>%
       model == "DMK" ~ "DMK class (2)",
       model == "Terrain" ~ "terrain (21)",
       model == "TerrainDMK" ~ "terrain + DMK class (23)",
-      model == "RadiometricTerrain" ~ "radiometric + terrain (25)",
+      model == "RadiometricTerrain" ~ "terrain + radiometric (25)",
       model == "RadiometricTerrainDMK" ~ "all predictors (27)"),
     model = fct_relevel(model,
                         "DMK class (2)",
                         "terrain (21)",
                         "terrain + DMK class (23)",
-                        "radiometric + terrain (25)",
+                        "terrain + radiometric (25)",
                         "all predictors (27)"))
 str(plotting)
 
@@ -266,7 +266,14 @@ skrim.rank <- skrim %>%
   group_by(Variable) %>% 
   summarize(Imp.median = median(Importance))
 
-g1 <- left_join(orskog, orskog.rank, by = join_by(Variable)) %>% 
+plot.orskog <- left_join(orskog, orskog.rank, by = join_by(Variable))
+labs.orskog <- plot.orskog |> 
+  distinct(Variable, removed, Imp.median) |>
+  replace_na(list(removed = "")) |>
+  arrange(Imp.median) |> 
+  pull(removed) |> 
+  stringr::str_wrap(width = 40)
+g1 <- plot.orskog %>% 
   mutate(Variable = case_when(
     Variable == "dmkdepth_grunn.myr" ~ "DMK_shallow",
     Variable == "dmkdepth_unknown" ~ "DMK_unknown",
@@ -277,15 +284,27 @@ g1 <- left_join(orskog, orskog.rank, by = join_by(Variable)) %>%
                group = type,
                fill = type),
            position = position_dodge2()) +
+  scale_x_discrete(sec.axis = dup_axis(labels = labs.orskog)) +
   coord_flip() +
   scale_fill_discrete(labels = c(firm = "FIRM", 
                                   perm.vip = "permutation", 
                                   shap = "Shapley")) +
   theme_minimal() +
   theme(axis.title.y = element_blank(),
-        legend.title = element_blank())
+        legend.title = element_blank(),
+        axis.text.y.right = element_text(size = 8, color = "grey50"),
+        legend.position = "inside",
+        legend.position.inside = c(1.2, 0.85)) + 
+  guides(fill = guide_legend(reverse = TRUE))
 
-g2 <- left_join(skrim, skrim.rank, by = join_by(Variable)) %>% 
+plot.skrim <- left_join(skrim, skrim.rank, by = join_by(Variable))
+labs.skrim <- plot.skrim |> 
+  distinct(Variable, removed, Imp.median) |>
+  replace_na(list(removed = "")) |>
+  arrange(Imp.median) |> 
+  pull(removed) |> 
+  stringr::str_wrap(width = 40)
+g2 <- plot.skrim %>% 
   mutate(Variable = case_when(
     Variable == "dmkdepth_grunn" ~ "DMK_shallow",
     Variable == "dmkdepth_unknown" ~ "DMK_unknown",
@@ -296,20 +315,20 @@ g2 <- left_join(skrim, skrim.rank, by = join_by(Variable)) %>%
                group = type,
                fill = type),
            position = position_dodge2()) +
+  scale_x_discrete(sec.axis = dup_axis(labels = labs.skrim)) +
   coord_flip() +
-  scale_fill_discrete(labels = c(firm = "FIRM", 
-                                 perm.vip = "permutation", 
-                                 shap = "Shapley")) +
+  guides(fill = "none") +
   theme_minimal() +
   theme(axis.title.y = element_blank(),
-        legend.title = element_blank())
+        legend.title = element_blank(),
+        axis.text.y.right = element_text(size = 8, color = "grey50"))
 
 ## Combined ####
 
-g1 + g2 + plot_layout(ncol = 1, guides = 'collect', axes = 'collect') +
+g1 + g2 + plot_layout(ncol = 1, axes = 'collect') +
   plot_annotation(tag_levels = 'a', tag_prefix = '(', tag_suffix = ')') 
 ggsave(filename = 'variable_importance.pdf', path = "ms/figures",
-       width =(210-30)/1.5, height = (240-40)/1.25, units = 'mm') #copernicus.cls page 210x240
+       width =(210-30), height = (240-40)/1.25, units = 'mm') #copernicus.cls page 210x240
 # ggsave(filename = 'variable_importance.svg', path = "ms/figures",
 #        width =(210-30)/1.5, height = (240-40)/1.25, units = 'mm')
 

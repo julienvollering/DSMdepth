@@ -430,9 +430,30 @@ DMK & deep (\textgreater 100 cm) & 94       & 25      & 100        & 659        
 
 None of the models were able to predict peat depth across the study areas with high accuracy (Fig. \@ref(fig:modelMetrics)).
 For Skrimfjella the best model achieved a concordance correlation coefficient of 0.3, an *R^2^* of 0.34, and an RMSE of \unit{78\,cm}.
-For Ørskogfjellet, the same values were 0.39, 0.33, and \unit{75\,cm}, so the best model at Ørskogfjellet was slightly more accurate than the best model at Skrimfjella.
+For Ørskogfjellet the same values were 0.39, 0.33, and \unit{75\,cm}, so the best model at Ørskogfjellet was slightly more accurate than the best model at Skrimfjella.
 
 ![(\#fig:modelMetrics)Performance of models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error.](figures/modelmetrics.pdf) 
+
+For Skrimfjella, the best predictor configuration was *all predictors*, followed closely by *terrain and radiometric*.
+The performance gap between the *terrain and DMK* configuration and the *terrain-only* configuration was similarly small.
+Compared to the *terrain-only* configuration, the *terrain and radiometric* configuration improved concordance correlation by 0.04, R^2^ by 0.04, and RMSE by \unit{2\,cm}.
+*DMK class* alone -- although calibrated to measured depths -- was a very poor predictor of peat depth, with a concordance correlation coefficient of 0.008.
+
+For Ørskogfjellet, the best predictor configuration was *terrain and DMK*, followed by *terrain-only*.
+Adding radiometric predictors to these configurations worsened model performance, especially in terms of concordance correlation and R^2^.
+By itself, *DMK class* produced a concordance correlation coefficient of 0.17, but the worst RMSE of any model: \unit{98\,cm}.
+
+For the purpose of model interpretation, the *all predictors* configuration for Skrimfjella was reduced from 27 variables to 11 non-collinear variables.
+Similarly, the *terrain and DMK* configuration for Ørskogfjellet was reduced from 23 variables to 11 non-collinear variables.
+At both sites, *elevation* and *MRVBF* were important predictors (Fig. \@ref(fig:varImp)).
+At Skrimfjella these two predictors were of similar importance, while at Ørskogfjellet *elevation* was more important than *MRVBF*.
+*DMK* was also important -- the shallow class in particular -- but only at Ørskogfjellet.
+Some realizations of the hydrological predictors *TWI* and *DTW* showed considerable importance, while others showed little -- with no consistency between sites.
+For example, *TWI5m*, *DTW40000*, and *DTW2500* rounded out the top five most important variables at Skrimfjella, while *TWI20m* and *TWI50m* were least important, other than *DMK*.
+At both sites, the most important realizations of hydrological predictors were more important than the simple terrain indices *slope*, *TRI*, *TPI*, and *roughness*.
+The radiometric variable *radU* showed moderate importance at Skrimfjella.
+
+![(\#fig:varImp)Global variable importance in the best-performing models at Ørskogfjellet (a) and Skrimfjella (b), as measured by three different metrics. Variables removed due to collinearity are shown to the right of that with which they are most correlated.](figures/variable_importance.pdf) 
 
 # Discussion
 

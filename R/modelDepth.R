@@ -398,8 +398,14 @@ quantiles_TD %>%
 
 # Feature selection ####
 
+cormat <- bake(prep(recipe_TD, frame), frame) |> 
+  select(!depth_cm) |> 
+  cor()
+corrplot::corrplot(cormat, method = 'number', type = 'upper', diag = TRUE,
+                   order = 'hclust', number.cex = 0.5, addCoefasPercent=TRUE)
+
 recipe_TD_uncorr <- recipe_TD %>% 
-  step_corr(all_predictors(), threshold = 0.7, method = "pearson")
+  step_corr(all_predictors(), threshold = 0.7, method = "pearson") # Of two variables with super-cutoff correlation, that with smallest mean absolute correlation is kept
 
 workflow_TD_uncorr <- 
   workflow() %>% 
@@ -410,6 +416,15 @@ set.seed(456)
 fit_TD_uncorr <- 
   workflow_TD_uncorr %>% 
   fit(frame)
+
+vars_sel <- extract_fit_engine(fit_TD_uncorr)$forest$independent.variable.names
+vars_diff <- setdiff(colnames(cormat), vars_sel)
+vars_corr <- map_chr(vars_diff, function(x) {
+  correlations <- cormat[x, vars_sel, drop = FALSE]
+  colnames(correlations[,which.max(abs(correlations)), drop = FALSE])})
+corrKey <- tibble(removed = vars_diff, correlated = vars_corr) |> 
+  group_by(correlated) |>
+  summarize(removed = paste(removed, collapse = ", "), .groups = 'drop')
 
 ## Variable importance ####
 
@@ -453,6 +468,7 @@ bind_rows(perm.vip = import_perm_vip,
           firm = import_firm, 
           shap = import_shap,
           .id = 'type') |> 
+  left_join(corrKey, by = c("Variable" = "correlated")) |>
   readr::write_csv("output/variable_importance.csv")
 
 ## Partial dependence plots ####
