@@ -415,6 +415,24 @@ The radiometric variable *radU* showed moderate importance at Skrimfjella.
 knitr::include_graphics("figures/variable_importance.pdf")
 ```
 
+Many of the the most important predictors in the best performing models showed non-monotonic effects on peat depth (Fig. \@ref(fig:pdps)).
+At Ørskogfjellet for example, increasing *elevation* was predictive of deeper peat up to about 75 meters above sea level, after which a further increase was predictive of shallower peat.
+At Skrimfjella the partial dependence on *elevation* had the opposite shape, with the shallowest peats predicted at intermediate elevations, around 350 meters above sea level.
+*TWI50m* at Ørskogfjellet and *DTW4000* and *radU* at Skrimfjella were other predictors that showed considerable fluctuations in their predictive effects on peat depth.
+The radiometric predictor in particular displayed an idiosyncratic effect, with a marked dip in predicted depth at intermediate values of *radU*.
+On the other hand, the partial effects of some important predictors were more straightforward.
+The partial dependence on *MRVBF* was quite similar across sites, with the deepest peats predicted in the very flattest valley bottoms.
+Also, *TWI5m* and *DTW2500* at Skrimfjella showed monotonically positive and negative predictive effects, respectively.
+
+Individual conditional expectation lines indicated some interactions between predictors (Fig. \@ref(fig:pdps)).
+For example, the magnitude of the increase in depth with *elevation* that the model expected at Ørskogfjellet was different for different observations; some depth predictions increased by only \unit{40\,cm} while others increased by more than \unit{100\,cm}, over the same elevation gain.
+Similarly, ICE lines of *radU* at Skrimfjella were non-parallel, with some locations showing monotonically increasing peat depth predictions with uranium concentration (unlike the average effect).
+Nevertheless, most ICE lines were generally parallel -- indicating that the average effects of the predictors were good representations of their overall effects.
+
+```{r pdps, echo = FALSE, fig.cap = "Partial dependence plots of the six most important variables in the best-performing models at Ørskogfjellet (a) and Skrimfjella (b). The average effect of the predictor on the outcome (red line) overlays the variation in the effect across observations (grey lines)."}
+knitr::include_graphics("figures/partial_dependence.pdf")
+```
+
 # Discussion
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.

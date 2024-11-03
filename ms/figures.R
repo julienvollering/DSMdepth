@@ -394,9 +394,9 @@ g2 <- ggplot(data = skrim, aes(x = .borders, y = .value, group = .id)) +
 g1 + g2 + plot_layout(ncol = 1, guides = 'collect', axes = 'collect') +
   plot_annotation(tag_levels = 'a', tag_prefix = '(', tag_suffix = ')') 
 ggsave(filename = 'partial_dependence.pdf', path = "ms/figures",
-       width =(210-30), height = (240-40), units = 'mm') #copernicus.cls page 210x240
+       width =(210-30), height = (240-60), units = 'mm') #copernicus.cls page 210x240
 # ggsave(filename = 'partial_dependence.svg', path = "ms/figures",
-#        width =(210-30), height = (240-40), units = 'mm')
+#        width =(210-30), height = (240-60), units = 'mm')
   
 # sessionInfo ####
 
