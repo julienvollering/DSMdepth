@@ -65,35 +65,6 @@ disclaimer: |
   *Disclaimer.* The authors declare that the results, discussions, and interpretations presented in this study are solely their own. The views expressed herein do not necessarily reflect those of their respective institutions or funding agencies.
 acknowledgements: |
   *Acknowledgements.* We thank the Norwegian Public Roads Administration for sharing data from ground-penetrating radar surveys. We also thank Vikas Baranwal from the Geological Survey of Norway for helping us access the radiometric data from Skrim. This work contains data under the following licenses: (1) Creative Commons Attribution 4.0 International, © Kartverket, (2) *Norge digitalt* license, Norwegian Institute of Bioeconomy Research (NIBIO), © Geovekst, and (3) the Norwegian License for Public Data (NLOD), made available by the Geological Survey of Norway (NGU).
-appendix: |
-  \section{For submission}
-  "Appendices: all material required to understand the essential aspects of the paper
-  such as experimental methods, data, and interpretation 
-  should preferably be included in the main text. 
-  Additional figures, tables, as well as technical and theoretical developments 
-  which are not critical to support the conclusion of the paper,
-  but which provide extra detail and/or support useful for experts in the field
-  and whose inclusion in the main text would disrupt the flow of descriptions or demonstrations 
-  may be presented as appendices.
-  These should be labelled with capital letters: Appendix A, Appendix B etc.
-  Equations, figures and tables should be numbered as (A1), Fig. B5 or Table C6, respectively.
-  Please keep in mind that appendices are part of the manuscript
-  whereas supplements (see below) are published along with the manuscript."
-  
-  \section{Figures and tables in appendices}
-  Please also sort the appendix figures and appendix tables into the respective appendix sections.
-  They will be correctly named automatically.
-  
-  \section{Copernicus from Rmarkdown}
-  **Please note:** Per [their guidelines](https://publications.copernicus.org/for_authors/manuscript_preparation.html),
-  Copernicus does not support additional \LaTeX{} packages 
-  or new \LaTeX{} commands than those defined in their `.cls` file. 
-  This means that you cannot add any extra dependencies 
-  and a warning will be thrown if so.
-  **Important**: Always double-check with the official manuscript preparation guidelines 
-  at [https://publications.copernicus.org/for_authors/manuscript_preparation.html](https://publications.copernicus.org/for_authors/manuscript_preparation.html),
-  especially the sections "Technical instructions for LaTeX" and "Manuscript composition". 
-  Please contact Daniel Nüst, `daniel.nuest@uni-muenster.de`, with any problems.
 output:
   bookdown::pdf_book:
     keep_md: true
