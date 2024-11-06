@@ -285,14 +285,25 @@ cor.test(T_extrap$depth_cm, T_extrap$.pred)
 
 ### preds: none (assume 30cm) ####
 
-frame |> 
+fit_null_extrap <- frame |> 
   st_drop_geometry() |> 
   filter(ar5cover != 60) |> 
   mutate(.pred = 30,
          .resid = .pred - depth_cm,
          absoluteError = abs(.resid)) |>
   summarise(mae = mean(absoluteError),
-            rmse = sqrt(mean(.resid^2))) 
+            rmse = sqrt(mean(.resid^2))) |> 
+  pivot_longer(cols = everything(), names_to = ".metric", values_to = "mean")
+fit_null_extrap
+
+### collect metrics ####
+
+modelmetrics.extrap <- bind_rows(
+  RadiometricTerrain = collect_metrics(fit_RT_extrap),
+  Terrain = collect_metrics(fit_T_extrap),
+  null = fit_null_extrap,
+  .id = "model")
+readr::write_csv(modelmetrics.extrap, "output/modelmetrics-extrapolation.csv")
 
 # Uncertainty with CV ####
 

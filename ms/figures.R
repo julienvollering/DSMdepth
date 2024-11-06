@@ -249,6 +249,55 @@ ggsave(filename = 'modelmetrics.pdf', path = "ms/figures",
 # ggsave(filename = 'modelmetrics.svg', path = "ms/figures",
 #        width =210-30, height = (240-40)/2.5, units = 'mm')
 
+
+# Model metrics extrapolation####
+
+library(tidyverse)
+
+orskog <- read_csv("output/modelmetrics-extrapolation.csv") 
+skrim <- read_csv("output/Skrim/modelmetrics-extrapolation.csv")
+plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>% 
+  filter(.metric != 'mae') %>% 
+  mutate(
+    site = fct_relevel(site, "orskog"),
+    metric = case_when(
+      .metric == "rmse" ~ "RMSE"),
+    model = case_when(
+      model == "null" ~ "null, assume 30 cm",
+      model == "Terrain" ~ "terrain (21)",
+      model == "RadiometricTerrain" ~ "terrain + radiometric (25)"),
+    model = fct_relevel(model,
+                        "null, assume 30 cm",
+                        "terrain (21)",
+                        "terrain + radiometric (25)"))
+str(plotting)
+
+g1 <- ggplot(plotting) +
+  geom_linerange(aes(y = model, 
+                     x = mean, 
+                     xmin = mean - std_err, 
+                     xmax = mean + std_err, 
+                     color = site),
+                 position = position_dodge2(width= 0.3, reverse = TRUE)) +
+  geom_point(aes(y = model, x = mean, color = site),
+             position = position_dodge2(width= 0.3, reverse = TRUE)) +
+  geom_text(aes(y = model, x = mean, label = signif(mean, 2), group = site),
+            position = position_dodge2(width= 1, reverse = TRUE),
+            color = "grey50", size = 2.5) +
+  facet_wrap(~metric, nrow = 1, scales = "free_x", axes ="margins") +
+  scale_color_discrete(labels = c(orskog = "\u00D8rskogfjellet", 
+                                  skrim = "Skrimfjella")) +
+  theme_bw() +
+  theme(axis.title = element_blank(),
+        legend.title = element_blank(),
+        panel.grid = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = "inside",
+        legend.position.inside = c(-0.4, 1.06),
+        legend.key.spacing.y = unit(-2, "mm"),)
+ggsave(filename = 'modelmetrics-extrapolation.pdf', path = "ms/figures",
+       width =(210-30)/2, height = (240-40)/4, units = 'mm') #copernicus.cls page 210x240
+
 # Variable importance ####
 
 library(tidyverse)

@@ -349,8 +349,9 @@ For Ørskogfjelle we did not have such data.
 Therefore, we first -- for both sites -- performed an evaluation with just our peat depth measurements, which included a fraction of locations not mapped as peatland.
 For this evaluation we used the same spatial cross-validation folds as previously, but now we trained the models only on locations mapped as peatland (in the training folds), and evaluated them only on locations not mapped as peatland (in the test fold).
 In this way, we simulated the situation where a model trained on known peatland is used to predict peat depth outside the known peatland.
-From the cross-validation we quantified *Root Mean Squared Error* and *Mean Absolute Error*, and we tested the strength of the correlation between predicted and observed peat depth.
+From the cross-validation we quantified *Root Mean Squared Error*.
 Second -- for Skrimfjella -- we simply trained a model on all peat depth measurements and then used the independent occurrence dataset to calculate the area under the curve of the receiver operating characteristic, to evaluate the model's ability to discriminate between peat presence and absence.
+In this analysis, the model's prediction of peat depth is treated as a rank index of peatland likelihood.
 Since DMK peat depth class is always undefined outside known peatlands, we evaluated models with two predictor configurations: terrain predictors alone or terrain and radiometric predictors together.
 
 ### Model interpretation
@@ -388,7 +389,7 @@ None of the models were able to predict peat depth across the study areas with h
 For Skrimfjella the best model achieved a concordance correlation coefficient of 0.3, an *R^2^* of 0.34, and an RMSE of \unit{78\,cm}.
 For Ørskogfjellet the same values were 0.39, 0.33, and \unit{75\,cm}, so the best model at Ørskogfjellet was slightly more accurate than the best model at Skrimfjella.
 
-```{r modelMetrics, echo = FALSE, fig.cap = "Performance of models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error."}
+```{r modelMetrics, echo = FALSE, fig.cap = "Performance of peatland depth models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error."}
 knitr::include_graphics("figures/modelmetrics.pdf")
 ```
 
@@ -400,6 +401,14 @@ Compared to the *terrain-only* configuration, the *terrain and radiometric* conf
 For Ørskogfjellet, the best predictor configuration was *terrain and DMK*, followed by *terrain-only*.
 Adding radiometric predictors to these configurations worsened model performance, especially in terms of concordance correlation and R^2^.
 By itself, *DMK class* produced a concordance correlation coefficient of 0.17, but the worst RMSE of any model: \unit{98\,cm}.
+
+When we tested how well models extrapolated from within to outside of mapped peatland, we found that the models produced marginally better RMSE than just assuming a constant \unit{30\,cm} depth (Fig. \@ref(fig:modelMetricsExtrapolation)).
+Compared to our error estimates with the full dataset, RMSE at Skrimfjella was nearly unchanged, while at Ørskogfjellet it was lower outside of mapped peatland.
+With the independent occurrence data at Skrimfjella, we found that neither the *terrain-only* nor *terrain and radiometric* configurations were able to discriminate between peat presence and absence (area under the curve of the receiver operating characteristic 0.44 and 0.52 respectively, where 0.5 indicates random guessing).
+
+```{r modelMetricsExtrapolation, echo = FALSE, fig.cap = "Performance of models that extrapolate from training data inside of mapped peatland to test data outside of mapped peatland, evaluated via spatial cross-validation. Parentheses denote the number of variables in each model, and point estimates are shown +/- their standard error."}
+knitr::include_graphics("figures/modelmetrics-extrapolation.pdf")
+```
 
 For the purpose of model interpretation, the *all predictors* configuration for Skrimfjella was reduced from 27 variables to 11 non-collinear variables.
 Similarly, the *terrain and DMK* configuration for Ørskogfjellet was reduced from 23 variables to 11 non-collinear variables.
