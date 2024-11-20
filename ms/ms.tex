@@ -167,7 +167,7 @@ However, other land uses also displace peatlands.
 In Norway, where 9\% of the land area is peatland \citep{brynLandCoverNorway2018}, construction and development have become important drivers of loss, after lawmakers restricted conversion to forest and farmland in recent decades.
 
 The spatial distribution of peat depth is often overlooked in land use planning and carbon accounting because peat depth is not mapped with sufficient coverage, resolution, or accuracy.
-Maps are crucial because they link high-level targets to specific management decisions, unlike spatially-aggregated estimates \citep{oecdOECDEnvironmentalPerformance2022}.
+Maps are crucial because they link high-level targets to specific management decisions, unlike spatially aggregated estimates \citep{oecdOECDEnvironmentalPerformance2022}.
 For example, Norwegian regulations restrict conversion to farmland more strictly where peat depth exceeds \unit{1\,m}, and the distribution of peat depth on a farmer's property determines whether he is allowed to convert peatland (Forskrift om nydyrking, 1997, § 5a).
 Maps also make it possible to quantify the effect of specific management decisions and thereby understand how local outcomes contribute to regional and national outcomes \citep{oecdOECDEnvironmentalPerformance2022}.
 
@@ -570,6 +570,10 @@ For Ørskogfjellet the same values were 0.39, 0.33, and \unit{75\,cm}, so the be
 \includegraphics{figures/modelmetrics.pdf}
 \caption{\label{fig:modelMetrics}Performance of peatland depth models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error.}
 \end{figure}
+
+Although the difficulty of predicting peat depth caused prediction intervals to be wide, these uncertainty estimates were well-calibrated.
+At Skrimfjella the prediction interval coverage probability was 91 \%, and at Ørskogfjellet it was 84 \% (both compared to the target value of 90 \%).
+Observations outside of the prediction intervals were evenly distributed across each of the study areas.
 
 For Skrimfjella, the best predictor configuration was \emph{all predictors}, followed closely by \emph{terrain and radiometric}.
 The performance gap between the \emph{terrain and DMK} configuration and the \emph{terrain-only} configuration was similarly small.

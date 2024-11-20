@@ -384,7 +384,7 @@ We implemented the kNNDM with the *CAST* R package [v.1.0.2, @meyerCASTPackageTr
 From the cross-validation we quantified *Root Mean Squared Error* (accuracy, original scale), *R^2^* (correlation, standardized scale), and *Lin's concordance correlation coefficient* (accuracy and correlation, standardized scale).
 
 DSM products have much more value when their predictions are accompanied by uncertainty estimates, and all DSM should strive to assess uncertainty [@arrouaysImpressionsDigitalSoil2020; @wadouxMachineLearningDigital2020].
-Moreover, the quality of uncertainty estimates should be evaluated, just as the quality of predictions are   [@heuvelinkSpatialStatisticsSoil2022].
+Moreover, the quality of uncertainty estimates should be evaluated, just as the quality of predictions are [@heuvelinkSpatialStatisticsSoil2022].
 Therefore, we produced prediction intervals with quantile regression forests [@meinshausenQuantileRegressionForests2006], and used the same spatial cross-validation to evaluate the prediction interval coverage probability [@shresthaMachineLearningApproaches2006].
 The quantile regression forests were trained with predictor configuration that showed the highest performance at each site (under the assumption that these models would be put into production) and we extracted 90 % prediction intervals.
 
@@ -439,6 +439,10 @@ For Ørskogfjellet the same values were 0.39, 0.33, and \unit{75\,cm}, so the be
 ```{r modelMetrics, echo = FALSE, fig.cap = "Performance of peatland depth models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error."}
 knitr::include_graphics("figures/modelmetrics.pdf")
 ```
+
+Although the difficulty of predicting peat depth caused prediction intervals to be wide, these uncertainty estimates were well-calibrated.
+At Skrimfjella the prediction interval coverage probability was 91 %, and at Ørskogfjellet it was 84 % (both compared to the target value of 90 %).
+Observations outside of the prediction intervals were evenly distributed across each of the study areas.
 
 For Skrimfjella, the best predictor configuration was *all predictors*, followed closely by *terrain and radiometric*.
 The performance gap between the *terrain and DMK* configuration and the *terrain-only* configuration was similarly small.

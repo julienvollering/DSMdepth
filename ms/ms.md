@@ -92,7 +92,7 @@ However, other land uses also displace peatlands.
 In Norway, where 9% of the land area is peatland [@brynLandCoverNorway2018], construction and development have become important drivers of loss, after lawmakers restricted conversion to forest and farmland in recent decades.
 
 The spatial distribution of peat depth is often overlooked in land use planning and carbon accounting because peat depth is not mapped with sufficient coverage, resolution, or accuracy.
-Maps are crucial because they link high-level targets to specific management decisions, unlike spatially-aggregated estimates [@oecdOECDEnvironmentalPerformance2022].
+Maps are crucial because they link high-level targets to specific management decisions, unlike spatially aggregated estimates [@oecdOECDEnvironmentalPerformance2022].
 For example, Norwegian regulations restrict conversion to farmland more strictly where peat depth exceeds \unit{1\,m}, and the distribution of peat depth on a farmer's property determines whether he is allowed to convert peatland (Forskrift om nydyrking, 1997, § 5a).
 Maps also make it possible to quantify the effect of specific management decisions and thereby understand how local outcomes contribute to regional and national outcomes [@oecdOECDEnvironmentalPerformance2022]. 
 
@@ -122,7 +122,7 @@ Also more complex derivations of topography, such as the Topographic Wetness Ind
 Some of the variation between studies in quantifying these relationships is undoubtedly attributable to issues of spatial scale -- both the scaling of the topographic variables and the resolution of the peat depth analysis.  
 
 Another set of variables related to peat depth are measurements of natural radioactivity from the ground surface. 
-Gamma-ray spectrometry can survey the activity (decay counts per second) from radioactive isotopes in the earth’s crust: potassium-40, uranium-238, and thorium-232 [@reinhardtGammaraySpectrometryVersatile2019]. 
+Gamma-ray spectrometry can survey the activity (decay counts per second) from radioactive isotopes in the earth's crust: potassium-40, uranium-238, and thorium-232 [@reinhardtGammaraySpectrometryVersatile2019]. 
 These exist in bedrock (and mineral soils) and a peat overburden attenuates the radiation intensity at the surface. 
 The degree of attenuation relates to properties of the overburden, especially composition and depth. 
 Deep soil with high water content attenuates most [@beamishGammaRayAttenuation2013; @reinhardtGammaraySpectrometryVersatile2019]. 
@@ -415,7 +415,7 @@ We implemented the kNNDM with the *CAST* R package [v.1.0.2, @meyerCASTPackageTr
 From the cross-validation we quantified *Root Mean Squared Error* (accuracy, original scale), *R^2^* (correlation, standardized scale), and *Lin's concordance correlation coefficient* (accuracy and correlation, standardized scale).
 
 DSM products have much more value when their predictions are accompanied by uncertainty estimates, and all DSM should strive to assess uncertainty [@arrouaysImpressionsDigitalSoil2020; @wadouxMachineLearningDigital2020].
-Moreover, the quality of uncertainty estimates should be evaluated, just as the quality of predictions are   [@heuvelinkSpatialStatisticsSoil2022].
+Moreover, the quality of uncertainty estimates should be evaluated, just as the quality of predictions are [@heuvelinkSpatialStatisticsSoil2022].
 Therefore, we produced prediction intervals with quantile regression forests [@meinshausenQuantileRegressionForests2006], and used the same spatial cross-validation to evaluate the prediction interval coverage probability [@shresthaMachineLearningApproaches2006].
 The quantile regression forests were trained with predictor configuration that showed the highest performance at each site (under the assumption that these models would be put into production) and we extracted 90 % prediction intervals.
 
@@ -481,6 +481,10 @@ For Skrimfjella the best model achieved a concordance correlation coefficient of
 For Ørskogfjellet the same values were 0.39, 0.33, and \unit{75\,cm}, so the best model at Ørskogfjellet was slightly more accurate than the best model at Skrimfjella.
 
 ![(\#fig:modelMetrics)Performance of peatland depth models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error.](figures/modelmetrics.pdf) 
+
+Although the difficulty of predicting peat depth caused prediction intervals to be wide, these uncertainty estimates were well-calibrated.
+At Skrimfjella the prediction interval coverage probability was 91 %, and at Ørskogfjellet it was 84 % (both compared to the target value of 90 %).
+Observations outside of the prediction intervals were evenly distributed across each of the study areas.
 
 For Skrimfjella, the best predictor configuration was *all predictors*, followed closely by *terrain and radiometric*.
 The performance gap between the *terrain and DMK* configuration and the *terrain-only* configuration was similarly small.
