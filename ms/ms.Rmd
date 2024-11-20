@@ -64,7 +64,7 @@ authorcontribution: |
 disclaimer: |
   *Disclaimer.* The authors declare that the results, discussions, and interpretations presented in this study are solely their own. The views expressed herein do not necessarily reflect those of their respective institutions or funding agencies.
 acknowledgements: |
-  *Acknowledgements.* We thank the Norwegian Public Roads Administration for sharing data from ground-penetrating radar surveys. We also thank Vikas Baranwal from the Geological Survey of Norway for helping us access the radiometric data from Skrim. This work contains data under the following licenses: (1) Creative Commons Attribution 4.0 International, © Kartverket, (2) *Norge digitalt* license, Norwegian Institute of Bioeconomy Research (NIBIO), © Geovekst, and (3) the Norwegian License for Public Data (NLOD), made available by the Geological Survey of Norway (NGU).
+  *Acknowledgements.* We thank the Norwegian Public Roads Administration for sharing data from ground-penetrating radar surveys. We also thank Vikas Baranwal from the Geological Survey of Norway for helping us access the radiometric data from Skrim. This work contains data under the following licenses: (1) Creative Commons Attribution 4.0 International, © Kartverket, (2) *Norge digitalt* license, Norwegian Institute of Bioeconomy Research (NIBIO), © Geovekst, and (3) the Norwegian License for Public Data (NLOD), made available by the Geological Survey of Norway (NGU). Large language models have been used during the drafting and editing of this manuscript, with author oversight. We maintain full responsibility for the scientific output, as per the European Commission's *Living guidelines on the responsible use of generative AI in research*.
 output:
   bookdown::pdf_book:
     keep_md: true
@@ -73,8 +73,86 @@ output:
 
 # Introduction
 
-Introduction text goes here.
-Read Gatis et al. [-@gatisMappingUplandPeat2019] and related work [@minasnyDigitalMappingPeatlands2019].
+Peat soils are a terrestrial carbon stock of global importance. 
+They store about 30 % of global soil carbon despite covering only 2-3 % of Earth's land [@xuPEATMAPRefiningEstimates2018; @friedlingsteinGlobalCarbonBudget2020; @unepGlobalPeatlandsAssessment2022]. 
+In other words, they are extremely carbon dense -- denser than any other ecosystem per square meter [@temminkRecoveringWetlandBiogeomorphic2022]. 
+This makes peatlands crucial to climate change mitigation. 
+Intact peatlands sequester carbon and produce a negative temperature forcing, overall [@joostenRolePeatlandsClimate2016]. 
+When disturbed, often by conversion to another land use, they can produce large greenhouse gas emissions [@maGloballyRobustRelationship2022]. 
+
+One of the keys to the areal density of peatland carbon stocks lies in the third dimension: their depth. 
+Peat soils range from zero to over ten meters deep, so deep peats comprise a large volume. 
+Their depth results from the accumulation of organic matter over thousands of years [@loiselDatabaseSynthesisNorthern2014; @joostenRolePeatlandsClimate2016]. 
+In the anoxic and acidic conditions created by a high water table, plant material decay is slightly outweighed by new growth, and the surplus carbon is laid down as peat. 
+There it remains sequestered as long as the water table stays high and prevents oxidation.
+
+Peatlands are unevenly distributed globally, and in regions with high cover they are frequently converted to human land use [@unepGlobalPeatlandsAssessment2022].
+They are attractive for agriculture and forestry because they are flat, treeless, and have developed soils.
+However, other land uses also displace peatlands. 
+In Norway, where 9% of the land area is peatland [@brynLandCoverNorway2018], construction and development have become important drivers of loss, after lawmakers restricted conversion to forest and farmland in recent decades.
+
+The spatial distribution of peat depth is often overlooked in land use planning and carbon accounting because peat depth is not mapped with sufficient coverage, resolution, or accuracy.
+Maps are crucial because they link high-level targets to specific management decisions, unlike spatially aggregated estimates [@oecdOECDEnvironmentalPerformance2022].
+For example, Norwegian regulations restrict conversion to farmland more strictly where peat depth exceeds \unit{1\,m}, and the distribution of peat depth on a farmer's property determines whether he is allowed to convert peatland (Forskrift om nydyrking, 1997, § 5a).
+Maps also make it possible to quantify the effect of specific management decisions and thereby understand how local outcomes contribute to regional and national outcomes [@oecdOECDEnvironmentalPerformance2022]. 
+
+Measuring peat depth on the ground is straightforward, and a field survey can map a small area at low cost. 
+However, surveying large areas is impractical when depth varies over short distances -- as in most peatlands. 
+A complementary approach from soil science is digital soil mapping (DSM). 
+DSM scales up field measurements from a set of locations to a wider area, by relating the measured values to other variables mapped over the area of interest. 
+This approach has grown important with the availability of remotely sensed data and the advancement of methods for identifying pattern, especially through machine learning [@minasnyDigitalMappingPeatlands2019; @wadouxMachineLearningDigital2020].
+
+The crux for DSM of peat depth are the relationships between peat depth and the other, mapped variables. 
+For DSM to work, these relationships must be strong and consistent over the area of interest.
+They can be purely correlative rather than causal, but mechanistic relationships are stronger and more consistent. 
+The *scorpan* framework for DSM suggests seven predictor classes to explore: other soil properties, climate, organisms, relief (topography), parent material, age, and spatial position [@mcbratneyDigitalSoilMapping2003]. 
+
+The most practical and widespread *scorpan* factors for peat depth are relief and spatial position. 
+Spatial position is unique because it is always known (with varying accuracy). 
+However, the short range of spatial autocorrelation in peat depth limits its mapping value [@henglGenericFrameworkSpatial2004]. 
+Relief, or topography, is widely and accurately mapped in digital terrain models. 
+For example, most of mainland Norway has at least one elevation measurement per square meter from airborne LiDAR surveys. 
+Moreover, mechanisms of peat formation are linked to topography. 
+For example, a steep slope is unlikely to have a high water table, thereby limiting accumulation. 
+
+Studies have consistently shown relationships between peat depth and topography, although the specific patterns vary. 
+One of the most robust relationships is a negative correlation between depth and terrain slope [e.g. @holdenEstimatingCarbonStock2011; @parryMethodModellingPeat2012; @gatisMappingUplandPeat2019]. 
+Peat depth also changes with elevation in many contexts, but with inconsistent directionality [e.g. @holdenEstimatingCarbonStock2011; @parryMethodModellingPeat2012; @rudiyantoDigitalMappingCosteffective2016; @rudiyantoOpenDigitalMapping2018; @kogantiMappingPeatDepth2023; @liFactorsControllingPeat2024]. 
+Also more complex derivations of topography, such as the Topographic Wetness Index (TWI) and the Multi-Resolution Valley Bottom Flatness (MRVBF) index, have shown associations with peat depth in some studies [e.g. @rudiyantoOpenDigitalMapping2018; @kogantiMappingPeatDepth2023; @liFactorsControllingPeat2024]. 
+Some of the variation between studies in quantifying these relationships is undoubtedly attributable to issues of spatial scale -- both the scaling of the topographic variables and the resolution of the peat depth analysis.  
+
+Another set of variables related to peat depth are measurements of natural radioactivity from the ground surface. 
+Gamma-ray spectrometry can survey the activity (decay counts per second) from radioactive isotopes in the earth's crust: potassium-40, uranium-238, and thorium-232 [@reinhardtGammaraySpectrometryVersatile2019]. 
+These exist in bedrock (and mineral soils) and a peat overburden attenuates the radiation intensity at the surface. 
+The degree of attenuation relates to properties of the overburden, especially composition and depth. 
+Deep soil with high water content attenuates most [@beamishGammaRayAttenuation2013; @reinhardtGammaraySpectrometryVersatile2019]. 
+Thus, gamma-ray radiometrics integrate the *scorpan* factors soil, parent material, and age. 
+
+Although theory suggests that one meter of peat may fully attenuate radiometric signal [@beamishGammaRayAttenuation2013; @reinhardtGammaraySpectrometryVersatile2019], empirical investigations show that the association between peat depth and radioactivity can extend beyond the first meter [@gatisMappingUplandPeat2019; @kogantiMappingPeatDepth2023]. 
+Radiometric data are increasingly available over large areas, presenting a big opportunity insofar as they are predictive. 
+Airborne surveys are used for various applications, and some countries have high spatial coverage of such data  [@minasnyDigitalMappingPeatlands2019; @baranwalAirborneGeophysicalSurveys2020]. 
+
+The effectiveness of DSM depends not only on the methods and data, but also on the characteristics of the mapping area. 
+Norway may be instructive in this respect because its peatlands vary widely across climates and topographies. There are many mire massif types, with different hydrology, formation, and development -- from topogeneous or soligeneous fens to blanket or raised bogs [@lyngstadBeskrivelserAvTorvmassivenheter2023]. 
+These types have fundamentally different geomorphology, suggesting that peat depth relationships with terrain or radiometric variables will vary by landscape.
+
+The little we know about the depths of Norwegian peatlands comes from surveys meant to identify arable land. 
+After scattered surveys in the early 20th century, a comprehensive round of surveying was completed 1964-2001 as part of a wider land cover mapping in Norway  [@bjordalMarkslagsklassifikasjonOkonomiskKartverk2007]. 
+Because of its agricultural and silvicultural focus, it covered only productive areas below the tree line, and peat depth was measured only in places judged to be potentially arable or afforestable [@ahlstromAR5Klassifikasjonssystem2019]. 
+Field surveyors carried a one-meter probe, so they measured peat depth as shallow (< 1 m), or deep (> 1 m). 
+These classes were assigned to whole mire polygons, so spatial resolution is on the order of hectares. 
+
+Soil science needs more studies of relationships between peat depth and topographic or radiometric data to determine which variables are most predictive, how predictive they are, and how consistent their associations.
+The push for nature-based climate solutions motivates for broad mapping of peat depth, to identify rich peatland carbon stocks and avoid their conversion.
+Although small areas can be mapped accurately on the ground, having landscape-scale maps *before* detailed investigation increases the option space for spatial planning and land management. 
+For example, the Norwegian Public Roads Administration routinely measures peat depth during geotechnical work, but by that time, the route of the road is already set. 
+With a digital peat depth map, planners could better compare routes and climate mitigation measures would have more leverage.
+
+We assess how well remotely sensed topographic and radiometric data can predict peat depth at the landscape scale, with a view towards revising regional and national maps in Norway. 
+Specifically, we: (1) quantify the accuracy of predictions from topographic and radiometric variables, (2) identify key predictive variables, and (3) compare these relationships across two different Norwegian landscapes. 
+To our knowledge, this is the first study to predict peat depth from airborne radiometric data using machine learning algorithms. 
+Where airborne radiometric data have been used to predict peat depth, it has been through modeling techniques less suited for prediction and spatial extrapolation [e.g., @keaneySpatialStatisticsEstimate2013; @gatisMappingUplandPeat2019; @siemonAirborneElectromagneticRadiometric2020]. 
+Where machine learning algorithms have been used on airborne radiometric data, it has been to predict peat extent rather than depth [e.g., @olearyDigitalSoilMapping2022].
 
 # Materials and methods
 
@@ -257,8 +335,6 @@ For each of the seven surface water layers, we derived the depth-to-water index 
 
 We prepared one categorical predictor -- peat depth class -- from a historical national map dataset called *DMK* [@ahlstromAR5Klassifikasjonssystem2019].
 The DMK peat depth classes are: < \unit{1\,m} (*shallow*), > \unit{1\,m} (*deep*), and *unknown*.
-This dataset stems from field measurements made in 1964--2007 as part of a wider land cover mapping in Norway.
-The mapping was primarily for identifying agricultural and silvicultural resources, so it covers productive areas below the tree line and has greater coverage of peat depth class in peatlands judged to be arable or afforestable [@bjordalMarkslagsklassifikasjonOkonomiskKartverk2007; @ahlstromAR5Klassifikasjonssystem2019].
 Mappers generally assigned peat depth classes to polygons of at least \unit{0.5\,ha}, although delineating polygons down to \unit{0.2\,ha} was allowed if peat depth showed a "particularly marked difference" [@bjordalMarkslagsklassifikasjonOkonomiskKartverk2007].
 We rasterized the peat depth class attribute to our \unit{10\,m} grid.
 
@@ -316,7 +392,7 @@ While the primary aim of the DSM was to predict peat depth within mapped peatlan
 In other words, we tested whether our peatland-trained models of peat depth could indicate which other locations were most likely to have peat.
 It is generally impractical to obtain good data for this purpose, because locations with non-zero peat depth outside of mapped peatland are unknown and relatively rare.
 For Skrimfjella, we had independent data from the arm of our sampling design that measured peatland occurrence outside of mapped mire areas.
-For Ørskogfjelle we did not have such data.
+For Ørskogfjellet we did not have such data.
 Therefore, we first -- for both sites -- performed an evaluation with just our peat depth measurements, which included a fraction of locations not mapped as peatland.
 For this evaluation we used the same spatial cross-validation folds as previously, but now we trained the models only on locations mapped as peatland (in the training folds), and evaluated them only on locations not mapped as peatland (in the test fold).
 In this way, we simulated the situation where a model trained on known peatland is used to predict peat depth outside the known peatland.
