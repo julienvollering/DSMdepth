@@ -142,7 +142,7 @@ Because of its agricultural and silvicultural focus, it covered only productive 
 Field surveyors carried a one-meter probe, so they measured peat depth as shallow (< 1 m), or deep (> 1 m). 
 These classes were assigned to whole mire polygons, so spatial resolution is on the order of hectares. 
 
-Soil science needs more studies of relationships between peat depth and topographic or radiometric data to determine which variables are most predictive, how predictive they are, and how consistent their associations.
+Soil science needs more studies of relationships between peat depth and topographic or radiometric data to determine how predictive they are, which variables are most predictive, and how consistent their associations.
 The push for nature-based climate solutions motivates for broad mapping of peat depth, to identify rich peatland carbon stocks and avoid their conversion.
 Although small areas can be mapped accurately on the ground, having landscape-scale maps *before* detailed investigation increases the option space for spatial planning and land management. 
 For example, the Norwegian Public Roads Administration routinely measures peat depth during geotechnical work, but by that time, the route of the road is already set. 
