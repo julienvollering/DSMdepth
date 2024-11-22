@@ -584,6 +584,14 @@ For Ørskogfjellet, the best predictor configuration was \emph{terrain and DMK},
 Adding radiometric predictors to these configurations worsened model performance, especially in terms of concordance correlation and R\textsuperscript{2}.
 By itself, \emph{DMK class} produced a concordance correlation coefficient of 0.17 (compared to 0.008 at Skrimfjella), but the worst mean absolute error of any model at either site: \unit{77\,cm}.
 
+The best models at both sites strongly underpredicted the deepest peats (Fig. \ref{fig:calPlots}).
+
+\begin{figure}
+\centering
+\includegraphics{figures/calibration_plots.pdf}
+\caption{\label{fig:calPlots}Calibration plots for the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), with predictions from spatial cross-validation. Blue smoother lines are local polynomial regressions. Marginal distributions are shaded by quartile.}
+\end{figure}
+
 When we tested how well models extrapolated from within to outside of mapped peatland, we found that the models produced worse mean absolute error than just assuming a constant \unit{30\,cm} depth (Fig. \ref{fig:modelMetricsExtrapolation}).
 With the independent occurrence data at Skrimfjella, we found that neither the \emph{terrain-only} nor \emph{terrain and radiometric} configurations were able to discriminate between peat presence and absence (area under the curve of the receiver operating characteristic 0.44 and 0.52 respectively, where 0.5 indicates random guessing).
 

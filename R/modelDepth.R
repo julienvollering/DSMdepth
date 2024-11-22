@@ -226,6 +226,7 @@ preds <- fit_TD_knndm %>%
   select(id, depth_cm, .pred)
 preds %>% 
   probably::cal_plot_regression(depth_cm, .pred, smooth = FALSE)
+readr::write_csv(preds, "output/calibrationplot.csv")
 
 ## Extrapolating beyond mire ####
 

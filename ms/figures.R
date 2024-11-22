@@ -301,6 +301,56 @@ g1 <- ggplot(plotting) +
 ggsave(filename = 'modelmetrics-extrapolation.pdf', path = "ms/figures",
        width =(210-30)/2, height = (240-40)/4, units = 'mm') #copernicus.cls page 210x240
 
+# Calibration plots ####
+
+library(tidyverse)
+library(patchwork)
+
+orskog <- read_csv("output/calibrationplot.csv")
+skrim <- read_csv("output/Skrim/calibrationplot.csv")
+
+probs <- c(0.25, 0.5, 0.75)
+
+scatter1 <- ggplot(orskog, aes(x = depth_cm, y = .pred)) +
+  geom_point(size = 0.8, alpha=0.5) +
+  geom_smooth(method = 'loess', formula= y ~ x, se = FALSE) +
+  geom_abline(intercept = 0, slope = 1, linetype = 2, color = "red") +
+  tune::coord_obs_pred(ratio = 1) +
+  labs(x = "Observed depth (cm)", y = "Predicted depth (cm)") +
+  theme_bw()
+dens <- density(orskog$depth_cm)
+df <- data.frame(x = dens$x, y = dens$y)
+quantiles <- quantile(orskog$depth_cm, prob=probs)
+df$quant <- factor(findInterval(df$x, quantiles))
+density1 <- ggplot(df, aes(x,y)) + 
+  geom_area(aes(y = y, fill=quant)) +
+  geom_line() +
+  scale_fill_brewer(guide="none", palette = "Greys") +
+  theme_void()
+
+scatter2 <- ggplot(skrim, aes(x = depth_cm, y = .pred)) +
+  geom_point(size = 0.8, alpha=0.5) +
+  geom_smooth(method = 'loess', formula= y ~ x, se = FALSE) +
+  geom_abline(intercept = 0, slope = 1, linetype = 2, color = "red") +
+  tune::coord_obs_pred(ratio = 1) +
+  labs(x = "Observed depth (cm)", y = "Predicted depth (cm)") +
+  theme_bw()
+dens <- density(skrim$depth_cm)
+df <- data.frame(x = dens$x, y = dens$y)
+quantiles <- quantile(skrim$depth_cm, prob=probs)
+df$quant <- factor(findInterval(df$x, quantiles))
+density2 <- ggplot(df, aes(x,y)) + 
+  geom_area(aes(y = y, fill=quant)) +
+  geom_line() +
+  scale_fill_brewer(guide="none", palette = "Greys") +
+  theme_void()
+
+density2 + density1 + scatter2 + scatter1 +
+  plot_layout(nrow = 2, byrow = TRUE, heights = unit(c(-1, 4), c("null", "null"))) +
+  plot_annotation(tag_levels =  list(c('(a)', '(b)')))
+ggsave(filename = 'calibration_plots.pdf', path = "ms/figures",
+       width =(210-30), height = (240-40)/2, units = 'mm') #copernicus.cls page 210x240
+
 # Variable importance ####
 
 library(tidyverse)
