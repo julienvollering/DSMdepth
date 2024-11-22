@@ -226,6 +226,7 @@ preds <- fit_RTD_knndm %>%
   select(id, depth_cm, .pred)
 preds %>% 
   probably::cal_plot_regression(depth_cm, .pred, smooth = FALSE)
+mean(preds$.pred - preds$depth_cm)
 readr::write_csv(preds, "output/Skrim/calibrationplot.csv")
 
 ## Extrapolating beyond mire ####

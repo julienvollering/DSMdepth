@@ -453,7 +453,8 @@ For Ørskogfjellet, the best predictor configuration was *terrain and DMK*, foll
 Adding radiometric predictors to these configurations worsened model performance, especially in terms of concordance correlation and R^2^.
 By itself, *DMK class* produced a concordance correlation coefficient of 0.17 (compared to 0.008 at Skrimfjella), but the worst mean absolute error of any model at either site: \unit{77\,cm}.
 
-The best models at both sites strongly underpredicted the deepest peats (Fig. \@ref(fig:calPlots)).
+The best models at both sites overpredicted shallow peats and strongly underpredicted very deep peats (Fig. \@ref(fig:calPlots)).
+The mean error (bias) of these models was \unit{10\,cm} at Skrimfjella and \unit{-4\,cm} at Ørskogfjellet.
 
 ```{r calPlots, echo = FALSE, fig.cap = "Calibration plots for the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), with predictions from spatial cross-validation. Blue smoother lines are local polynomial regressions. Marginal distributions are shaded by quartile."}
 knitr::include_graphics("figures/calibration_plots.pdf")
