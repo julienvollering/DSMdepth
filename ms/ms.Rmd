@@ -381,7 +381,7 @@ In particular, kNNDM looks for the spatial assignment of training data to folds 
 That way, the spatial separation between folds is similar to the separation between training and prediction locations -- which increases the quality of the map accuracy estimate [@linnenbrinkKNNDMCVKfold2024].
 For spatially clustered training data, this approach strikes a balance between the risk of optimistic metrics from random cross-validation and the risk of pessimistic metrics from other forms of spatial cross-validation [@wadouxSpatialCrossvalidationNot2021].
 We implemented the kNNDM with the *CAST* R package [v.1.0.2, @meyerCASTPackageTraining2024], setting prediction locations to all AR5 mire cells in the study area, and choosing a number of folds (5--20) that produced the best match between the two NND distributions.
-From the cross-validation we quantified *Root Mean Squared Error* (accuracy, original scale), *R^2^* (correlation, standardized scale), and *Lin's concordance correlation coefficient* (accuracy and correlation, standardized scale).
+From the cross-validation we quantified mean absolute error (accuracy, original scale), R^2^ (correlation, standardized scale), and Lin's concordance correlation coefficient (accuracy and correlation, standardized scale).
 
 DSM products have much more value when their predictions are accompanied by uncertainty estimates, and all DSM should strive to assess uncertainty [@arrouaysImpressionsDigitalSoil2020; @wadouxMachineLearningDigital2020].
 Moreover, the quality of uncertainty estimates should be evaluated, just as the quality of predictions are [@heuvelinkSpatialStatisticsSoil2022].
@@ -396,7 +396,7 @@ For Ørskogfjellet we did not have such data.
 Therefore, we first -- for both sites -- performed an evaluation with just our peat depth measurements, which included a fraction of locations not mapped as peatland.
 For this evaluation we used the same spatial cross-validation folds as previously, but now we trained the models only on locations mapped as peatland (in the training folds), and evaluated them only on locations not mapped as peatland (in the test fold).
 In this way, we simulated the situation where a model trained on known peatland is used to predict peat depth outside the known peatland.
-From the cross-validation we quantified *Root Mean Squared Error*.
+From the cross-validation we quantified mean absolute error.
 Second -- for Skrimfjella -- we simply trained a model on all peat depth measurements and then used the independent occurrence dataset to calculate the area under the curve of the receiver operating characteristic, to evaluate the model's ability to discriminate between peat presence and absence.
 In this analysis, the model's prediction of peat depth is treated as a rank index of peatland likelihood.
 Since DMK peat depth class is always undefined outside known peatlands, we evaluated models with two predictor configurations: terrain predictors alone or terrain and radiometric predictors together.
@@ -433,8 +433,8 @@ cat(depthsByClass)
 ```
 
 None of the models were able to predict peat depth across the study areas with high accuracy (Fig. \@ref(fig:modelMetrics)).
-For Skrimfjella the best model achieved a concordance correlation coefficient of 0.3, an *R^2^* of 0.34, and an RMSE of \unit{78\,cm}.
-For Ørskogfjellet the same values were 0.39, 0.33, and \unit{75\,cm}, so the best model at Ørskogfjellet was slightly more accurate than the best model at Skrimfjella.
+For Skrimfjella the best model achieved a concordance correlation coefficient of 0.3, an *R^2^* of 0.34, and a mean absolute error of \unit{60\,cm}.
+For Ørskogfjellet the same values were 0.39, 0.33, and \unit{56\,cm}, so the best model at Ørskogfjellet was slightly more accurate than the best model at Skrimfjella.
 
 ```{r modelMetrics, echo = FALSE, fig.cap = "Performance of peatland depth models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error."}
 knitr::include_graphics("figures/modelmetrics.pdf")
@@ -446,16 +446,14 @@ Observations outside of the prediction intervals were evenly distributed across 
 
 For Skrimfjella, the best predictor configuration was *all predictors*, followed closely by *terrain and radiometric*.
 The performance gap between the *terrain and DMK* configuration and the *terrain-only* configuration was similarly small.
-Compared to the *terrain-only* configuration, the *terrain and radiometric* configuration improved concordance correlation by 0.04, R^2^ by 0.04, and RMSE by \unit{2\,cm}.
+Compared to the *terrain-only* configuration, the *terrain and radiometric* configuration improved concordance correlation by 0.04, R^2^ by 0.04, and mean absolute error by \unit{1\,cm}.
 *DMK class* alone -- although calibrated to measured depths -- was a very poor predictor of peat depth, with a concordance correlation coefficient of 0.008.
 
 For Ørskogfjellet, the best predictor configuration was *terrain and DMK*, followed by *terrain-only*.
 Adding radiometric predictors to these configurations worsened model performance, especially in terms of concordance correlation and R^2^.
-By itself, *DMK class* produced a concordance correlation coefficient of 0.17 (compared to 0.008 at Skrimfjella), but the worst RMSE of any model at either site: \unit{98\,cm}.
+By itself, *DMK class* produced a concordance correlation coefficient of 0.17 (compared to 0.008 at Skrimfjella), but the worst mean absolute error of any model at either site: \unit{77\,cm}.
 
-When we tested how well models extrapolated from within to outside of mapped peatland, we found that the models produced marginally better RMSE than just assuming a constant \unit{30\,cm} depth (Fig. \@ref(fig:modelMetricsExtrapolation)).
-At Skrimfjella RMSE in the extrapolation was nearly the same as RMSE across all land cover types.
-At Ørskogfjellet RMSE was lower in the extrapolation.
+When we tested how well models extrapolated from within to outside of mapped peatland, we found that the models produced worse mean absolute error than just assuming a constant \unit{30\,cm} depth (Fig. \@ref(fig:modelMetricsExtrapolation)).
 With the independent occurrence data at Skrimfjella, we found that neither the *terrain-only* nor *terrain and radiometric* configurations were able to discriminate between peat presence and absence (area under the curve of the receiver operating characteristic 0.44 and 0.52 respectively, where 0.5 indicates random guessing).
 
 ```{r modelMetricsExtrapolation, echo = FALSE, fig.cap = "Performance of models that extrapolate from training data inside of mapped peatland to test data outside of mapped peatland, evaluated via spatial cross-validation. Parentheses denote the number of variables in each model, and point estimates are shown +/- their standard error."}

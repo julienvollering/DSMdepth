@@ -199,14 +199,17 @@ library(tidyverse)
 orskog <- read_csv("output/modelmetrics.csv") 
 skrim <- read_csv("output/Skrim/modelmetrics.csv")
 plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>% 
-  filter(.metric != 'mae') %>% 
+  filter(.metric != 'rmse') %>% 
   mutate(
     site = fct_relevel(site, "orskog"),
-    .metric = fct_relevel(.metric, "ccc", "rsq", "rmse"),
     metric = case_when(
       .metric == "ccc" ~ "Concordance \ncorrelation coefficient",
       .metric == "rsq" ~ "R-squared",
-      .metric == "rmse" ~ "RMSE"),
+      .metric == "mae" ~ "Mean \nabsolute error"),
+    metric = fct_relevel(metric,
+                         "Concordance \ncorrelation coefficient",
+                         "R-squared",
+                         "Mean \nabsolute error"),
     model = case_when(
       model == "DMK" ~ "DMK class (2)",
       model == "Terrain" ~ "terrain (21)",
@@ -257,11 +260,11 @@ library(tidyverse)
 orskog <- read_csv("output/modelmetrics-extrapolation.csv") 
 skrim <- read_csv("output/Skrim/modelmetrics-extrapolation.csv")
 plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>% 
-  filter(.metric != 'mae') %>% 
+  filter(.metric != 'rmse') %>% 
   mutate(
     site = fct_relevel(site, "orskog"),
     metric = case_when(
-      .metric == "rmse" ~ "RMSE"),
+      .metric == "mae" ~ "Mean \nabsolute error"),
     model = case_when(
       model == "null" ~ "null, assume 30 cm",
       model == "Terrain" ~ "terrain (21)",
@@ -293,7 +296,7 @@ g1 <- ggplot(plotting) +
         panel.grid = element_blank(),
         axis.ticks.y = element_blank(),
         legend.position = "inside",
-        legend.position.inside = c(-0.4, 1.06),
+        legend.position.inside = c(-0.4, 1.14),
         legend.key.spacing.y = unit(-2, "mm"),)
 ggsave(filename = 'modelmetrics-extrapolation.pdf', path = "ms/figures",
        width =(210-30)/2, height = (240-40)/4, units = 'mm') #copernicus.cls page 210x240
