@@ -128,7 +128,7 @@ The degree of attenuation relates to properties of the overburden, especially co
 Deep soil with high water content attenuates most [@beamishGammaRayAttenuation2013; @reinhardtGammaraySpectrometryVersatile2019]. 
 Thus, gamma-ray radiometrics integrate the *scorpan* factors soil, parent material, and age. 
 
-Although theory suggests that one meter of peat may fully attenuate radiometric signal [@beamishGammaRayAttenuation2013; @reinhardtGammaraySpectrometryVersatile2019], empirical investigations show that the association between peat depth and radioactivity can extend beyond the first meter [@gatisMappingUplandPeat2019; @kogantiMappingPeatDepth2023]. 
+Although theory suggests that one meter of peat may fully attenuate radiometric signal [@beamishGammaRayAttenuation2013; @reinhardtGammaraySpectrometryVersatile2019], empirical investigations show that the association between peat depth and radioactivity can extend beyond the first meter [@keaneySpatialStatisticsEstimate2013; @gatisMappingUplandPeat2019; @kogantiMappingPeatDepth2023]. 
 Radiometric data are increasingly available over large areas, presenting a big opportunity insofar as they are predictive. 
 Airborne surveys are used for various applications, and some countries have high spatial coverage of such data  [@minasnyDigitalMappingPeatlands2019; @baranwalAirborneGeophysicalSurveys2020]. 
 
