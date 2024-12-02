@@ -381,7 +381,7 @@ In particular, kNNDM looks for the spatial assignment of training data to folds 
 That way, the spatial separation between folds is similar to the separation between training and prediction locations -- which increases the quality of the map accuracy estimate [@linnenbrinkKNNDMCVKfold2024].
 For spatially clustered training data, this approach strikes a balance between the risk of optimistic metrics from random cross-validation and the risk of pessimistic metrics from other forms of spatial cross-validation [@wadouxSpatialCrossvalidationNot2021].
 We implemented the kNNDM with the *CAST* R package [v.1.0.2, @meyerCASTPackageTraining2024], setting prediction locations to all AR5 mire cells in the study area, and choosing a number of folds (5--20) that produced the best match between the two NND distributions.
-From the cross-validation we quantified mean absolute error (accuracy, original scale), R^2^ (correlation, standardized scale), and Lin's concordance correlation coefficient (accuracy and correlation, standardized scale).
+From the cross-validation we quantified mean absolute error (error magnitude, original scale), R^2^ (explained variation, standardized scale), and Lin's concordance correlation coefficient (error magnitude and explained variation, standardized scale).
 
 DSM products have much more value when their predictions are accompanied by uncertainty estimates, and all DSM should strive to assess uncertainty [@arrouaysImpressionsDigitalSoil2020; @wadouxMachineLearningDigital2020].
 Moreover, the quality of uncertainty estimates should be evaluated, just as the quality of predictions are [@heuvelinkSpatialStatisticsSoil2022].
@@ -435,6 +435,7 @@ cat(depthsByClass)
 None of the models were able to predict peat depth across the study areas with high accuracy (Fig. \@ref(fig:modelMetrics)).
 For Skrimfjella the best model achieved a concordance correlation coefficient of 0.3, an *R^2^* of 0.34, and a mean absolute error of \unit{60\,cm}.
 For Ørskogfjellet the same values were 0.39, 0.33, and \unit{56\,cm}, so the best model at Ørskogfjellet was slightly more accurate than the best model at Skrimfjella.
+These values were derived from kNNDM spatial cross-validation with 20 folds at Skrimfjella and 10 folds at Ørskogfjellet. 
 
 ```{r modelMetrics, echo = FALSE, fig.cap = "Performance of peatland depth models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error."}
 knitr::include_graphics("figures/modelmetrics.pdf")
