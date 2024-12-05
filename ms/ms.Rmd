@@ -1,5 +1,5 @@
 ---
-title: Wall-to-wall mapping of peat depth from Lidar terrain and airborne radiometrics in Norwegian landscapes
+title: Terrain is a stronger predictor of peat depth than airborne radiometrics in Norwegian landscapes
 journal: "`r rticles::copernicus_journal_abbreviations(journal_name = 'soil')`"
 author:
   - given_name: Julien
@@ -40,7 +40,7 @@ abstract: |
   The best models achieved mean absolute errors of 60 and 56 cm, explaining one-third of the variation in peat depth. 
   Terrain variables were more important predictors than radiometric variables, with elevation and valley bottom flatness showing the strongest relationships to depth. 
   Adding radiometric predictors improved model performance at one site but degraded it at the other. 
-  Our models improved upon Norway's existing peat depth maps, but the weak relationships between peat depth and remotely sensed variables demonstrate limitations to mapping without extensive field measurements. 
+  Our models improved upon the national peat depth map, but the weak relationships between peat depth and remotely sensed variables demonstrate limitations to mapping without extensive field measurements. 
   Models trained only on known peatlands could not reliably identify peat presence elsewhere, highlighting the need to map peat occurrence and depth together.
 bibliography: ms.bib
 running:

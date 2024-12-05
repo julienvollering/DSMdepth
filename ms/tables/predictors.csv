@@ -24,4 +24,4 @@ terrain,elevation,Mean elevation
 ,DTW40000,"Depth-to-water index, flow initiation area of 4 ha"
 ,DTW80000,"Depth-to-water index, flow initiation area of 8 ha"
 ,DTW160000,"Depth-to-water index, flow initiation area of 16 ha"
-"existing map",DMK,"DMK peat depth class, categorical with 3 levels"
+"national map",DMK,"DMK peat depth class, categorical with 3 levels"
