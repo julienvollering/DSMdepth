@@ -102,7 +102,7 @@ In Norway, where 9% of the land area is peatland [@brynLandCoverNorway2018], con
 
 The spatial distribution of peat depth is often overlooked in land use planning and carbon accounting because peat depth is not mapped with sufficient coverage, resolution, or accuracy.
 Maps are crucial because they link high-level targets to specific management decisions, unlike spatially aggregated estimates [@oecdOECDEnvironmentalPerformance2022].
-For example, Norwegian regulations restrict conversion to farmland more strictly where peat depth exceeds \unit{1\,m}, and the distribution of peat depth on a farmer's property determines whether he is allowed to convert peatland (Forskrift om nydyrking, 1997, § 5a).
+For example, Norwegian regulations restrict conversion to farmland more strictly where peat depth exceeds 1 m, and the distribution of peat depth on a farmer's property determines whether he is allowed to convert peatland (Forskrift om nydyrking, 1997, § 5a).
 Maps also make it possible to quantify the effect of specific management decisions and thereby understand how local outcomes contribute to regional and national outcomes [@oecdOECDEnvironmentalPerformance2022]. 
 
 Measuring peat depth on the ground is straightforward, and a field survey can map a small area at low cost. 
@@ -174,37 +174,37 @@ These sites were chosen because they were covered by radiometric data from airbo
 \includegraphics[height=0.9\textheight]{figures/sites-patchwork} \caption{Study areas at Ørskogfjellet (a) and Skrimfjella (b) within southern Norway (c). Land cover shown here is from the AR50 national land resource database and has simplified geometry with respect to the AR5 database used in the study.}(\#fig:sites)
 \end{figure}
 
-At Skrimfjella we delineated a study area of \unit{34\,km^{2}} based on radiometric coverage and accessibility (Fig. \@ref(fig:sites)b).
+At Skrimfjella we delineated a study area of 34 km^2^ based on radiometric coverage and accessibility (Fig. \@ref(fig:sites)b).
 The study area has a diverse bedrock, with 32 % alkali feltspat granite, 26 % mergelstein, 10 % granite, and eight other types with > 1 % coverage (NGU, 1:250 000 dataset).
 The landscape within our delineation is classified as *inland hills and mountains* [@simensenDiversityDistributionLandscape2021].
 It is almost without human infrastructure, dominated by forest, and borders on a large nature reserve.
-The study area has a mean elevation of \unit{438\,m} above sea level (range 223--711, IQR 351--509), and its mean slope at \unit{10\,m} resolution is 10.8° (IQR 4.6--15.1°).
-In Norway's AR5 national land capability dataset [@ahlstromAR5Klassifikasjonssystem2019], \unit{1.5\,km^{2}} (4.5 %) of the study area is classified as mire -- defined as areas with mire vegetation and at least \unit{30\,cm} of peat depth.
+The study area has a mean elevation of 438 m above sea level (range 223--711, IQR 351--509), and its mean slope at 10 m resolution is 10.8° (IQR 4.6--15.1°).
+In Norway's AR5 national land capability dataset [@ahlstromAR5Klassifikasjonssystem2019], 1.5 km^2^ (4.5 %) of the study area is classified as mire -- defined as areas with mire vegetation and at least 30 cm of peat depth.
 
-At Ørskogfjellet we defined a study area of \unit{124\,km^{2}} which basically followed the footprint of the radiometric survey (Fig. \@ref(fig:sites)a).
+At Ørskogfjellet we defined a study area of 124 km^2^ which basically followed the footprint of the radiometric survey (Fig. \@ref(fig:sites)a).
 According to the Geological Survey of Norway, bedrock in the area is 84 % granitic gneiss,  11 % granite, and 5 % aluminium silicate gneiss (NGU, 1:250 000 dataset). 
 This study area comprises a wide range of major landscape types: *coastal plains*, *coastal fjord*, *inland valleys*, as well as *inland hills and mountains* [@simensenDiversityDistributionLandscape2021].
 It is mostly forested, but also contains considerable farmland and open upland, and has several large lakes.
-Its mean elevation is \unit{211\,m} above sea level (range 0--807, IQR 73--310), and its mean slope at \unit{10\,m} resolution is 13.0° (IQR 4.7--18.3°).
-The AR5 dataset counts \unit{15.3\,km^{2}} (12.4 %) of the study area as mire.
+Its mean elevation is 211 m above sea level (range 0--807, IQR 73--310), and its mean slope at 10 m resolution is 13.0° (IQR 4.7--18.3°).
+The AR5 dataset counts 15.3 km^2^ (12.4 %) of the study area as mire.
 
 ## Peat depth measurements
 
 At both study sites, our measurements of peat depth were made for the purpose of training a Random Forest (RF) model of peat depth, and we designed our sampling with this in mind [@brusSamplingDigitalSoil2019]. 
 Broadly, we aimed for a sample that was representative of the predictor space defined by the most important predictors of peat depth [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
 A sample that preserves the properties of the multivariate distribution of predictor and outcome variables is most likely to maintain any complex, non-linear relationships that exist in the population while avoiding spurious ones [@brusSamplingDigitalSoil2019].
-We chose for our sampling and modelling a spatial resolution of \unit{10\,m}.
-We considered this a reasonable compromise between DTM resolution (\unit{1\,m}) and small mires on the one hand, and airborne radiometric resolution (\unit{50\,m}) on the other.
-The point measurements of peat depth described below were ultimately aggregated to \unit{10\,m} resolution by taking the mean of point values within each cell, inversely weighted by their distances to the cell center.
+We chose for our sampling and modelling a spatial resolution of 10 m.
+We considered this a reasonable compromise between DTM resolution (1 m) and small mires on the one hand, and airborne radiometric resolution (50 m) on the other.
+The point measurements of peat depth described below were ultimately aggregated to 10 m resolution by taking the mean of point values within each cell, inversely weighted by their distances to the cell center.
 
 ### Skrimfjella
 
-We measured peat depth in selected locations (\unit{10\,m} raster cells) at Skrimfjella.
+We measured peat depth in selected locations (10 m raster cells) at Skrimfjella.
 The locations were chosen only from areas delineated as mire in the AR5 national land capability dataset.
 Within this mire area, we stratified our sample across values of elevation, slope, and potassium ground concentration [from processed airborne gamma ray spectrometry, @baranwalHelicopterborneMagneticElectromagnetic2013].
 Specifically, we used the *eSample* function in the *iSDM* R package (v.1.0) to chose an environmentally systematic sample.
 This function defines the environmental space as a two-dimensional convex hull around the ordinated data, then creates a regular grid across that space, and lastly finds for each grid cell the datum that is nearest [@hattabUnifiedFrameworkModel2017].
-Elevation was extracted from the \unit{10\,m} national DTM, slope calculated in degrees, and potassium ground concentration downscaled with bilinear resampling.
+Elevation was extracted from the 10 m national DTM, slope calculated in degrees, and potassium ground concentration downscaled with bilinear resampling.
 We set a target sample size of 100, excluded the top and bottom percentile from the convex hull, and with these parameters *eSample* returned 105 raster cells.
 
 In addition to the peat depth locations, we had another arm of our sampling design for measuring peatland occurrence, as a binary variable.
@@ -213,29 +213,29 @@ The occurrence locations were sampled from the part of the study area that (1) w
 We performed environmentally systematic sampling of this population with the same procedure as for the depth locations, and *eSample* returned 106 raster cells.
 
 Field work at Skrimfjella was conducted in August 2020.
-We navigated to the centers of the raster cells in the depth and occurrence samples with a handheld global navigation satellite system (GNSS) receiver, checking that positional error was below \unit{3\,m}.
-For each depth sample location, we measured peat depth three times (at the vertices of a triangle with \unit{2\,m} sides) to get a more representative value for the \unit{10\,m} raster cell, and to dampen the effect of outlying measurements [@parryEvaluatingApproachesEstimating2014].
+We navigated to the centers of the raster cells in the depth and occurrence samples with a handheld global navigation satellite system (GNSS) receiver, checking that positional error was below 3 m.
+For each depth sample location, we measured peat depth three times (at the vertices of a triangle with 2 m sides) to get a more representative value for the 10 m raster cell, and to dampen the effect of outlying measurements [@parryEvaluatingApproachesEstimating2014].
 We used a metal probe pushed downward until resistance indicated the base of the peat column.
-Probe locations were adjusted up to \unit{20\,cm} if the base of the peat column seemed to be blocked by an obvious artifact.
+Probe locations were adjusted up to 20 cm if the base of the peat column seemed to be blocked by an obvious artifact.
 A single probe measurement was right-censored because the peat column was deeper than the probe.
-For each occurrence sample location, we recorded the presence or absence of peatland -- primarily by digging and examining the top \unit{20\,cm} of soil (where this was possible).
+For each occurrence sample location, we recorded the presence or absence of peatland -- primarily by digging and examining the top 20 cm of soil (where this was possible).
 We judged whether the soil was a peat soil based on its density, texture, and color.
 Occasionally, when the soil itself was difficult to judge, we made our determination also based on the presence or absence of mire vegetation.
 Although peat soil is strictly defined by organic content (which we did not analyze), we believe our protocol produced reasonable determinations of presence or absence that would generally satisfy most of the varying definitions of peatland [@minasnyMappingMonitoringPeatland2023].
 
 Besides the depth and occurrence measurements described above, we also measured peat depth in three subjectively chosen, individual mires, using ground-penetrating radar (GPR).
-We used the Malå ProEx GPR system (Guideline Geo AB, Sweden) with its \unit{500\,MHz} shielded antenna mounted in a plastic sledge, and its control unit connected to a GNSS receiver.
-At each of the three mires we recorded GPR traces along walking transects that covered the extent of the mire, mostly in traversing, zigzag patterns with between \unit{5\,m} and \unit{20\,m} spacing at their vertices.
+We used the Malå ProEx GPR system (Guideline Geo AB, Sweden) with its 500 MHz} shielded antenna mounted in a plastic sledge, and its control unit connected to a GNSS receiver.
+At each of the three mires we recorded GPR traces along walking transects that covered the extent of the mire, mostly in traversing, zigzag patterns with between 5 m and 20 m spacing at their vertices.
 Along the GPR transects we also probed peat depth at marked trace locations, to be able to calibrate the GPR wave speed velocity.
 We processed the GPR data with Reflex2DQuick software (v.3.0, Sandmeier Scientific Software, Germany), applying a time-zero correction, a dewow filter, and a gain filter based on observed energy decay.
 Then we picked strong reflectors in the radargrams that we interpreted as the base of the peat column.
 We used picks at marked trace locations to calibrate wave speed velocity; we pooled calibration points across the three mires and fitted a linear regression of depth on one-way travel time with the intercept fixed at zero.
-In total we had 46 calibration points along \unit{3.5\,km} of GPR transects.
+In total we had 46 calibration points along 3.5 km of GPR transects.
 Finally, we used the calculated wave velocity (\unit{0.0387\,m\,ns^{-1}}, $R^2 = 0.874$) to convert the travel times of all picks to calibrated peat depths.
 
 ### Ørskogfjellet
 
-At Ørskogfjellet we also measured peat depth in a sample of \unit{10\,m} raster cells, selected from the part of the study area classified in the AR5 dataset as mire.
+At Ørskogfjellet we also measured peat depth in a sample of 10 m raster cells, selected from the part of the study area classified in the AR5 dataset as mire.
 Before selecting locations, we determined a minimal sample size that would adequately capture the terrain and radiometric properties of the entire mire area.
 Specifically, we aimed to identify the size at which adding locations produced diminishing decreases in divergence between sample and population distributions -- i.e. the elbow point in a curve of similarity between sample and population [@maloneMethodsImproveUtility2019].
 This approach has been found to identify sample sizes that correspond with diminishing returns in predictive model performance on external evaluation data [@sauretteDivergenceMetricsDetermining2023].
@@ -248,7 +248,7 @@ To choose 160 locations, we performed feature space coverage sampling.
 This approach has been found to produce higher accuracy in RFs than conditioned latin hypercube sampling [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
 Feature space coverage sampling aims to disperse samples as uniformly as possible in multidimensional predictor space, and is implemented by choosing locations that are closest to cluster centers in a k-means clustering of the standardized predictor space [@brusSamplingDigitalSoil2019].
 Feature space coverage sampling works best when all dimensions are important predictors of the outcome [@wadouxSamplingDesignOptimization2019], and we used the same five predictors that we used to choose sample size: terrain slope and four radiometrics.
-The radiometric predictors were downscaled to \unit{10\,m} resolution with cubic B-spline resampling in QGIS [v.3, @QGISsoftware].
+The radiometric predictors were downscaled to 10 m resolution with cubic B-spline resampling in QGIS [v.3, @QGISsoftware].
 We adjusted the feature space coverage sampling to ensure that locations were accessible within time constraints, and assessed how this changed our sample from an ideal feature space coverage sample.
 Adjusting for accessibility is justified because the smaller sample size that would result if accessibility were ignored can degrade model accuracy as much or more as deviations from ideal sampling designs [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
 To adjust, we first restricted the sampling population to mire areas that were within an arbitrary cost distance of publicly accessible roads.
@@ -258,27 +258,27 @@ Our two accessibility adjustments increased the distance in standardized predict
 
 Field work at Ørskogfjellet was conducted in August 2023.
 We navigated to the centers of the raster cells in the sample using real time kinematic differential GNSS (Topcon Positioning Systems, USA), to ensure sub-meter positional accuracy.
-At each location we measured peat depth three times by manual probing, with probe locations spaced approximately \unit{2.5\,m} apart.
+At each location we measured peat depth three times by manual probing, with probe locations spaced approximately 2.5 m apart.
 For a tiny fraction of these measurements (5 total), it was not possible to reach the base of the peat column, and a right-censored depth was recorded. 
-In areas with dense sampling locations, we also measured peat depth with GPR along snaking transects passing through the centers of the sampling cells (seven transects, \unit{6.2\,km} total length).
-We used the same GPR system as at Skrimfjella, but with a \unit{100\,MHz} Malå rough terrain antenna (Guideline Geo AB, Sweden) at some transects.
+In areas with dense sampling locations, we also measured peat depth with GPR along snaking transects passing through the centers of the sampling cells (seven transects, 6.2 km total length).
+We used the same GPR system as at Skrimfjella, but with a 100 MHz Malå rough terrain antenna (Guideline Geo AB, Sweden) at some transects.
 To navigate the GPR transects, we placed flags at the cell centers of the sample locations, and used a handheld GNSS receiver to guide the GPR operator.
 At sampling locations crossed by a GPR transect, we arranged the manual probe positions along the transect (for better calibration of the GPR wave speed velocity), while other locations were probed in a triangular pattern around the cell center like at Skrimfjella.
 
 We processed the GPR data with Reflexw software (v.8.5, Sandmeier Scientific Software, Germany), applying a dewow filter, time-zero correction, bandpass filter, gain filter, and a dynamic correction that accounts for the non-vertical wave path between offset transmitter and receiver antennae.
-The last correction is important for the rough terrain antenna, which has an antenna separation (\unit{2.2\,m}) -- comparable to typical peat depths.
+The last correction is important for the rough terrain antenna, which has an antenna separation (2.2 m) -- comparable to typical peat depths.
 As with the data from Skrimfjella, we picked the base of the peat column from strong reflectors in the radargram, and calibrated wave velocity with manual probe measurements in a linear regression.
-The points in the regression were created by joining to each probe measurement the travel time of the nearest pick, but only if these were within \unit{2\,m} of each other.
-In total we had 78 calibration points along \unit{7.8\,km} of interpretable GPR traces (transect length exceeded because of extra GPR data).
+The points in the regression were created by joining to each probe measurement the travel time of the nearest pick, but only if these were within 2 m of each other.
+In total we had 78 calibration points along 7.8 km of interpretable GPR traces (transect length exceeded because of extra GPR data).
 Finally, we used the calculated wave velocity (\unit{0.0427\,m\,ns^{-1}}, $R^2 = 0.946$) to convert the travel times of all picks to calibrated peat depths.
 
 We also used two sets of existing depth measurements from Ørskogfjellet.
 The first set was provided by the Norwegian Public Roads Administration, who commissioned GPR surveys of particular peatland areas in 2020 and 2021.
-The surveys were conducted with a dual channel system (\unit{70\,MHz} and \unit{300\,MHz}; ImpulseRadar AB, Sweden), connected to GNSS with CPOS correction.
+The surveys were conducted with a dual channel system (70 MHz and 300 MHz; ImpulseRadar AB, Sweden), connected to GNSS with CPOS correction.
 We used interpreted and calibrated traces from these surveys, and discarded some data where multiple depths were interpreted for the same locations.
-This summed to \unit{7.4\,km} of interpreted traces.
+This summed to 7.4 km of interpreted traces.
 The second set of existing depth data we extracted from a paper map made by the Norwegian Soil and Mire Company in 1984.
-This map presents 44 borehole depths (in decimeters) across a \unit{9\,ha} peatland area.
+This map presents 44 borehole depths (in decimeters) across a 9 ha peatland area.
 We georeferenced the map and digitized the borehole locations and depths.
 
 ## Peat depth predictors
@@ -330,53 +330,53 @@ national map & DMK & DMK peat depth class, categorical with 3 levels\\
 ### Radiometric
 
 The radiometric survey covering Skrimfjella was conducted in 2008--2011. 
-The survey was flown at an average altitude of \unit{75\,m} and average speed of \unit{108\,km\,h^{-1}}, with flight lines spaced \unit{200\,m} apart.
+The survey was flown at an average altitude of 75 m and average speed of \unit{108\,km\,h^{-1}}, with flight lines spaced 200 m apart.
 Spectrometer count rates were calibrated annually to known concentrations of Potassium, Thorium, and Uranium in mobile pads.
-The Geological Survey of Norway processed data from the spectrometer following standard procedures outlined by the International Atomic Energy Association, and the processing included: correction for aircraft and cosmic background radiation, correction for radon in the air, window stripping of the gamma ray spectrum, correction for flying height, conversion of count rates to ground concentrations, and finally gridding to \unit{50\,m} resolution with micro-leveling.
+The Geological Survey of Norway processed data from the spectrometer following standard procedures outlined by the International Atomic Energy Association, and the processing included: correction for aircraft and cosmic background radiation, correction for radon in the air, window stripping of the gamma ray spectrum, correction for flying height, conversion of count rates to ground concentrations, and finally gridding to 50 m resolution with micro-leveling.
 Further details about the survey and data processing are provided in Baranwal et al. [-@baranwalHelicopterborneMagneticElectromagnetic2013].
-We downscaled the processed data to \unit{10\,m} resolution by cubic spline resampling, using the *terra* package in R. 
+We downscaled the processed data to 10 m resolution by cubic spline resampling, using the *terra* package in R. 
 
 A very similar radiometric survey covering Ørskogfjellet was conducted in December 2014 and January 2015. 
-This survey was flown at an average altitude of \unit{80\,m} and average speed of \unit{88\,km\,h^{-1}}, with flight lines also spaced \unit{200\,m} apart.
+This survey was flown at an average altitude of 80 m and average speed of \unit{88\,km\,h^{-1}}, with flight lines also spaced 200 m apart.
 Spectrometer count rates were calibrated in 2013 to known concentrations of Potassium, Thorium, and Uranium in mobile pads.
 The spectrometer data were processed following the same procedure as for the survey at Skrimfjella, except that a convolution filter was added to smooth the gridded data.
 Further details about the survey and data processing are provided in Ofstad [-@ofstadHelicopterborneMagneticRadiometric2015].
-The \unit{10\,m} resolution predictors from this survey were identical to the layers used in the sampling design (resampled from \unit{50\,m} resolution with cubic B-splines).
+The 10 m resolution predictors from this survey were identical to the layers used in the sampling design (resampled from 50 m resolution with cubic B-splines).
 
 ### Terrain
 
-For terrain-derived predictors, we obtained \unit{1\,m} resolution DTMs from the Norwegian Mapping Authority.
+For terrain-derived predictors, we obtained 1 m resolution DTMs from the Norwegian Mapping Authority.
 The DTM for Skrimfjella was produced from airborne laser scanning surveys in 2015 and 2022, with laser point density of \unit{5\,pts\,m^{-2}}.
 For Ørskogfjellet, the DTM was produced from a 2015 survey with \unit{2\,pts\,m^{-2}}.
 Where necessary, DTMs were resampled to the coordinate reference system of the radiometric data.
 
 We used the *terra* R package to calculate from the DTMs: slope, topographic position index (difference from mean of eight neighbors), terrain ruggedness index (mean of absolute differences from eight neighbors), and roughness (range in the nine-cell neighborhood).
-These were derived at two scales to produce eight different predictors; we either calculated from \unit{1\,m} DTM resolution and then aggregated, or aggregated to \unit{10\,m} DTM resolution and then calculated the indices.
+These were derived at two scales to produce eight different predictors; we either calculated from 1 m DTM resolution and then aggregated, or aggregated to 10 m DTM resolution and then calculated the indices.
 This kind of multiscale feature engineering of land surface parameters has been found to improve machine learning predictions of soil properties [@millerImpactMultiscalePredictor2015; @dornikOptimalScalingPredictors2022; @newmanAssessingSpatiallyHeterogeneous2023].
-We know that peat depth tends to vary at fine scales in Norway, which is why we chose \unit{1\,m} and \unit{10\,m} resolutions [@maxwellLandsurfaceParametersSpatial2022].
+We know that peat depth tends to vary at fine scales in Norway, which is why we chose 1 m and 10 m resolutions [@maxwellLandsurfaceParametersSpatial2022].
 We also calculated the MRVBF index, which indicates the degree of valley bottom flatness at a given location via a multiscale algorithm [@gallantMultiresolutionIndexValley2003].
 We calculated this index in SAGA GIS [v.9.3.2, @conradSystemAutomatedGeoscientific2015] with default parameters.
 
 Next, we calculated the Topographic Wetness Index [@quinnPredictionHillslopeFlow1991].
-This index is notoriously scale-dependent and often matches real hydrological conditions best when calculated from moderate to coarse resolution DTMs [@agrenEvaluatingDigitalTerrain2014; @riihimakiTopographicWetnessIndex2021], so we calculated it from \unit{5\,m}, \unit{10\,m}, \unit{20\,m}, and \unit{50\,m} DTM resolution.
+This index is notoriously scale-dependent and often matches real hydrological conditions best when calculated from moderate to coarse resolution DTMs [@agrenEvaluatingDigitalTerrain2014; @riihimakiTopographicWetnessIndex2021], so we calculated it from 5 m, 10 m, 20 m, and 50 m DTM resolution.
 The calculations were performed with Whitebox software [@lindsayWhiteboxGATCase2016], accessed through the *whitebox* R package [v2.4, @wuWhiteboxWhiteboxToolsFrontend2022].
 We filled depressions in the DTM with the algorithm in Wang & Liu [-@wangEfficientMethodIdentifying2006], and used the deterministic infinity flow accumulation algorithm [@tarbotonNewMethodDetermination1997].
 
 The last terrain-based predictor we included was the depth-to-water (DTW) index [@murphyMappingWetlandsComparison2007].
 This index approximates a location's vertical height above the surface water feature that it is likely to drain towards.
 It is calculated as the minimum cumulative slope (scaled by cell size) to a surface water feature [eq. 5 in @murphyTopographicModellingSoil2009].
-We calculated unitless slope from the \unit{1\,m} DTM using the Whitebox software.
+We calculated unitless slope from the 1 m DTM using the Whitebox software.
 Also using Whitebox, we defined surface water features from the DTM by filling depressions and then calculating flow accumulation to define catchment areas for each cell [@schonauerSpatiotemporalPredictionSoil2021; @schonauerRcodeCalculatingDepthwater2021].
-This catchments area layer was then thresholded at seven different levels (*flow initiation areas* from \unit{0.25\,ha} to \unit{16\,ha}) to estimate surface water features under moisture scenarios varying from wet to dry [@murphyModellingMappingTopographic2011; @agrenEvaluatingDigitalTerrain2014; @schonauerSpatiotemporalPredictionSoil2021].
+This catchments area layer was then thresholded at seven different levels (*flow initiation areas* 0.25--16 ha) to estimate surface water features under moisture scenarios varying from wet to dry [@murphyModellingMappingTopographic2011; @agrenEvaluatingDigitalTerrain2014; @schonauerSpatiotemporalPredictionSoil2021].
 In addition, all surface water features mapped in the AR5 dataset were also transferred to the raster layer.
 For each of the seven surface water layers, we derived DTW using the *Distance Accumulation* tool in ArcGIS Pro (v.3.1, ESRI, USA), which has an efficient algorithm to find the cumulative distance over a cost surface to the least-cost source.
 
 ### Peat depth class
 
 We prepared one categorical predictor -- peat depth class -- from a historical national map dataset called *DMK* [@ahlstromAR5Klassifikasjonssystem2019].
-The DMK peat depth classes are: < \unit{1\,m} (*shallow*), > \unit{1\,m} (*deep*), and *unknown*.
-Mappers generally assigned peat depth classes to polygons of at least \unit{0.5\,ha}, although delineating polygons down to \unit{0.2\,ha} was allowed if peat depth showed a "particularly marked difference" [@bjordalMarkslagsklassifikasjonOkonomiskKartverk2007].
-We rasterized the peat depth class attribute to our \unit{10\,m} grid.
+The DMK peat depth classes are: < 1 m (*shallow*), > 1 m (*deep*), and *unknown*.
+Mappers generally assigned peat depth classes to polygons of at least 0.5 ha, although delineating polygons down to 0.2 ha was allowed if peat depth showed a "particularly marked difference" [@bjordalMarkslagsklassifikasjonOkonomiskKartverk2007].
+We rasterized the peat depth class attribute to our 10 m grid.
 
 ## Predictive models of peat depth 
 
@@ -463,9 +463,9 @@ Non-parallel ICE lines indicate the presence of interactions between predictors.
 # Results
 
 We obtained depth measurements for 372 cells at Skrimfjella (area equivalent to 2.4 % of mapped peatland) and 1878 cells at Ørskogfjellet (area equivalent to 1.2 % of mapped peatland).
-Roughly 80 % of these \unit{10\,m} cells were within mapped peatland, and the remainder in forest, open upland, or farmland (Table \ref{tab:depthsByClass}).
+Roughly 80 % of these 10 m cells were within mapped peatland, and the remainder in forest, open upland, or farmland (Table \ref{tab:depthsByClass}).
 Coverage of DMK peat depth classes was higher at Ørskogfjellet than at Skrimfjella (79 % versus 27 % of cells), and at Ørskogfjellet the *deep* and *shallow* classes showed a larger difference in measured depth.
-Overall mean peat depths were similar at Skrimfjella and Ørskogfjellet:  \unit{119\,cm} and \unit{126\,cm}, respectively. 
+Overall mean peat depths were similar at Skrimfjella and Ørskogfjellet:  119 cm and 126 cm, respectively. 
 
 \begin{table}[tbp]
 \caption{Mean peat depth (cm) in \unit{10\,m} cells at Skrimfjella and Ørskogfjellet. The cells are also shown stratified by AR5 land class and DMK peat depth class.}
@@ -486,8 +486,8 @@ DMK & deep (\textgreater 100 cm) & 94       & 25      & 100        & 659        
 \end{table}
 
 None of the models were able to predict peat depth across the study areas with high accuracy (Fig. \@ref(fig:modelMetrics)).
-For Skrimfjella the best model achieved a concordance correlation coefficient of 0.3, an R^2^ of 0.34, and a mean absolute error of \unit{60\,cm}.
-For Ørskogfjellet the same values were 0.39, 0.33, and \unit{56\,cm}, so the best model at Ørskogfjellet was slightly more accurate than the best model at Skrimfjella.
+For Skrimfjella the best model achieved a concordance correlation coefficient of 0.3, an R^2^ of 0.34, and a mean absolute error of 60 cm.
+For Ørskogfjellet the same values were 0.39, 0.33, and 56 cm, so the best model at Ørskogfjellet was slightly more accurate than the best model at Skrimfjella.
 These values were derived from kNNDM spatial cross-validation with 20 folds at Skrimfjella and 10 folds at Ørskogfjellet. 
 
 ![(\#fig:modelMetrics)Performance of peatland depth models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error.](figures/modelmetrics.pdf) 
@@ -498,19 +498,19 @@ Observations outside of the prediction intervals were evenly distributed across 
 
 For Skrimfjella, the best predictor configuration was *all predictors*, followed closely by *terrain and radiometric*.
 The performance gap between the *terrain and DMK* configuration and the *terrain-only* configuration was similarly small.
-Compared to the *terrain-only* configuration, the *terrain and radiometric* configuration improved concordance correlation by 0.04, R^2^ by 0.04, and mean absolute error by \unit{1\,cm}.
+Compared to the *terrain-only* configuration, the *terrain and radiometric* configuration improved concordance correlation by 0.04, R^2^ by 0.04, and mean absolute error by 1 cm.
 *DMK class* alone -- although calibrated to measured depths -- was a very poor predictor of peat depth, with a concordance correlation coefficient of 0.008.
 
 For Ørskogfjellet, the best predictor configuration was *terrain and DMK*, followed by *terrain-only*.
 Adding radiometric predictors to these configurations worsened model performance, especially in terms of concordance correlation and R^2^.
-By itself, *DMK class* produced a concordance correlation coefficient of 0.17 (compared to 0.008 at Skrimfjella), but the worst mean absolute error of any model at either site: \unit{77\,cm}.
+By itself, *DMK class* produced a concordance correlation coefficient of 0.17 (compared to 0.008 at Skrimfjella), but the worst mean absolute error of any model at either site: 77 cm.
 
 The best models at both sites overpredicted shallow peats and strongly underpredicted very deep peats (Fig. \@ref(fig:calPlots)).
-The mean error (bias) of these models was \unit{10\,cm} at Skrimfjella and \unit{-4\,cm} at Ørskogfjellet.
+The mean error (bias) of these models was 10 cm at Skrimfjella and -4 cm at Ørskogfjellet.
 
 ![(\#fig:calPlots)Calibration plots for the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), with predictions from spatial cross-validation. Blue smoother lines are local polynomial regressions. Marginal distributions are shaded by quartile.](figures/calibration_plots.pdf) 
 
-When we tested how well models extrapolated from within to outside of mapped peatland, we found that the models produced worse mean absolute error than just assuming a constant \unit{30\,cm} depth (Fig. \@ref(fig:modelMetricsExtrapolation)).
+When we tested how well models extrapolated from within to outside of mapped peatland, we found that the models produced worse mean absolute error than just assuming a constant 30 cm depth (Fig. \@ref(fig:modelMetricsExtrapolation)).
 With the independent occurrence data at Skrimfjella, we found that neither the *terrain-only* nor *terrain and radiometric* configurations were able to discriminate between peat presence and absence (area under the curve of the receiver operating characteristic 0.44 and 0.52 respectively, where 0.5 indicates random guessing).
 
 ![(\#fig:modelMetricsExtrapolation)Performance of models that extrapolate from training data inside of mapped peatland to test data outside of mapped peatland, evaluated via spatial cross-validation. Parentheses denote the number of variables in each model, and point estimates are shown +/- their standard error.](figures/modelmetrics-extrapolation.pdf) 
@@ -528,8 +528,8 @@ The radiometric variable *radU* showed moderate importance at Skrimfjella.
 ![(\#fig:varImp)Global variable importance in the best-performing models at Ørskogfjellet (a) and Skrimfjella (b), as measured by three different metrics. Variables removed due to collinearity are shown to the right of that with which they are most correlated.](figures/variable_importance.pdf) 
 
 Many of the the most important predictors in the best performing models showed non-monotonic effects on peat depth (Fig. \@ref(fig:pdps)).
-At Ørskogfjellet for example, increasing *elevation* was predictive of deeper peat up to about 75 meters above sea level, after which a further increase was predictive of shallower peat.
-At Skrimfjella the partial dependence on *elevation* had the opposite shape, with the shallowest peats predicted at intermediate elevations, around 350 meters above sea level.
+At Ørskogfjellet for example, increasing *elevation* was predictive of deeper peat up to about 75 m above sea level, after which a further increase was predictive of shallower peat.
+At Skrimfjella the partial dependence on *elevation* had the opposite shape, with the shallowest peats predicted at intermediate elevations, around 350 m above sea level.
 *TWI50m* at Ørskogfjellet and *DTW4000* and *radU* at Skrimfjella were other predictors that showed considerable fluctuations in their predictive effects on peat depth.
 The radiometric predictor in particular displayed an idiosyncratic effect, with a marked dip in predicted depth at intermediate values of *radU*.
 On the other hand, the partial effects of some important predictors were more straightforward.
@@ -537,7 +537,7 @@ The partial dependence on *MRVBF* was quite similar across sites, with the deepe
 Also, *TWI5m* and *DTW2500* at Skrimfjella showed monotonically positive and negative predictive effects, respectively.
 
 Individual conditional expectation lines indicated some interactions between predictors (Fig. \@ref(fig:pdps)).
-For example, the magnitude of the increase in depth with *elevation* that the model expected at Ørskogfjellet was different for different observations; some depth predictions increased by only \unit{40\,cm} while others increased by more than \unit{100\,cm}, over the same elevation gain.
+For example, the magnitude of the increase in depth with *elevation* that the model expected at Ørskogfjellet was different for different observations; some depth predictions increased by only 40 cm while others increased by more than 100 cm, over the same elevation gain.
 Similarly, ICE lines of *radU* at Skrimfjella were non-parallel, with some locations showing monotonically increasing peat depth predictions with uranium concentration (unlike the average effect).
 Nevertheless, most ICE lines were generally parallel -- indicating that the average effects of the predictors were good representations of their overall effects.
 
@@ -578,7 +578,7 @@ More standardized reporting would help but not eliminate this consideration.
 For example, R^2^ is sensitive to high leverage, extreme values, so it will evaluate a right-skewed distribution differently than a symmetrical distribution. 
 We evaluated our models with respect to the explicit purpose of creating peat depth maps across the study areas, but not all studies tailored evaluation to match an explicitly formulated problem [@milaNearestNeighbourDistance2022]. 
 
-Gatis et al. [-@gatisMappingUplandPeat2019] used similar predictors and the same spatial grain, finding a much stronger correlation between predicted and observed peat depth (R^2^ = 0.68). 
+Gatis et al. [-@gatisMappingUplandPeat2019] used similar predictors and the same spatial grain, finding a much stronger correlation between predicted and observed peat depth ($R^2 = 0.68$). 
 Although their random evaluation data partition could make performance estimates too optimistic [@robertsCrossvalidationStrategiesData2017; @wadouxSpatialCrossvalidationNot2021], the confounding effect of spatial structure is probably small because they used linear regression and few predictors. 
 Their model had limited opportunity to overfit to the spatial structure in peat depth. 
 The most salient difference in Gatis et al. [-@gatisMappingUplandPeat2019] compared to our study is the character of the study area. 
