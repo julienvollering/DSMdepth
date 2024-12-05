@@ -712,9 +712,10 @@ The magnitude of this penalty will depend on the dataset characteristics, but ha
 Depth measurements are foundational, and better infrastructure to collect, preserve, and make FAIR these data would help DSM and other applications. 
 Geoportal access and data exchange standards [like Natural England’s for peat surveys, -@naturalenglandDataExchangeStandard2023] are important. 
 Peat data often fall through the cracks between geology-oriented and ecology-oriented archives, but increased awareness of peatland importance is a good impetus to remedy this situation. 
-Peat depth is quick and easy to measure, so integrating its measurement into existing national field programs, like Norway’s spatially representative nature monitoring (ANO) or national forest inventory, would be advantageous (although not sufficient for regional or local mapping). 
+Peat depth is quick and easy to measure, so integrating its measurement into existing national field programs, like Norway’s spatially representative nature monitoring (ANO) or national forest inventory, would be helpful (although not sufficient for regional or local mapping). 
 Municipalities and local actors in Norway are increasingly measuring peat depth and can contribute to a growing data foundation [@kyrkjeeideCalculatorLocalPeatland2023]. 
-All of this lays the groundwork for renewed peatland maps. 
+Low-altitude, drone-mounted GPR may prove an efficient approach for collecting many, accurate depth data in a landscape, by combining the advantages of airborne deployment and active sensing [@pelletierPeatAnalysesHudson1991; @ruolsDevelopmentDronebasedGroundpenetrating2023]. 
+All of the above can lay the groundwork for renewed peatland maps. 
 
 ### Spatial scale affects model performance and utility
 
