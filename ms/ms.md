@@ -31,8 +31,17 @@ affiliation:
   - code: 2
     address: Department of Geography, University of Exeter, United Kingdom
 abstract: |
-  The abstract goes here.
-  It can also be on _multiple lines_.
+  Peatlands are Earth's most carbon-dense terrestrial ecosystems and crucial stores of soil carbon. 
+  Their carbon density results largely from their depth, which can exceed ten meters. 
+  However, peat depth is poorly mapped at scales relevant for land management and carbon accounting. 
+  We evaluated whether digital soil mapping using remotely sensed data could improve existing maps of peat depth in Norway. 
+  Specifically, we assessed the predictive value of LiDAR-derived terrain variables and airborne radiometric data at two contrasting sites. 
+  We measured peat depth at 372 and 1878 locations using manual probing and ground-penetrating radar, then trained Random Forest models to predict depth at 10 m resolution from various combinations of predictors. 
+  The best models achieved mean absolute errors of 60 and 56 cm, explaining one-third of the variation in peat depth. 
+  Terrain variables were more important predictors than radiometric variables, with elevation and valley bottom flatness showing the strongest relationships to depth. 
+  Adding radiometric predictors improved model performance at one site but degraded it at the other. 
+  Our models improved upon Norway's existing peat depth maps, but the weak relationships between peat depth and remotely sensed variables demonstrate limitations to mapping without extensive field measurements. 
+  Models trained only on known peatlands could not reliably identify peat presence elsewhere, highlighting the need to map peat occurrence and depth together.
 bibliography: ms.bib
 running:
   title: Peat depth from terrain and radiometrics
