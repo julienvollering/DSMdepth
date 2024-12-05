@@ -291,8 +291,9 @@ The categorical predictor was peat depth class, from a national map dataset.
 Complete descriptions of predictors follow below.
 ```{r preds, echo=FALSE, message=FALSE}
 df <- readr::read_csv("tables/predictors.csv")
+options(knitr.kable.NA = '')
 knitr::kable(df, booktabs = FALSE, vline = "", linesep = "",
-             col.names = c("Name", "Description"),
+             col.names = c("Group", "Name", "Description"),
              caption = "Candidate predictors of peat depth.")
 ```
 
