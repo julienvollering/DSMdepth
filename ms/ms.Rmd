@@ -60,7 +60,7 @@ availability:
   #data: |
   #  use this to add a statement when having only data sets available
   codedata: |
-    *Code and data availability.* Use this to add a statement when having data sets and software code available
+    R code used in this study is available at <https://github.com/julienvollering/DSMdepth>. Depth measurements will be archived in a public repository upon publication.
 authorcontribution: |
   *Author contributions.*
   JV: Conceptualization, Investigation, Data curation, Formal analysis, Writing – original draft.
