@@ -31,17 +31,17 @@ affiliation:
   - code: 2
     address: Department of Geography, University of Exeter, United Kingdom
 abstract: |
-  Peatlands are Earth's most carbon-dense terrestrial ecosystems and crucial stores of soil carbon. 
-  Their carbon density results largely from their depth, which can exceed ten meters. 
-  However, peat depth is poorly mapped at scales relevant for land management and carbon accounting. 
-  We evaluated whether digital soil mapping using remotely sensed data could improve existing maps of peat depth in Norway. 
+  Peatlands are Earth's most carbon-dense terrestrial ecosystems and their carbon density varies with the depth of the peat layer. 
+  Accurate mapping of peat depth is crucial for carbon accounting and land management, yet existing maps lack the resolution and accuracy needed for these applications. 
+  This study evaluates whether digital soil mapping using remotely sensed data can improve existing maps of peat depth in Norway. 
   Specifically, we assessed the predictive value of LiDAR-derived terrain variables and airborne radiometric data at two contrasting sites. 
-  We measured peat depth at 372 and 1878 locations using manual probing and ground-penetrating radar, then trained Random Forest models to predict depth at 10 m resolution from various combinations of predictors. 
+  We measured peat depth at 372 and 1878 locations and trained Random Forest models to predict depth at 10 m resolution. 
   The best models achieved mean absolute errors of 60 and 56 cm, explaining one-third of the variation in peat depth. 
-  Terrain variables were more important predictors than radiometric variables, with elevation and valley bottom flatness showing the strongest relationships to depth. 
-  Adding radiometric predictors improved model performance at one site but degraded it at the other. 
-  Our models improved upon the national peat depth map, but the weak relationships between peat depth and remotely sensed variables demonstrate limitations to mapping without extensive field measurements. 
-  Models trained only on known peatlands could not reliably identify peat presence elsewhere, highlighting the need to map peat occurrence and depth together.
+  Terrain variables were better predictors than radiometric variables, with elevation and valley bottom flatness showing the strongest relationships to depth. 
+  Radiometric data showed inconsistent value, improving predictions at one site while degrading performance at the other. 
+  Our models improved upon the national peat depth map, but weak relationships with remotely sensed variables make peat depth hard to predict. 
+  These findings suggest that while digital soil mapping can enhance existing peat depth maps, reliable carbon stock assessments still require strategic field sampling. 
+  Furthermore, the inability of models to identify peat presence outside known peatlands highlights the need for integrated mapping of peat occurrence and depth.
 bibliography: ms.bib
 running:
   title: Peat depth from terrain and radiometrics
