@@ -34,13 +34,15 @@ abstract: |
   Peatlands are Earth's most carbon-dense terrestrial ecosystems and their carbon density varies with the depth of the peat layer. 
   Accurate mapping of peat depth is crucial for carbon accounting and land management, yet existing maps lack the resolution and accuracy needed for these applications. 
   This study evaluates whether digital soil mapping using remotely sensed data can improve existing maps of peat depth in Norway. 
-  Specifically, we assessed the predictive value of LiDAR-derived terrain variables and airborne radiometric data at two contrasting sites. 
-  We measured peat depth at 372 and 1878 locations and trained random forest models to predict depth at 10 m resolution. 
-  The best models achieved mean absolute errors of 60 and 56 cm, explaining one-third of the variation in peat depth. 
+  Specifically, we assessed the predictive value of LiDAR-derived terrain variables and airborne radiometric data across two, >10 km^2^ sites. 
+  We measured peat depth by probing and ground-penetrating radar at 372 and 1878 locations at the two sites, respectively.
+  Then we trained random forest models using radiometric and terrain variables, plus the national map of peat depth, to predict peat depth at 10 m resolution. 
+  The two best models achieved mean absolute errors of 60 and 56 cm, explaining one-third of the variation in peat depth. 
   Terrain variables were better predictors than radiometric variables, with elevation and valley bottom flatness showing the strongest relationships to depth. 
-  Radiometric data showed inconsistent value, improving predictions at one site while degrading performance at the other. 
-  Our models improved upon the national peat depth map, but weak relationships with remotely sensed variables make peat depth hard to predict. 
-  These findings suggest that while digital soil mapping can enhance existing peat depth maps, reliable carbon stock assessments still require strategic field sampling. 
+  Radiometric variables showed inconsistent predictive value -- improving performance at one site while degrading it at the other.
+  The accuracy of the national map of peat depth did not measure up to any of our remote sensing models, even though it was calibrated to the same data.
+  Still, weak relationships with remotely sensed variables make peat depth hard to predict overall. 
+  Based on these findings, digital soil mapping can improve existing, broad-scale maps of peat depth, but local carbon stock assessment requires additional field sampling. 
   Furthermore, the inability of models to identify peat presence outside known peatlands highlights the need for integrated mapping of peat occurrence and depth.
 bibliography: ms.bib
 running:
@@ -84,39 +86,40 @@ output:
 
 Peat soils are a terrestrial carbon stock of global importance. 
 They store about 30 % of global soil carbon despite covering only 2--3 % of Earth's land [@xuPEATMAPRefiningEstimates2018; @friedlingsteinGlobalCarbonBudget2020; @unepGlobalPeatlandsAssessment2022]. 
-In other words, they are extremely carbon dense -- denser than any other ecosystem per square meter [@temminkRecoveringWetlandBiogeomorphic2022]. 
-This makes peatlands crucial to climate change mitigation. 
-Intact peatlands sequester carbon and produce a negative temperature forcing, overall [@joostenRolePeatlandsClimate2016]. 
+Peatlands (areas with peat soil) are more carbon dense per square meter than any other ecosystem [@temminkRecoveringWetlandBiogeomorphic2022]. 
+This makes them crucial to climate change mitigation. 
+Intact peatlands sequester carbon and overall produce a negative temperature forcing [@joostenRolePeatlandsClimate2016]. 
 When disturbed, often by conversion to another land use, they can produce large greenhouse gas emissions [@maGloballyRobustRelationship2022]. 
 
 One of the keys to the areal density of peatland carbon stocks lies in the third dimension: their depth. 
 Peat soils range from zero to over ten meters deep, so deep peats comprise a large volume. 
 Their depth results from the accumulation of organic matter over thousands of years [@loiselDatabaseSynthesisNorthern2014; @joostenRolePeatlandsClimate2016]. 
 In the anoxic and acidic conditions created by a high water table, plant material decay is slightly outweighed by new growth, and the surplus carbon is laid down as peat. 
-There it remains sequestered as long as the water table stays high and prevents oxidation.
+There it remains sequestered as long as the water table stays high and prevents oxidative peat decomposistion.
 
 Peatlands are unevenly distributed globally, and in regions with high cover they are frequently converted to human land use [@unepGlobalPeatlandsAssessment2022].
 They are attractive for agriculture and forestry because they are flat, treeless, and have developed soils.
 However, other land uses also displace peatlands. 
-In Norway, where 9% of the land area is peatland [@brynLandCoverNorway2018], construction and development have become important drivers of loss, after lawmakers restricted conversion to forest and farmland in recent decades.
+In Norway -- where flat lowland is relatively scarce but 9 % of the land area is peatland [@brynLandCoverNorway2018] -- lawmakers have restricted peatland afforestation and cultivation in recent decades.
+Since then, a larger proportion of peatland loss is driven by construction [@flagetMyrMellomLokal2024].
 
-The spatial distribution of peat depth is often overlooked in land use planning and carbon accounting because peat depth is not mapped with sufficient coverage, resolution, or accuracy.
+The spatial distribution of peat depth is often overlooked in land use planning and carbon accounting because peat depth is not mapped with sufficient coverage, resolution, or accuracy [@beilmanPeatCarbonStocks2008; @hastieRisksCarbonStorage2022; @unepGlobalPeatlandsAssessment2022].
 Maps are crucial because they link high-level targets to specific management decisions, unlike spatially aggregated estimates [@oecdOECDEnvironmentalPerformance2022].
-For example, Norwegian regulations restrict conversion to farmland more strictly where peat depth exceeds 1 m, and the distribution of peat depth on a farmer's property determines whether he is allowed to convert peatland (Forskrift om nydyrking, 1997, § 5a).
-Maps also make it possible to quantify the effect of specific management decisions and thereby understand how local outcomes contribute to regional and national outcomes [@oecdOECDEnvironmentalPerformance2022]. 
+For example, Norwegian regulations restrict conversion of peatland to farmland more strictly where peat depth exceeds 1 m, and the distribution of peat depth on a farmer's property determines whether they are allowed to convert peatland (Forskrift om nydyrking, 1997, § 5a).
+Maps of peat depth also make it possible to quantify the effect of specific management decisions and thereby understand how local outcomes contribute to regional and national outcomes [@oecdOECDEnvironmentalPerformance2022]. 
 
-Measuring peat depth on the ground is straightforward, and a field survey can map a small area at low cost. 
-However, surveying large areas is impractical when depth varies over short distances -- as in most peatlands. 
+Measuring peat depth on the ground by probing or ground-penetrating radar is straightforward, and a field survey can map a small area at low cost. 
+However, surveying large areas is impractical when depth varies over short distances (e.g. < 1 m) -- as in most peatlands. 
 A complementary approach from soil science is digital soil mapping (DSM). 
 DSM scales up field measurements from a set of locations to a wider area, by relating the measured values to other variables mapped over the area of interest. 
-This approach has grown important with the availability of remotely sensed data and the advancement of methods for identifying pattern, especially through machine learning [@minasnyDigitalMappingPeatlands2019; @wadouxMachineLearningDigital2020].
+This approach has grown in importance with the availability of remotely sensed data and the advancement of methods for identifying patterns, especially through machine learning [@minasnyDigitalMappingPeatlands2019; @wadouxMachineLearningDigital2020].
 
-The crux for DSM of peat depth are the relationships between peat depth and the other, mapped variables. 
+The crux for DSM of peat depth is the relationship between peat depth and each of the other, mapped variables. 
 For DSM to work, these relationships must be strong and consistent over the area of interest.
-They can be purely correlative rather than causal, but mechanistic relationships are stronger and more consistent. 
+They can be purely correlative rather than causal, but mechanistic relationships are stronger and more consistent than non-causal ones. 
 The *scorpan* framework for DSM suggests seven predictor classes to explore: other soil properties, climate, organisms, relief (topography), parent material, age, and spatial position [@mcbratneyDigitalSoilMapping2003]. 
 
-The most practical and widespread *scorpan* factors for peat depth are relief and spatial position. 
+For peat depth, the most practical and widespread *scorpan* factors are relief and spatial position. 
 Spatial position is unique because it is always known (with varying accuracy). 
 However, the short range of spatial autocorrelation in peat depth limits its mapping value [@henglGenericFrameworkSpatial2004]. 
 Relief, or topography, is widely and accurately mapped in digital terrain models (DTMs). 
@@ -134,59 +137,62 @@ Another set of variables related to peat depth are measurements of natural radio
 Gamma-ray spectrometry can survey the activity (decay counts per second) from radioactive isotopes in the earth's crust: potassium-40, uranium-238, and thorium-232 [@reinhardtGammaraySpectrometryVersatile2019]. 
 These exist in bedrock (and mineral soils) and a peat overburden attenuates the radiation intensity at the surface. 
 The degree of attenuation relates to properties of the overburden, especially composition and depth. 
-Deep soil with high water content attenuates most [@beamishGammaRayAttenuation2013; @reinhardtGammaraySpectrometryVersatile2019]. 
-Thus, gamma-ray radiometrics integrate the *scorpan* factors soil, parent material, and age. 
+Deep soil with high water content will attenuate radiation most [@beamishGammaRayAttenuation2013; @reinhardtGammaraySpectrometryVersatile2019]. 
+Thus, gamma-ray radiometrics integrate two *scorpan* factors: other soil properties and parent material [@mcbratneyDigitalSoilMapping2003]. 
 
 Although theory suggests that one meter of peat may fully attenuate radiometric signal [@beamishGammaRayAttenuation2013; @reinhardtGammaraySpectrometryVersatile2019], empirical investigations show that the association between peat depth and radioactivity can extend beyond the first meter [@keaneySpatialStatisticsEstimate2013; @gatisMappingUplandPeat2019; @kogantiMappingPeatDepth2023]. 
-Radiometric data are increasingly available over large areas, presenting a big opportunity insofar as they are predictive. 
-Airborne surveys are used for various applications, and some countries have high spatial coverage of such data  [@minasnyDigitalMappingPeatlands2019; @baranwalAirborneGeophysicalSurveys2020]. 
+Radiometric data are increasingly available over large areas, presenting a big opportunity for mapping peat depth, insofar as they are predictive of peat depth. 
+Airborne surveys are used for various applications like mineral prospecting and radon risk management, and some countries have high spatial coverage of such data [@minasnyDigitalMappingPeatlands2019; @baranwalAirborneGeophysicalSurveys2020]. 
 
 The effectiveness of DSM depends not only on the methods and data, but also on the characteristics of the mapping area. 
-Norway may be instructive in this respect because its peatlands vary widely across climates and topographies. There are many mire massif types, with different hydrology, formation, and development -- from topogeneous or soligeneous fens to blanket or raised bogs [@lyngstadBeskrivelserAvTorvmassivenheter2023]. 
-These types have fundamentally different geomorphology, suggesting that peat depth relationships with terrain or radiometric variables will vary by landscape.
+Norway may be instructive in this respect because its peatlands vary widely across climates and topographies. 
+Norway has 22 peatland mesotopes, with different hydrology, formation, and development -- from topogeneous or soligeneous fens to blanket or raised bogs [@joostenWiseUseMires2002; @lyngstadBeskrivelserAvTorvmassivenheter2023]. 
+These mesotopes have fundamentally different geomorphology, suggesting that peat depth relationships with terrain or radiometric variables will vary by landscape.
 
 The little we know about the depths of Norwegian peatlands comes from surveys meant to identify arable land. 
-After scattered surveys in the early 20th century, a comprehensive round of surveying was completed 1964--2001 as part of a wider land cover mapping in Norway  [@bjordalMarkslagsklassifikasjonOkonomiskKartverk2007]. 
-Because of its agricultural and silvicultural focus, it covered only productive areas below the tree line, and peat depth was measured only in places judged to be potentially arable or afforestable [@ahlstromAR5Klassifikasjonssystem2019]. 
-Field surveyors carried a 1 m probe, so they measured peat depth as shallow (< 1 m), or deep (> 1 m). 
-These classes were assigned to whole mire polygons, so spatial resolution is on the order of hectares. 
+After scattered surveys in the early 20th century, a comprehensive round of surveying was completed 1964--2001 as part of a wider land cover mapping in Norway  [@bjordalMarkslagsklassifikasjonOkonomiskKartverk2007].
+This survey produced the initial maps from which Norway's most detailed updated land cover datasets are derived -- including the AR5 and DMK datasets used in this study and described later.
+Because of its agricultural and silvicultural focus, the survey covered only productive areas below the tree line, and peat depth was measured only in places judged to be potentially arable or afforestable [@ahlstromAR5Klassifikasjonssystem2019]. 
+Field surveyors carried a 1 m probe and they measured peat depth as a categorical variable: shallow (< 1 m), or deep (> 1 m). 
+These classes were assigned to whole polygons, so spatial resolution is on the order of hectares.
+The number of measurements per unit area was not standardized but probably low.
 
-Soil science needs more studies of relationships between peat depth and topographic or radiometric data to determine how predictive they are, which variables are most predictive, and how consistent their associations.
-The push for nature-based climate solutions motivates for broad mapping of peat depth, to identify rich peatland carbon stocks and avoid their conversion.
-Although small areas can be mapped accurately on the ground, having landscape-scale maps *before* detailed investigation increases the option space for spatial planning and land management. 
+The push for nature-based climate solutions motivates for broad mapping of peat depth, to identify peatlands with rich carbon stocks to avoid their conversion and prioritize their preservation or restoration.
+Although ground surveys of peat depth are accurate and feasible across small areas, having landscape-scale maps *before* detailed investigation increases the option space for spatial planning and land management. 
 For example, the Norwegian Public Roads Administration routinely measures peat depth during geotechnical work, but by that time, the route of the road is already set. 
 With a digital peat depth map, planners could better compare routes and climate mitigation measures would have more leverage.
+Therefore, soil science needs more studies of relationships between peat depth and topographic or radiometric data to determine how predictive they are, which variables are most predictive, and how consistent their associations are.
 
-We assess how well remotely sensed topographic and radiometric data can predict peat depth at the landscape scale, with a view towards revising regional and national maps in Norway. 
+Here, we assess how well remotely sensed topographic and radiometric data can predict peat depth at the landscape scale, with a view towards revising regional and national maps in Norway. 
 Specifically, we: (1) quantify the accuracy of predictions from topographic and radiometric variables, (2) identify key predictive variables, and (3) compare these relationships across two different Norwegian landscapes. 
 To our knowledge, this is the first study to predict peat depth from airborne radiometric data using machine learning algorithms. 
-Where airborne radiometric data have been used to predict peat depth, it has been through modeling techniques less suited for prediction and spatial extrapolation [e.g., @keaneySpatialStatisticsEstimate2013; @gatisMappingUplandPeat2019; @siemonAirborneElectromagneticRadiometric2020]. 
-Where machine learning algorithms have been used on airborne radiometric data, it has been to predict peat extent rather than depth [e.g., @olearyDigitalSoilMapping2022].
+Where airborne radiometric data have previously been used to predict peat depth, it has been through modeling techniques less suited for prediction and spatial extrapolation [e.g., @keaneySpatialStatisticsEstimate2013; @gatisMappingUplandPeat2019; @siemonAirborneElectromagneticRadiometric2020]. 
+Where machine learning algorithms have previously been used on airborne radiometric data, it has been to predict peat extent rather than depth [e.g., @olearyDigitalSoilMapping2022].
 
 # Materials and methods
 
 ## Sites
 
-We assessed how well we could predict peat depth at two sites with conspicuously different physical geography: Skrimfjella in eastern Norway and Ørskogfjellet in western Norway (Fig. \@ref(fig:sites)c).
-These sites were chosen because they were covered by radiometric data from airborne surveys, relatively little built-up area, and road access.  
+To assess the predictive value of terrain and radiometric data for mapping peat depth, we chose two sites with conspicuously different physical geography: Skrimfjella (Fig. \@ref(fig:sites)b) in eastern Norway and Ørskogfjellet (Fig. \@ref(fig:sites)a) in western Norway (Fig. \@ref(fig:sites)c).
+These sites were chosen because they were covered by radiometric data from airborne surveys, had relatively little built-up area, and were accessible by road.  
 
 \begin{figure}
-\includegraphics[height=0.9\textheight]{figures/sites-patchwork} \caption{Study areas at Ørskogfjellet (a) and Skrimfjella (b) within southern Norway (c). Land cover shown here is from the AR50 national land resource database and has simplified geometry with respect to the AR5 database used in the study.}(\#fig:sites)
+\includegraphics[height=0.82\textheight]{figures/sites-patchwork} \caption{Sites in southern Norway (a) with land cover at Skrimfjella (b) and Ørskogfjellet (c). To fit the scale of the maps, the land cover shown here is from the AR50 national land resource dataset, which has simplified geometry with respect to the AR5 dataset that is used in the study. Terrain is visualized using a hillshade with slope 45° and azimuth 225°. AR50 data are from Norwegian Institute of Bioeconomy Research under the Norwegian Licence for Open Government Data (<https://data.norge.no/nlod/en/1.0>) and terrain data are from the Norwegian Mapping Authority under the Creative Commons Attribution 4.0 International license (<https://creativecommons.org/licenses/by/4.0/>).}(\#fig:sites)
 \end{figure}
 
 At Skrimfjella we delineated a study area of 34 km^2^ based on radiometric coverage and accessibility (Fig. \@ref(fig:sites)b).
-The study area has a diverse bedrock, with 32 % alkali feltspat granite, 26 % mergelstein, 10 % granite, and eight other types with > 1 % coverage (NGU, 1:250 000 dataset).
-The landscape within our delineation is classified as *inland hills and mountains* [@simensenDiversityDistributionLandscape2021].
+The study area has a diverse bedrock, with 32 % alkali feldspar granite, 26 % marlstone, 10 % granite, 8 % mozonite, 7 % sandstone, 6 % limestone, and five other rock types with 1--5 % coverage (NGU, 1:250 000 dataset).
+The area within our delineation at Skrimfjella is classified as the landscape type *inland hills and mountains* [@simensenDiversityDistributionLandscape2021].
 It is almost without human infrastructure, dominated by forest, and borders on a large nature reserve.
-The study area has a mean elevation of 438 m above sea level (range 223--711, IQR 351--509), and its mean slope at 10 m resolution is 10.8° (IQR 4.6--15.1°).
-In Norway's AR5 national land capability dataset [@ahlstromAR5Klassifikasjonssystem2019], 1.5 km^2^ (4.5 %) of the study area is classified as mire -- defined as areas with mire vegetation and at least 30 cm of peat depth.
+The study area has a mean elevation of 438 m a.s.l. (range 223--711 m, IQR 351--509 m), and its mean slope at 10 m resolution is 10.8° (IQR 4.6--15.1°).
+In Norway's AR5 national land cover dataset ["areal resources in scale 1:5000", @ahlstromAR5Klassifikasjonssystem2019], 1.5 km^2^ (4.5 %) of the study area is classified as 'mire' -- defined as areas with mire vegetation and at least 30 cm of peat depth.
 
-At Ørskogfjellet we defined a study area of 124 km^2^ which basically followed the footprint of the radiometric survey (Fig. \@ref(fig:sites)a).
-According to the Geological Survey of Norway, bedrock in the area is 84 % granitic gneiss,  11 % granite, and 5 % aluminium silicate gneiss (NGU, 1:250 000 dataset). 
+At Ørskogfjellet we defined a study area of 124 km^2^ which basically followed the southernmost part of the radiometric survey extent (Fig. \@ref(fig:sites)a).
+Bedrock in the area is 84 % granitic gneiss,  11 % granite, and 5 % aluminium silicate gneiss (NGU, 1:250 000 dataset). 
 This study area comprises a wide range of major landscape types: *coastal plains*, *coastal fjord*, *inland valleys*, as well as *inland hills and mountains* [@simensenDiversityDistributionLandscape2021].
 It is mostly forested, but also contains considerable farmland and open upland, and has several large lakes.
-Its mean elevation is 211 m above sea level (range 0--807, IQR 73--310), and its mean slope at 10 m resolution is 13.0° (IQR 4.7--18.3°).
-The AR5 dataset counts 15.3 km^2^ (12.4 %) of the study area as mire.
+Its mean elevation is 211 m above sea level (range 0--807 m, IQR 73--310 m), and its mean slope at 10 m resolution is 13.0° (IQR 4.7--18.3°).
+In the AR5 dataset, 15.3 km^2^ (12.4 %) of the study area is classified as mire.
 
 ## Peat depth measurements
 
@@ -194,22 +200,22 @@ At both study sites, our measurements of peat depth were made for the purpose of
 Broadly, we aimed for a sample that was representative of the predictor space defined by the most important predictors of peat depth [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
 A sample that preserves the properties of the multivariate distribution of predictor and outcome variables is most likely to maintain any complex, non-linear relationships that exist in the population while avoiding spurious ones [@brusSamplingDigitalSoil2019].
 We chose for our sampling and modelling a spatial resolution of 10 m.
-We considered this a reasonable compromise between DTM resolution (1 m) and small mires on the one hand, and airborne radiometric resolution (50 m) on the other.
+We considered this a reasonable compromise between DTM resolution (1 m) and small peatlands on the one hand, and airborne radiometric resolution (50 m) on the other.
 The point measurements of peat depth described below were ultimately aggregated to 10 m resolution by taking the mean of point values within each cell, inversely weighted by their distances to the cell center.
 
 ### Skrimfjella
 
 We measured peat depth in selected locations (10 m raster cells) at Skrimfjella.
-The locations were chosen only from areas delineated as mire in the AR5 national land capability dataset.
-Within this mire area, we stratified our sample across values of elevation, slope, and potassium ground concentration [from processed airborne gamma ray spectrometry, @baranwalHelicopterborneMagneticElectromagnetic2013].
+The locations were chosen only from areas delineated as mire in the AR5 dataset.
+Within these AR5 mires, we stratified our sample across values of elevation, slope, and potassium ground concentration [from processed airborne gamma ray spectrometry, @baranwalHelicopterborneMagneticElectromagnetic2013].
 Specifically, we used the *eSample* function in the *iSDM* R package (v.1.0) to chose an environmentally systematic sample.
 This function defines the environmental space as a two-dimensional convex hull around the ordinated data, then creates a regular grid across that space, and lastly finds for each grid cell the datum that is nearest [@hattabUnifiedFrameworkModel2017].
 Elevation was extracted from the 10 m national DTM, slope calculated in degrees, and potassium ground concentration downscaled with bilinear resampling.
 We set a target sample size of 100, excluded the top and bottom percentile from the convex hull, and with these parameters *eSample* returned 105 raster cells.
 
 In addition to the peat depth locations, we had another arm of our sampling design for measuring peatland occurrence, as a binary variable.
-We wanted to measure peatland occurrence outside of mapped mire areas because the AR5 dataset is known to underestimate peatland coverage [especially in forests, @brynLandCoverNorway2018], and because airborne radiometrics may help identify unmapped peatland [@gatisMappingUplandPeat2019; @olearyDigitalSoilMapping2022].
-The occurrence locations were sampled from the part of the study area that (1) was mapped as something other than mire in the AR5 database and (2) had a slope < 20°. 
+We wanted to measure peatland occurrence outside of AR5 mires because the AR5 dataset is known to underestimate peatland coverage [especially in forests, @brynLandCoverNorway2018], and because airborne radiometrics may help identify unmapped peatland [@gatisMappingUplandPeat2019; @olearyDigitalSoilMapping2022].
+The occurrence locations were sampled from the part of the study area that (1) was mapped as something other than mire in the AR5 dataset and (2) had a slope < 20°. 
 We performed environmentally systematic sampling of this population with the same procedure as for the depth locations, and *eSample* returned 106 raster cells.
 
 Field work at Skrimfjella was conducted in August 2020.
@@ -223,20 +229,20 @@ We judged whether the soil was a peat soil based on its density, texture, and co
 Occasionally, when the soil itself was difficult to judge, we made our determination also based on the presence or absence of mire vegetation.
 Although peat soil is strictly defined by organic content (which we did not analyze), we believe our protocol produced reasonable determinations of presence or absence that would generally satisfy most of the varying definitions of peatland [@minasnyMappingMonitoringPeatland2023].
 
-Besides the depth and occurrence measurements described above, we also measured peat depth in three subjectively chosen, individual mires, using ground-penetrating radar (GPR).
+Besides the depth and occurrence measurements described above, we also measured peat depth in three subjectively chosen, separate peatlands, using ground-penetrating radar (GPR).
 We used the Malå ProEx GPR system (Guideline Geo AB, Sweden) with its 500 MHz} shielded antenna mounted in a plastic sledge, and its control unit connected to a GNSS receiver.
-At each of the three mires we recorded GPR traces along walking transects that covered the extent of the mire, mostly in traversing, zigzag patterns with between 5 m and 20 m spacing at their vertices.
+At each of the three peatlands we recorded GPR traces along walking transects that covered the extent of the peatland, mostly in traversing, zigzag patterns with between 5 m and 20 m spacing at their vertices.
 Along the GPR transects we also probed peat depth at marked trace locations, to be able to calibrate the GPR wave speed velocity.
 We processed the GPR data with Reflex2DQuick software (v.3.0, Sandmeier Scientific Software, Germany), applying a time-zero correction, a dewow filter, and a gain filter based on observed energy decay.
 Then we picked strong reflectors in the radargrams that we interpreted as the base of the peat column.
-We used picks at marked trace locations to calibrate wave speed velocity; we pooled calibration points across the three mires and fitted a linear regression of depth on one-way travel time with the intercept fixed at zero.
+We used picks at marked trace locations to calibrate wave speed velocity; we pooled calibration points across the three peatlands and fitted a linear regression of depth on one-way travel time with the intercept fixed at zero.
 In total we had 46 calibration points along 3.5 km of GPR transects.
 Finally, we used the calculated wave velocity (\unit{0.0387\,m\,ns^{-1}}, $R^2 = 0.874$) to convert the travel times of all picks to calibrated peat depths.
 
 ### Ørskogfjellet
 
-At Ørskogfjellet we also measured peat depth in a sample of 10 m raster cells, selected from the part of the study area classified in the AR5 dataset as mire.
-Before selecting locations, we determined a minimal sample size that would adequately capture the terrain and radiometric properties of the entire mire area.
+At Ørskogfjellet we also measured peat depth in a sample of 10 m raster cells, selected from the part of the study area classified as mire in the AR5 dataset.
+Before selecting locations, we determined a minimal sample size that would adequately capture the terrain and radiometric properties of the entire AR5 mire area.
 Specifically, we aimed to identify the size at which adding locations produced diminishing decreases in divergence between sample and population distributions -- i.e. the elbow point in a curve of similarity between sample and population [@maloneMethodsImproveUtility2019].
 This approach has been found to identify sample sizes that correspond with diminishing returns in predictive model performance on external evaluation data [@sauretteDivergenceMetricsDetermining2023].
 We defined a sequence of sample sizes (50--500) and for ten replicate samples at each size [drawn by conditioned latin hypercube sampling, @minasnyConditionedLatinHypercube2006; @roudierClhsPackageConditioned2011], we calculated the mean Kullback--Leibler divergence between sample and population distributions [@maloneMethodsImproveUtility2019; @sauretteDivergenceMetricsDetermining2023].
@@ -251,7 +257,7 @@ Feature space coverage sampling works best when all dimensions are important pre
 The radiometric predictors were downscaled to 10 m resolution with cubic B-spline resampling in QGIS [v.3, @QGISsoftware].
 We adjusted the feature space coverage sampling to ensure that locations were accessible within time constraints, and assessed how this changed our sample from an ideal feature space coverage sample.
 Adjusting for accessibility is justified because the smaller sample size that would result if accessibility were ignored can degrade model accuracy as much or more as deviations from ideal sampling designs [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
-To adjust, we first restricted the sampling population to mire areas that were within an arbitrary cost distance of publicly accessible roads.
+To adjust, we first restricted the sampling population to AR5 mire areas that were within an arbitrary cost distance of publicly accessible roads.
 Cost distance was calculated using GRASS's *r.walk* function, with friction costs defined by AR5 land classes [@GRASSv8-2].
 After creating a feature space coverage sample with this restriction, we also inspected a map of the sample and substituted 16 inaccessible locations with accessible locations from the same or a nearby cluster.
 Our two accessibility adjustments increased the distance in standardized predictor space between sample locations and cluster centers by 78 % (with respect to the ideal sample), but distance in our sample was still only 46 % of the mean distance to cluster centers -- i.e., accessibility did not force locations far from cluster centers relative to the size of the clusters.
@@ -373,9 +379,9 @@ For each of the seven surface water layers, we derived DTW using the *Distance A
 
 ### Peat depth class
 
-We prepared one categorical predictor -- peat depth class -- from a historical national map dataset called *DMK* [@ahlstromAR5Klassifikasjonssystem2019].
-The DMK peat depth classes are: < 1 m (*shallow*), > 1 m (*deep*), and *unknown*.
-Mappers generally assigned peat depth classes to polygons of at least 0.5 ha, although delineating polygons down to 0.2 ha was allowed if peat depth showed a "particularly marked difference" [@bjordalMarkslagsklassifikasjonOkonomiskKartverk2007].
+We prepared one categorical predictor -- peat depth class -- from the national map dataset called *DMK* [@ahlstromAR5Klassifikasjonssystem2019].
+The DMK dataset is derived from the same historical surveys as the AR5 dataset, and peat depth classes are: < 1 m (*shallow*), > 1 m (*deep*), and *unknown*.
+Surveyors generally assigned peat depth classes to polygons of at least 0.5 ha, although delineating polygons down to 0.2 ha was allowed if peat depth showed a "particularly marked difference" [@bjordalMarkslagsklassifikasjonOkonomiskKartverk2007].
 We rasterized the peat depth class attribute to our 10 m grid.
 
 ## Predictive models of peat depth 
@@ -428,18 +434,18 @@ Moreover, the quality of uncertainty estimates should be evaluated, just as the 
 Therefore, we produced prediction intervals with quantile regression forests [@meinshausenQuantileRegressionForests2006], and used the same spatial cross-validation to evaluate the prediction interval coverage probability [@shresthaMachineLearningApproaches2006].
 The quantile regression forests were trained with predictor configuration that showed the highest performance at each site (under the assumption that these models would be put into production) and we extracted 90 % prediction intervals.
 
-While the primary aim of the DSM was to predict peat depth within mapped peatlands (where peat depth > 30 cm), we also performed a minimal evaluation of our ability to estimate peat depth or occurrence outside of mapped peatland.
-In other words, we tested whether our peatland-trained models of peat depth could indicate which other locations were most likely to have peat.
-It is generally impractical to obtain good data for this purpose, because locations with non-zero peat depth outside of mapped peatland are unknown and relatively rare.
-For Skrimfjella, we had independent data from the arm of our sampling design that measured peatland occurrence outside of mapped mire areas.
+While the primary aim of the DSM was to predict peat depth within AR5 mires (where peat depth is supposed to be > 30 cm), we also performed a minimal evaluation of our ability to estimate peat depth or occurrence outside of AR5 mire areas.
+In other words, we tested whether our mire-trained models of peat depth could identify peatlands (with or without mire vegetation).
+It is difficult to obtain good data for this purpose, because peat soil not covered by mire vegetation frequently goes unidentified and is relatively rare at these sites.
+For Skrimfjella, we had independent data from the arm of our sampling design that measured peatland occurrence outside of AR5 mires.
 For Ørskogfjellet we did not have such data.
-Therefore, we first -- for both sites -- performed an evaluation with just our peat depth measurements, which included a fraction of locations not mapped as peatland.
-For this evaluation we used the same spatial cross-validation folds as previously, but now we trained the models only on locations mapped as peatland (in the training folds), and evaluated them only on locations not mapped as peatland (in the test fold).
-In this way, we simulated the situation where a model trained on known peatland is used to predict peat depth outside the known peatland.
+Therefore, we first -- for both sites -- performed an evaluation with only our peat depth measurements, which included a fraction of locations outside of AR5 mires.
+For this evaluation we used the same spatial cross-validation folds as previously, but now we trained the models only on AR5 mire locations (in the training folds), and evaluated them only on (test fold) locations classified in AR5 as something other than mire.
+In this way, we simulated the situation where a model trained on AR5 mires is used to predict peat depth outside AR5 mires.
 From the cross-validation we quantified mean absolute error.
-Second -- for Skrimfjella -- we simply trained a model on all peat depth measurements and then used the independent occurrence dataset to calculate the area under the curve of the receiver operating characteristic, to evaluate the model's ability to discriminate between peat presence and absence.
+Second -- for Skrimfjella alone -- we simply trained a model on all peat depth measurements (AR5 mire or not) and then used the independent occurrence dataset to calculate the area under the curve of the receiver operating characteristic, to evaluate the model's ability to discriminate between peat presence and absence.
 In this analysis, the model's prediction of peat depth is treated as a rank index of peatland likelihood.
-Since DMK peat depth class is always undefined outside known peatlands, we evaluated models with two predictor configurations: terrain predictors alone or terrain and radiometric predictors together.
+Since the purpose was to test the models' ability to uncover unmapped peatland (where DMK peat depth class is undefined), we evaluated models with two predictor configurations: terrain predictors alone or terrain and radiometric predictors together.
 
 ### Model interpretation
 
@@ -462,8 +468,8 @@ Non-parallel ICE lines indicate the presence of interactions between predictors.
 
 # Results
 
-We obtained depth measurements for 372 cells at Skrimfjella (area equivalent to 2.4 % of mapped peatland) and 1878 cells at Ørskogfjellet (area equivalent to 1.2 % of mapped peatland).
-Roughly 80 % of these 10 m cells were within mapped peatland, and the remainder in forest, open upland, or farmland (Table \ref{tab:depthsByClass}).
+We obtained depth measurements for 372 cells at Skrimfjella (2.4 % of AR5 mire area) and 1878 cells at Ørskogfjellet (1.2 % of AR5 mire area).
+Roughly 80 % of these 10 m cells were within AR5 mires, and the remainder in forest, open upland, or farmland (Table \ref{tab:depthsByClass}).
 Coverage of DMK peat depth classes was higher at Ørskogfjellet than at Skrimfjella (79 % versus 27 % of cells), and at Ørskogfjellet the *deep* and *shallow* classes showed a larger difference in measured depth.
 Overall mean peat depths were similar at Skrimfjella and Ørskogfjellet:  119 cm and 126 cm, respectively. 
 
@@ -510,10 +516,10 @@ The mean error (bias) of these models was 10 cm at Skrimfjella and -4 cm at Ørs
 
 ![(\#fig:calPlots)Calibration plots for the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), with predictions from spatial cross-validation. Blue smoother lines are local polynomial regressions. Marginal distributions are shaded by quartile.](figures/calibration_plots.pdf) 
 
-When we tested how well models extrapolated from within to outside of mapped peatland, we found that the models produced worse mean absolute error than just assuming a constant 30 cm depth (Fig. \@ref(fig:modelMetricsExtrapolation)).
+When we tested how well models extrapolated from within to outside of AR5 mire areas, we found that the models produced worse mean absolute error than just assuming a constant 30 cm depth (Fig. \@ref(fig:modelMetricsExtrapolation)).
 With the independent occurrence data at Skrimfjella, we found that neither the *terrain-only* nor *terrain and radiometric* configurations were able to discriminate between peat presence and absence (area under the curve of the receiver operating characteristic 0.44 and 0.52 respectively, where 0.5 indicates random guessing).
 
-![(\#fig:modelMetricsExtrapolation)Performance of models that extrapolate from training data inside of mapped peatland to test data outside of mapped peatland, evaluated via spatial cross-validation. Parentheses denote the number of variables in each model, and point estimates are shown +/- their standard error.](figures/modelmetrics-extrapolation.pdf) 
+![(\#fig:modelMetricsExtrapolation)Performance of models that extrapolate from training data inside of mapped mires to test data outside of mapped mires (AR5 dataset), evaluated via spatial cross-validation. Parentheses denote the number of variables in each model, and point estimates are shown +/- their standard error.](figures/modelmetrics-extrapolation.pdf) 
 
 For the purpose of model interpretation, the *all predictors* configuration for Skrimfjella was reduced from 27 variables to 11 non-collinear variables.
 Similarly, the *terrain and DMK* configuration for Ørskogfjellet was reduced from 23 variables to 11 non-collinear variables.
@@ -565,7 +571,7 @@ The advantage of the DSM was not large in absolute terms (9 cm and 21 cm improve
 We attribute this result to the poor spatial and thematic resolution of DMK peat depth, which precludes a robust correlation with peat depths varying from 0--8 m at fine spatial scales.
 
 The performance of our terrain- and radiometric-based maps could have been improved with a spatially explicit mapping approach like regression kriging.
-By ignoring spatial autocorrelation in peat depth (i.e. the n in scorpan), we have not extracted all of the information about peat depth in the study area out of the training data.
+By ignoring spatial autocorrelation in peat depth (i.e. the n in *scorpan*), we have not extracted all of the information about peat depth in the study area out of the training data.
 If we were to put our DSM approach into production for published maps, we would harness the spatial component, but the actual maps for Ørskogfjellet and Skrimfjella are not of primary interest in this study.
 Moreover, residuals of the RF predictions showed weak spatial structure at Skrimfjella, and only up to a range of 150 m at Ørskogfjellet.
 Therefore, the improvement from regression kriging would be small overall and limited to parts of the maps close to measurements. 
@@ -609,18 +615,18 @@ Although this recommendation aligns with the precautionary principle, here we ma
 
 ### Depth predictions do not necessarily extrapolate to peat occurrence
 
-That we measured more than 30 cm of peat in areas not mapped as peatland was expected, because AR5 underrepresents peatland extent by about one third [@brynLandCoverNorway2018]. 
+That we measured more than 30 cm of peat in areas not mapped as mire was expected, because AR5 underrepresents peatland extent by about one third [@brynLandCoverNorway2018]. 
 For that reason, maps of peatland occurrence also need revising. 
-Unfortunately, our models did not predict peat occurrence outside mapped peatlands. 
+Unfortunately, our models did not predict peat occurrence outside AR5 mires. 
 In these areas, assuming a constant 30 cm of peat (the depth threshold used in AR5) produced less error than our models. 
-Moreover, the performance gap would likely have been larger had our evaluation data been representative of the non-peatland areas. 
-Instead they were near mapped peatlands. 
+Moreover, the performance gap would likely have been larger had our evaluation data been representative of all areas not classified as mire in AR5. 
+Instead they were concentrated near AR5 mires. 
 Most importantly, the independent occurrence data at Skrimfjella showed the model completely failing to predict occurrence, and these data were suited for testing this ability. 
 Although the Ørskogfjellet model may have done better than the Skrimfjella model on a similar independent evaluation set (since it predicted depth better), the improvement would probably be small.
 
 Why wasn't peat occurrence predicted well? 
-The models were trained on fundamentally different populations of locations (~80 % mapped peatland in training vs. 0 % in prediction), so it is not surprising that the associations they learned did not transfer well. 
-Moreover, the ~20 % of training data from outside mapped peatland were incidentally collected (near peatland) and not representative of other land cover classes. 
+The models were trained on fundamentally different populations of locations (~80 % AR5 mire in training vs. 0 % in prediction), so it is not surprising that the associations they learned did not transfer well. 
+Moreover, the ~20 % of training data from outside AR5 mires were incidentally collected (near AR5 mires) and not representative of other land cover classes. 
 In short, the models were blind to the fact that most of both study areas have no peat. 
 
 Peatland extent is probably best mapped using different remotely sensed data than we used here [@bakkestuenDelineationWetlandAreas2023], and this study’s purpose was not to map extent. 
@@ -737,9 +743,9 @@ Choosing a spatial extent for DSM can be tricky.
 A natural starting point is the bounding area around a spatial cluster of depth measurements. 
 For a given cluster, kNNDM can define how far the boundary can extend beyond the point measurements; if a cross-validation nearest neighbor distribution cannot match the sample-to-prediction nearest neighbor distribution, the boundary is too expansive [@meyerMachineLearningbasedGlobal2022; @linnenbrinkKNNDMCVKfold2024]. 
 However, it is unclear how big (N) any cluster of depths should be, and the tradeoff between multiple small-extent DSM and fewer large-extent DSM needs research. 
-Bohn and Miller [-@bohnLocallyEnhancedDigital2024] advocate for bottom-up stitching of local DSM, and for peat depth we assert that these should at least stay within peatland regions, where the composition of peatland types is constant [e.g. @moenVegetasjonstyper1998]. 
+Bohn and Miller [-@bohnLocallyEnhancedDigital2024] advocate for bottom-up stitching of local DSM, and for peat depth we assert that these should at least stay within peatland regions (or 'supertopes'), where the composition of mesotopes is similar [@moenVegetasjonstyper1998; @joostenWiseUseMires2002]. 
 Depth varies strongly between peats formed by terrestrialization versus paludification [@buffamFillingHolesRegional2010], and probably along other axes of peatland typology. 
-Although most Norwegian landscapes contain multiple, unknown types, it makes sense to limit their diversity within a single DSM. 
+Although most Norwegian landscapes contain multiple, unknown mesotopes, it makes sense to limit their diversity within a single DSM. 
 
 ### Machine learning approaches can build on success
 
@@ -758,6 +764,6 @@ Finally, we want to highlight the need for research on peatland occurrence and p
 Since peatland occurrence/extent requires non-zero peat depth [the specific threshold varies by definition, @minasnyMappingMonitoringPeatland2023], they are fundamentally linked. 
 The goal, therefore, should be a unified prediction framework for occurrence and depth. 
 We caution against reducing continuous depth predictions to arbitrary classes [as in @ivanovsModelingGeospatialDistribution2024; @karjalainenComparisonTwoGammaray2024], since classes can be derived from continuous predictions. 
-The distribution of peat depths across landscapes is zero-inflated, and research is needed to determine whether it is more efficient to parameterize a single model of peat depth (with a larger, generalized dataset) or to break down the problem by classifying zero depth and then regressing non-zero depths (with smaller, specialized datasets). 
+The distribution of peat depths across full landscapes is zero-inflated, and research is needed to determine whether it is more efficient to parameterize a single model of peat depth (with a larger, generalized dataset) or to break down the problem by classifying zero depth and then regressing non-zero depths (with smaller, specialized datasets). 
 Coupling occurrence and depth will reduce the prevalence of incoherence that we found: deep peat outside the peatland extent and zero depth inside it. 
 A key challenge going forward will be obtaining training data that represents both zero and non-zero components of the depth distribution, since sampling designs often focus on known peatlands.
