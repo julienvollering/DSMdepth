@@ -17,6 +17,17 @@ extract(predictors, sa, ID = FALSE) |>
 depthpts <- read_csv("data/Skrim/depth_all.csv") |> 
   st_as_sf(coords = c('X', 'Y'), crs = 25833)
 
+# From all data
+depth_all <- depthpts |> 
+  as("Spatial")  
+emp_variog <- variogram(depth_cm ~ 1, cutoff = 200, data = depth_all)
+print(emp_variog)
+plot(emp_variog)
+emp_variog |> 
+  as_tibble() |> 
+  select(np, dist, gamma) |>
+  write_csv("output/Skrim/variogram-all-cutoff200.csv")
+
 # From probe data only
 depth_probe <- depthpts |> 
   filter(source == "probe") |> 

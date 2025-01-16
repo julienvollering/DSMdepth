@@ -114,8 +114,9 @@ modelfit <- data.frame(OWTT = seq(0, max(caldata$OWTT)*1.05, length.out = 100))
 modelfit <- modelfit %>% 
   bind_cols(predict(m0, modelfit, se.fit = TRUE, interval = "confidence")$fit) %>% 
   rename(depth_m = fit)
+mean(abs(m0$residuals)) #MAE (m)
 
-calplot <- caldata %>% 
+caldata %>% 
   ggplot(aes(x=OWTT, y=depth_m)) +
   geom_point(aes(alpha = xydistance), pch=16, size=2) +
   geom_ribbon(data=modelfit, aes(ymin=lwr, ymax=upr), alpha=0.4) +
@@ -131,7 +132,9 @@ calplot <- caldata %>%
   theme(legend.position = c(0.3, 0.8),
         legend.background = element_blank())
 
-ggsave('output/calibrationGPR.svg', calplot, width = 119, height = 84, units = "mm")
+write_csv(caldata, "output/GPRcalibration-caldata.csv")
+write_csv(modelfit, "output/GPRcalibration-modelfit.csv")
+
 v <- units::set_units(m0$coefficients[[1]], "m/ns")
 
 ### TWTT to depth ####

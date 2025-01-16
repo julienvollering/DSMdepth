@@ -190,7 +190,7 @@ ggsave(g123, filename = 'sites-patchwork.pdf', path = "ms/figures",
 # ggsave(filename = 'sites-patchwork.svg', path = "ms/figures",
 #        width =210-30, height = 240-40, units = 'mm')
 
-# Model metrics ####
+# Model metrics by faceting ####
 
 library(tidyverse)
 
@@ -201,13 +201,13 @@ plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>%
   mutate(
     site = fct_relevel(site, "orskog"),
     metric = case_when(
-      .metric == "ccc" ~ "Concordance \ncorrelation coefficient",
-      .metric == "rsq" ~ "R-squared",
-      .metric == "mae" ~ "Mean \nabsolute error"),
+      .metric == "ccc" ~ "unitless\nConcordance correlation",
+      .metric == "rsq" ~ "unitless\nR-squared",
+      .metric == "mae" ~ "cm\nMean absolute error"),
     metric = fct_relevel(metric,
-                         "Concordance \ncorrelation coefficient",
-                         "R-squared",
-                         "Mean \nabsolute error"),
+                         "unitless\nConcordance correlation",
+                         "unitless\nR-squared",
+                         "cm\nMean absolute error"),
     model = case_when(
       model == "DMK" ~ "DMK class (2)",
       model == "Terrain" ~ "terrain (21)",
@@ -234,7 +234,8 @@ g1 <- ggplot(plotting) +
   geom_text(aes(y = model, x = mean, label = signif(mean, 2), group = site),
             position = position_dodge2(width= 1, reverse = TRUE),
             color = "grey50", size = 2.5) +
-  facet_wrap(~metric, nrow = 1, scales = "free_x", axes ="margins") +
+  facet_wrap(~metric, nrow = 1, scales = "free_x", axes ="margins",
+             strip.position = "bottom") +
   scale_color_discrete(labels = c(orskog = "\u00D8rskogfjellet", 
                                   skrim = "Skrimfjella")) +
   theme_bw() +
@@ -243,13 +244,114 @@ g1 <- ggplot(plotting) +
         panel.grid = element_blank(),
         axis.ticks.y = element_blank(),
         legend.position = "inside",
-        legend.position.inside = c(-0.15, 1.08),
-        legend.key.spacing.y = unit(-2, "mm"),)
+        legend.position.inside = c(-0.15, -0.17),
+        legend.key.spacing.y = unit(-2, "mm"),
+        strip.background = element_blank(), 
+        strip.placement = "outside")
+ggsave(filename = 'modelmetrics-faceting.pdf', path = "ms/figures",
+       width =210-30, height = (240-40)/2.5, units = 'mm') #copernicus.cls page 210x240
+
+# Model metrics ####
+
+library(tidyverse)
+library(patchwork)
+
+orskog <- read_csv("output/modelmetrics.csv") 
+skrim <- read_csv("output/Skrim/modelmetrics.csv")
+plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>% 
+  filter(.metric != 'rmse') %>% 
+  mutate(
+    site = fct_relevel(site, "skrim"),
+    model = case_when(
+      model == "DMK" ~ "DMK class (2)",
+      model == "Terrain" ~ "terrain (21)",
+      model == "TerrainDMK" ~ "terrain + DMK class (23)",
+      model == "RadiometricTerrain" ~ "terrain + radiometric (25)",
+      model == "RadiometricTerrainDMK" ~ "all predictors (27)"),
+    model = fct_relevel(model,
+                        "DMK class (2)",
+                        "terrain (21)",
+                        "terrain + DMK class (23)",
+                        "terrain + radiometric (25)",
+                        "all predictors (27)"))
+str(plotting)
+
+cols <- c("orskog" = "#d95f02", "skrim" = "#1b9e77") #https://colorbrewer2.org/#type=qualitative&scheme=Dark2&n=3
+
+g1 <- plotting |> 
+  filter(.metric == "ccc") |> 
+  ggplot() +
+  geom_linerange(aes(y = model, 
+                     x = mean, 
+                     xmin = mean - std_err, 
+                     xmax = mean + std_err, 
+                     color = site),
+                 position = position_dodge2(width= 0.3, reverse = TRUE)) +
+  geom_point(aes(y = model, x = mean, color = site),
+             position = position_dodge2(width= 0.3, reverse = TRUE)) +
+  geom_text(aes(y = model, x = mean, label = signif(mean, 2), group = site),
+            position = position_dodge2(width= 1, reverse = TRUE),
+            color = "grey50", size = 2.5) +
+  scale_colour_manual(values = cols) +
+  annotate(geom='text', x=0.1, y=4.85, size=3, label='\u00D8rskogfjellet', color = "#d95f02") +
+  annotate(geom='text', x=0.1, y=5.15, size=3, label='Skrimfjella', color = "#1b9e77") +
+  guides(color = "none") +
+  labs(subtitle = "Concordance correlation") +
+  xlab("unitless") +
+  theme_bw() +
+  theme(axis.title.y = element_blank(),
+        panel.grid = element_blank(),
+        axis.ticks.y = element_blank())
+
+g2 <- plotting |> 
+  filter(.metric == "rsq") |> 
+  ggplot() +
+  geom_linerange(aes(y = model, 
+                     x = mean, 
+                     xmin = mean - std_err, 
+                     xmax = mean + std_err, 
+                     color = site),
+                 position = position_dodge2(width= 0.3, reverse = TRUE)) +
+  geom_point(aes(y = model, x = mean, color = site),
+             position = position_dodge2(width= 0.3, reverse = TRUE)) +
+  geom_text(aes(y = model, x = mean, label = signif(mean, 2), group = site),
+            position = position_dodge2(width= 1, reverse = TRUE),
+            color = "grey50", size = 2.5) +
+  scale_colour_manual(values = cols) +
+  guides(col = "none") + 
+  labs(subtitle = "R-squared") +
+  xlab("unitless") +
+  theme_bw() +
+  theme(axis.title.y = element_blank(),
+        panel.grid = element_blank(),
+        axis.ticks.y = element_blank())
+
+g3 <- plotting |> 
+  filter(.metric == "mae") |> 
+  ggplot() +
+  geom_linerange(aes(y = model, 
+                     x = mean, 
+                     xmin = mean - std_err, 
+                     xmax = mean + std_err, 
+                     color = site),
+                 position = position_dodge2(width= 0.3, reverse = TRUE)) +
+  geom_point(aes(y = model, x = mean, color = site),
+             position = position_dodge2(width= 0.3, reverse = TRUE)) +
+  geom_text(aes(y = model, x = mean, label = signif(mean, 2), group = site),
+            position = position_dodge2(width= 1, reverse = TRUE),
+            color = "grey50", size = 2.5) +
+  scale_colour_manual(values = cols) +
+  guides(color = "none") +
+  labs(subtitle = "Mean absolute error") +
+  xlab("cm") +
+  theme_bw() +
+  theme(axis.title.y = element_blank(),
+        panel.grid = element_blank(),
+        axis.ticks.y = element_blank())
+
+g123 <- (g1 | g2 | g3) + plot_layout(axes = "collect_y")
 ggsave(filename = 'modelmetrics.pdf', path = "ms/figures",
        width =210-30, height = (240-40)/2.5, units = 'mm') #copernicus.cls page 210x240
-# ggsave(filename = 'modelmetrics.svg', path = "ms/figures",
-#        width =210-30, height = (240-40)/2.5, units = 'mm')
-
 
 # Model metrics extrapolation####
 
@@ -260,7 +362,7 @@ skrim <- read_csv("output/Skrim/modelmetrics-extrapolation.csv")
 plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>% 
   filter(.metric != 'rmse') %>% 
   mutate(
-    site = fct_relevel(site, "orskog"),
+    site = fct_relevel(site, "skrim"),
     metric = case_when(
       .metric == "mae" ~ "Mean \nabsolute error"),
     model = case_when(
@@ -273,6 +375,8 @@ plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>%
                         "terrain + radiometric (25)"))
 str(plotting)
 
+cols <- c("orskog" = "#d95f02", "skrim" = "#1b9e77") #https://colorbrewer2.org/#type=qualitative&scheme=Dark2&n=3
+
 g1 <- ggplot(plotting) +
   geom_linerange(aes(y = model, 
                      x = mean, 
@@ -283,19 +387,18 @@ g1 <- ggplot(plotting) +
   geom_point(aes(y = model, x = mean, color = site),
              position = position_dodge2(width= 0.3, reverse = TRUE)) +
   geom_text(aes(y = model, x = mean, label = signif(mean, 2), group = site),
-            position = position_dodge2(width= 1, reverse = TRUE),
+            position = position_dodge2(width=1, reverse = TRUE),
             color = "grey50", size = 2.5) +
-  facet_wrap(~metric, nrow = 1, scales = "free_x", axes ="margins") +
-  scale_color_discrete(labels = c(orskog = "\u00D8rskogfjellet", 
-                                  skrim = "Skrimfjella")) +
+  scale_colour_manual(values = cols) +
+  annotate(geom='text', x=70, y=0.85, size=3, label='\u00D8rskogfjellet', color = "#d95f02") +
+  annotate(geom='text', x=70, y=1.15, size=3, label='Skrimfjella', color = "#1b9e77") +
+  guides(color = "none") +
+  labs(subtitle = "Mean absolute error") +
+  xlab("cm") +
   theme_bw() +
-  theme(axis.title = element_blank(),
-        legend.title = element_blank(),
+  theme(axis.title.y = element_blank(),
         panel.grid = element_blank(),
-        axis.ticks.y = element_blank(),
-        legend.position = "inside",
-        legend.position.inside = c(-0.4, 1.14),
-        legend.key.spacing.y = unit(-2, "mm"),)
+        axis.ticks.y = element_blank())
 ggsave(filename = 'modelmetrics-extrapolation.pdf', path = "ms/figures",
        width =(210-30)/2, height = (240-40)/4, units = 'mm') #copernicus.cls page 210x240
 
@@ -497,7 +600,80 @@ ggsave(filename = 'partial_dependence.pdf', path = "ms/figures",
        width =(210-30), height = (240-60), units = 'mm') #copernicus.cls page 210x240
 # ggsave(filename = 'partial_dependence.svg', path = "ms/figures",
 #        width =(210-30), height = (240-60), units = 'mm')
-  
+
+# GPR wave velocity calibrations ####
+
+library(tidyverse)
+library(patchwork)
+
+caldata <- read_csv("output/GPRcalibration-caldata.csv")
+modelfit <- read_csv("output/GPRcalibration-modelfit.csv")
+
+g1 <- caldata %>% 
+  ggplot(aes(x=OWTT, y=depth_m)) +
+  geom_point() +
+  geom_ribbon(data=modelfit, aes(ymin=lwr, ymax=upr), alpha=0.4) +
+  geom_line(data=modelfit) +
+  geom_abline(slope = 0.03, intercept = 0, color="red", lty=2) +
+  annotate("text", x = 20, y = 5, label = "R-squared = 0.947") +
+  annotate("text", x = 100, y = 2.75, label = "0.03 m/ns (fresh water)", color="red", angle=21) +
+  annotate("text", x = 110, y = 4.5, label = "0.043 m/ns", angle=29) +
+  labs(x = "one-way travel time (ns)", y = "depth (m)") +
+  coord_cartesian(expand = FALSE) +
+  theme_bw()
+
+caldata <- read_csv("output/Skrim/GPRcalibration-caldata.csv")
+modelfit <- read_csv("output/Skrim/GPRcalibration-modelfit.csv")
+
+g2 <- caldata %>% 
+  ggplot(aes(x=OWTT, y=depth)) +
+  geom_point(pch=16, size=2) +
+  geom_ribbon(data=modelfit, aes(ymin=lwr, ymax=upr), alpha=0.4) +
+  geom_line(data=modelfit) +
+  geom_abline(slope = 0.03, intercept = 0, color="red", lty=2) +
+  annotate("text", x = 15, y = 3.5, label = "R-squared = 0.874") +
+  annotate("text", x = 60, y = 1.65, label = "0.03 m/ns (fresh water)", color="red", angle=20) +
+  annotate("text", x = 60, y = 2.5, label = "0.039 m/ns", angle=26) +
+  labs(x = "one-way travel time (ns)", y = "depth (m)") +
+  coord_cartesian(expand = FALSE) +
+  theme_bw()
+
+(g2 + g1) + plot_layout(ncol = 1, axes = 'collect_x') +
+  plot_annotation(tag_levels = 'a', tag_prefix = '(', tag_suffix = ')') 
+ggsave(filename = 'GPRwavevelocity.pdf', path = "ms/figures",
+       width =(210-30), height = ((240-30)), units = 'mm') #copernicus.cls page 210x240
+
+# Semivariograms ####
+
+library(tidyverse)
+library(patchwork)
+library(ggtext)
+
+orskog <- read_csv("output/variogram-all-cutoff200.csv")
+skrim <- read_csv("output/Skrim/variogram-all-cutoff200.csv")
+
+g1 <- ggplot(orskog, aes(x = dist, y = gamma)) +
+  geom_point() +
+  labs(
+    x = "Lag distance (m)",
+    y = "Semivariance (cm^2^)"
+  ) +
+  theme_bw() +
+  theme(axis.title.y = element_markdown())
+g2 <- ggplot(skrim, aes(x = dist, y = gamma)) +
+  geom_point() +
+  labs(
+    x = "Lag distance (m)",
+    y = "Semivariance (cm^2^)"
+  ) +
+  theme_bw() +
+  theme(axis.title.y = element_markdown())
+
+g2 + g1 + plot_layout(ncol = 1, guides = 'collect', axes = 'collect') +
+  plot_annotation(tag_levels = 'a', tag_prefix = '(', tag_suffix = ')') 
+ggsave(filename = 'semivariograms.pdf', path = "ms/figures",
+       width =(210-30), height = ((240-30)/2), units = 'mm') #copernicus.cls page 210x240
+
 # sessionInfo ####
 
 sessioninfo::session_info()

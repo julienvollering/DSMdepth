@@ -27,8 +27,9 @@ modelfit <- data.frame(OWTT = seq(0, max(caldata$OWTT)*1.05, length.out = 100))
 modelfit <- modelfit %>% 
   bind_cols(predict(m0, modelfit, se.fit = TRUE, interval = "confidence")$fit) %>% 
   rename(depth = fit)
+mean(abs(m0$residuals)) #MAE (m)
 
-calplot <- caldata %>% 
+caldata %>% 
   ggplot(aes(x=OWTT, y=depth)) +
   geom_point(pch=16, size=2) +
   geom_ribbon(data=modelfit, aes(ymin=lwr, ymax=upr), alpha=0.4) +
@@ -41,22 +42,41 @@ calplot <- caldata %>%
   coord_cartesian(expand = FALSE) +
   theme_bw()
 
-ggsave('output/Skrim/calibrationGPR.svg', calplot, width = 119, height = 84, units = "mm")
+write_csv(caldata, "output/Skrim/GPRcalibration-caldata.csv")
+write_csv(modelfit, "output/Skrim/GPRcalibration-modelfit.csv")
+
 v <- units::set_units(m0$coefficients[[1]], "m/ns")
 
 ## TWTT to depth ####
 mire1 <- st_read("data/Skrim/GPRpicks.gpkg", "mire1")
 mire2 <- st_read("data/Skrim/GPRpicks.gpkg", "mire2")
 mire3 <- st_read("data/Skrim/GPRpicks.gpkg", "mire3")
-gpr <- bind_rows(mire1, mire2, mire3) |> 
+gpr <- bind_rows(mire1, mire2, mire3, .id = "mire") |> 
   mutate(depth_cm = TWT/2*units::drop_units(v)*100) |> 
-  select(depth_cm)
+  select(mire, Name, depth_cm)
 
 gprlines <- bind_rows(mire1, mire2, mire3) %>% 
   group_by(Name) |> 
   arrange(Trace) |>
   select(Name) |>
   summarize(Name = first(Name), do_union=FALSE) |> 
+  st_cast("LINESTRING")
+gprlines |> 
+  mutate(length = st_length(gprlines)) |> 
+  pull(length) |> 
+  sum()
+
+# Distance threshold to divide trace sequences into separate lines
+threshold_distance <- 10
+buffers_sf <- st_buffer(gpr, dist = threshold_distance/2) |> 
+  st_union() |> 
+  st_cast("POLYGON") |> 
+  st_sf() |> 
+  rowid_to_column("group_id")
+gprlines <- gpr |> 
+  st_join(buffers_sf) |> 
+  group_by(Name, group_id) |>
+  summarize(do_union=FALSE, .groups = "drop") |> 
   st_cast("LINESTRING")
 gprlines |> 
   mutate(length = st_length(gprlines)) |> 
