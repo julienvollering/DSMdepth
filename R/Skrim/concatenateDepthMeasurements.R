@@ -15,6 +15,9 @@ filter(probe, is.na(depth_cm))
 probe |> 
   filter(grepl("plus|\\+", note))
 
+st_write(probe, "data/Skrim/depth_probe.csv", 
+         layer_options = "GEOMETRY=AS_XY", delete_layer = TRUE)
+
 # GPR data ####
 
 ## Calibrate wave velocity ####
@@ -27,7 +30,7 @@ modelfit <- data.frame(OWTT = seq(0, max(caldata$OWTT)*1.05, length.out = 100))
 modelfit <- modelfit %>% 
   bind_cols(predict(m0, modelfit, se.fit = TRUE, interval = "confidence")$fit) %>% 
   rename(depth = fit)
-mean(abs(m0$residuals)) #MAE (m)
+mean(abs(m0$residuals)) #MAE (m) 0.2941374
 
 caldata %>% 
   ggplot(aes(x=OWTT, y=depth)) +

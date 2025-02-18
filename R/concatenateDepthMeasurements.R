@@ -27,6 +27,8 @@ probe |>
   filter(grepl("plus|\\+", comment, ignore.case = TRUE))
 
 arrange(probeclean, desc(HRMS))
+st_write(probeclean, "data/depth/concatenatedCleanProbe.csv", 
+         layer_options = "GEOMETRY=AS_XY", delete_layer = TRUE)
 
 # GPR data ####
 
@@ -114,7 +116,7 @@ modelfit <- data.frame(OWTT = seq(0, max(caldata$OWTT)*1.05, length.out = 100))
 modelfit <- modelfit %>% 
   bind_cols(predict(m0, modelfit, se.fit = TRUE, interval = "confidence")$fit) %>% 
   rename(depth_m = fit)
-mean(abs(m0$residuals)) #MAE (m)
+mean(abs(m0$residuals)) #MAE (m) 0.4165467 
 
 caldata %>% 
   ggplot(aes(x=OWTT, y=depth_m)) +
