@@ -1,27 +1,27 @@
-group,name,description
-radiometric,radK,Potassium ground concentration
-,radTh,Thorium ground concentration
-,radU,Uranium ground concentration
-,radTC,Total count of gamma radiation
-terrain,elevation,Mean elevation
-,slope1m,Mean of 1 m slope
-,TPI1m,Mean of 1 m topographic position index
-,TRI1m,Mean of 1 m terrain ruggedness index
-,roughness1m,Mean of 1 m roughness
-,slope10m,10 m slope
-,TPI10m,10 m topographic position index
-,TRI10m,10 m terrain ruggedness index
-,roughness10m,10 m roughness
-,MRVBF,Multi-resolution valley bottom flatness
-,TWI5m,Mean of 5 m topographic wetness index
-,TWI10m,10 m topographic wetness index
-,TWI20m,Bilinear interpolation of 20 m topographic wetness index
-,TWI50m,Bilinear interpolation of 50 m topographic wetness index
-,DTW2500,"Depth-to-water index, flow initiation area of 0.25 ha"
-,DTW5000,"Depth-to-water index, flow initiation area of 0.5 ha"
-,DTW10000,"Depth-to-water index, flow initiation area of 1 ha"
-,DTW20000,"Depth-to-water index, flow initiation area of 2 ha"
-,DTW40000,"Depth-to-water index, flow initiation area of 4 ha"
-,DTW80000,"Depth-to-water index, flow initiation area of 8 ha"
-,DTW160000,"Depth-to-water index, flow initiation area of 16 ha"
-"national map",DMK,"DMK peat depth class, categorical with 3 levels"
+Group,Code,Units,Description
+radiometric,radK,%,Potassium ground concentration
+,radTh,ppm,Thorium ground concentration
+,radU,ppm,Uranium ground concentration
+,radTC,"\unit{counts\,s^{-1}}",Total Count of gamma radiation
+terrain,elevation,m,mean elevation from DTM with 1 m resolution
+,slope1m,degrees,mean of slope at 1 m resolution
+,TPI1m,m,mean of Topographic Position Index at 1 m resolution
+,TRI1m,m,mean of Terrain Ruggedness Index at 1 m resolution
+,roughness1m,m,mean of roughness at 1 m resolution
+,slope10m,degrees,slope from DTM with 10 m resolution
+,TPI10m,m,Topographic Position Index from DTM with 10 m resolution
+,TRI10m,m,Terrain Ruggedness Index from DTM with 10 m resolution
+,roughness10m,m,roughness from DTM with 10 m resolution
+,MRVBF,dimensionless,Multi-Resolution Valley Bottom Flatness
+,TWI5m,dimensionless,mean of Topographic Wetness Index at 5 m resolution
+,TWI10m,dimensionless,Topographic Wetness Index at 10 m resolution
+,TWI20m,dimensionless,bilinear interpolation of Topographic Wetness Index at 20 m resolution
+,TWI50m,dimensionless,bilinear interpolation of Topographic Wetness Index at 50 m resolution
+,DTW2500,m,"Depth-To-Water index, flow initiation area of 0.25 ha"
+,DTW5000,m,"Depth-To-Water index, flow initiation area of 0.5 ha"
+,DTW10000,m,"Depth-To-Water index, flow initiation area of 1 ha"
+,DTW20000,m,"Depth-To-Water index, flow initiation area of 2 ha"
+,DTW40000,m,"Depth-To-Water index, flow initiation area of 4 ha"
+,DTW80000,m,"Depth-To-Water index, flow initiation area of 8 ha"
+,DTW160000,m,"Depth-To-Water index, flow initiation area of 16 ha"
+DMK,DMK,categorical,peat depth class in the DMK national map dataset: shallow/deep/unknown

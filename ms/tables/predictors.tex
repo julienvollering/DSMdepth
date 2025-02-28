@@ -1,0 +1,35 @@
+\begin{table}[tbp]
+\caption{Twenty-six candidate predictors of peat depth. Note that each continuous predictor contributes one variable to the model while the single categorical predictor (DMK) contributes two binary variables, corresponding to its three levels (one level is used as the reference). 
+This results in a total of 27 variables.}
+\begin{tabular}{llll}
+\hline
+Group        & Code         & Units                 & Description                                                            \\ \hline
+radiometric  & radK         & \%                    & Potassium ground concentration                                         \\ 
+             & radTh        & ppm                   & Thorium ground concentration                                           \\
+             & radU         & ppm                   & Uranium ground concentration                                           \\
+             & radTC        & \unit{counts\,s^{-1}} & Total Count of gamma radiation                                         \\
+terrain      & elevation    & m                     & mean elevation from DTM with 1 m resolution                            \\
+             & slope1m      & degrees               & mean of slope at 1 m resolution                                        \\
+             & TPI1m        & m                     & mean of Topographic Position Index at 1 m resolution                   \\
+             & TRI1m        & m                     & mean of Terrain Ruggedness Index at 1 m resolution                     \\
+             & roughness1m  & m                     & mean of roughness at 1 m resolution                                    \\
+             & slope10m     & degrees               & slope from DTM with 10 m resolution                                    \\
+             & TPI10m       & m                     & Topographic Position Index from DTM with 10 m resolution               \\
+             & TRI10m       & m                     & Terrain Ruggedness Index from DTM with 10 m resolution                 \\
+             & roughness10m & m                     & roughness from DTM with 10 m resolution                                \\
+             & MRVBF        & dimensionless         & Multi-Resolution Valley Bottom Flatness                                \\
+             & TWI5m        & dimensionless         & mean of Topographic Wetness Index at 5 m resolution                    \\
+             & TWI10m       & dimensionless         & Topographic Wetness Index at 10 m resolution                           \\
+             & TWI20m       & dimensionless         & bilinear interpolation of Topographic Wetness Index at 20 m resolution \\
+             & TWI50m       & dimensionless         & bilinear interpolation of Topographic Wetness Index at 50 m resolution \\
+             & DTW2500      & m                     & Depth-To-Water index, flow initiation area of 0.25 ha                  \\
+             & DTW5000      & m                     & Depth-To-Water index, flow initiation area of 0.5 ha                   \\
+             & DTW10000     & m                     & Depth-To-Water index, flow initiation area of 1 ha                     \\
+             & DTW20000     & m                     & Depth-To-Water index, flow initiation area of 2 ha                     \\
+             & DTW40000     & m                     & Depth-To-Water index, flow initiation area of 4 ha                     \\
+             & DTW80000     & m                     & Depth-To-Water index, flow initiation area of 8 ha                     \\
+             & DTW160000    & m                     & Depth-To-Water index, flow initiation area of 16 ha                    \\
+DMK          & DMK          & categorical           & peat depth class in the DMK national map dataset: shallow/deep/unknown \\ \hline
+\end{tabular}
+\label{tab:preds}
+\end{table}

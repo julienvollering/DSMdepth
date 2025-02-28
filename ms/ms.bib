@@ -516,6 +516,7 @@
   journal = {Journal of Geophysical Research: Biogeosciences},
   volume = {115},
   number = {G1},
+  pages = {G01005},
   issn = {2156-2202},
   doi = {10.1029/2009JG001034},
   urldate = {2024-11-07},
@@ -645,6 +646,7 @@
   year = {2023},
   journal = {Frontiers in Soil Science},
   volume = {3},
+  pages = {1305105},
   issn = {2673-8619},
   urldate = {2024-01-05},
   abstract = {IntroductionThe increased adoption of proximal sensors has helped to generate peat mapping products: they gather data quickly and can detect the peat-mineral later boundary. A third layer, made of sedimentary peat (limnic layers, gyttja), can sometimes be found in between them. This material is highly variable spatially and is associated with degraded soil properties when located near the surface.MethodsThis study aimed to assess the potential of direct current resistivity measurements to predict the maximum peat thickness (MPT), defined as the non-limnic peat thickness, to facilitate soil conservation and management practices at the field-scale. The results were also compared to a regional map of the MPT from a previous study used and also tested as a covariate. This study was conducted in a shallow (MPT = 8-138~cm) cultivated organic soil from Qu{\'e}bec, Canada. The MPT was mapped using the apparent electrical conductivity (ECa) from a Veris Q2800, and a digital elevation model, with and without a regional MPT map (RM) as a covariate to downscale it. Three machine-learning algorithms (Cubist, Random Forest, and Support Vector Regression) were compared to ordinary kriging (OK), multiple linear regression, and multiple linear regression kriging (MLRK) models.Results and discussionThe best predictive performance was achieved with OK (Lin's CCC = 0.89, RMSE = 13.75~cm), followed by MLRK-RM (CCC = 0.85, RMSE~=~15.7~cm). All models were more accurate than the RM (CCC = 0.65, RMSE = 29.85~cm), although they underpredicted MPT {$>$} 100~cm. Moreover, the addition of the RM as a covariate led to a lower prediction error and higher accuracy for all models. Overall, a field-scale approach could better support precision soil conservation interventions by generating more accurate management zones. Future studies should test multi-sensor fusion and other geophysical sensors to further improve the model performance and detect deeper boundaries.},
@@ -803,13 +805,15 @@
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\2020 - Peatlands mapping and monitoring.pdf}
 }
 
-@article{fiantisMappingPeatThickness2023,
+@article{fiantisMappingPeatThickness2024,
   title = {Mapping Peat Thickness and Carbon Stock of a Degraded Peatland in {{West Sumatra}}, {{Indonesia}}},
   author = {Fiantis, Dian and {Rudiyanto} and Ginting, Frisa Irawan and Agtalarik, Aldo and Arianto, Destri Tito and Wichaksono, Panji and Irfan, Rahmad and Nelson, Malik and Gusnidar, Gusnidar and Jeon, Sangho and Minasny, Budiman},
-  year = {2023},
+  year = {2024},
+  month = jan,
   journal = {Soil Use and Management},
-  volume = {n/a},
-  number = {n/a},
+  volume = {40},
+  number = {1},
+  pages = {e12954},
   issn = {1475-2743},
   doi = {10.1111/sum.12954},
   urldate = {2023-09-05},
@@ -898,6 +902,7 @@
   journal = {Water Resources Research},
   volume = {39},
   number = {12},
+  pages = {1347},
   issn = {1944-7973},
   doi = {10.1029/2002WR001426},
   urldate = {2023-04-18},
@@ -1027,6 +1032,25 @@
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Gregorutti et al. - 2017 - Correlation and variable importance in random forests.pdf}
 }
 
+@article{griesEnvironmentalDataInitiative2023,
+  title = {The {{Environmental Data Initiative}}: {{Connecting}} the Past to the Future through Data Reuse},
+  shorttitle = {The {{Environmental Data Initiative}}},
+  author = {Gries, Corinna and Hanson, Paul C. and O'Brien, Margaret and Servilla, Mark and Vanderbilt, Kristin and Waide, Robert},
+  year = {2023},
+  journal = {Ecology and Evolution},
+  volume = {13},
+  number = {1},
+  pages = {e9592},
+  issn = {2045-7758},
+  doi = {10.1002/ece3.9592},
+  urldate = {2025-02-18},
+  abstract = {The Environmental Data Initiative (EDI) is a trustworthy, stable data repository, and data management support organization for the environmental scientist. In a bottom-up community process, EDI was built with the premise that freely and easily available data are necessary to advance the understanding of complex environmental processes and change, to improve transparency of research results, and to democratize ecological research. EDI provides tools and support that allow the environmental researcher to easily integrate data publishing into the research workflow. Almost ten years since going into production, we analyze metadata to provide a general description of EDI's collection of data and its data management philosophy and placement in the repository landscape. We discuss how comprehensive metadata and the repository infrastructure lead to highly findable, accessible, interoperable, and reusable (FAIR) data by evaluating compliance with specific community proposed FAIR criteria. Finally, we review measures and patterns of data (re)use, assuring that EDI is fulfilling its stated premise.},
+  copyright = {{\copyright} 2023 The Authors. Ecology and Evolution published by John Wiley \& Sons Ltd.},
+  langid = {english},
+  keywords = {data,ecological,environmental,FAIR,metadata,open,science},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Gries et al. - 2023 - The Environmental Data Initiative Connecting the past to the future through data reuse.pdf}
+}
+
 @article{hapfelmeierEfficientPermutationTesting2023,
   title = {Efficient Permutation Testing of Variable Importance Measures by the Example of Random Forests},
   author = {Hapfelmeier, Alexander and Hornung, Roman and Haller, Bernhard},
@@ -1143,6 +1167,23 @@
   abstract = {Random forest and similar Machine Learning techniques are already used to generate spatial predictions, but spatial location of points (geography) is often ignored in the modeling process. Spatial auto-correlation, especially if still existent in the cross-validation residuals, indicates that the predictions are maybe biased, and this is suboptimal. This paper presents a random forest for spatial predictions framework (RFsp) where buffer distances from observation points are used as explanatory variables, thus incorporating geographical proximity effects into the prediction process. The RFsp framework is illustrated with examples that use textbook datasets and apply spatial and spatio-temporal prediction to numeric, binary, categorical, multivariate and spatiotemporal variables. Performance of the RFsp framework is compared with the state-of-the-art kriging techniques using fivefold cross-validation with refitting. The results show that RFsp can obtain equally accurate and unbiased predictions as different versions of kriging. Advantages of using RFsp over kriging are that it needs no rigid statistical assumptions about the distribution and stationarity of the target variable, it is more flexible towards incorporating, combining and extending covariates of different types, and it possibly yields more informative maps characterizing the prediction error. RFsp appears to be especially attractive for building multivariate spatial prediction models that can be used as ``knowledge engines'' in various geoscience fields. Some disadvantages of RFsp are the exponentially growing computational intensity with increase of calibration data and covariates and the high sensitivity of predictions to input data quality. The key to the success of the RFsp framework might be the training data quality---especially quality of spatial sampling (to minimize extrapolation problems and any type of bias in data), and quality of model validation (to ensure that accuracy is not effected by overfitting). For many data sets, especially those with lower number of points and covariates and close-to-linear relationships, model-based geostatistics can still lead to more accurate predictions than RFsp.},
   langid = {english},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Hengl et al. - 2018 - Random forest as a generic framework for predictiv.pdf}
+}
+
+@article{henrionMappingMonitoringPeatlands2024,
+  title = {Mapping and Monitoring Peatlands in the {{Belgian Hautes Fagnes}}: {{Insights}} from {{Ground-penetrating}} Radar and {{Electromagnetic}} Induction Characterization},
+  shorttitle = {Mapping and Monitoring Peatlands in the {{Belgian Hautes Fagnes}}},
+  author = {Henrion, Maud and Li, Yanfei and Koganti, Triven and Bechtold, Michel and Jonard, Fran{\c c}ois and Opfergelt, Sophie and Vanacker, Veerle and Van Oost, Kristof and Lambot, S{\'e}bastien},
+  year = {2024},
+  month = jun,
+  journal = {Geoderma Regional},
+  volume = {37},
+  pages = {e00795},
+  issn = {2352-0094},
+  doi = {10.1016/j.geodrs.2024.e00795},
+  urldate = {2024-07-04},
+  abstract = {Peatlands are vital ecosystems providing crucial ecological services such as significant carbon storage in the context of climate change. These sensitive ecosystems are subjected to degradation due to land use change. In this context, it is important to understand the actual state of degraded peatlands and their recovery potential for regaining important functions. This study focuses on a disturbed peatland in the Belgian Hautes Fagnes, previously drained and planted with spruce, and characterized by a topographic gradient. We aimed to elucidate the use of Ground-penetrating radar (GPR) and Electromagnetic induction (EMI) techniques in characterizing such peatlands, with a specific focus on their implications for peat depth and electrical conductivity assessment, related to peatland degradation. The GPR revealed a high spatial heterogeneity in peat depth, ranging from 0.2 to more than 2~m on the site. In contrast, an EMI instrument used with single coil spacing proved to be unsuccessful to deduce peat depth but demonstrated potential for the delineation of zones of mineral soil. It is also shown that the links between soil physical and chemical properties and its bulk soil electrical conductivity (ECa) measured by EMI are complex in zones of shallower peat. Additionally, this study highlights the role of pore water conductivity in influencing temporal variations in ECa. Our findings explain the intricate interplay between peat depth, topography and ECa in disturbed peatlands. The results of this study may be of substantial societal interest, as it provides insights into techniques for the rapid non destructive characterization of the conditions of previously drained peatlands.},
+  keywords = {change,Climate,Electromagnetic induction,geophysics,Ground,Ground-penetrating,mitigation,peat,Peatlands,penetrating,Proximal,radar,sensing,soil},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Henrion et al. - 2024 - Mapping and monitoring peatlands in the Belgian Ha.pdf}
 }
 
 @article{heuvelinkSpatialStatisticsSoil2022,
@@ -1273,30 +1314,32 @@
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Joosten et al. - 2016 - The role of peatlands in climate regulation.pdf}
 }
 
-@article{joostenWiseUseMires2002,
-  title = {Wise Use of Mires and Peatlands},
+@book{joostenWiseUseMires2002,
+  title = {Wise Use of Mires and Peatlands: Background and Principles Including a Framework for Decision-Making},
   author = {Joosten, Hans and Clarke, Donal},
   year = {2002},
-  journal = {International Mire Conservation Group and International Peat Society},
-  volume = {304},
+  publisher = {{International Mire Conservation Group and International Peat Society}},
+  address = {Saarij{\"a}rvi, Finland},
+  isbn = {951-97744-8-3},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Joosten and Clarke - 2002 - Wise use of mires and peatlands.pdf}
 }
 
-@article{karjalainenComparisonTwoGammaray2024,
+@article{karjalainenComparisonTwoGammaray2025,
   title = {Comparison of Two Gamma-Ray Datasets Measured with Different Methods and Assessment of Their Performance to Predict Soil Properties},
   author = {Karjalainen, Ville and Malinen, Jukka and Tokola, Timo},
-  year = {2024},
+  year = {2025},
+  month = jan,
   journal = {International Journal of Forest Engineering},
-  volume = {0},
-  number = {0},
-  pages = {1--14},
+  volume = {36},
+  number = {1},
+  pages = {29--42},
   publisher = {Taylor \& Francis},
   issn = {1494-2119},
   doi = {10.1080/14942119.2024.2398947},
-  urldate = {2024-10-11},
+  urldate = {2025-02-22},
   abstract = {Terrain mobility is directly dependent on soil properties, i.e. stoniness, soil particle size and peat depth. Gamma-ray spectrometry has been widely used in soil mapping as gamma-rays can penetrate up to 50 cm of soil. The method has proven to be effective in gathering information on various soil properties, such as clay and silt content, organic carbon content, soil pH, and soil stoniness. The intensity of gamma radiation decreases with increasing soil moisture content, which is important when assessing the load-bearing capacity of forest terrain, which affects the quality and planning of mechanized wood harvesting. In this study, we compared two gamma-ray datasets that were acquired from the same plots but measured with different methods: airborne gamma-ray spectrometry and a handheld gamma-ray spectrometer. Regression analyses were used to examine whether the gamma-ray datasets have significant similarities. Linear discriminant analysis was then used to study the performance of the two gamma-ray datasets when predicting different soil properties (stoniness index classes (SIC), soil depth, and peat depth). Our correlation analysis produced R2 values of 0.18--0.29 and root mean square error (RMSE\%) values of 0.48--0.55. Prediction of SIC was 67.1\% accurate with ground gamma and 45.9\% accurate with air gamma. For soil depth predictions, the accuracies were 64.7--70.0\% for ground gamma and 61.7--63.5\% for air gamma. Our findings showed that ground gamma-ray spectrometry is better at predicting soil properties than air gamma-ray spectrometry.},
   keywords = {classification,depth,engineering,forestry,gamma-ray,regression,soil,spectroscopy},
-  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Karjalainen et al. - Comparison of two gamma-ray datasets measured with different methods and assessment of their perform.pdf}
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Karjalainen et al. - 2025 - Comparison of two gamma-ray datasets measured with different methods and assessment of their perform.pdf}
 }
 
 @misc{kavliEv39OrskogfjelletVik2021,
@@ -1532,7 +1575,8 @@
   title = {{Norges Torvressurser}},
   author = {Lie, Ole},
   year = {1982},
-  journal = {127-133},
+  journal = {Jord og Myr},
+  pages = {127--133},
   publisher = {Det Norske Jord- og Myrselskap},
   urldate = {2024-01-05},
   langid = {nob},
@@ -1622,7 +1666,7 @@
   copyright = {CC BY-NC-ND},
   isbn = {9781853971006},
   langid = {english},
-  keywords = {Blanket Bog,bog,classification,conservation,peatland},
+  keywords = {Blanket Bog,bog,classification,conservation,peatland,To read},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Lindsay - 1995 - Bogs the ecology, classification and conservation.pdf}
 }
 
@@ -1634,6 +1678,55 @@
   publisher = {IUCN UK Committee Peatland Programme},
   keywords = {level,peatland,scale,typology},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\1 Definitions final - 5th November 2014.pdf}
+}
+
+@techreport{lindsayPeatbogsCarbonCritical2010,
+  type = {Technical Report},
+  title = {Peatbogs and Carbon: A Critical Synthesis to Inform Policy Development in Oceanic Peat Bog Conservation and Restoration in the Context of Climate Change},
+  shorttitle = {Peatbogs and Carbon},
+  author = {Lindsay, R.},
+  year = {2010},
+  institution = {RSPB Scotland},
+  urldate = {2023-02-22},
+  abstract = {The objective of the present report has been to provide a critical examination of various key papers which have increasingly come to inform the debate about peat and carbon in recent years. The report attempts to clarify the nature and origins of the evidence presented in these papers, and tries to explain why sometimes apparently-conflicting evidence emerges when comparing aspects of these and associated papers. The work seeks to look at the current state of peat carbon science with a view to identifying key messages relevant to policy. In the process of undertaking this study, the sources of many apparently contradictory lines of evidence have been identified. It is hoped that this work can draw together the science of what is undoubtedly a highly complex subject and render the various technical, confusing and sometimes plainly contradictory elements of the subject into a form which clarifies the issues and makes them more accessible. The present study has also highlighted a number of issues where further research is needed.},
+  copyright = {CC BY-ND},
+  langid = {english},
+  keywords = {To read},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Lindsay - 2010 - Peatbogs and carbon a critical synthesis to infor.pdf}
+}
+
+@incollection{lindsayPeatlandClassification2016,
+  title = {Peatland {{Classification}}},
+  booktitle = {The {{Wetland Book}}: {{I}}: {{Structure}} and {{Function}}, {{Management}} and {{Methods}}},
+  author = {Lindsay, Richard},
+  editor = {Finlayson, C. Max and Everard, Mark and Irvine, Kenneth and McInnes, Robert J. and Middleton, Beth A. and {van Dam}, Anne A. and Davidson, Nick C.},
+  year = {2016},
+  pages = {1515--1528},
+  publisher = {Springer Netherlands},
+  address = {Dordrecht},
+  doi = {10.1007/978-94-007-6172-8_341-1},
+  urldate = {2025-02-24},
+  abstract = {Many approaches to the classification of peat-forming (mire) systems have been devised over the years, each with its own particular focus. The present review restricts itself to those classification systems which focus on peatlands as ecosystems. Such systems are in broad agreement that there is a significant ecological difference between mires which are waterlogged by groundwater or accumulated surface water, broadly known as `fens', and mires which are waterlogged only through direct precipitation, broadly termed `bogs'. Within these broad concepts, however, mires have been variously classified according to their vegetation, their chemistry, their source of water and their hydromorphology. This last system of classification is widely employed, and its hierarchical, or `Tope', approach offers the potential to incorporate other classification systems at various levels within the hierarchy.},
+  isbn = {978-94-007-6172-8},
+  langid = {english},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Lindsay - 2016 - Peatland Classification.pdf}
+}
+
+@incollection{lindsayPeatlandMireTypes2016,
+  title = {Peatland ({{Mire Types}}): {{Based}} on {{Origin}} and {{Behavior}} of {{Water}}, {{Peat Genesis}}, {{Landscape Position}}, and {{Climate}}},
+  shorttitle = {Peatland ({{Mire Types}})},
+  booktitle = {The {{Wetland Book}}: {{II}}: {{Distribution}}, {{Description}} and {{Conservation}}},
+  author = {Lindsay, R.},
+  editor = {Finlayson, C. Max and Milton, G. Randy and Prentice, R. Crawford and Davidson, Nick C.},
+  year = {2016},
+  pages = {1--23},
+  publisher = {Springer Netherlands},
+  urldate = {2024-12-23},
+  abstract = {Mires, or peat-forming systems, have traditionally been recognised as falling into two broad peat-forming types -- minerotrophic fens fed by groundwater or collected surface water, and ombrotrophic bogs fed exclusively by direct precipitation. Different types of fen can then be distinguished based on sources of water and rates of water supply. In contrast, ombrotrophic bogs can be classified according to their morphology, position within the landscape and consequent developmental history. A few `mixed' or `intermediate' mire types can also be identified.},
+  isbn = {978-94-007-6173-5},
+  langid = {english},
+  keywords = {Blanket Bog,bog,fen,floodplain,peatland,typology,watershed},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Lindsay - 2016 - Peatland (Mire Types) Based on Origin and Behavior of Water, Peat Genesis, Landscape Position, and.pdf}
 }
 
 @article{lindsayWhiteboxGATCase2016,
@@ -1662,6 +1755,24 @@
   abstract = {Random and spatial cross-validation (CV) methods are commonly used to evaluate machine-learning-based spatial prediction models, and the performance values obtained are often interpreted as map accuracy estimates. However, the appropriateness of such approaches is currently the subject of controversy. For the common case where no probability sample for validation purposes is available, in Mil{\`a} et al. (2022) we proposed the nearest-neighbour distance matching (NNDM) leave-one-out (LOO) CV method. This method produces a distribution of geographical nearest-neighbour distances (NNDs) between test and training locations during CV that matches the distribution of NNDs between prediction and training locations. Hence, it creates predictive conditions during CV that are comparable to what is required when predicting a defined area. Although NNDM LOO CV produced largely reliable map accuracy estimates in our analysis, as a LOO-based method, it cannot be applied to the large datasets found in many studies.  Here, we propose a novel k-fold CV strategy for map accuracy estimation inspired by the concepts of NNDM LOO CV: the k-fold NNDM (kNNDM) CV. The kNNDM algorithm tries to find a k-fold configuration such that the empirical cumulative distribution function (ECDF) of NNDs between test and training locations during CV is matched to the ECDF of NNDs between prediction and training locations.  We tested kNNDM CV in a simulation study with different sampling distributions and compared it to other CV methods including NNDM LOO CV. We found that kNNDM CV performed similarly to NNDM LOO CV and produced reasonably reliable map accuracy estimates across sampling patterns. However, compared to NNDM LOO CV, kNNDM resulted in significantly reduced computation times. In an experiment using 4000 strongly clustered training points, kNNDM CV reduced the time spent on fold assignment and model training from 4.8 d to 1.2 min. Furthermore, we found a positive association between the quality of the match of the two ECDFs in kNNDM and the reliability of the map accuracy estimates.  kNNDM provided the advantages of our original NNDM LOO CV strategy while bypassing its sample size limitations.},
   langid = {english},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Linnenbrink et al. - 2024 - kNNDM CV k-fold nearest-neighbour distance.pdf}
+}
+
+@article{liPeatDepthCarbon2025,
+  title = {Peat {{Depth}} and {{Carbon Storage}} of the {{Hudson Bay Lowlands}}, {{Canada}}},
+  author = {Li, Yiyao and Han, Daorui and Rogers, Cheryl A. and Finkelstein, Sarah A. and Hararuk, Oleksandra and Waddington, James M. and Barreto, Carlos and McLaughlin, James W. and Snider, James and Gonsamo, Alemu},
+  year = {2025},
+  journal = {Geophysical Research Letters},
+  volume = {52},
+  number = {2},
+  pages = {e2024GL110679},
+  issn = {1944-8007},
+  doi = {10.1029/2024GL110679},
+  urldate = {2025-02-03},
+  abstract = {The Hudson Bay Lowlands (HBL) are recognized as the second largest peatland complex in the world. Due to variability in peat thickness across a large and heterogeneous landscape, the existing carbon (C) storage estimates for the HBL may contain large uncertainty. Here, we use geospatial variables that are associated with HBL peat formation, age, accumulation, and occurrence to understand the driving factors for peat depth variability and map peat depth and C storage at 30 m spatial resolution. The estimated average peat depth of HBL is 184({\textpm}48) cm with 90\% of values falling between 89 and 264 cm. Based on the spatially explicit peat depth, the HBL total C storage is estimated to be 30({\textpm}6) Pg. Distance to the coastline is the most important indicator of peat depth where the depth increases with distance further away from Hudson Bay coastline, confirming that the time since peat formation is closely related to peat depth.},
+  copyright = {{\copyright} 2025. The Author(s).},
+  langid = {english},
+  keywords = {Canada,carbon,depth,ensemble,machine learning,peat,stock},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Li et al. - 2025 - Peat Depth and Carbon Storage of the Hudson Bay Lowlands, Canada.pdf}
 }
 
 @article{loiselDatabaseSynthesisNorthern2014,
@@ -2071,12 +2182,13 @@
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Minasny et al_2019_Digital mapping of peatlands – A critical review.pdf}
 }
 
-@article{minasnyMappingMonitoringPeatland2023,
+@article{minasnyMappingMonitoringPeatland2024,
   title = {Mapping and Monitoring Peatland Conditions from Global to Field Scale},
   author = {Minasny, Budiman and Adetsu, Diana Vigah and Aitkenhead, Matt and Artz, Rebekka R. E. and Baggaley, Nikki and Barthelmes, Alexandra and Beucher, Am{\'e}lie and Caron, Jean and Conchedda, Giulia and Connolly, John and Deragon, Rapha{\"e}l and Evans, Chris and Fadnes, Kjetil and Fiantis, Dian and Gagkas, Zisis and Gilet, Louis and Gimona, Alessandro and Glatzel, Stephan and Greve, Mogens H. and Habib, Wahaj and Hergoualc'h, Kristell and Hermansen, Cecilie and Kidd, Darren B. and Koganti, Triven and Kopansky, Dianna and Large, David J. and Larmola, Tuula and Lilly, Allan and Liu, Haojie and Marcus, Matthew and Middleton, Maarit and Morrison, Keith and Petersen, Rasmus Jes and Quaife, Tristan and Rochefort, Line and {Rudiyanto} and Toca, Linda and Tubiello, Francesco N. and Weber, Peter Lystb{\ae}k and Weldon, Simon and Widyatmanti, Wirastuti and Williamson, Jenny and Zak, Dominik},
-  year = {2023},
-  month = oct,
+  year = {2024},
   journal = {Biogeochemistry},
+  volume = {167},
+  pages = {383--425},
   issn = {1573-515X},
   doi = {10.1007/s10533-023-01084-1},
   urldate = {2023-10-27},
@@ -2100,6 +2212,14 @@
   abstract = {Machine learning (ML) applications in soil science have significantly increased over the past two decades, reflecting a growing trend towards data-driven research addressing soil security. This extensive application has mainly focused on enhancing predictions of soil properties, particularly soil organic carbon, and improving the accuracy of digital soil mapping (DSM). Despite these advancements, the application of ML in soil science faces challenges related to data scarcity and the interpretability of ML models. There is a need for a shift towards Soil Science-Informed ML (SoilML) models that use the power of ML but also incorporate soil science knowledge in the training process to make predictions more reliable and generalisable. This paper proposes methodologies for embedding ML models with soil science knowledge to overcome current limitations. Incorporating soil science knowledge into ML models involves using observational priors to enhance training datasets, designing model structures which reflect soil science principles, and supervising model training with soil science-informed loss functions. The informed loss functions include observational constraints, coherency rules such as regularisation to avoid overfitting, and prior or soil-knowledge constraints that incorporate existing information about the parameters or outputs. By way of illustration, we present examples from four fields: digital soil mapping, soil spectroscopy, pedotransfer functions, and dynamic soil property models. We discuss the potential to integrate process-based models for improved prediction, the use of physics-informed neural networks, limitations, and the issue of overparametrisation. These approaches improve the relevance of ML predictions in soil science and enhance the models' ability to generalise across different scenarios while maintaining soil science principles, transparency and reliability.},
   keywords = {Artificial Intelligence,machine learning,mechanistic,Mobile,Pedology,process-based,To read},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Minasny et al. - 2024 - Soil Science-Informed Machine Learning.pdf}
+}
+
+@book{moenNationalAtlasNorway1999,
+  title = {National Atlas of {{Norway}}: {{Vegetation}}},
+  author = {Moen, Asbj{\o}rn},
+  year = {1999},
+  publisher = {Norwegian Mapping Authority},
+  address = {H{\o}nefoss}
 }
 
 @incollection{moenVegetasjonstyper1998,
@@ -2155,6 +2275,22 @@
   langid = {english},
   school = {Western Norway University of Applied Sciences},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Muggerud - 2021 - Modelling peat depth using remotely sensed data at.pdf}
+}
+
+@article{mulderUseRemoteSensing2011,
+  title = {The Use of Remote Sensing in Soil and Terrain Mapping --- {{A}} Review},
+  author = {Mulder, V. L. and {de Bruin}, S. and Schaepman, M. E. and Mayr, T. R.},
+  year = {2011},
+  month = apr,
+  journal = {Geoderma},
+  volume = {162},
+  number = {1},
+  pages = {1--19},
+  issn = {0016-7061},
+  doi = {10.1016/j.geoderma.2010.12.018},
+  urldate = {2025-02-22},
+  abstract = {This article reviews the use of optical and microwave remote sensing data for soil and terrain mapping with emphasis on applications at regional and coarser scales. Remote sensing is expected to offer possibilities for improving incomplete spatial and thematic coverage of current regional and global soil databases. Traditionally, remotely sensed imagery have been used to support segmentation of the landscape into rather homogeneous soil--landscape units for which soil composition can be established by sampling. Soil properties have also been inferred from optical and microwave data using physically-based and empirical methods. Used as a secondary data source, remotely sensed imagery may support spatial interpolation of sparsely sampled soil property data. Soil properties that have been measured using remote or proximal sensing approaches include mineralogy, texture, soil iron, soil moisture, soil organic carbon, soil salinity and carbonate content. In sparsely vegetated areas, successful use of space borne, airborne, and in situ measurements using optical, passive and active microwave instruments has been reported. On the other hand, in densely vegetated areas, soil data acquisition typically relied on indirect retrievals using soil indicators, such as plant functional groups, productivity changes, and Ellenberg indicator values. Several forms of kriging, classification and regression tree analyses have been used jointly with remotely sensed data to predict soil properties at unvisited locations aiming at obtaining continuous area coverage. We expect that remotely sensed data from existing platforms and planned missions can provide an important data source supporting digital soil mapping. Yet, most studies so far have been performed on a local scale and only few on regional or smaller map scale. Although progress has been made, current methods and techniques still bear potential to further explore the full range of spectral, spatial and temporal properties of existing data sources. For example, space borne spectroscopy has been of limited use in retrieving soil data when compared to laboratory or field spectroscopy. To date, there is no coherent methodology established, where approaches of spatial segmentation, measurements of soil properties and interpolation using remotely sensed data are integrated in a holistic fashion to achieve complete area coverage. Such approaches will enhance the perspectives of using remotely sensed data for digital soil mapping.},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Mulder et al. - 2011 - The use of remote sensing in soil and terrain mapping — A review.pdf}
 }
 
 @article{murphyMappingWetlandsComparison2007,
@@ -2213,13 +2349,14 @@
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Murphy et al. - 2009 - Topographic modelling of soil moisture conditions.pdf}
 }
 
-@article{naessOstlandetsMyromraderUtbredelse1969,
-  title = {{\O}stlandets Myromr{\aa}der--Utbredelse Og Morfologi},
+@techreport{naessOstlandetsMyromraderUtbredelse1969,
+  title = {{{\O}stlandets myromr{\aa}der--utbredelse og morfologi}},
   author = {N{\ae}ss, T},
   year = {1969},
-  journal = {Den norske komit{\'e} for for Den internasjonale hydrologiske dekade. Rapp},
-  volume = {1},
-  pages = {75--77},
+  number = {1},
+  pages = {75--87},
+  address = {Oslo},
+  langid = {norwegianbokmal},
   keywords = {distribution,mire,morphology,Norway,peatland,types,typology},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Næss - 1969 - Østlandets myrområder–utbredelse og morfologi.pdf}
 }
@@ -2389,12 +2526,19 @@
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\O'Leary et al. - 2023 - Observations of intra-peatland variability using m.pdf}
 }
 
-@article{olteanLinkingDepthWaterTopographic2016,
+@article{olteanLinkingDepthtoWaterTopographic2016,
   title = {Linking the {{Depth-to-Water Topographic Index}} to {{Soil Moisture}} on {{Boreal Forest Sites}} in {{Alberta}}},
-  author = {Oltean, Gabriel S and Comeau, Philip G and White, Barry},
+  author = {Oltean, Gabriel S. and Comeau, Philip G. and White, Barry},
   year = {2016},
+  month = apr,
+  journal = {Forest Science},
+  volume = {62},
+  number = {2},
+  pages = {154--165},
+  issn = {0015-749X},
+  doi = {10.5849/forsci.15-054},
+  urldate = {2025-02-22},
   abstract = {The depth-to-water (DTW) index is defined as the cumulative slope along the least-cost pathway from any cell in the landscape to the nearest flow channel. The flow channel network is determined by the flow initiation area selected, allowing the representation of various geological and topographical attributes of the landscape. We used data from 125 plots across five locations in the boreal forest of Alberta, Canada, to evaluate the following: the relationships between soil attributes and DTW; the optimal flow initiation area; and models to map the spatial variation of soil properties. Soil moisture regime (SMR), drainage class, and depth-to-mottles were strongly related with DTW, whereas soil nutrient regime, organic matter thickness, soil texture, and coarse fragment content exhibited weak and inconsistent relationships with DTW. A flow initiation area of 2 ha yielded the best representation for SMR, drainage class, and depth-to-mottles. DTW, flow accumulation (FA) and local slope were combined in a linear model to estimate and map SMR, whereas only DTW and FA were used to model drainage and depth-to-mottles. These results suggest that the DTW index can capture soil properties closely influenced by the water table but cannot characterize site and soil factors, which are also determined by parent material, climate, and vegetation.},
-  langid = {english},
   keywords = {depth-to-water},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Oltean et al. - 2016 - Linking the Depth-to-Water Topographic Index to So.pdf}
 }
@@ -2494,6 +2638,25 @@
   langid = {english},
   keywords = {ensemble,evaluation,literature,optimization,out-of-bag,performance,random forest,review,sequential,tuning},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Probst et al. - 2019 - Hyperparameters and tuning strategies for random f.pdf}
+}
+
+@article{proulx-mcinnisReviewGroundpenetratingRadar2013,
+  title = {A Review of Ground-Penetrating Radar Studies Related to Peatland Stratigraphy with a Case Study on the Determination of Peat Thickness in a Northern Boreal Fen in {{Quebec}}, {{Canada}}},
+  author = {{Proulx-McInnis}, Sandra and {St-Hilaire}, Andr{\'e} and Rousseau, Alain N. and Jutras, Sylvain},
+  year = {2013},
+  month = dec,
+  journal = {Progress in Physical Geography: Earth and Environment},
+  volume = {37},
+  number = {6},
+  pages = {767--786},
+  publisher = {SAGE Publications Ltd},
+  issn = {0309-1333},
+  doi = {10.1177/0309133313501106},
+  urldate = {2023-04-14},
+  abstract = {Ground-penetrating radar (GPR) is a non-intrusive geophysical observation method based on propagation and reflection of high-frequency electromagnetic waves in the shallow subsurface. The vertical cross-sectional images obtained allow the identification of thickness and lithologic horizons of different media, without destruction. Over the last decade, several studies have demonstrated the potential of GPR. This paper presents a review of recent GPR applications to peatlands, particularly to determine peat stratigraphy. An example study of acquisition and comparison of peatland soil thickness of a fen-dominated watershed located in the James Bay region of Quebec, using (1) a meter stick linked to a GPS RTK and (2) a GSSI GPR, is given. A coefficient of determination (r2) of 56\% was obtained between the ordinary krigings performed on data gathered using both techniques. Disparities occurred mainly in the vicinity of ponds which can be explained by the attenuation of GPR signal in open water. Despite these difficulties ? the higher time required for analysis and the error margin ? it seems more appropriate to use a GPR, instead of a graduated rod linked to a GPS, to measure the peat depths on a site like the one presented in this study. Manual measurements, which are user-dependent in the context of variable mineral substrate densities and with the presence of obstacles in the substrate, may be more subjective.},
+  langid = {english},
+  keywords = {GPR,peatland},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Proulx-McInnis et al. - 2013 - A review of ground-penetrating radar studies relat.pdf}
 }
 
 @misc{QGISsoftware,
@@ -2696,7 +2859,9 @@
   year = {2023},
   month = nov,
   journal = {Journal of Glaciology},
-  pages = {1--12},
+  volume = {69},
+  number = {278},
+  pages = {2087--2098},
   issn = {0022-1430, 1727-5652},
   doi = {10.1017/jog.2023.83},
   urldate = {2024-12-05},
@@ -2705,17 +2870,29 @@
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Ruols et al. - 2023 - Development of a drone-based ground-penetrating radar system for efficient and safe 3D and 4D survey.pdf}
 }
 
-@article{sauretteDeterminingMinimumSample2022,
+@article{rydin7Mires1999,
+  title = {7. {{Mires}}},
+  author = {Rydin, H{\aa}kan and Sj{\"o}rs, Hugo and L{\"o}froth, Michael},
+  year = {1999},
+  journal = {Acta Phytogeographica Suecica},
+  volume = {84},
+  pages = {91--112},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Rydin et al. - 1999 - 7. Mires.pdf}
+}
+
+@article{sauretteDeterminingMinimumSample2024,
   title = {Determining Minimum Sample Size for the Conditioned {{Latin}} Hypercube Sampling Algorithm},
   author = {Saurette, Daniel D. and Biswas, Asim and Heck, Richard J. and Gillespie, Adam W. and Berg, Aaron A.},
-  year = {2022},
-  month = sep,
+  year = {2024},
+  month = jun,
   journal = {Pedosphere},
+  volume = {34},
+  number = {3},
+  pages = {530--539},
   issn = {1002-0160},
   doi = {10.1016/j.pedsph.2022.09.001},
-  urldate = {2023-06-12},
-  abstract = {In digital soil mapping (DSM), a fundamental assumption is that the spatial variability of the target variable can be explained by the predictors or environmental covariates. Strategies to adequately sample the predictors have been well documented, with the conditioned Latin Hypercube Sampling (cHLS) algorithm receiving the most attention in the DSM community. Despite advances in sampling design, a critical gap remains in determining the number of samples required for a DSM project. We propose a simple workflow and function coded in R language, to determine the minimum sample size for the cLHS algorithm based on histograms of the predictor variables using the Freedman-Diaconis rule for determining optimal bin width. Data pre-processing was included to correct for multimodal and non-normally distributed data, since these can affect sample size determination from the histogram. Based on a user-selected confidence interval (CI) for the sample plan, the density of the histogram bins at the upper and lower bounds of the CI are used as a scaling factor to then determine minimum sample size. The technique is applied to a field-scale set of environmental covariates for a well sampled agricultural study site near Guelph, Ontario, Canada, and tested across a range of CIs. The results showed increasing minimum sample size with an increase in the CI selected. Minimum sample size increased from 44 to 83 samples when the CI increased from 50\% to 95\%, then increased exponentially to 194 samples for the 99\% CI. The technique provided an estimate of minimum sample size that can then be used as an input to the cLHS algorithm.},
-  langid = {english},
+  urldate = {2025-02-22},
+  abstract = {In digital soil mapping (DSM), a fundamental assumption is that the spatial variability of the target variable can be explained by the predictors or environmental covariates. Strategies to adequately sample the predictors have been well documented, with the conditioned Latin hypercube sampling (cLHS) algorithm receiving the most attention in the DSM community. Despite advances in sampling design, a critical gap remains in determining the number of samples required for DSM projects. We propose a simple workflow and function coded in R language to determine the minimum sample size for the cLHS algorithm based on histograms of the predictor variables using the Freedman-Diaconis rule for determining optimal bin width. Data preprocessing was included to correct for multimodal and non-normally distributed data, as these can affect sample size determination from the histogram. Based on a user-selected quantile range (QR) for the sample plan, the densities of the histogram bins at the upper and lower bounds of the QR were used as a scaling factor to determine minimum sample size. This technique was applied to a field-scale set of environmental covariates for a well-sampled agricultural study site near Guelph, Ontario, Canada, and tested across a range of QRs. The results showed increasing minimum sample size with an increase in the QR selected. Minimum sample size increased from 44 to 83 when the QR increased from 50\% to 95\% and then increased exponentially to 194 for the 99\% QR. This technique provides an estimate of minimum sample size that can be used as an input to the cLHS algorithm.},
   keywords = {conditioned Latin hypercube,design,digital,distribution,LHS,mapping,normal,sample,sampling,Sampling,size,soil},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Saurette et al. - 2022 - Determining minimum sample size for the conditione.pdf}
 }
@@ -2964,6 +3141,24 @@
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Smelror - 2024 - ‘Practically useful, scientifically important, and to the honour of the country’ geological maps an.pdf}
 }
 
+@article{songBiasCorrectionsRandom2015,
+  title = {Bias Corrections for {{Random Forest}} in Regression Using Residual Rotation},
+  author = {Song, Jongwoo},
+  year = {2015},
+  month = jun,
+  journal = {Journal of the Korean Statistical Society},
+  volume = {44},
+  number = {2},
+  pages = {321--326},
+  issn = {2005-2863},
+  doi = {10.1016/j.jkss.2015.01.003},
+  urldate = {2025-02-04},
+  abstract = {This paper studies bias correction methods for Random Forest in regression. Random Forest is a special bagging trees that can be used in regression and classification. It is a popular method because of its high prediction accuracy. However, we find that Random Forest can have significant bias in regression at times. We propose a method to reduce the bias of Random Forest in regression using residual rotation. The real data applications show that our method can reduce the bias of Random Forest significantly.},
+  langid = {english},
+  keywords = {bias,correction,random froest,residual,To read},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Song - 2015 - Bias corrections for Random Forest in regression using residual rotation.pdf}
+}
+
 @article{sorensenCalculationTopographicWetness2006,
   title = {On the Calculation of the Topographic Wetness Index: Evaluation of Different Methods Based on Field Observations},
   shorttitle = {On the Calculation of the Topographic Wetness Index},
@@ -3014,7 +3209,8 @@
   year = {2023},
   month = aug,
   journal = {Nature Ecology \& Evolution},
-  pages = {1--3},
+  volume = {7},
+  pages = {1743--1745},
   publisher = {Nature Publishing Group},
   issn = {2397-334X},
   doi = {10.1038/s41559-023-02162-1},
@@ -3051,6 +3247,23 @@
   howpublished = {https://www.nrk.no/dokumentar/regjeringen-gir-50-millioner-til-naturkart-etter-nrks-avsloringer-1.17023767},
   keywords = {mapping,Norway},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Regjeringen gir 50 millioner til naturkart etter NRKs avsløringer – NRK Dokumentar.pdf}
+}
+
+@article{strackPotentialPeatlandsNatureBased2022,
+  title = {The {{Potential}} of {{Peatlands}} as {{Nature-Based Climate Solutions}}},
+  author = {Strack, Maria and Davidson, Scott J. and Hirano, Takashi and Dunn, Christian},
+  year = {2022},
+  month = sep,
+  journal = {Current Climate Change Reports},
+  volume = {8},
+  number = {3},
+  pages = {71--82},
+  issn = {2198-6061},
+  doi = {10.1007/s40641-022-00183-9},
+  urldate = {2025-02-18},
+  abstract = {Despite covering only 3\% of the land surface, peatlands represent the largest terrestrial organic carbon stock on the planet and continue to act as a carbon sink. Managing ecosystems to reduce greenhouse gas (GHG) emissions and protect carbon stocks provide nature-based climate solutions that can play an important role in emission reduction strategies, particularly over the next decade. This review provides an overview of peatland management pathways that can contribute to natural climate solutions and compiles regional and global estimates for the size of potential GHG emission reductions.},
+  langid = {english},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Strack et al. - 2022 - The Potential of Peatlands as Nature-Based Climate Solutions.pdf}
 }
 
 @article{stroblBiasRandomForest2007,
@@ -3227,6 +3440,21 @@
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Tingstad et al. - 2019 - Utvikling av nasjonal arealrepresentativ naturovervåking (ANO). Forslag til gjennomføring, protokoll.pdf}
 }
 
+@article{torppaStatisticalApproachDetermining2011,
+  title = {A Statistical Approach to Determining the Uncertainty of Peat Thickness},
+  author = {Torppa, J},
+  year = {2011},
+  journal = {Mires and Peat},
+  volume = {8},
+  number = {4},
+  pages = {1--22},
+  issn = {1819-754X},
+  abstract = {This paper presents statistical studies of peat thickness to define its expected maximum variation (∆dm(∆r)) as a function of separation distance {$\Delta$}r. The aim was to provide an estimate of the observational uncertainty in peat depth due to positioning error, and the prediction uncertainty of the computed model. The data were GPS position and ground penetrating radar depth measurements of six mires in different parts of Finland. The calculated observational uncertainty for Finnish mires in general caused, for example, by a 20 m positioning error, is 43 cm in depth with 95 \% confidence. The peat depth statistics differed among the six mires, and it is recommended that the mire specific function ∆dm(∆r) is defined for each individual mire to obtain the best estimate of observational uncertainty. Knowledge of the observational error and function ∆dm(∆r) should be used in peat depth modelling for defining the uncertainty of depth predictions.},
+  langid = {english},
+  keywords = {depth,geostatistics,GPR,kriging,peat,statistics,uncertainty},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Torppa - 2011 - A statistical approach to determining the uncertai.pdf}
+}
+
 @techreport{unepGlobalPeatlandsAssessment2022,
   title = {Global {{Peatlands Assessment}} -- {{The State}} of the {{World}}'s {{Peatlands}}: {{Evidence}} for Action toward the Conservation, Restoration, and Sustainable Management of Peatlands. {{Main Report}}.},
   author = {{UNEP}},
@@ -3254,6 +3482,24 @@
   langid = {english},
   keywords = {autocorrelation,cross-validation,distribution,model,package,R,species,validation},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Valavi et al_2019_blockCV.pdf}
+}
+
+@article{vanderbiltPublishingEcologicalData2022,
+  title = {Publishing {{Ecological Data}} in a {{Repository}}: {{An Easy Workflow}} for {{Everyone}}},
+  shorttitle = {Publishing {{Ecological Data}} in a {{Repository}}},
+  author = {Vanderbilt, Kristin and Ide, Jon and Gries, Corinna and {Grossman-Clarke}, Susanne and Hanson, Paul and O'Brien, Margaret and Servilla, Mark and Smith, Colin and Waide, Robert and {Zollo-Venecek}, Kyle},
+  year = {2022},
+  journal = {The Bulletin of the Ecological Society of America},
+  volume = {103},
+  number = {4},
+  pages = {e2018},
+  issn = {2327-6096},
+  doi = {10.1002/bes2.2018},
+  urldate = {2025-02-18},
+  abstract = {For many ecologists, publishing data in a data repository is a new, unfamiliar task. To reduce the learning curve, the Environmental Data Initiative has developed user-friendly software to make capturing and submitting data and metadata a simple process. In this article, we introduce ezEML and discuss use cases for researchers who publish data infrequently or information managers who regularly update multiple datasets.},
+  copyright = {{\copyright} 2022 The Authors. The Bulletin of the Ecological Society of America published by Wiley Periodicals LLC on behalf of The Ecological Society of America.},
+  langid = {english},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Vanderbilt et al. - 2022 - Publishing Ecological Data in a Repository An Easy Workflow for Everyone.pdf}
 }
 
 @article{vaysseUsingQuantileRegression2017,
@@ -3431,6 +3677,7 @@
   month = mar,
   journal = {Journal of Statistical Software},
   volume = {77},
+  number = {1},
   pages = {1--17},
   issn = {1548-7660},
   doi = {10.18637/jss.v077.i01},

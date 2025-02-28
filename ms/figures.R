@@ -189,6 +189,8 @@ ggsave(g123, filename = 'sites-patchwork.pdf', path = "ms/figures",
        width =210-30, height = 240-40, units = 'mm') #copernicus.cls page 210x240
 # ggsave(filename = 'sites-patchwork.svg', path = "ms/figures",
 #        width =210-30, height = 240-40, units = 'mm')
+# ggsave(filename = 'sites-patchwork.png', path = "ms/figures",
+#        width =210-30, height = 240-40, units = 'mm', dpi = 300)
 
 # Model metrics by faceting ####
 
@@ -209,15 +211,15 @@ plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>%
                          "unitless\nR-squared",
                          "cm\nMean absolute error"),
     model = case_when(
-      model == "DMK" ~ "DMK class (2)",
+      model == "DMK" ~ "DMK (2)",
       model == "Terrain" ~ "terrain (21)",
-      model == "TerrainDMK" ~ "terrain + DMK class (23)",
+      model == "TerrainDMK" ~ "terrain + DMK (23)",
       model == "RadiometricTerrain" ~ "terrain + radiometric (25)",
       model == "RadiometricTerrainDMK" ~ "all predictors (27)"),
     model = fct_relevel(model,
-                        "DMK class (2)",
+                        "DMK (2)",
                         "terrain (21)",
-                        "terrain + DMK class (23)",
+                        "terrain + DMK (23)",
                         "terrain + radiometric (25)",
                         "all predictors (27)"))
 str(plotting)
@@ -248,7 +250,7 @@ g1 <- ggplot(plotting) +
         legend.key.spacing.y = unit(-2, "mm"),
         strip.background = element_blank(), 
         strip.placement = "outside")
-ggsave(filename = 'modelmetrics-faceting.pdf', path = "ms/figures",
+ggsave(g1, filename = 'modelmetrics-faceting.pdf', path = "ms/figures",
        width =210-30, height = (240-40)/2.5, units = 'mm') #copernicus.cls page 210x240
 
 # Model metrics ####
@@ -263,15 +265,15 @@ plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>%
   mutate(
     site = fct_relevel(site, "skrim"),
     model = case_when(
-      model == "DMK" ~ "DMK class (2)",
+      model == "DMK" ~ "DMK (2)",
       model == "Terrain" ~ "terrain (21)",
-      model == "TerrainDMK" ~ "terrain + DMK class (23)",
+      model == "TerrainDMK" ~ "terrain + DMK (23)",
       model == "RadiometricTerrain" ~ "terrain + radiometric (25)",
       model == "RadiometricTerrainDMK" ~ "all predictors (27)"),
     model = fct_relevel(model,
-                        "DMK class (2)",
+                        "DMK (2)",
                         "terrain (21)",
-                        "terrain + DMK class (23)",
+                        "terrain + DMK (23)",
                         "terrain + radiometric (25)",
                         "all predictors (27)"))
 str(plotting)
@@ -352,6 +354,8 @@ g3 <- plotting |>
 g123 <- (g1 | g2 | g3) + plot_layout(axes = "collect_y")
 ggsave(filename = 'modelmetrics.pdf', path = "ms/figures",
        width =210-30, height = (240-40)/2.5, units = 'mm') #copernicus.cls page 210x240
+ggsave(filename = 'modelmetrics.png', path = "ms/figures",
+       width =210-30, height = (240-40)/2.5, units = 'mm', dpi = 300) #copernicus.cls page 210x240
 
 # Model metrics extrapolation####
 
@@ -451,6 +455,8 @@ density2 + density1 + scatter2 + scatter1 +
   plot_annotation(tag_levels =  list(c('(a)', '(b)')))
 ggsave(filename = 'calibration_plots.pdf', path = "ms/figures",
        width =(210-30), height = (240-40)/2, units = 'mm') #copernicus.cls page 210x240
+# ggsave(filename = 'calibration_plots.png', path = "ms/figures",
+#        width =(210-30), height = (240-40)/2, units = 'mm', dpi=300) #copernicus.cls page 210x240
 
 # Variable importance ####
 
@@ -528,17 +534,23 @@ g2 <- plot.skrim %>%
 
 ## Combined ####
 
-g1 + g2 + plot_layout(ncol = 1, axes = 'collect') +
+g2 + g1 + plot_layout(ncol = 1, axes = 'collect') +
   plot_annotation(tag_levels = 'a', tag_prefix = '(', tag_suffix = ')') 
 ggsave(filename = 'variable_importance.pdf', path = "ms/figures",
        width =(210-30), height = (240-40)/1.25, units = 'mm') #copernicus.cls page 210x240
-# ggsave(filename = 'variable_importance.svg', path = "ms/figures",
-#        width =(210-30)/1.5, height = (240-40)/1.25, units = 'mm')
+# ggsave(filename = 'variable_importance.png', path = "ms/figures",
+#        width =(210-30), height = (240-40)/1.25, units = 'mm', dpi=300) #copernicus.cls page 210x240
 
 # Partial dependence plots ####
 
 library(tidyverse)
 library(patchwork)
+
+units <- read_csv("ms/tables/predictors.csv") |> 
+  select(Code, Units) |> 
+  bind_rows(tribble(~ Code, ~ Units,
+                    "DMK_shallow", "binary",
+                    "DMK_unknown", "binary"))
 
 orskog <- read_csv("output/pdpice.csv")
 orskog.vi <- read_csv("output/variable_importance.csv") %>% 
@@ -554,7 +566,10 @@ orskog <- left_join(orskog, orskog.rank, by = join_by(feature == Variable)) %>%
     feature = case_when(
       feature == "dmkdepth_grunn.myr" ~ "DMK_shallow",
       feature == "dmkdepth_unknown" ~ "DMK_unknown",
-      TRUE ~ feature),
+      TRUE ~ feature)) |> 
+  left_join(units, by = c("feature" = "Code")) |> 
+  mutate(
+    feature = paste0(feature, " (", Units, ")"),
     feature = fct_reorder(feature, -Imp.median))
 
 g1 <- ggplot(data = orskog, aes(x = .borders, y = .value, group = .id)) + 
@@ -563,8 +578,9 @@ g1 <- ggplot(data = orskog, aes(x = .borders, y = .value, group = .id)) +
   geom_rug(data = filter(orskog, .type == "observed"), sides = "b") +
   coord_cartesian(ylim = c(0, 400)) +
   facet_wrap(~feature, scales = "free_x") + 
+  ylab("Peat depth (cm)") +
   theme_bw() +
-  theme(axis.title = element_blank(),
+  theme(axis.title.x = element_blank(),
         panel.grid = element_blank())
 
 skrim <- read_csv("output/Skrim/pdpice.csv")
@@ -581,7 +597,10 @@ skrim <- left_join(skrim, skrim.rank, by = join_by(feature == Variable)) %>%
     feature = case_when(
       feature == "dmkdepth_grunn.myr" ~ "DMK_shallow",
       feature == "dmkdepth_unknown" ~ "DMK_unknown",
-      TRUE ~ feature),
+      TRUE ~ feature)) |> 
+  left_join(units, by = c("feature" = "Code")) |> 
+  mutate(
+    feature = paste0(feature, " (", Units, ")"),
     feature = fct_reorder(feature, -Imp.median))
 
 g2 <- ggplot(data = skrim, aes(x = .borders, y = .value, group = .id)) + 
@@ -590,16 +609,17 @@ g2 <- ggplot(data = skrim, aes(x = .borders, y = .value, group = .id)) +
   geom_rug(data = filter(skrim, .type == "observed"), sides = "b") +
   coord_cartesian(ylim = c(0, 250)) +
   facet_wrap(~feature, scales = "free_x") + 
+  ylab("Peat depth (cm)") +
   theme_bw() +
-  theme(axis.title = element_blank(),
+  theme(axis.title.x = element_blank(),
         panel.grid = element_blank())
 
-g1 + g2 + plot_layout(ncol = 1, guides = 'collect', axes = 'collect') +
+g2 + g1 + plot_layout(ncol = 1, axes = 'keep') +
   plot_annotation(tag_levels = 'a', tag_prefix = '(', tag_suffix = ')') 
 ggsave(filename = 'partial_dependence.pdf', path = "ms/figures",
        width =(210-30), height = (240-60), units = 'mm') #copernicus.cls page 210x240
-# ggsave(filename = 'partial_dependence.svg', path = "ms/figures",
-#        width =(210-30), height = (240-60), units = 'mm')
+# ggsave(filename = 'partial_dependence.png', path = "ms/figures",
+#        width =(210-30), height = (240-60), units = 'mm', dpi = 300) #copernicus.cls page 210x240
 
 # GPR wave velocity calibrations ####
 
