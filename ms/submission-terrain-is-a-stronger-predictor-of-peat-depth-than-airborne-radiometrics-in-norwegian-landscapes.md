@@ -2,7 +2,7 @@
 
 # Short summary
 
-Peat depth is crucial to peatland management but often unknown. We used machine learning to map peat depth in two Norwegian landscapes, based on terrain and remotely-sensed radiation. We found that terrain, especially elevation and valley bottom flatness, predicted peat depth better than radiation. Our approach improved existing maps but struggled to identify very deep peat, demonstrating that it can support regional planning but not replace field measurements for local carbon stock assessments.
+Peat depth is crucial to peatland management but often unknown. We used machine learning to map peat depth in two Norwegian landscapes, based on terrain and remotely sensed radiation. We found that terrain, especially elevation and valley bottom flatness, predicted peat depth better than radiation. Our approach improved existing maps but struggled to identify very deep peat, demonstrating that it can support regional planning but not replace field measurements for local carbon stock assessments.
 
 # Cover letter
 
