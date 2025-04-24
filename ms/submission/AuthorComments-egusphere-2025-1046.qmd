@@ -1,0 +1,197 @@
+---
+title: "Response to Referees"
+author: "Julien Vollering, on behalf of all co-authors"
+format:
+  html:
+    embed-resources: true
+toc: true
+---
+
+```{=html}
+<style>
+.added {
+  color: blue;
+  font-weight: bold;
+}
+.deleted {
+  color: red;
+  text-decoration: line-through;
+}
+</style>
+```
+
+<https://www.soil-journal.net/peer_review/interactive_review_process.html>:
+
+> Author comments (ACs) can only be posted by the contact authors of the manuscript in discussion on behalf of all co-authors. Co-authors can post CCs but not ACs. After the open discussion, during the final response, the author comments should be structured in a clear and easy-to-follow sequence: (1) comments from referees/community, (2) author's response, and (3) author's changes in manuscript.
+
+# Response to Referee 1
+
+<https://doi.org/10.5194/egusphere-2025-1046-RC1>
+
+## General Comments
+  
+### Comment 1.1
+  
+> This article comprehensively addresses the modelling challenges of predicting peat depth from terrain variables. It takes high resolution terrain variables (derived from LiDAR) and low resolution (comparatively) airborne radiometric data across two individual peat landscapes in Norway and used Random Forest machine learning algorithm to train combinations of these variables to a multitude of peat depth probes and GPR peat depth measurements taken in order to establish the predict power of such variables for peat depth mapping.
+
+### Comment 1.2
+
+> Overall, I found the article to be generally well written, with a very comprehensive and detailed description of modelling mechanism, error derivation, and feature choice. It is a very long article, going into great detail in several areas, and below I suggest at least one section/topic that could be removed entirely to reduce length and increase overall readability. I suggest the authors review all sections for conciseness and reduce the article length where possible. The level of detail may mean a reader less familiar with machine learning modelling may find the article hard to follow. While I do find the article to be within the scope of SOIL, I would be concerned that it focuses heavily on the modelling methodology.
+
+### Comment 1.3
+
+> Additionally, there were several areas where the language used was quite casual for a scientific article. Several are highlighted under minor considerations below.
+
+### Comment 1.4
+
+> Finally, the main concern noted is the imbalance between the consideration given to radiometric data compared to terrain variables. Considering the title is stating terrain being “better” than radiometrics, and given the emerging understanding of the use of radiometric data in peat land mapping, there is are some fundamental errors in the methods presented, which may be biasing the conclusion alluded to in the title.
+
+## Specific Comments
+
+### Comment 1.5
+
+> The first concern in the comparison of radiometric data to lidar terrain variables is related to the choice of radiometric variables. The authors opt to use potassium, uranium and thorium ground concentration units alongside the Total Count data from the full energy spectrum. These ground concentration measurements are derived from counts per second measurements on the airplane which are calibrated, usually using pads of known concentrations at a calibration facility. Therefore, concentration of any radioelement is a measurement of the concentration of that element in the top ~ 60 cm – 1 m of the soil. However, peat soils are different. Being organic, they don’t contain the typical geological material that make up soils. Therefore, they act as an attenuative environment to gamma rays. As the potential source of gamma rays in peat areas is blocked and attenuated by the peats, the concentration calibration is no longer physically valid. While these concentration data are indeed provided by the contractors of such surveys, it is now recognized that the counts per second measurement is a more appropriate unit when considering attenuation of gamma rays in peat soils (O'Leary et al, 2022, 2024). In particular considering depth, the deeper the peat, the greater the attenuation of gamma rays. Similarly, the wetter the peat the greater the attenuation of gamma rays. The use of concentration data is not valid for a study in predicting peat depth. I recommend either the authors convert these concentrations to counts per second, or remove all but the Total Count data from their analysis and consider take the next concern into account.
+
+### Comment 1.6
+
+> There is an additional argument missing from within the authors discussion, namely the fact that we never know the initial source strength, or counts, of the gamma rays for a given footprint. The measurement at the airplane is an attenuated version of this initial source. This attenuation is controlled by the attenuation coefficient for a given element and depth, soil moisture, bulk density and porosity (Beamish 2013) of the peat soils. From a purely physics/modelling point of view, this makes the prediction of peat depth an underdetermined problem. Even if the soil moisture, bulk density and porosity was known absolutely, the initial source is never known and so any number of peat depths may result in any given gamma count at the airplane. Additionally, this modelling exercise cannot be performed on Total Count data as this is summed from the entire measurement energy spectrum, which contains multiple element specific attenuation coefficient, meaning the Total Count data is only ever indicative of attenuation variability across a site, with no ability to model anything quantitative. This puts Radiometrics in a natural disadvantage for a quantitative prediction of peat depth. Given the title of this article, I find that the discussion around the radiometrics lacked sufficient detail to make a fair comparison, which naturally results in such a bias towards terrain variables in such a modelling context. This is therefore not a result per say, but more a perfectly expected outcome. For this concern, I suggest a more comprehensive discussion around the physical limitations of radiometrics in the prediction of peat depth.
+
+### Comment 1.7
+
+> The main focus of this article is on the prediction of peat depth. However, the authors include several sections of the possibility of peatland extent mapping. This is not mentioned at all in the abstract, or the introduction in great detail. As this article is already quite long and complex, I suggest the removal of any sections and text related to mapping peat land extent as it is not the focus of the article and only acts to add unnecessary complexity to an already very technical methodology. The authors even mention in Line 535 that their aim was not to map extent. I suggest the removal of all reference to peatland extent prediction and instead focus on the prediction of peat depth. A much shorter reference to the importance of peatland extent knowledge could perhaps be mentioned in the conclusions, but a full analysis and discussion (section 4.1.4) is not appropriate in this article.
+
+## Technical Corrections
+
+> Line 58- 59. There is no need to include this sentence with an example here, as the next paragraph goes into the necessary detail on Slope. This is an example of how the authors might reduce the overall size of the article.
+
+> Section 2.2 I would suggest moving this opening paragraph to the end of this section as it acts more to sum up how the authors are using the various predictors. It mentions several of the predictors directly, but the are not described until later sections (for example 2.2.1). This would increase the readability of this section.
+
+> Line 179: Remove “also using White Box” as this is obvious.
+
+> Line 258: The authors mention density; however, they do not expand on this. Was this measured in the field, or an operator’s observation and subjective interpretation of density?
+
+>  371: What is the relevance of the Persons correlation coefficient of 0.7. Was this tested at all? Readers may not be familiar with this so it should be explained a bit more.
+
+> Table 2:  I recommend putting a vertical line between the results for both sites so as to easier distinguish between them.
+
+> Heading Section 4.1.1 – “but not useless!” is very casual language to be using in a scientific article. This is just one example of this casual language. I suggest the authors review the article for this throughout.
+
+> Line 464: “low hanging fruit” is also casual and colloquial and may not be understood by all cultures.
+
+> Line 515: “large stocks really are large” – very vague and non-scientific comment. What is large?
+
+> Line 530: remove the question at the start of this section.
+
+> Line 549: This section is the first mention of the radiometric survey parameters. I would recommend moving some of this section to the Methods and Material section as it is useful descriptors of how the data came to be.
+
+> Line 564: Typically, airborne radiometric surveys have strict conditions that they must fly under. One is related to rainfall occurrence and airborne surveys should not happen directly after rainfall. The authors statement with regards to air moisture should be clarified as otherwise the contractor may have been at fault by provide incorrect data, which would have implications for the usage of radiometric data in this area in this study.
+
+> Line 628 – 629: remove the sentence starting “The rest of this section….” As it is unnecessary.
+
+> Line 634: “luxury” is again a very casual phrasing within a scientific article.
+
+> Line 664: “tricky” – casual
+
+> Finally, there is no definite conclusion to this article, nor a heading stating same. I suggest the authors either add a section at the end and move some text here to highlight the main conclusions as currently the “discussion” section is quite large and probably not appropriate to act as a combined discussion and conclusion section.
+
+# Response to Referee 2
+
+<https://doi.org/10.5194/egusphere-2025-1046-RC2>
+  
+## General Comments
+
+### Comment 2.1
+
+> This article focuses on improving peat depth mapping in two distinct peatland landscapes in Norway using a digital soil mapping approach. The study employed the Random Forest (RF) algorithm to model both peat presence and depth, using high-resolution terrain data, remotely sensed radiometric data, and polygonised peat depth data from an existing map. The RF models were calibrated using field-measured data points collected across both regions, and variable importance was analysed.
+
+### Comment 2.2
+
+> Overall, this research addresses a significant challenge in peat depth mapping. The title is clear and likely to attract attention from readers interested in this topic. However, I have some concerns regarding the writing style. Certain sections use jargon excessively or are phrased in a way that feels less scientific, which may hinder clarity and accessibility for a broader audience.
+
+## Specifics Comments
+
+### Comment 2.3
+
+> While the title is clear, I personally find it somewhat overconfident in summarising the results. This is mainly due to the relatively low performance of the RF models and the minimal difference observed between the terrain-only and terrain-plus-radiometric models. To better support the claims, it would be helpful to include a statistical test (e.g., a t-test) to assess whether the performance differences between models are statistically significant. Furthermore, incorporating a stand-alone model that uses only radiometric data as predictors would allow for a more balanced evaluation of the variable groups and help clarify the specific contribution of radiometric inputs in predicting peat depth in Norway.
+
+### Comment 2.4
+
+> Figure 1: While the terrain-look map provides a general view of the study area, the relief of the regions remains unclear. Consider adding a clearer topographic representation (e.g., contour profile) to better illustrate landscape variation. Additionally, it would be helpful to explain the rationale for selecting Skrimfjella, which appears to have relatively limited peat coverage, especially given that the adjacent region seems to contain a larger peatland area.
+
+### Comment 2.5
+
+> It is unclear how the peat depth data are distributed, both statistically and spatially. While the sampling design is described in the text, I recommend including a figure showing the spatial distribution of the data points to help readers better understand the coverage and representativeness of the dataset. Additionally, a basic statistical summary (e.g., mean, median, range, standard deviation) of the peat depth values would be beneficial to provide context and a clearer picture of the conditions being modelled.
+
+### Comment 2.6
+
+> Since the radiometric data are originally at 50 m resolution and the terrain data are at 1 m resolution, the method used to resample these datasets to a common 10 m resolution could influence model performance. In particular, the use of cubic spline resampling for the radiometric data may affect how well its spatial variability is represented, especially when compared to the aggregated 10 m topographic data. I would be interested to hear your thoughts on how this resampling approach might have impacted the results.
+
+### Comment 2.7
+
+> I found the section on sampling design and peat depth measurement to be overly detailed for the main text. While this information is valuable, it may be more appropriate to move some of it to the appendix or supplementary material, as it is less central to the analysis and interpretation of results. This would help improve the flow and focus of the main manuscript.
+
+### Comment 2.8
+
+> In the model interpretation section, it appears that three different methods were used to assess variable importance: FIRM, permutation importance, and Shapley values. However, the implications of using these different approaches are not clearly discussed. Each method captures different aspects of variable influence and may lead to different interpretations. Could you clarify how the results from these methods align or differ, and what their respective implications are for understanding the drivers of peat depth in your study?
+
+### Comment 2.9
+
+> I recommend adding a dedicated section to summarise the key results and findings. This would help readers clearly see how the study addresses its original research aims and questions. A concise summary at the end of the results or discussion section would also improve the overall structure and coherence of the paper.
+
+## Technical Corrections
+
+> Table 2: I think you need to move this table somewhere after it is mentioned in the main text. At first, I was quite confused with this table. What does that percentage stand for?
+
+> Line 394-397: I don’t quite get the point of this section. To my understanding, you compared between the quartile predictions and the observed data to see the prediction interval coverage probability. If so, I think it would be better to plot this prediction interval together with the observed data in scatter plot, like in Figure 3.
+
+> Line 413-414: which curve? The information inside the parentheses is not clear to me.
+
+> Figure 4: is the null derived from the calculation between observations and assumptions of 30 cm peat depth? Where is the standard error come from?
+
+> Line 464: “low hanging fruit” ?
+
+> Line 515: This sentence is unclear to me.
+
+> Line 531: “0% in prediction” what does this sentence mean?
+
+> Line 614: What are the ‘both indicators variables’ referring to?
+  
+# Response to Referee 3
+
+### Comment 3.1
+  
+> Referee's comment goes here.
+
+We thank the Referee for this insightful comment. We have revised the manuscript accordingly:
+
+::: {.callout appearance="simple"}
+**Original text:**
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+**Revised text:**
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et **dolore magna aliqua** [and additional explanation of the concept]{.added}.
+:::
+
+### Comment 3.2
+
+> Referee's comment goes here.
+
+Thank you for highlighting this issue. We have made the following changes:
+  
+::: {.callout appearance="simple"}
+**Original text:**
+  
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+**Revised text:**
+  
+[We have completely revised this section]{.added} [to address the Referee's concerns.]{.added} [Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.]{.deleted}
+:::
+
+# Response to editorial support team
+
+### Comment E.1
+
+> Please add the section headlines "Appendix A" (in front of Table A1) and "Appendix B" (in front of Figure B1).
