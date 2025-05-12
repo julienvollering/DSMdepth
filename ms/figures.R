@@ -357,55 +357,6 @@ ggsave(filename = 'modelmetrics.pdf', path = "ms/figures",
 ggsave(filename = 'modelmetrics.png', path = "ms/figures",
        width =210-30, height = (240-40)/2.5, units = 'mm', dpi = 300) #copernicus.cls page 210x240
 
-# Model metrics extrapolation####
-
-library(tidyverse)
-
-orskog <- read_csv("output/modelmetrics-extrapolation.csv") 
-skrim <- read_csv("output/Skrim/modelmetrics-extrapolation.csv")
-plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>% 
-  filter(.metric != 'rmse') %>% 
-  mutate(
-    site = fct_relevel(site, "skrim"),
-    metric = case_when(
-      .metric == "mae" ~ "Mean \nabsolute error"),
-    model = case_when(
-      model == "null" ~ "null, assume 30 cm",
-      model == "Terrain" ~ "terrain (21)",
-      model == "RadiometricTerrain" ~ "terrain + radiometric (25)"),
-    model = fct_relevel(model,
-                        "null, assume 30 cm",
-                        "terrain (21)",
-                        "terrain + radiometric (25)"))
-str(plotting)
-
-cols <- c("orskog" = "#d95f02", "skrim" = "#1b9e77") #https://colorbrewer2.org/#type=qualitative&scheme=Dark2&n=3
-
-g1 <- ggplot(plotting) +
-  geom_linerange(aes(y = model, 
-                     x = mean, 
-                     xmin = mean - std_err, 
-                     xmax = mean + std_err, 
-                     color = site),
-                 position = position_dodge2(width= 0.3, reverse = TRUE)) +
-  geom_point(aes(y = model, x = mean, color = site),
-             position = position_dodge2(width= 0.3, reverse = TRUE)) +
-  geom_text(aes(y = model, x = mean, label = signif(mean, 2), group = site),
-            position = position_dodge2(width=1, reverse = TRUE),
-            color = "grey50", size = 2.5) +
-  scale_colour_manual(values = cols) +
-  annotate(geom='text', x=70, y=0.85, size=3, label='\u00D8rskogfjellet', color = "#d95f02") +
-  annotate(geom='text', x=70, y=1.15, size=3, label='Skrimfjella', color = "#1b9e77") +
-  guides(color = "none") +
-  labs(subtitle = "Mean absolute error") +
-  xlab("cm") +
-  theme_bw() +
-  theme(axis.title.y = element_blank(),
-        panel.grid = element_blank(),
-        axis.ticks.y = element_blank())
-ggsave(filename = 'modelmetrics-extrapolation.pdf', path = "ms/figures",
-       width =(210-30)/2, height = (240-40)/4, units = 'mm') #copernicus.cls page 210x240
-
 # Calibration plots ####
 
 library(tidyverse)

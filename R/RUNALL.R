@@ -12,4 +12,3 @@ render("R/Skrim/createPredictorStack.R",output_format="html_document", knit_root
 render("R/Skrim/createDataFrame.R",output_format="html_document", knit_root_dir = "../../")
 render("R/Skrim/exploratoryDataAnalysis.R",output_format="html_document", knit_root_dir = "../../")
 render("R/Skrim/modelDepth.R", output_format="html_document", knit_root_dir = "../../")
-render("R/Skrim/modelDepth-evaluateOccurrence.R", output_format="html_document", knit_root_dir = "../../")

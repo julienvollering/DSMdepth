@@ -151,7 +151,6 @@ Radiometric variables showed inconsistent predictive value -- improving performa
 The accuracy of the national map of peat depth did not measure up to any of our remote sensing models, even though it was calibrated to the same data.
 Still, weak relationships with remotely sensed variables made peat depth hard to predict overall.
 Based on these findings, we conclude that digital soil mapping can improve existing, broad-scale maps of peat depth in Norway, but highly localized carbon stock assessments are best made from field measurements.
-Furthermore, the inability of models to identify peat presence outside known peatlands highlights the need for integrated mapping of peat lateral extent and depth.
 Together, these pathways promise more accurate landscape-scale carbon stock assessments and better-informed land management policies.
 \end{abstract}
 
@@ -380,11 +379,6 @@ At Skrimfjella, we used the \emph{eSample} function in the \emph{iSDM} R package
 This function defines the environmental space as a two-dimensional convex hull around the PCA-ordinated data, then creates a regular grid across that space, and lastly finds for each grid cell the datum that is nearest \citep{hattabUnifiedFrameworkModel2017}.
 We set a target sample size of 100, excluded the top and bottom percentile from the convex hull, and \emph{eSample} returned 105 raster cells.
 
-We also measured peatland occurrence (binary variable) in a separate sample at Skrimfjella.
-We measured peatland occurrence because the AR5 dataset is known to underestimate peatland extent \citep[especially in forests,][]{brynLandCoverNorway2018}, and because airborne radiometrics may help identify unmapped peatland \citep{gatisMappingUplandPeat2019, olearyDigitalSoilMapping2022}.
-The 10 m cells were sampled from those outside AR5 mire and with slope \textless{} 20°.
-Following the same procedure, \emph{eSample} returned 106 raster cells from this population.
-
 \subsubsection{Ørskogfjellet}
 
 At Ørskogfjellet, we first determined a minimal sample size that would adequately capture the slope and radiometric properties (potassium, thorium, uranium, and total count) of the entire AR5 mire area \citep{sauretteDivergenceMetricsDetermining2023}.
@@ -423,10 +417,6 @@ Where the peat column was deeper than the extendable probe could be manually ins
 We also extracted a set of existing depth measurements for Ørskogfjellet from a paper map made by the Norwegian Soil and Mire Company in 1984.
 The map presents 44 borehole depths (in decimeters) across a 9 ha peatland area.
 We georeferenced the map and digitized the borehole locations and depths.
-
-For our sample of peatland occurrence at Skrimfjella, we recorded the presence or absence of peatland at the cell center -- primarily by digging and examining the top 20 cm of soil.
-We judged whether the soil was a peat soil based on its density, texture, and color, as well as the presence or absence of mire vegetation.
-Although peat soil is strictly defined by organic content (which we did not analyze), we believe our protocol produced reasonable determinations of presence or absence that would generally satisfy most of the varying definitions of peatland \citep{minasnyMappingMonitoringPeatland2024}.
 
 \subsubsection{Ground-penetrating radar}
 
@@ -515,17 +505,6 @@ DSM products have much more value when their predictions are accompanied by unce
 Therefore, we produced prediction intervals with quantile regression forests \citep{meinshausenQuantileRegressionForests2006}, and used the same spatial cross-validation to evaluate the prediction interval coverage probability \citep{shresthaMachineLearningApproaches2006}.
 The quantile regression forests were trained with predictor configuration that showed the highest performance at each site (under the assumption that these models would be put into production) and we extracted 90 \% prediction intervals.
 
-\paragraph{Peatland extent}
-
-While the primary aim of the DSM was to predict peat depth within AR5 mires (where peat depth is supposed to be \textgreater{} 30 cm), we also tested whether our mire-trained models of peat depth could identify peatlands outside of AR5 mires.
-For both sites we performed an evaluation with our (cell-aggregated) peat depth measurements, of which about one-fifth were outside of AR5 mires.
-For this evaluation we used the same spatial cross-validation folds as previously, but now we trained the models only on AR5 mire locations (in the training folds), and evaluated them only on (test fold) locations classified in AR5 as something other than mire.
-From the cross-validation we quantified mean absolute error.
-For Skrimfjella -- where we measured peatland occurrence separately from depth -- we also trained a model on all peat depth measurements (AR5 mire or not) and then used the independent occurrence dataset to evaluate this model.
-Specifically, we calculated the area under the curve of the receiver operating characteristic, to evaluate the model's ability to discriminate between peat presence and absence.
-This analysis treats the model's prediction of peat depth as a rank index of peatland likelihood.
-Since the purpose was to test the models' ability to uncover unmapped peatland (where DMK peat depth class is undefined), we evaluated models with two predictor configurations: \emph{terrain} or \emph{terrain + radiometric}.
-
 \subsubsection{Model interpretation}
 
 We quantified global variable importance (predictor influence across all locations) and examined partial dependence plots (curves of fitted relationships) for the best-performing predictor configuration at each site.
@@ -576,9 +555,7 @@ For Ørskogfjellet, the concordance correlation coefficient was 0.39, R\textsupe
 These values were derived from kNNDM spatial cross-validation with 20 folds at Skrimfjella and 10 folds at Ørskogfjellet.
 
 \begin{figure}
-\centering
-\includegraphics{figures/modelmetrics.pdf}
-\caption{\label{fig:modelMetrics}Performance of peatland depth models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error.}
+\includegraphics[width=1\linewidth]{figures/modelmetrics} \caption{Performance of peatland depth models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error.}\label{fig:modelMetrics}
 \end{figure}
 
 Although the difficulty of predicting peat depth caused prediction intervals to be wide, these uncertainty estimates were well calibrated.
@@ -598,20 +575,7 @@ The best models at both sites overpredicted shallow peats and strongly underpred
 The mean error (bias) of these models was 10 cm at Skrimfjella and -4 cm at Ørskogfjellet.
 
 \begin{figure}
-\centering
-\includegraphics{figures/calibration_plots.pdf}
-\caption{\label{fig:calPlots}Calibration plots for the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), with predictions from spatial cross-validation. Points are transparent to show overlap. Blue lines are local polynomial regressions and the red dashed line in each panel shows the 1:1 line. Marginal distributions (top) are shaded by quartile.}
-\end{figure}
-
-\subsubsection{Peatland extent}
-
-When we tested how well models extrapolated from within to outside of AR5 mire areas, we found that the models produced worse mean absolute error than just assuming a constant 30 cm depth (Fig. \ref{fig:modelMetricsExtrapolation}).
-With the independent occurrence data at Skrimfjella, we found that neither the \emph{terrain} nor \emph{terrain + radiometric} configurations were able to discriminate between peat presence and absence (area under the curve of the receiver operating characteristic 0.44 and 0.52 respectively, where 0.5 indicates random guessing).
-
-\begin{figure}
-\centering
-\includegraphics{figures/modelmetrics-extrapolation.pdf}
-\caption{\label{fig:modelMetricsExtrapolation}Performance of models that extrapolate from training data inside of mapped mires to test data outside of mapped mires (AR5 dataset), evaluated via spatial cross-validation. Parentheses denote the number of variables in each model, and point estimates are shown +/- their standard error.}
+\includegraphics[width=1\linewidth]{figures/calibration_plots} \caption{Calibration plots for the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), with predictions from spatial cross-validation. Points are transparent to show overlap. Blue lines are local polynomial regressions and the red dashed line in each panel shows the 1:1 line. Marginal distributions (top) are shaded by quartile.}\label{fig:calPlots}
 \end{figure}
 
 \subsection{Model interpretation}
@@ -630,9 +594,7 @@ At both sites, the most important realizations of hydrological predictors were m
 The radiometric predictor uranium ground concentration showed moderate importance at Skrimfjella.
 
 \begin{figure}
-\centering
-\includegraphics{figures/variable_importance.pdf}
-\caption{\label{fig:varImp}Global variable importance in the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), as measured by three different metrics: Shapley values, permutation importance, and the Feature Importance Ranking Measure \citep{greenwellVariableImportancePlots2020}. Variables removed due to collinearity are shown to the right of the variable with which they are most correlated.}
+\includegraphics[width=1\linewidth]{figures/variable_importance} \caption{Global variable importance in the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), as measured by three different metrics: Shapley values, permutation importance, and the Feature Importance Ranking Measure [@greenwellVariableImportancePlots2020]. Variables removed due to collinearity are shown to the right of the variable with which they are most correlated.}\label{fig:varImp}
 \end{figure}
 
 \subsubsection{Partial dependence}
@@ -652,9 +614,7 @@ Similarly, individual conditional expectation lines of uranium ground concentrat
 Nevertheless, most individual conditional expectation lines were generally parallel -- indicating that the average effects of the predictors were good representations of their overall effects.
 
 \begin{figure}
-\centering
-\includegraphics{figures/partial_dependence.pdf}
-\caption{\label{fig:pdps}Partial dependence plots of the six most important variables in the best-performing models at Skrimfjella (a) and Ørskogfjellet (b). The average effect of the predictor on the outcome (red line) overlays the variation in the effect across observations (grey lines). The variables' training data distributions are indicated with rug plots along the x-axes.}
+\includegraphics[width=1\linewidth]{figures/partial_dependence} \caption{Partial dependence plots of the six most important variables in the best-performing models at Skrimfjella (a) and Ørskogfjellet (b). The average effect of the predictor on the outcome (red line) overlays the variation in the effect across observations (grey lines). The variables' training data distributions are indicated with rug plots along the x-axes.}\label{fig:pdps}
 \end{figure}
 
 \section{Discussion}
@@ -728,26 +688,6 @@ Map users should not trust the maps to identify all large carbon stocks, but the
 That makes the map more suited for ``red-lighting'' than ``green-lighting'' peatland conversion, for example.
 Where it does not prohibit conversion (i.e.~predicts shallow peat), a ground survey should be done before conversion is allowed (assuming depth is the only consideration).
 Although this recommendation aligns with the precautionary principle, here we make it on technical grounds based on the maps' characteristics.
-
-\subsubsection{Depth predictions do not necessarily extrapolate to peat extent}
-
-That we measured more than 30 cm of peat in areas not mapped as mire was expected, because AR5 underrepresents peatland extent by about one third \citep{brynLandCoverNorway2018}.
-For that reason, maps of peatland extent also need revising.
-Unfortunately, our models did not predict peat occurrence outside AR5 mires.
-In these areas, assuming a constant 30 cm of peat (the depth threshold used in AR5) produced less error than our models (Fig. \ref{fig:modelMetricsExtrapolation}).
-Moreover, the performance gap would likely have been larger had our evaluation data been representative of all areas not classified as mire in AR5.
-Instead they were concentrated near AR5 mires.
-Most importantly, the independent occurrence data at Skrimfjella showed the model completely failing to predict occurrence, and these data were suited for testing this ability.
-Although the Ørskogfjellet model may have done better than the Skrimfjella model on a similar independent evaluation set (since it predicted depth better), the improvement would probably be small.
-
-Why wasn't peat occurrence predicted well?
-The models were trained on fundamentally different populations of locations (\textasciitilde80 \% AR5 mire in training vs.~0 \% in prediction), so it is not surprising that the associations they learned did not transfer well.
-Moreover, the \textasciitilde20 \% of training data from outside AR5 mires were incidentally collected (near AR5 mires) and not representative of other land cover classes.
-In short, the models were blind to the fact that most of both study areas have no peat.
-
-Peatland extent is probably best mapped using different remotely sensed data than we used here \citep{bakkestuenDelineationWetlandAreas2023}, and this study's purpose was not to map extent.
-Nevertheless --- as long as the relevant peatland definition includes a depth component --- depth predictions (or predictors thereof) should help delineate peatland extent \citep{olearyDigitalSoilMapping2022, beamishDetailedMappingPeat2024}.
-We return to this point in our discussion of implications for digital soil mapping.
 
 \subsection{Which variables predict peat depth?}
 
@@ -885,13 +825,11 @@ For example, if further research confirms the effect of the marine limit that we
 
 \subsubsection{Peat extent and depth should be mapped together}
 
-Finally, we want to highlight the need for research on peatland extent and peat depth to be better integrated.
-Since peatland extent is defined by non-zero peat depth \citep[the specific threshold varies by definition,][]{minasnyMappingMonitoringPeatland2024}, they are fundamentally linked.
+Finally, we briefly want to highlight the need for peatland extent mapping and peat depth mapping to be better integrated.
+Since peatland extent is defined by non-zero peat depth \citep[the specific threshold varies by definition,][]{minasnyMappingMonitoringPeatland2024}, the lateral and vertical dimensions are fundamentally linked.
 The goal, therefore, should be a unified prediction framework for extent and depth.
-We caution against reducing continuous depth predictions to arbitrary classes \citep[as in][]{ivanovsModelingGeospatialDistribution2024, karjalainenComparisonTwoGammaray2025}, since classes can be derived from continuous predictions.
 The distribution of peat depths across full landscapes is zero-inflated, and research is needed to determine whether it is more efficient to parameterize a single model of peat depth (with a larger, generalized dataset) or to break down the problem into a hurdle model by classifying zero depth and then regressing non-zero depths (with smaller, specialized datasets).
-Coupling extent and depth will reduce the prevalence of incoherence that we found: deep peat outside the peatland extent and zero depth inside it.
-A key challenge going forward will be obtaining training data that represents both zero and non-zero components of the depth distribution, since sampling designs often focus on known peatlands.
+We caution against reducing continuous depth predictions to arbitrary classes \citep[as in][]{ivanovsModelingGeospatialDistribution2024, karjalainenComparisonTwoGammaray2025}, since classes can be derived from continuous predictions.
 
 
 
