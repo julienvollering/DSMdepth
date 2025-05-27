@@ -59,13 +59,31 @@ mod_rf <-
 
 evaluation_metrics <- metric_set(rmse, mae, rsq, ccc)
 
-## Within mires ####
+## preds: radiometric ####
 
-### preds: radiometric + terrain ####
-
-recipe_RT <- 
+recipe_R <- 
   recipe(formula = depth_cm ~ 
-           radK + radTh + radU + radTC +
+           radK + radTh + radU + radTC,
+         data = frame)
+
+workflow_R <- 
+  workflow() %>% 
+  add_model(mod_rf) %>% 
+  add_recipe(recipe_R)
+
+set.seed(456)
+fit_R_knndm <- 
+  workflow_R %>% 
+  fit_resamples(
+    resamples = folds,
+    metrics = evaluation_metrics,
+    control = control_resamples(save_pred = TRUE))
+collect_metrics(fit_R_knndm)
+
+## preds: terrain ####
+
+recipe_T <- 
+  recipe(formula = depth_cm ~ 
            elevation + 
            slope1m + TPI1m + TRI1m + roughness1m + 
            slope10m + TPI10m + TRI10m + roughness10m + 
@@ -74,21 +92,21 @@ recipe_RT <-
            DTW2500 + DTW5000 + DTW10000 + DTW20000 + DTW40000 + DTW80000 + DTW160000,
          data = frame)
 
-workflow_RT <- 
+workflow_T <- 
   workflow() %>% 
   add_model(mod_rf) %>% 
-  add_recipe(recipe_RT)
+  add_recipe(recipe_T)
 
 set.seed(456)
-fit_RT_knndm <- 
-  workflow_RT %>% 
+fit_T_knndm <- 
+  workflow_T %>% 
   fit_resamples(
     resamples = folds,
     metrics = evaluation_metrics,
     control = control_resamples(save_pred = TRUE))
-collect_metrics(fit_RT_knndm)
+collect_metrics(fit_T_knndm)
 
-### preds: DMK ####
+## preds: DMK ####
 
 recipe_D <- 
   recipe(formula = depth_cm ~ dmkdepth, data = frame) |> 
@@ -116,10 +134,11 @@ frame |>
   group_by(dmkdepth) |> 
   summarize(n = n(), depth_cm = mean(depth_cm)) # sanity check
 
-### preds: terrain ####
+## preds: radiometric + terrain ####
 
-recipe_T <- 
+recipe_RT <- 
   recipe(formula = depth_cm ~ 
+           radK + radTh + radU + radTC +
            elevation + 
            slope1m + TPI1m + TRI1m + roughness1m + 
            slope10m + TPI10m + TRI10m + roughness10m + 
@@ -128,21 +147,45 @@ recipe_T <-
            DTW2500 + DTW5000 + DTW10000 + DTW20000 + DTW40000 + DTW80000 + DTW160000, 
          data = frame)
 
-workflow_T <- 
+workflow_RT <- 
   workflow() %>% 
   add_model(mod_rf) %>% 
-  add_recipe(recipe_T)
+  add_recipe(recipe_RT)
 
 set.seed(456)
-fit_T_knndm <- 
-  workflow_T %>% 
+fit_RT_knndm <- 
+  workflow_RT %>% 
   fit_resamples(
     resamples = folds,
     metrics = evaluation_metrics,
     control = control_resamples(save_pred = TRUE))
-collect_metrics(fit_T_knndm)
+collect_metrics(fit_RT_knndm)
 
-### preds: terrain + DMK ####
+## preds: radiometric + DMK ####
+
+recipe_RD <- 
+  recipe(formula = depth_cm ~ 
+           radK + radTh + radU + radTC +
+           dmkdepth, 
+         data = frame) %>% 
+  step_unknown(dmkdepth) |> 
+  step_dummy(dmkdepth)
+
+workflow_RD <- 
+  workflow() %>% 
+  add_model(mod_rf) %>% 
+  add_recipe(recipe_RD)
+
+set.seed(456)
+fit_RD_knndm <- 
+  workflow_RD %>% 
+  fit_resamples(
+    resamples = folds,
+    metrics = evaluation_metrics,
+    control = control_resamples(save_pred = TRUE))
+collect_metrics(fit_RD_knndm)
+
+## preds: terrain + DMK ####
 
 recipe_TD <- 
   recipe(formula = depth_cm ~ 
@@ -171,7 +214,7 @@ fit_TD_knndm <-
     control = control_resamples(save_pred = TRUE))
 collect_metrics(fit_TD_knndm)
 
-### preds: radiometric + terrain + DMK ####
+## preds: radiometric + terrain + DMK ####
 
 recipe_RTD <- 
   recipe(formula = depth_cm ~ 
@@ -201,16 +244,23 @@ fit_RTD_knndm <-
     control = control_resamples(save_pred = TRUE))
 collect_metrics(fit_RTD_knndm)
 
-### collect metrics ####
+## collect metrics ####
 
 modelmetrics <- bind_rows(
-  RadiometricTerrain = collect_metrics(fit_RT_knndm),
-  DMK = collect_metrics(fit_D_knndm),
-  Terrain = collect_metrics(fit_T_knndm),
-  TerrainDMK = collect_metrics(fit_TD_knndm),
-  RadiometricTerrainDMK = collect_metrics(fit_RTD_knndm), 
+  Radiometric = collect_metrics(fit_R_knndm, summarize = FALSE),
+  Terrain = collect_metrics(fit_T_knndm, summarize = FALSE),
+  DMK = collect_metrics(fit_D_knndm, summarize = FALSE),
+  RadiometricTerrain = collect_metrics(fit_RT_knndm, summarize = FALSE),
+  RadiometricDMK = collect_metrics(fit_RD_knndm, summarize = FALSE), 
+  TerrainDMK = collect_metrics(fit_TD_knndm, summarize = FALSE),
+  RadiometricTerrainDMK = collect_metrics(fit_RTD_knndm, summarize = FALSE), 
   .id = "model")
-ggplot(modelmetrics) +
+modelmetrics |> 
+  group_by(model, .metric) |>
+  summarize(mean = mean(.estimate), 
+            std_err = sd(.estimate) / sqrt(n()), 
+            .groups = "drop") |>
+  ggplot() +
   geom_linerange(aes(y = model, 
                      x = mean, 
                      xmin = mean - std_err, 
@@ -220,7 +270,41 @@ ggplot(modelmetrics) +
 
 readr::write_csv(modelmetrics, "output/modelmetrics.csv")
 
-# Best model in CV: terrain + DMK
+# Pairwise comparison of models ####
+
+# Function to run repeated measures analysis
+run_rm_analysis <- function(data) {
+  
+  # Fit mixed model (using .estimate as response variable)
+  mixed_model <- lme4::lmer(.estimate ~ model + (1|id), data = data)
+  
+  # Pairwise comparisons
+  emm <- emmeans::emmeans(mixed_model, ~ model)
+  pairs_results <- pairs(emm, adjust = "tukey") %>%
+    broom::tidy()
+  
+  return(list(
+    pairwise = pairs_results,
+    model_object = mixed_model
+  ))
+}
+
+results_nested <- modelmetrics %>%
+  nest_by(.metric, .keep = TRUE) %>%
+  mutate(
+    analysis = list(run_rm_analysis(data)),
+    pairwise = list(analysis$pairwise)
+  )
+
+pairwise_summary <- results_nested %>%
+  select(.metric, pairwise) %>%
+  unnest(pairwise) |> 
+  select(.metric, contrast, estimate, std.error, df, statistic, adj.p.value)
+
+pairwise_summary |>
+  write_csv("output/pairwise_comparisons.csv")
+
+# Best model in CV: terrain + DMK ####
 preds <- fit_TD_knndm %>% 
   collect_predictions() |> 
   select(id, depth_cm, .pred)

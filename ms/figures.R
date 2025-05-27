@@ -265,13 +265,17 @@ plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>%
   mutate(
     site = fct_relevel(site, "skrim"),
     model = case_when(
-      model == "DMK" ~ "DMK (2)",
+      model == "Radiometric" ~ "radiometric (4)",
       model == "Terrain" ~ "terrain (21)",
-      model == "TerrainDMK" ~ "terrain + DMK (23)",
+      model == "DMK" ~ "DMK (2)",
       model == "RadiometricTerrain" ~ "terrain + radiometric (25)",
+      model == "RadiometricDMK" ~ "radiometric + DMK (6)",
+      model == "TerrainDMK" ~ "terrain + DMK (23)",
       model == "RadiometricTerrainDMK" ~ "all predictors (27)"),
     model = fct_relevel(model,
                         "DMK (2)",
+                        "radiometric (4)",
+                        "radiometric + DMK (6)",
                         "terrain (21)",
                         "terrain + DMK (23)",
                         "terrain + radiometric (25)",
@@ -288,15 +292,15 @@ g1 <- plotting |>
                      xmin = mean - std_err, 
                      xmax = mean + std_err, 
                      color = site),
-                 position = position_dodge2(width= 0.3, reverse = TRUE)) +
+                 position = position_dodge2(width = 0.35, reverse = TRUE)) +
   geom_point(aes(y = model, x = mean, color = site),
-             position = position_dodge2(width= 0.3, reverse = TRUE)) +
+             position = position_dodge2(width = 0.35, reverse = TRUE)) +
   geom_text(aes(y = model, x = mean, label = signif(mean, 2), group = site),
-            position = position_dodge2(width= 1, reverse = TRUE),
+            position = position_dodge2(width = 1, reverse = TRUE),
             color = "grey50", size = 2.5) +
   scale_colour_manual(values = cols) +
-  annotate(geom='text', x=0.1, y=4.85, size=3, label='\u00D8rskogfjellet', color = "#d95f02") +
-  annotate(geom='text', x=0.1, y=5.15, size=3, label='Skrimfjella', color = "#1b9e77") +
+  annotate(geom='text', x=0.05, y=6.85, size=3, label='\u00D8rskogfjellet', color = "#d95f02") +
+  annotate(geom='text', x=0.05, y=7.15, size=3, label='Skrimfjella', color = "#1b9e77") +
   guides(color = "none") +
   labs(subtitle = "Concordance correlation") +
   xlab("unitless") +
@@ -313,11 +317,11 @@ g2 <- plotting |>
                      xmin = mean - std_err, 
                      xmax = mean + std_err, 
                      color = site),
-                 position = position_dodge2(width= 0.3, reverse = TRUE)) +
+                 position = position_dodge2(width = 0.35, reverse = TRUE)) +
   geom_point(aes(y = model, x = mean, color = site),
-             position = position_dodge2(width= 0.3, reverse = TRUE)) +
+             position = position_dodge2(width = 0.35, reverse = TRUE)) +
   geom_text(aes(y = model, x = mean, label = signif(mean, 2), group = site),
-            position = position_dodge2(width= 1, reverse = TRUE),
+            position = position_dodge2(width = 1, reverse = TRUE),
             color = "grey50", size = 2.5) +
   scale_colour_manual(values = cols) +
   guides(col = "none") + 
@@ -336,11 +340,11 @@ g3 <- plotting |>
                      xmin = mean - std_err, 
                      xmax = mean + std_err, 
                      color = site),
-                 position = position_dodge2(width= 0.3, reverse = TRUE)) +
+                 position = position_dodge2(width = 0.35, reverse = TRUE)) +
   geom_point(aes(y = model, x = mean, color = site),
-             position = position_dodge2(width= 0.3, reverse = TRUE)) +
+             position = position_dodge2(width = 0.35, reverse = TRUE)) +
   geom_text(aes(y = model, x = mean, label = signif(mean, 2), group = site),
-            position = position_dodge2(width= 1, reverse = TRUE),
+            position = position_dodge2(width = 1, reverse = TRUE),
             color = "grey50", size = 2.5) +
   scale_colour_manual(values = cols) +
   guides(color = "none") +
@@ -353,9 +357,9 @@ g3 <- plotting |>
 
 g123 <- (g1 | g2 | g3) + plot_layout(axes = "collect_y")
 ggsave(filename = 'modelmetrics.pdf', path = "ms/figures",
-       width =210-30, height = (240-40)/2.5, units = 'mm') #copernicus.cls page 210x240
+       width =210-30, height = (240-40)/2, units = 'mm') #copernicus.cls page 210x240
 ggsave(filename = 'modelmetrics.png', path = "ms/figures",
-       width =210-30, height = (240-40)/2.5, units = 'mm', dpi = 300) #copernicus.cls page 210x240
+       width =210-30, height = (240-40)/2, units = 'mm', dpi = 300) #copernicus.cls page 210x240
 
 # Calibration plots ####
 

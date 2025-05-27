@@ -116,6 +116,36 @@ Thank you for this helpful suggestion. We initially thought it would be worth in
 
 > While the title is clear, I personally find it somewhat overconfident in summarising the results. This is mainly due to the relatively low performance of the RF models and the minimal difference observed between the terrain-only and terrain-plus-radiometric models. To better support the claims, it would be helpful to include a statistical test (e.g., a t-test) to assess whether the performance differences between models are statistically significant. Furthermore, incorporating a stand-alone model that uses only radiometric data as predictors would allow for a more balanced evaluation of the variable groups and help clarify the specific contribution of radiometric inputs in predicting peat depth in Norway.
 
+Thank you for this suggestion. To clarify: the minimal marginal improvement in the terrain-plus-radiometric models compared to the terrain-only models is in fact evidence for the terrain variables being stronger predictors. Nevertheless, you are right that adding a radiometric-only model would provide a clearer comparison of the predictive contribution of radiometric versus terrain data. We now present models with all seven possible combinations of the three variable groups. These expanded results make clearer the predictive gap that we highlight in our title.
+
+We have also added statistical tests to assess the significance of the differences in model performance. The results of these tests are now presented in tables in the appendix. The results show that the differences in model performance are statistically significant in most cases, which supports our claims about the relative importance of terrain variables in predicting peat depth. Specifically, 8 of the 12 direct comparisons between radiometric and terrain variables (Radiometric--Terrain and RadiometricDMK--TerrainDMK configuration pairs * 3 metrics * 2 sites) are statistically significant at the 0.05 level. We now describe these results in the Results section, to better support the claim in the title.
+
+Some of the most important text revisions related to this comment are:
+
+::: {.callout appearance="simple"}
+
+**In _Methods_**
+
+[We formally assessed the effect of predictor configuration on performance metrics using mixed-effects models to account for the cross-validation fold structure, and testing pairwise differences between configurations.]{.added}
+
+**In _Results_**
+
+[Compared to the *terrain* configuration, the *terrain + radiometric* configuration improved concordance correlation by 0.04, R^2^ by 0.04, and mean absolute error by 1 cm.]{.deleted}
+
+[[For Skrimfjella] The *terrain* configuration outperformed the *radiometric* configuration by 0.27 in concordance correlation coefficient ($p < 0.001$; Appendix Table \@ref(tab:pairwiseSkrimCCC)), by 0.16 in R^2^ ($p = 0.190$; Appendix Table \@ref(tab:pairwiseSkrimRsq)), and by 10 cm in mean absolute error ($p = 0.038$; Appendix Table \@ref(tab:pairwiseSkrimMAE)).
+]{.added}
+
+[[For Ørskogfjellet] The *terrain* configuration outperformed the *radiometric* configuration by 0.24 in concordance correlation coefficient ($p = 0.068$; Appendix Table \@ref(tab:pairwiseOrskogCCC)), by 0.24 in R^2^ ($p = 0.004$; Appendix Table \@ref(tab:pairwiseOrskogRsq)), and by 25 cm in mean absolute error ($p = 0.086$; Appendix Table \@ref(tab:pairwiseOrskogMAE)).]{.added}
+
+**In _Discussion_**
+
+[Radiometric data had no predictive value at Ørskogfjellet, while at Skrimfjella they had minor influence in a relatively weak model.]{.deleted}
+
+[Radiometric data had little to no predictive value at either site (poor performance of *radiometric* configuration), although they did contribute to the best model at Skrimfjella (marginal improvement in *all predictors* configuration compared to *terrain + DMK*).
+These results contrast with earlier studies that found that radiometrics were useful predictors of peat depth [@keaneySpatialStatisticsEstimate2013; @gatisMappingUplandPeat2019; @kogantiMappingPeatDepth2023].]{.added}
+
+:::
+
 ### Comment 2.4
 
 > Figure 1: While the terrain-look map provides a general view of the study area, the relief of the regions remains unclear. Consider adding a clearer topographic representation (e.g., contour profile) to better illustrate landscape variation. Additionally, it would be helpful to explain the rationale for selecting Skrimfjella, which appears to have relatively limited peat coverage, especially given that the adjacent region seems to contain a larger peatland area.

@@ -45,6 +45,69 @@ bind_rows(overall, byAR5, byDMK) |>
          n_orskog, prop_orskog, depth_cm_orskog) |> 
   write_csv("ms/tables/celldepth-attribute.csv")
 
+# Compare predictive differences ####
+
+library(tidyverse)
+
+orskog <- read_csv("output/pairwise_comparisons.csv") 
+skrim <- read_csv("output/Skrim/pairwise_comparisons.csv") 
+
+orskog |> 
+  filter(.metric %in% c("rsq", "mae", "ccc")) |> 
+  mutate(
+    across(c(estimate,std.error,df,statistic), ~ round(.x, 2)),
+    adj.p.value = ifelse(adj.p.value < 0.001, "< 0.001", round(adj.p.value, 3)),
+    .metric = case_match(.metric, 
+                     "rsq" ~ "R-squared", 
+                     "mae" ~ "Mean absolute error", 
+                     "ccc" ~ "Concordance correlation"),
+    significance = case_when(
+      adj.p.value < 0.001 ~ "***",
+      adj.p.value < 0.01 ~ "**",
+      adj.p.value < 0.05 ~ "*",
+      TRUE ~ ""
+    )
+  ) |>
+  rename(metric = .metric, comparison = contrast) |>
+  rename_with(str_to_title) |>
+  nest_by(Metric) %>%
+  pwalk(~ write_csv(.y, paste0("ms/tables/pairwise-orskog-", .x, ".csv")))
+
+skrim |> 
+  filter(.metric %in% c("rsq", "mae", "ccc")) |> 
+  mutate(
+    across(c(estimate,std.error,df,statistic), ~ round(.x, 2)),
+    adj.p.value = ifelse(adj.p.value < 0.001, "< 0.001", round(adj.p.value, 3)),
+    .metric = case_match(.metric, 
+                         "rsq" ~ "R-squared", 
+                         "mae" ~ "Mean absolute error", 
+                         "ccc" ~ "Concordance correlation"),
+    significance = case_when(
+      adj.p.value < 0.001 ~ "***",
+      adj.p.value < 0.01 ~ "**",
+      adj.p.value < 0.05 ~ "*",
+      TRUE ~ ""
+    )
+  ) |>
+  rename(metric = .metric, comparison = contrast) |>
+  rename_with(str_to_title) |>
+  nest_by(Metric) %>%
+  pwalk(~ write_csv(.y, paste0("ms/tables/pairwise-skrim-", .x, ".csv")))
+
+list(orskog,skrim) |> 
+  set_names(c("orskog", "skrim")) |>
+  bind_rows(.id = "site") |> 
+  filter(contrast %in% c("Radiometric - Terrain", "RadiometricDMK - TerrainDMK"),
+         .metric %in% c("ccc","mae","rsq")) |> 
+  mutate(
+    significance = case_when(
+      adj.p.value < 0.001 ~ "***",
+      adj.p.value < 0.01 ~ "**",
+      adj.p.value < 0.05 ~ "*",
+      TRUE ~ "")
+  ) |> 
+  select(site, .metric, contrast, adj.p.value, significance)
+
 # sessionInfo ####
 
 sessioninfo::session_info()

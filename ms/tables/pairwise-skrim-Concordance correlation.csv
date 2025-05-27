@@ -1,0 +1,22 @@
+Comparison,Estimate,Std.error,Df,Statistic,Adj.p.value,Significance
+DMK - Radiometric,0.02,0.05,114,0.44,0.999,
+DMK - RadiometricDMK,0.06,0.05,114,1.19,0.896,
+DMK - RadiometricTerrain,-0.29,0.05,114,-5.84,< 0.001,***
+DMK - RadiometricTerrainDMK,-0.29,0.05,114,-5.81,< 0.001,***
+DMK - Terrain,-0.25,0.05,114,-5.03,< 0.001,***
+DMK - TerrainDMK,-0.26,0.05,114,-5.17,< 0.001,***
+Radiometric - RadiometricDMK,0.04,0.05,114,0.75,0.989,
+Radiometric - RadiometricTerrain,-0.31,0.05,114,-6.28,< 0.001,***
+Radiometric - RadiometricTerrainDMK,-0.31,0.05,114,-6.25,< 0.001,***
+Radiometric - Terrain,-0.27,0.05,114,-5.47,< 0.001,***
+Radiometric - TerrainDMK,-0.28,0.05,114,-5.62,< 0.001,***
+RadiometricDMK - RadiometricTerrain,-0.35,0.05,114,-7.03,< 0.001,***
+RadiometricDMK - RadiometricTerrainDMK,-0.35,0.05,114,-7,< 0.001,***
+RadiometricDMK - Terrain,-0.31,0.05,114,-6.22,< 0.001,***
+RadiometricDMK - TerrainDMK,-0.32,0.05,114,-6.37,< 0.001,***
+RadiometricTerrain - RadiometricTerrainDMK,0,0.05,114,0.03,1,
+RadiometricTerrain - Terrain,0.04,0.05,114,0.81,0.983,
+RadiometricTerrain - TerrainDMK,0.03,0.05,114,0.67,0.994,
+RadiometricTerrainDMK - Terrain,0.04,0.05,114,0.79,0.986,
+RadiometricTerrainDMK - TerrainDMK,0.03,0.05,114,0.64,0.995,
+Terrain - TerrainDMK,-0.01,0.05,114,-0.15,1,

@@ -62,7 +62,7 @@ availability:
   #data: |
   #  use this to add a statement when having only data sets available
   codedata: |
-    R code used in this study is available at <https://github.com/julienvollering/DSMdepth>. The depth measurements we used are archived at \doi{10.6073/pasta/6ce440152f693f2156bf5b692a2e7917} and follow data and metadata standards.
+    *Code and data availability.* R code used in this study is available at <https://github.com/julienvollering/DSMdepth>. The depth measurements we used are archived at \doi{10.6073/pasta/6ce440152f693f2156bf5b692a2e7917} and follow data and metadata standards.
 authorcontribution: |
   *Author contributions.*
   JV: Conceptualization, Investigation, Data curation, Formal analysis, Writing – original draft.
@@ -76,34 +76,6 @@ disclaimer: |
   *Disclaimer.* The authors declare that the results, discussions, and interpretations presented in this study are solely their own. The views expressed herein do not necessarily reflect those of their respective institutions or funding agencies.
 acknowledgements: |
   *Acknowledgements.* We thank the Norwegian Public Roads Administration for sharing data from ground-penetrating radar surveys. We also thank Vikas Baranwal from the Geological Survey of Norway for helping us access the radiometric data from Skrim. This work contains data under the following licenses: (1) Creative Commons Attribution 4.0 International, © Kartverket, (2) *Norge digitalt* license, Norwegian Institute of Bioeconomy Research (NIBIO), © Geovekst, and (3) the Norwegian License for Public Data (NLOD), made available by the Geological Survey of Norway. Large language models have been used during the drafting and editing of this manuscript, with author oversight. We maintain full responsibility for the scientific output, as per the European Commission's *Living guidelines on the responsible use of generative AI in research*.
-appendix: |
-  \appendixtables
-  \begin{table}[tbp]
-  \caption{Attributes of the radiometric surveys, as reported in Baranwal et al., \citeyearpar{baranwalHelicopterborneMagneticElectromagnetic2013} and Ofstad \citeyearpar{ofstadHelicopterborneMagneticRadiometric2015}.}
-  \begin{tabular}{lll}
-  \hline
-                                           & Skrimfjella & Ørskogfjellet              \\ \cline{2-3} 
-  Survey period                            & 2008-2011   & December 2014–January 2015 \\
-  Average flight altitude (m)              & 75          & 80                         \\
-  Average flight speed (\unit{km\,h^{-1}}) & 108         & 88                         \\
-  Flight line spacing (m)                  & 200         & 200                        \\ \hline
-  \end{tabular}
-  \label{tab:radSurveys}
-  \end{table}
-  \clearpage
-  \appendixfigures
-  \begin{figure}
-  \centering
-  \includegraphics[width=0.8\textwidth]{figures/GPRwavevelocity.pdf}
-  \caption{\label{fig:GPRwavevelocity}Calibration of GPR wave velocity at Skrimfjella (a) and Ørskogfjellet (b) by regression of probed depth against wave travel time.}
-  \end{figure}
-  \clearpage
-  \appendixfigures
-  \begin{figure}
-  \centering
-  \includegraphics{figures/semivariograms.pdf}
-  \caption{\label{fig:semivariograms}Empirical semivariograms of peat depth point measurements at Skrimfjella (a) and Ørskogfjellet (b).}
-  \end{figure}
 output:
   bookdown::pdf_book:
     keep_md: true
@@ -423,18 +395,8 @@ We did not tune these hyperparameters because RFs are relatively insensitive to 
 
 ### Model performance
 
-For both sites, we compared the performance of models with five different configurations of predictors. 
-Specifically, we trained models with:
-
-  1. *DMK* (2 variables)
-  2. *terrain* (21 variables)
-  3. *terrain + DMK* (23 variables)
-  4. *terrain + radiometric* (25 variables)
-  5. *all predictors* (27 variables)
-  
-These different configurations simulate different scenarios of data availability.
+For both sites, we compared the performance of models with different predictor configurations, where each configuration was one of the seven combinations of the three predictor groups: (1) radiometric (2) terrain and (3) DMK. 
 Comparing the different configurations allowed us to isolate the added value of each of the predictor groups.
-We did not explore configurations comprising radiometrics without terrain, because LiDAR terrain surveys typically precede airborne radiometric surveys.
 The models with only DMK peat depth class were simple linear models rather than RFs, and served to provide a fair comparison between the accuracy of the RF models and the existing national map of peat depth, calibrated on the same data.
 
 We used a spatial cross-validation scheme to evaluate model performance [@wadouxSpatialCrossvalidationNot2021; @meyerMachineLearningbasedGlobal2022].
@@ -444,6 +406,7 @@ That way, the spatial separation between folds is similar to the separation betw
 For spatially clustered training data, this approach strikes a balance between the risk of optimistic metrics from random cross-validation and the risk of pessimistic metrics from other forms of spatial cross-validation [@wadouxSpatialCrossvalidationNot2021].
 We implemented the kNNDM with the *CAST* R package [v1.0, @meyerCASTPackageTraining2024], setting prediction locations to all AR5 mire cells in the study area, and choosing a number of folds (5--20) that produced the best match between the two NND distributions.
 From the cross-validation we quantified mean absolute error (error magnitude, original scale), R^2^ (explained variation, standardized scale), and Lin's concordance correlation coefficient (error magnitude and explained variation, standardized scale).
+We formally assessed the effect of predictor configuration on performance metrics using mixed-effects models to account for the cross-validation fold structure, and testing pairwise differences between configurations.
 
 DSM products have much more value when their predictions are accompanied by uncertainty estimates, and all DSM should strive to assess uncertainty [@arrouaysImpressionsDigitalSoil2020; @wadouxMachineLearningDigital2020] and evaluate uncertainty estimates [@heuvelinkSpatialStatisticsSoil2022].
 Therefore, we produced prediction intervals with quantile regression forests [@meinshausenQuantileRegressionForests2006], and used the same spatial cross-validation to evaluate the prediction interval coverage probability [@shresthaMachineLearningApproaches2006].
@@ -506,14 +469,14 @@ Although the difficulty of predicting peat depth caused prediction intervals to 
 At Skrimfjella, the prediction interval coverage probability was 91 %, and at Ørskogfjellet it was 84 % (both compared to the target value of 90 %).
 Observations outside of the prediction intervals were evenly distributed across each of the study areas.
 
-For Skrimfjella, the best predictor configuration was *all predictors*, followed closely by *terrain + radiometric*.
-The performance gap between the *terrain + DMK* configuration and the *terrain* configuration was similarly small.
-Compared to the *terrain* configuration, the *terrain + radiometric* configuration improved concordance correlation by 0.04, R^2^ by 0.04, and mean absolute error by 1 cm.
-*DMK* was a very poor predictor of peat depth even though it was calibrated to measured depths, with a concordance correlation coefficient of 0.0077.
+For Skrimfjella, the best predictor configuration was *all predictors*, followed closely by *terrain + radiometric* (Fig. \@ref(fig:modelMetrics)).
+The *terrain* configuration outperformed the *radiometric* configuration by 0.27 in concordance correlation coefficient ($p < 0.001$; Appendix Table \@ref(tab:pairwiseSkrimCCC)), by 0.16 in R^2^ ($p = 0.190$; Appendix Table \@ref(tab:pairwiseSkrimRsq)), and by 10 cm in mean absolute error ($p = 0.038$; Appendix Table \@ref(tab:pairwiseSkrimMAE)).
+The *terrainDMK* configuration outperformed the *radiometricDMK* configuration by 0.32 in concordance correlation coefficient ($p < 0.001$; Appendix Table \@ref(tab:pairwiseSkrimCCC)), by 0.11 in R^2^ ($p = 0.605$; Appendix Table \@ref(tab:pairwiseSkrimRsq)), and by 11 cm in mean absolute error ($p = 0.011$; Appendix Table \@ref(tab:pairwiseSkrimMAE)).
 
-For Ørskogfjellet, the best predictor configuration was *terrain + DMK*, followed by *terrain*.
-Adding radiometric predictors to these configurations worsened model performance, especially in terms of concordance correlation and R^2^.
-By itself, *DMK class* produced a concordance correlation coefficient of 0.17 (compared to 0.008 at Skrimfjella), but the worst mean absolute error of any model at either site: 77 cm.
+For Ørskogfjellet, the best predictor configuration was *terrain + DMK*, followed by *terrain* (Fig. \@ref(fig:modelMetrics)).
+Adding radiometric predictors to these configurations slightly worsened model performance.
+The *terrain* configuration outperformed the *radiometric* configuration by 0.24 in concordance correlation coefficient ($p = 0.068$; Appendix Table \@ref(tab:pairwiseOrskogCCC)), by 0.24 in R^2^ ($p = 0.004$; Appendix Table \@ref(tab:pairwiseOrskogRsq)), and by 25 cm in mean absolute error ($p = 0.086$; Appendix Table \@ref(tab:pairwiseOrskogMAE)).
+The *terrainDMK* configuration outperformed the *radiometricDMK* configuration by 0.28 in concordance correlation coefficient ($p = 0.015$; Appendix Table \@ref(tab:pairwiseOrskogCCC)), by 0.27 in R^2^ ($p < 0.001$; Appendix Table \@ref(tab:pairwiseOrskogRsq)), and by 28 cm in mean absolute error ($p = 0.031$; Appendix Table \@ref(tab:pairwiseOrskogMAE)).
 
 The best models at both sites overpredicted shallow peats and strongly underpredicted very deep peats (Fig. \@ref(fig:calPlots)).
 The mean error (bias) of these models was 10 cm at Skrimfjella and -4 cm at Ørskogfjellet.
@@ -572,7 +535,7 @@ Mean absolute errors of 60 and 56 cm at the two sites — relative to mean depth
 Since any given 10 m cell will miss by about 60 cm, applications requiring detailed peat depth in a small area (e.g. < 1 ha) would benefit from measuring depth on the ground rather than relying on the DSM alone.
 
 Ground-based measurements also have uncertainty [@parryEvaluatingApproachesEstimating2014], but our data show that this error was smaller than the variation in peat depth over short distances (e.g. 100 m).
-Independent probing and GPR measurements up to 2 m apart were differed by an average of 29--42 cm (Fig. \@ref(fig:GPRwavevelocity)).
+Independent probing and GPR measurements up to 2 m apart differed by an average of 29--42 cm (Fig. \@ref(fig:GPRwavevelocity)).
 By comparison, the average variation among measurements 100 m apart was 70--106 cm (Fig. \@ref(fig:semivariograms)).
 We also note that cell-level measurement error that is correlated with predictors (e.g. underestimated depth at high Multi-Resolution Valley Bottom Flatness), will go undetected by cross-validation and does not account for the limited accuracy of our models.
 Ultimately, the effect of measurement error falls mostly outside the scope of DSM, since it can only be evaluated with higher-quality, independent data.
@@ -637,10 +600,10 @@ Although this recommendation aligns with the precautionary principle, here we ma
 
 ### Airborne radiometrics do not predict Norwegian peat depth
 
-Radiometric data had no predictive value at Ørskogfjellet, while at Skrimfjella they had minor influence in a relatively weak model. 
+Radiometric data had little to no predictive value at either site (poor performance of *radiometric* configuration), although they did contribute to the best model at Skrimfjella (marginal improvement in *all predictors* configuration compared to *terrain + DMK*).
+These results contrast with earlier studies that found that radiometrics were useful predictors of peat depth [@keaneySpatialStatisticsEstimate2013; @gatisMappingUplandPeat2019; @kogantiMappingPeatDepth2023].
 The bedrock is more homogeneous at Ørskogfjellet than at Skrimfjella, so uneven radiogenesis is not a viable explanation for the differences between sites nor the poor performance in general [@beamishEnvironmentalRadioactivityUK2014; @reinhardtGammaraySpectrometryVersatile2019]. 
-To the degree that radiometrics had predictive value at Skrimfjella, it appears that they were most valuable near the extremes of the depth distribution, since their inclusion improved R^2^ more than mean absolute error. 
-All four variables were highly correlated within the peatland parts of our study sites, so there could be no large differences in their predictive value. 
+All four radiometric variables were highly correlated within the peatland parts of our study sites, so there could be no large differences in their predictive value. 
 This contrasts with Koganti et al. [-@kogantiMappingPeatDepth2023], who found that radiometric total count was a much better predictor than potassium ground concentration. 
 
 We suspect that the primary reason for the poor predictive value of the radiometric data was the large footprint of the detector in the airborne survey. 
@@ -670,8 +633,8 @@ Perhaps relatively deeper water tables in these study sites [blanket bog, draine
 
 ### Terrain-based variables can predict peat depth
 
-At both our sites, LiDAR-derived terrain variables predicted peat depth much better than radiometric variables (Fig. \@ref(fig:varImp)). 
-Elevation was the most important predictor at both sites, and peat depth showed non-monotonic responses to changes in elevation (Fig. \@ref(fig:pdps)). 
+At both our sites, LiDAR-derived terrain variables predicted peat depth much better than radiometric variables (Fig. \@ref(fig:modelMetrics)). 
+Elevation was the most important predictor at both sites, and peat depth showed non-monotonic responses to changes in elevation (Figs. \@ref(fig:varImp)-\@ref(fig:pdps)). 
 We believe that the idiosyncratic elevational relationships we detected are mostly not generalizable beyond the study areas, because we see no simple mechanism (e.g. via climate) to explain the observed patterns. 
 For example, the increase in peat depth from 350 to 700 m.a.s.l. at Skrimfjella is opposite to the general pattern of deeper peats in lowland than upland Norway [@lyngstadBeskrivelserAvTorvmassivenheter2023]. 
 Moreover, elevation at Ørskogfjellet seems to interact with other variables (non-parallel individual conditional expectation lines), complicating its interpretation. 
@@ -772,5 +735,246 @@ For example, if further research confirms the effect of the marine limit that we
 Finally, we briefly want to highlight the need for peatland extent mapping and peat depth mapping to be better integrated. 
 Since peatland extent is defined by non-zero peat depth [the specific threshold varies by definition, @minasnyMappingMonitoringPeatland2024], the lateral and vertical dimensions are fundamentally linked. 
 The goal, therefore, should be a unified prediction framework for extent and depth.
-The distribution of peat depths across full landscapes is zero-inflated, and research is needed to determine whether it is more efficient to parameterize a single model of peat depth (with a larger, generalized dataset) or to break down the problem into a hurdle model by classifying zero depth and then regressing non-zero depths (with smaller, specialized datasets). 
-We caution against reducing continuous depth predictions to arbitrary classes [as in @ivanovsModelingGeospatialDistribution2024; @karjalainenComparisonTwoGammaray2025], since classes can be derived from continuous predictions. 
+Research is needed to determine whether it is better to parameterize a single model of peat depth across a full landscape, or to break down the problem into a hurdle model by classifying zero depth and then regressing non-zero depths. 
+Though peatland definitions may encourage reducing continuous depth predictions to arbitrary classes, we caution against this practice [as in @ivanovsModelingGeospatialDistribution2024; @karjalainenComparisonTwoGammaray2025]. 
+
+\newpage
+\appendix
+\section{}
+
+\appendixtables
+\begin{table}[h]
+\caption{Attributes of the radiometric surveys, as reported in Baranwal et al., \citeyearpar{baranwalHelicopterborneMagneticElectromagnetic2013} and Ofstad \citeyearpar{ofstadHelicopterborneMagneticRadiometric2015}.}
+\begin{tabular}{lll}
+\hline
+& Skrimfjella & Ørskogfjellet              \\ \cline{2-3} 
+Survey period                            & 2008-2011   & December 2014–January 2015 \\
+Average flight altitude (m)              & 75          & 80                         \\
+Average flight speed (\unit{km\,h^{-1}}) & 108         & 88                         \\
+Flight line spacing (m)                  & 200         & 200                        \\ \hline
+\end{tabular}
+\label{tab:radSurveys}
+\end{table}
+\clearpage
+
+\appendixfigures
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/GPRwavevelocity.pdf}
+\caption{\label{fig:GPRwavevelocity}Calibration of GPR wave velocity at Skrimfjella (a) and Ørskogfjellet (b) by regression of probed depth against wave travel time.}
+\end{figure}
+\clearpage
+
+\newpage
+\section{}
+
+\begin{table}[h]
+
+\caption{(\#tab:pairwiseSkrimCCC)Pairwise comparisons of the concordance correlation coefficient among models for Skrimfjella, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package) on mixed-effects models (\texttt{lme4} package) to account for the cross-validation fold structure.}
+\centering
+\begin{tabular}[t]{lrrrrll}
+\hline
+Comparison & Estimate & Std.error & Df & Statistic & Adj.p.value & Significance\\
+\hline
+DMK - Radiometric & 0.02 & 0.05 & 114 & 0.44 & 0.999 & \\
+DMK - RadiometricDMK & 0.06 & 0.05 & 114 & 1.19 & 0.896 & \\
+DMK - RadiometricTerrain & -0.29 & 0.05 & 114 & -5.84 & < 0.001 & ***\\
+DMK - RadiometricTerrainDMK & -0.29 & 0.05 & 114 & -5.81 & < 0.001 & ***\\
+DMK - Terrain & -0.25 & 0.05 & 114 & -5.03 & < 0.001 & ***\\
+DMK - TerrainDMK & -0.26 & 0.05 & 114 & -5.17 & < 0.001 & ***\\
+Radiometric - RadiometricDMK & 0.04 & 0.05 & 114 & 0.75 & 0.989 & \\
+Radiometric - RadiometricTerrain & -0.31 & 0.05 & 114 & -6.28 & < 0.001 & ***\\
+Radiometric - RadiometricTerrainDMK & -0.31 & 0.05 & 114 & -6.25 & < 0.001 & ***\\
+Radiometric - Terrain & -0.27 & 0.05 & 114 & -5.47 & < 0.001 & ***\\
+Radiometric - TerrainDMK & -0.28 & 0.05 & 114 & -5.62 & < 0.001 & ***\\
+RadiometricDMK - RadiometricTerrain & -0.35 & 0.05 & 114 & -7.03 & < 0.001 & ***\\
+RadiometricDMK - RadiometricTerrainDMK & -0.35 & 0.05 & 114 & -7.00 & < 0.001 & ***\\
+RadiometricDMK - Terrain & -0.31 & 0.05 & 114 & -6.22 & < 0.001 & ***\\
+RadiometricDMK - TerrainDMK & -0.32 & 0.05 & 114 & -6.37 & < 0.001 & ***\\
+RadiometricTerrain - RadiometricTerrainDMK & 0.00 & 0.05 & 114 & 0.03 & 1 & \\
+RadiometricTerrain - Terrain & 0.04 & 0.05 & 114 & 0.81 & 0.983 & \\
+RadiometricTerrain - TerrainDMK & 0.03 & 0.05 & 114 & 0.67 & 0.994 & \\
+RadiometricTerrainDMK - Terrain & 0.04 & 0.05 & 114 & 0.79 & 0.986 & \\
+RadiometricTerrainDMK - TerrainDMK & 0.03 & 0.05 & 114 & 0.64 & 0.995 & \\
+Terrain - TerrainDMK & -0.01 & 0.05 & 114 & -0.15 & 1 & \\
+\hline
+\end{tabular}
+\end{table}
+\clearpage
+
+\begin{table}[h]
+
+\caption{(\#tab:pairwiseSkrimRsq)Pairwise comparisons of $R^2$ among models for Skrimfjella, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package) on mixed-effects models (\texttt{lme4} package) to account for the cross-validation fold structure.}
+\centering
+\begin{tabular}[t]{lrrrrrl}
+\hline
+Comparison & Estimate & Std.error & Df & Statistic & Adj.p.value & Significance\\
+\hline
+DMK - Radiometric & 0.04 & 0.08 & 108.23 & 0.55 & 0.998 & \\
+DMK - RadiometricDMK & 0.01 & 0.08 & 108.23 & 0.08 & 1.000 & \\
+DMK - RadiometricTerrain & -0.16 & 0.08 & 108.23 & -2.07 & 0.378 & \\
+DMK - RadiometricTerrainDMK & -0.16 & 0.08 & 108.23 & -2.11 & 0.357 & \\
+DMK - Terrain & -0.11 & 0.08 & 108.23 & -1.48 & 0.755 & \\
+DMK - TerrainDMK & -0.10 & 0.08 & 108.23 & -1.34 & 0.830 & \\
+Radiometric - RadiometricDMK & -0.04 & 0.06 & 105.01 & -0.56 & 0.998 & \\
+Radiometric - RadiometricTerrain & -0.20 & 0.06 & 105.01 & -3.16 & 0.033 & *\\
+Radiometric - RadiometricTerrainDMK & -0.20 & 0.06 & 105.01 & -3.20 & 0.029 & *\\
+Radiometric - Terrain & -0.16 & 0.06 & 105.01 & -2.45 & 0.190 & \\
+Radiometric - TerrainDMK & -0.15 & 0.06 & 105.01 & -2.28 & 0.263 & \\
+RadiometricDMK - RadiometricTerrain & -0.17 & 0.06 & 105.01 & -2.60 & 0.137 & \\
+RadiometricDMK - RadiometricTerrainDMK & -0.17 & 0.06 & 105.01 & -2.64 & 0.124 & \\
+RadiometricDMK - Terrain & -0.12 & 0.06 & 105.01 & -1.89 & 0.494 & \\
+RadiometricDMK - TerrainDMK & -0.11 & 0.06 & 105.01 & -1.72 & 0.605 & \\
+RadiometricTerrain - RadiometricTerrainDMK & 0.00 & 0.06 & 105.01 & -0.04 & 1.000 & \\
+RadiometricTerrain - Terrain & 0.05 & 0.06 & 105.01 & 0.71 & 0.992 & \\
+RadiometricTerrain - TerrainDMK & 0.06 & 0.06 & 105.01 & 0.88 & 0.975 & \\
+RadiometricTerrainDMK - Terrain & 0.05 & 0.06 & 105.01 & 0.75 & 0.989 & \\
+RadiometricTerrainDMK - TerrainDMK & 0.06 & 0.06 & 105.01 & 0.92 & 0.968 & \\
+Terrain - TerrainDMK & 0.01 & 0.06 & 105.01 & 0.17 & 1.000 & \\
+\hline
+\end{tabular}
+\end{table}
+\clearpage
+
+\begin{table}[h]
+
+\caption{(\#tab:pairwiseSkrimMAE)Pairwise comparisons of mean absolute error among models for Skrimfjella, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package) on mixed-effects models (\texttt{lme4} package) to account for the cross-validation fold structure.}
+\centering
+\begin{tabular}[t]{lrrrrrl}
+\hline
+Comparison & Estimate & Std.error & Df & Statistic & Adj.p.value & Significance\\
+\hline
+DMK - Radiometric & -2.91 & 3.13 & 114 & -0.93 & 0.967 & \\
+DMK - RadiometricDMK & -3.69 & 3.13 & 114 & -1.18 & 0.902 & \\
+DMK - RadiometricTerrain & 8.10 & 3.13 & 114 & 2.58 & 0.140 & \\
+DMK - RadiometricTerrainDMK & 8.21 & 3.13 & 114 & 2.62 & 0.130 & \\
+DMK - Terrain & 6.81 & 3.13 & 114 & 2.17 & 0.319 & \\
+DMK - TerrainDMK & 7.33 & 3.13 & 114 & 2.34 & 0.235 & \\
+Radiometric - RadiometricDMK & -0.77 & 3.13 & 114 & -0.25 & 1.000 & \\
+Radiometric - RadiometricTerrain & 11.02 & 3.13 & 114 & 3.51 & 0.011 & *\\
+Radiometric - RadiometricTerrainDMK & 11.13 & 3.13 & 114 & 3.55 & 0.010 & *\\
+Radiometric - Terrain & 9.72 & 3.13 & 114 & 3.10 & 0.038 & *\\
+Radiometric - TerrainDMK & 10.24 & 3.13 & 114 & 3.27 & 0.024 & *\\
+RadiometricDMK - RadiometricTerrain & 11.79 & 3.13 & 114 & 3.76 & 0.005 & **\\
+RadiometricDMK - RadiometricTerrainDMK & 11.90 & 3.13 & 114 & 3.80 & 0.004 & **\\
+RadiometricDMK - Terrain & 10.50 & 3.13 & 114 & 3.35 & 0.018 & *\\
+RadiometricDMK - TerrainDMK & 11.01 & 3.13 & 114 & 3.51 & 0.011 & *\\
+RadiometricTerrain - RadiometricTerrainDMK & 0.11 & 3.13 & 114 & 0.04 & 1.000 & \\
+RadiometricTerrain - Terrain & -1.29 & 3.13 & 114 & -0.41 & 1.000 & \\
+RadiometricTerrain - TerrainDMK & -0.77 & 3.13 & 114 & -0.25 & 1.000 & \\
+RadiometricTerrainDMK - Terrain & -1.40 & 3.13 & 114 & -0.45 & 0.999 & \\
+RadiometricTerrainDMK - TerrainDMK & -0.88 & 3.13 & 114 & -0.28 & 1.000 & \\
+Terrain - TerrainDMK & 0.52 & 3.13 & 114 & 0.17 & 1.000 & \\
+\hline
+\end{tabular}
+\end{table}
+\clearpage
+
+\begin{table}[h]
+
+\caption{(\#tab:pairwiseOrskogCCC)Pairwise comparisons of the concordance correlation coefficient among models for Ørskogfjellet, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package) on mixed-effects models (\texttt{lme4} package) to account for the cross-validation fold structure.}
+\centering
+\begin{tabular}[t]{lrrrrrl}
+\hline
+Comparison & Estimate & Std.error & Df & Statistic & Adj.p.value & Significance\\
+\hline
+DMK - Radiometric & 0.05 & 0.08 & 54 & 0.61 & 0.996 & \\
+DMK - RadiometricDMK & 0.07 & 0.08 & 54 & 0.84 & 0.979 & \\
+DMK - RadiometricTerrain & -0.14 & 0.08 & 54 & -1.79 & 0.559 & \\
+DMK - RadiometricTerrainDMK & -0.16 & 0.08 & 54 & -1.95 & 0.458 & \\
+DMK - Terrain & -0.19 & 0.08 & 54 & -2.33 & 0.248 & \\
+DMK - TerrainDMK & -0.22 & 0.08 & 54 & -2.67 & 0.127 & \\
+Radiometric - RadiometricDMK & 0.02 & 0.08 & 54 & 0.24 & 1.000 & \\
+Radiometric - RadiometricTerrain & -0.19 & 0.08 & 54 & -2.40 & 0.220 & \\
+Radiometric - RadiometricTerrainDMK & -0.21 & 0.08 & 54 & -2.55 & 0.161 & \\
+Radiometric - Terrain & -0.24 & 0.08 & 54 & -2.94 & 0.068 & \\
+Radiometric - TerrainDMK & -0.26 & 0.08 & 54 & -3.27 & 0.029 & *\\
+RadiometricDMK - RadiometricTerrain & -0.21 & 0.08 & 54 & -2.63 & 0.136 & \\
+RadiometricDMK - RadiometricTerrainDMK & -0.23 & 0.08 & 54 & -2.79 & 0.096 & \\
+RadiometricDMK - Terrain & -0.26 & 0.08 & 54 & -3.17 & 0.037 & *\\
+RadiometricDMK - TerrainDMK & -0.28 & 0.08 & 54 & -3.51 & 0.015 & *\\
+RadiometricTerrain - RadiometricTerrainDMK & -0.01 & 0.08 & 54 & -0.16 & 1.000 & \\
+RadiometricTerrain - Terrain & -0.04 & 0.08 & 54 & -0.54 & 0.998 & \\
+RadiometricTerrain - TerrainDMK & -0.07 & 0.08 & 54 & -0.88 & 0.975 & \\
+RadiometricTerrainDMK - Terrain & -0.03 & 0.08 & 54 & -0.38 & 1.000 & \\
+RadiometricTerrainDMK - TerrainDMK & -0.06 & 0.08 & 54 & -0.72 & 0.991 & \\
+Terrain - TerrainDMK & -0.03 & 0.08 & 54 & -0.33 & 1.000 & \\
+\hline
+\end{tabular}
+\end{table}
+\clearpage
+
+\begin{table}[h]
+
+\caption{(\#tab:pairwiseOrskogRsq)Pairwise comparisons of $R^2$ among models for Ørskogfjellet, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package) on mixed-effects models (\texttt{lme4} package) to account for the cross-validation fold structure.}
+\centering
+\begin{tabular}[t]{lrrrrll}
+\hline
+Comparison & Estimate & Std.error & Df & Statistic & Adj.p.value & Significance\\
+\hline
+DMK - Radiometric & 0.08 & 0.06 & 54 & 1.36 & 0.818 & \\
+DMK - RadiometricDMK & 0.08 & 0.06 & 54 & 1.35 & 0.823 & \\
+DMK - RadiometricTerrain & -0.10 & 0.06 & 54 & -1.72 & 0.607 & \\
+DMK - RadiometricTerrainDMK & -0.11 & 0.06 & 54 & -1.91 & 0.485 & \\
+DMK - Terrain & -0.15 & 0.06 & 54 & -2.62 & 0.14 & \\
+DMK - TerrainDMK & -0.19 & 0.06 & 54 & -3.29 & 0.028 & *\\
+Radiometric - RadiometricDMK & 0.00 & 0.06 & 54 & -0.01 & 1 & \\
+Radiometric - RadiometricTerrain & -0.18 & 0.06 & 54 & -3.08 & 0.048 & *\\
+Radiometric - RadiometricTerrainDMK & -0.19 & 0.06 & 54 & -3.27 & 0.029 & *\\
+Radiometric - Terrain & -0.24 & 0.06 & 54 & -3.98 & 0.004 & **\\
+Radiometric - TerrainDMK & -0.28 & 0.06 & 54 & -4.65 & < 0.001 & ***\\
+RadiometricDMK - RadiometricTerrain & -0.18 & 0.06 & 54 & -3.07 & 0.049 & *\\
+RadiometricDMK - RadiometricTerrainDMK & -0.19 & 0.06 & 54 & -3.26 & 0.03 & *\\
+RadiometricDMK - Terrain & -0.24 & 0.06 & 54 & -3.97 & 0.004 & **\\
+RadiometricDMK - TerrainDMK & -0.27 & 0.06 & 54 & -4.64 & < 0.001 & ***\\
+RadiometricTerrain - RadiometricTerrainDMK & -0.01 & 0.06 & 54 & -0.19 & 1 & \\
+RadiometricTerrain - Terrain & -0.05 & 0.06 & 54 & -0.90 & 0.971 & \\
+RadiometricTerrain - TerrainDMK & -0.09 & 0.06 & 54 & -1.57 & 0.702 & \\
+RadiometricTerrainDMK - Terrain & -0.04 & 0.06 & 54 & -0.71 & 0.991 & \\
+RadiometricTerrainDMK - TerrainDMK & -0.08 & 0.06 & 54 & -1.38 & 0.809 & \\
+Terrain - TerrainDMK & -0.04 & 0.06 & 54 & -0.67 & 0.994 & \\
+\hline
+\end{tabular}
+\end{table}
+\clearpage
+
+\begin{table}[h]
+
+\caption{(\#tab:pairwiseOrskogMAE)Pairwise comparisons of mean absolute error among models for Ørskogfjellet, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package) on mixed-effects models (\texttt{lme4} package) to account for the cross-validation fold structure.}
+\centering
+\begin{tabular}[t]{lrrrrrl}
+\hline
+Comparison & Estimate & Std.error & Df & Statistic & Adj.p.value & Significance\\
+\hline
+DMK - Radiometric & -6.93 & 8.69 & 54 & -0.80 & 0.984 & \\
+DMK - RadiometricDMK & -7.63 & 8.69 & 54 & -0.88 & 0.974 & \\
+DMK - RadiometricTerrain & 14.31 & 8.69 & 54 & 1.65 & 0.653 & \\
+DMK - RadiometricTerrainDMK & 15.83 & 8.69 & 54 & 1.82 & 0.539 & \\
+DMK - Terrain & 17.71 & 8.69 & 54 & 2.04 & 0.403 & \\
+DMK - TerrainDMK & 20.55 & 8.69 & 54 & 2.37 & 0.233 & \\
+Radiometric - RadiometricDMK & -0.70 & 8.69 & 54 & -0.08 & 1.000 & \\
+Radiometric - RadiometricTerrain & 21.24 & 8.69 & 54 & 2.45 & 0.200 & \\
+Radiometric - RadiometricTerrainDMK & 22.76 & 8.69 & 54 & 2.62 & 0.140 & \\
+Radiometric - Terrain & 24.64 & 8.69 & 54 & 2.84 & 0.086 & \\
+Radiometric - TerrainDMK & 27.48 & 8.69 & 54 & 3.16 & 0.039 & *\\
+RadiometricDMK - RadiometricTerrain & 21.95 & 8.69 & 54 & 2.53 & 0.170 & \\
+RadiometricDMK - RadiometricTerrainDMK & 23.47 & 8.69 & 54 & 2.70 & 0.118 & \\
+RadiometricDMK - Terrain & 25.35 & 8.69 & 54 & 2.92 & 0.071 & \\
+RadiometricDMK - TerrainDMK & 28.19 & 8.69 & 54 & 3.24 & 0.031 & *\\
+RadiometricTerrain - RadiometricTerrainDMK & 1.52 & 8.69 & 54 & 0.17 & 1.000 & \\
+RadiometricTerrain - Terrain & 3.40 & 8.69 & 54 & 0.39 & 1.000 & \\
+RadiometricTerrain - TerrainDMK & 6.24 & 8.69 & 54 & 0.72 & 0.991 & \\
+RadiometricTerrainDMK - Terrain & 1.88 & 8.69 & 54 & 0.22 & 1.000 & \\
+RadiometricTerrainDMK - TerrainDMK & 4.72 & 8.69 & 54 & 0.54 & 0.998 & \\
+Terrain - TerrainDMK & 2.84 & 8.69 & 54 & 0.33 & 1.000 & \\
+\hline
+\end{tabular}
+\end{table}
+\clearpage
+
+\begin{figure}[ht]
+\centering
+\includegraphics{figures/semivariograms.pdf}
+\caption{\label{fig:semivariograms}Empirical semivariograms of peat depth point measurements at Skrimfjella (a) and Ørskogfjellet (b).}
+\end{figure}
+\clearpage
