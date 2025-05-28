@@ -123,7 +123,6 @@ We have also added statistical tests to assess the significance of the differenc
 Some of the most important text revisions related to this comment are:
 
 ::: {.callout appearance="simple"}
-
 **In _Methods_**
 
 [We formally assessed the effect of predictor configuration on performance metrics using mixed-effects models to account for the cross-validation fold structure, and testing pairwise differences between configurations.]{.added}
@@ -143,12 +142,23 @@ Some of the most important text revisions related to this comment are:
 
 [Radiometric data had little to no predictive value at either site (poor performance of *radiometric* configuration), although they did contribute to the best model at Skrimfjella (marginal improvement in *all predictors* configuration compared to *terrain + DMK*).
 These results contrast with earlier studies that found that radiometrics were useful predictors of peat depth [@keaneySpatialStatisticsEstimate2013; @gatisMappingUplandPeat2019; @kogantiMappingPeatDepth2023].]{.added}
-
 :::
 
 ### Comment 2.4
 
 > Figure 1: While the terrain-look map provides a general view of the study area, the relief of the regions remains unclear. Consider adding a clearer topographic representation (e.g., contour profile) to better illustrate landscape variation. Additionally, it would be helpful to explain the rationale for selecting Skrimfjella, which appears to have relatively limited peat coverage, especially given that the adjacent region seems to contain a larger peatland area.
+
+Thank you for the suggestion to make the relief of the study areas clearer. We have added contour lines the maps of the study areas. We have not added contour profiles between specific points since we think that they may not be as useful for readers as the contour lines, but we are happy to add profiles if the contour lines are not enough.
+
+We have also clarified the rationale for the delineation of the Skrimfjella study area, especially with respect to its limited peat coverage. In short: we were also investigating peatland extent mapping so low coverage was not disqualifying, and accessibility was also an important factor for this field work.
+
+::: {.callout appearance="simple"}
+**In _Materials and methods_**
+
+At Skrimfjella we delineated a study area of 34 km^2^ based on radiometric coverage [(limiting to the west)]{.added} and accessibility [(limiting to the south), as part of a pilot project]{.added} (Fig. \@ref(fig:sites)b).
+In Norway's AR5 national land cover dataset ["areal resources in scale 1:5000", @ahlstromAR5Klassifikasjonssystem2019], 1.5 km^2^ (4.5 %) of the study area is classified as 'mire' -- defined as areas with mire vegetation and at least 30 cm of peat depth.
+[Relatively sparse peatland cover did not disqualify the area for our purposes, since we were also interested in peatland extent mapping in the pilot project.]{.added}
+:::
 
 ### Comment 2.5
 

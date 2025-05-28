@@ -76,6 +76,19 @@ ar50orskogmask <- ar50orskog |>
 hill <- mask(hill, ar50orskogmask)
 hilldf_single <- as.data.frame(hill, xy = TRUE)
 
+# Creating contours
+elev_range <- dtm |> 
+  mask(ar50orskogmask) |> 
+  values() |> 
+  range(na.rm = TRUE)
+contourlines <- dtm |>
+  mask(ar50orskogmask) |>
+  stars::st_as_stars() |> 
+  stars::st_contour(contour_lines = TRUE,
+                    breaks = seq(from = floor(elev_range[1]), 
+                                 to = ceiling(elev_range[2]), 
+                                 by = 100))
+
 # https://colorbrewer2.org/?type=qualitative&scheme=Paired&n=6
 CBpaired.6class <- c('#e31a1c','#fb9a99','#33a02c','#b2df8a','#a6cee3','#1f78b4')
 
@@ -85,13 +98,15 @@ g2 <- ggplot(ar50orskog) +
   scale_fill_distiller(palette = "Greys") +
   new_scale_fill() +
   geom_sf(data = ar50orskog,
-          mapping = aes(fill = artype), alpha = 0.65, color = NA) +
+          mapping = aes(fill = artype), alpha = 0.75, color = NA) +
   scale_fill_discrete(labels = c("Built-up",
                                  "Agricultural",
                                  "Forest",
                                  "Open upland",
                                  "Peatland",
                                  "Freshwater"), type = CBpaired.6class) +
+  geom_sf(data = contourlines, linewidth = 0.2, color = "#fdbf6f",
+          show.legend = FALSE) +
   geom_sf(data = orskog,
           mapping = aes(color = 'Study area   '), fill = NA,
           linewidth = 1, linetype = 1) +
@@ -142,14 +157,29 @@ ar50skrimmask <- ar50skrim |>
 hill <- mask(hill, ar50skrimmask)
 hilldf_single <- as.data.frame(hill, xy = TRUE)
 
+# Creating contours
+elev_range <- dtm |> 
+  mask(ar50skrimmask) |> 
+  values() |> 
+  range(na.rm = TRUE)
+contourlines <- dtm |>
+  mask(ar50skrimmask) |>
+  stars::st_as_stars() |> 
+  stars::st_contour(contour_lines = TRUE,
+                    breaks = seq(from = floor(elev_range[1]), 
+                                 to = ceiling(elev_range[2]), 
+                                 by = 100))
+
 g3 <- ggplot(ar50skrim) +
   geom_tile(data = hilldf_single, 
             aes(x, y, fill = hillshade), show.legend = FALSE) +
   scale_fill_distiller(palette = "Greys") +
   new_scale_fill() +
   geom_sf(data = ar50skrim,
-          mapping = aes(fill = artype), alpha = 0.65, color = NA) +
+          mapping = aes(fill = artype), alpha = 0.75, color = NA) +
   scale_fill_discrete(type = CBpaired.6class) +
+  geom_sf(data = contourlines, linewidth = 0.2, color = "What wou",
+          show.legend = FALSE) +
   geom_sf(data = skrim, fill = NA, color = 'black', 
           linewidth = 1, linetype = 1) + 
   scale_color_manual(values = 'black') +
@@ -186,7 +216,7 @@ plot(layout)
 g123 <- g1 + free(g3) + free(g2) + plot_layout(design = layout) +
   plot_annotation(tag_levels = 'a', tag_prefix = '(', tag_suffix = ')') 
 ggsave(g123, filename = 'sites-patchwork.pdf', path = "ms/figures",
-       width =210-30, height = 240-40, units = 'mm') #copernicus.cls page 210x240
+       width =210-30, height = 297-30-40, units = 'mm') #A4 page 210x297
 # ggsave(filename = 'sites-patchwork.svg', path = "ms/figures",
 #        width =210-30, height = 240-40, units = 'mm')
 # ggsave(filename = 'sites-patchwork.png', path = "ms/figures",
