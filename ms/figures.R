@@ -1,5 +1,6 @@
-# Sites map ####
+# Sites map 2-panel ####
 
+library(rnaturalearth)
 library(sf)
 library(terra)
 library(tidyverse)
@@ -8,7 +9,7 @@ library(ggtext)
 library(ggrepel)
 library(ggspatial)
 library(ggnewscale)
-library(rnaturalearth)
+library(scales)
 
 ## Inset ####
 
@@ -29,7 +30,7 @@ labels <- both |>
   st_centroid() |> 
   mutate(site = c("\u00D8rskogfjellet", "Skrimfjella"))
 
-g1 <- ggplot() +
+pNorway <- ggplot() +
   geom_sf(data = nor50, fill = "white") + 
   geom_sf(data = norcities, color = "grey50") +
   geom_sf_text(data = norcities, aes(label = NAME), color = "grey50",
@@ -42,19 +43,26 @@ g1 <- ggplot() +
     aes(label = site, geometry = geom),
     stat = "sf_coordinates",
     min.segment.length = 0,
-    arrow = arrow(length = unit(0.02, "npc")),
+    arrow = arrow(length = unit(0.05, "npc")),
+    direction = "y",
     force_pull = 0.1,
-    nudge_y = c(-8e4, 12e4),
-    nudge_x = c(13e4, 4e4),
-    segment.curvature = 0.5) +
+    nudge_y = c(-10e4, 12e4),
+    nudge_x = c(3e4, 4e4),
+    segment.curvature = 0.2) +
   coord_sf(xlim = c(-6.1e4, 3.7e5), ylim = c(6.47e6, 7.05e6), crs = 25833) +
   theme(
     legend.position = "none",
     axis.title.x = element_blank(), axis.title.y= element_blank(),
-    axis.ticks = element_blank(), axis.text = element_blank()
-  )
+    axis.ticks = element_blank(), axis.text = element_blank(),
+    plot.background = element_blank(),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+    )
 
-## AR50 Ørskogfjellet ####
+## Ørskogfjellet ####
+
+orskog <- st_read("data/Orskogfjellet-site.gpkg", "mask_studyarea") |> 
+  st_transform(25833)
+bboxOrskog <- st_bbox(st_buffer(orskog, 500))
 
 ar50aalesund <- st_read("ms/figures/data/1508_25832_ar50_gdb/1507_25832_ar50_gdb.gdb")
 ar50vestnes <- st_read("ms/figures/data/1535_25832_ar50_gdb/1535_25832_ar50_gdb.gdb")
@@ -64,25 +72,24 @@ ar50orskog <- bind_rows(ar50aalesund,ar50vestnes) |>
   summarize(geometry = st_union(geo)) |> 
   filter(!(artype %in% c(70,82,99))) |> 
   st_transform(crs = 25833)
-
-# Creating hillshade
-dtm <- rast("ms/figures/data/940695_dtm50/data/dtm50_6900_50m_33.tif")
-slope <- terrain(dtm, "slope", unit = "radians")
-aspect <- terrain(dtm, "aspect", unit = "radians")
-hill <- shade(slope, aspect, 45, 225)
 ar50orskogmask <- ar50orskog |> 
   group_by(TRUE) %>%
   summarize()
+
+# Creating hillshade
+dtm <- rast("ms/figures/data/940695_dtm50/data/dtm50_6900_50m_33.tif") |> 
+  crop(bboxOrskog)
+slope <- terrain(dtm, "slope", unit = "radians")
+aspect <- terrain(dtm, "aspect", unit = "radians")
+hill <- shade(slope, aspect, 45, 225)
 hill <- mask(hill, ar50orskogmask)
-hilldf_single <- as.data.frame(hill, xy = TRUE)
+hilldf_singleOrskog <- as.data.frame(hill, xy = TRUE)
 
 # Creating contours
 elev_range <- dtm |> 
-  mask(ar50orskogmask) |> 
   values() |> 
   range(na.rm = TRUE)
-contourlines <- dtm |>
-  mask(ar50orskogmask) |>
+contourlinesOrskog <- dtm |>
   stars::st_as_stars() |> 
   stars::st_contour(contour_lines = TRUE,
                     breaks = seq(from = floor(elev_range[1]), 
@@ -92,8 +99,8 @@ contourlines <- dtm |>
 # https://colorbrewer2.org/?type=qualitative&scheme=Paired&n=6
 CBpaired.6class <- c('#e31a1c','#fb9a99','#33a02c','#b2df8a','#a6cee3','#1f78b4')
 
-g2 <- ggplot(ar50orskog) +
-  geom_tile(data = hilldf_single, 
+mapOrskog <- ggplot(ar50orskog) +
+  geom_tile(data = hilldf_singleOrskog, 
             aes(x, y, fill = hillshade), show.legend = FALSE) +
   scale_fill_distiller(palette = "Greys") +
   new_scale_fill() +
@@ -105,22 +112,22 @@ g2 <- ggplot(ar50orskog) +
                                  "Open upland",
                                  "Peatland",
                                  "Freshwater"), type = CBpaired.6class) +
-  geom_sf(data = contourlines, linewidth = 0.2, color = "#fdbf6f",
+  geom_sf(data = contourlinesOrskog, linewidth = 0.2, color = "#fdbf6f",
           show.legend = FALSE) +
   geom_sf(data = orskog,
           mapping = aes(color = 'Study area   '), fill = NA,
-          linewidth = 1, linetype = 1) +
+          linewidth = 0.5, linetype = 1) +
   scale_color_manual(values = 'black') +
   coord_sf(
-    xlim = st_bbox(st_buffer(orskog, 500))[c(1,3)], 
-    ylim = st_bbox(st_buffer(orskog, 500))[c(2,4)],
-    crs = 25833, expand = FALSE, label_axes = "-NE-") +
+    xlim = bboxOrskog[c(1,3)], 
+    ylim = bboxOrskog[c(2,4)],
+    crs = 25833, expand = FALSE, label_axes = "EN--") +
   guides(fill = guide_legend(title = NULL),
          color = guide_legend(title = NULL)) +
-  annotation_scale(location = "tl") +
+  annotation_scale(location = "tl", width_hint = 0.15) +
   annotation_north_arrow(
     location = "tl", 
-    pad_x = unit(0.1, "cm"),
+    pad_x = unit(0, "cm"),
     pad_y = unit(1, "cm"),
     which_north = "true", 
     style = north_arrow_minimal()) +
@@ -131,7 +138,13 @@ g2 <- ggplot(ar50orskog) +
     axis.title.x = element_blank(), axis.title.y= element_blank()
   )
 
-## AR50 Skrim ####
+pOrskog <- mapOrskog + labs(tag = "(b)")
+
+## Skrim ####
+
+skrim <- st_read("data/Skrim/Skrim-site.gpkg", "fieldsite_outline_utm") |> 
+  st_transform(25833)
+bboxSkrim <- st_bbox(st_buffer(skrim, 500))
 
 ar50kongsberg <- st_read("ms/figures/data/3303_25833_ar50_gml/3006_25833_ar50_gml.gml",
                          "ArealressursFlate") |> 
@@ -142,56 +155,55 @@ ar50skrim <- ar50kongsberg |>
   summarize(geometry = st_union(område)) |> 
   filter(!(artype %in% c(70,82,99))) |> 
   st_transform(crs = 25833)
+ar50skrimmask <- ar50skrim |> 
+  group_by(TRUE) %>%
+  summarize()
 
 # Creating hillshade
 dtm <- c("ms/figures/data/940334_dtm50/data/dtm50_6601_50m_33.tif",
          "ms/figures/data/940334_dtm50/data/dtm50_6602_50m_33.tif") |> 
   sprc() |> 
-  merge()
+  merge() |> 
+  crop(bboxSkrim)
 slope <- terrain(dtm, "slope", unit = "radians")
 aspect <- terrain(dtm, "aspect", unit = "radians")
 hill <- shade(slope, aspect, 45, 225)
-ar50skrimmask <- ar50skrim |> 
-  group_by(TRUE) %>%
-  summarize()
 hill <- mask(hill, ar50skrimmask)
-hilldf_single <- as.data.frame(hill, xy = TRUE)
+hilldf_singleSkrim <- as.data.frame(hill, xy = TRUE)
 
 # Creating contours
 elev_range <- dtm |> 
-  mask(ar50skrimmask) |> 
   values() |> 
   range(na.rm = TRUE)
-contourlines <- dtm |>
-  mask(ar50skrimmask) |>
+contourlinesSkrim <- dtm |>
   stars::st_as_stars() |> 
   stars::st_contour(contour_lines = TRUE,
                     breaks = seq(from = floor(elev_range[1]), 
                                  to = ceiling(elev_range[2]), 
                                  by = 100))
 
-g3 <- ggplot(ar50skrim) +
-  geom_tile(data = hilldf_single, 
+mapSkrim <- ggplot(ar50skrim) +
+  geom_tile(data = hilldf_singleSkrim, 
             aes(x, y, fill = hillshade), show.legend = FALSE) +
   scale_fill_distiller(palette = "Greys") +
   new_scale_fill() +
   geom_sf(data = ar50skrim,
           mapping = aes(fill = artype), alpha = 0.75, color = NA) +
   scale_fill_discrete(type = CBpaired.6class) +
-  geom_sf(data = contourlines, linewidth = 0.2, color = "What wou",
+  geom_sf(data = contourlinesSkrim, linewidth = 0.2, color = "#fdbf6f",
           show.legend = FALSE) +
   geom_sf(data = skrim, fill = NA, color = 'black', 
-          linewidth = 1, linetype = 1) + 
+          linewidth = 0.5, linetype = 1) + 
   scale_color_manual(values = 'black') +
   coord_sf(
-    xlim = st_bbox(st_buffer(skrim, 500))[c(1,3)], 
-    ylim = st_bbox(st_buffer(skrim, 500))[c(2,4)],
-    crs = 25833, expand = FALSE, label_axes = "-NE-") +
+    xlim = bboxSkrim[c(1,3)], 
+    ylim = bboxSkrim[c(2,4)],
+    crs = 25833, expand = FALSE, label_axes = "EN--") +
   guides(fill = "none", color = "none") +
-  annotation_scale(location = "bl") +
+  annotation_scale(location = "tr") +
   annotation_north_arrow(
-    location = "bl", 
-    pad_x = unit(0.1, "cm"),
+    location = "tr", 
+    pad_x = unit(0, "cm"),
     pad_y = unit(1, "cm"),
     which_north = "true", 
     style = north_arrow_minimal()) +
@@ -199,28 +211,253 @@ g3 <- ggplot(ar50skrim) +
     axis.title.x = element_blank(), axis.title.y= element_blank()
   )
 
+pSkrim <- mapSkrim + labs(tag = "(a)") +
+  inset_element(pNorway, 
+                left = 0, bottom = 0, right = 0.47, top = 0.78, 
+                align_to = "panel", clip = TRUE, ignore_tag = TRUE)
+
 ## Combined ####
 
-# Patchwork nesting
-# g2 /(g3 | g1) #too much whitespace (horizontally between but especially and unnecessarily on sides)
-# g2 | (g3 / g1) #too much whitespace (vertically, but not on top/bottom)
-# seems to be an issue with aligning geom_sf (fixed-aspect) plots
-
-#saving to device
-layout <- c( #use 10x10 layout to adjust design
-  patchwork::area(1,1,3,3),
-  patchwork::area(1,4,3,10),
-  patchwork::area(4,1,10,10)
-)
-plot(layout)
-g123 <- g1 + free(g3) + free(g2) + plot_layout(design = layout) +
-  plot_annotation(tag_levels = 'a', tag_prefix = '(', tag_suffix = ')') 
-ggsave(g123, filename = 'sites-patchwork.pdf', path = "ms/figures",
+pAll <- pSkrim + pOrskog + plot_layout(ncol = 1, nrow = 2, heights = c(2, 3))
+ggsave(pAll, filename = 'map-sites.pdf', path = "ms/figures",
        width =210-30, height = 297-30-40, units = 'mm') #A4 page 210x297
-# ggsave(filename = 'sites-patchwork.svg', path = "ms/figures",
-#        width =210-30, height = 240-40, units = 'mm')
-# ggsave(filename = 'sites-patchwork.png', path = "ms/figures",
-#        width =210-30, height = 240-40, units = 'mm', dpi = 300)
+
+# Distribution map 2-panel ####
+
+library(sf)
+library(terra)
+library(tidyverse)
+library(patchwork)
+library(ggtext)
+library(ggrepel)
+library(ggspatial)
+library(ggnewscale)
+library(scales)
+
+probs <- c(0.25, 0.5, 0.75)
+binwidth <- 20
+
+modelOrskog <- sf::st_read("output/modeling.gpkg", layer="dataframe") |> 
+  filter(!(ar5cover %in% c(11,12)))
+modelSkrim <- sf::st_read("output/Skrim/modeling.gpkg", layer="dataframe")|> 
+  filter(!(ar5cover %in% c(11,12)))
+color_limits <- range(c(modelOrskog$depth_cm, modelSkrim$depth_cm))
+
+## Ørskogfjellet ####
+
+orskog <- st_read("data/Orskogfjellet-site.gpkg", "mask_studyarea") |> 
+  st_transform(25833)
+bboxOrskog <- st_bbox(st_buffer(orskog, 500))
+
+ar50aalesund <- st_read("ms/figures/data/1508_25832_ar50_gdb/1507_25832_ar50_gdb.gdb")
+ar50vestnes <- st_read("ms/figures/data/1535_25832_ar50_gdb/1535_25832_ar50_gdb.gdb")
+ar50orskog <- bind_rows(ar50aalesund,ar50vestnes) |> 
+  mutate(artype = as.factor(artype)) |> 
+  group_by(artype) %>%
+  summarize(geometry = st_union(geo)) |> 
+  filter(!(artype %in% c(70,82,99))) |> 
+  st_transform(crs = 25833)
+ar50orskogmask <- ar50orskog |> 
+  group_by(TRUE) %>%
+  summarize()
+
+# Creating hillshade
+dtm <- rast("ms/figures/data/940695_dtm50/data/dtm50_6900_50m_33.tif") |> 
+  crop(bboxOrskog)
+slope <- terrain(dtm, "slope", unit = "radians")
+aspect <- terrain(dtm, "aspect", unit = "radians")
+hill <- shade(slope, aspect, 45, 225)
+hill <- mask(hill, ar50orskogmask)
+hilldf_singleOrskog <- as.data.frame(hill, xy = TRUE)
+
+mapOrskog <- ggplot(orskog) +
+  geom_tile(data = hilldf_singleOrskog, 
+            aes(x, y, fill = hillshade), show.legend = FALSE) +
+  scale_fill_distiller(palette = "Greys") +
+  geom_sf(data = modelOrskog, 
+          mapping = aes(color = depth_cm), alpha = 1) +
+  scale_color_viridis_c(limits = color_limits, direction = -1, guide = "none") +
+  geom_sf(data = orskog, color = 'black', fill = NA, 
+          linewidth = 0.5, linetype = 1,
+          show.legend = FALSE) +
+  coord_sf(
+    xlim = bboxOrskog[c(1,3)], 
+    ylim = bboxOrskog[c(2,4)],
+    crs = 25833, expand = FALSE, label_axes = "EN--") +
+  annotation_scale(location = "tl", width_hint = 0.15) +
+  annotation_north_arrow(
+    location = "tl", 
+    pad_x = unit(0, "cm"),
+    pad_y = unit(1, "cm"),
+    which_north = "true", 
+    style = north_arrow_minimal()) +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.8, 0.3),
+    legend.background = element_rect(fill = "white", color = "black"),
+    axis.title.x = element_blank(), axis.title.y= element_blank()
+  )
+
+### Depth distribution ####
+mean_depth <- mean(modelOrskog$depth_cm)
+quantiles_depth <- quantile(modelOrskog$depth_cm, c(0.25, 0.5, 0.75))
+
+p_base <- ggplot(modelOrskog, aes(x = depth_cm)) +
+  geom_histogram(binwidth = binwidth)
+hist_data <- layer_data(p_base)
+x_values <- c(mean_depth, quantiles_depth)
+bin_indices <- findInterval(x_values, hist_data$xmin, rightmost.closed = TRUE)
+y_values <- hist_data$count[bin_indices]
+
+label_data <- data.frame(
+  x = x_values,
+  y = y_values,
+  label = c(paste("mean:", round(mean_depth), "cm"),
+            paste("Q1:", round(quantiles_depth[1]), "cm"),
+            paste("median:", round(quantiles_depth[2]), "cm"),
+            paste("Q3:", round(quantiles_depth[3]), "cm")
+))
+
+densityOrskog <- ggplot(modelOrskog, aes(x = depth_cm)) +
+  geom_histogram(aes(fill = after_stat(x)), 
+                 binwidth = binwidth, color = "black", size = 0.1) +
+  scale_fill_viridis_c(limits = color_limits, direction = -1, guide = "none") +
+  scale_x_continuous(breaks = seq(0, max(modelOrskog$depth_cm), by = 200),
+                     labels = scales::label_number(suffix = " cm")) +
+  scale_y_continuous(expand = c(0, 0)) +
+  geom_text_repel(data = label_data, aes(x = x, y = y, label = label),
+                  direction = "y",
+                  min.segment.length = 0,
+                  nudge_x = max(hist_data$x) * 0.2,
+                  nudge_y = max(hist_data$count) * 0.1,
+                  size = 3) +
+  theme_void() +
+  theme(
+    axis.text.x = element_text(size = 8),
+    axis.ticks.x = element_line(),
+    axis.ticks.length = unit(-0.2, "cm"),
+    axis.line.x = element_line()
+  )
+
+pOrskog <- mapOrskog + labs(tag = "(b)") +
+  inset_element(densityOrskog, left = 0.47, bottom = 0.02, right = 0.89, top = 0.5, 
+                align_to = "full", clip = TRUE, ignore_tag = TRUE)
+
+## Skrim ####
+
+skrim <- st_read("data/Skrim/Skrim-site.gpkg", "fieldsite_outline_utm") |> 
+  st_transform(25833)
+bboxSkrim <- st_bbox(st_buffer(skrim, 500))
+
+ar50kongsberg <- st_read("ms/figures/data/3303_25833_ar50_gml/3006_25833_ar50_gml.gml",
+                         "ArealressursFlate") |> 
+  st_set_crs(25833)
+ar50skrim <- ar50kongsberg |> 
+  mutate(artype = as.factor(arealtype)) |> 
+  group_by(artype) %>%
+  summarize(geometry = st_union(område)) |> 
+  filter(!(artype %in% c(70,82,99))) |> 
+  st_transform(crs = 25833)
+ar50skrimmask <- ar50skrim |> 
+  group_by(TRUE) %>%
+  summarize()
+
+# Creating hillshade
+dtm <- c("ms/figures/data/940334_dtm50/data/dtm50_6601_50m_33.tif",
+         "ms/figures/data/940334_dtm50/data/dtm50_6602_50m_33.tif") |> 
+  sprc() |> 
+  merge() |> 
+  crop(bboxSkrim)
+slope <- terrain(dtm, "slope", unit = "radians")
+aspect <- terrain(dtm, "aspect", unit = "radians")
+hill <- shade(slope, aspect, 45, 225)
+hill <- mask(hill, ar50skrimmask)
+hilldf_singleSkrim <- as.data.frame(hill, xy = TRUE)
+
+mapSkrim <- ggplot(skrim) +
+  geom_tile(data = hilldf_singleSkrim, 
+            aes(x, y, fill = hillshade), show.legend = FALSE) +
+  scale_fill_distiller(palette = "Greys") +
+  geom_sf(data = modelSkrim, 
+          mapping = aes(color = depth_cm), alpha = 1) +
+  scale_color_viridis_c(limits = color_limits, direction = -1, guide = "none") +
+  geom_sf(data = skrim, color = 'black', fill = NA, 
+          linewidth = 0.5, linetype = 1,
+          show.legend = FALSE) +
+  coord_sf(
+    xlim = bboxSkrim[c(1,3)], 
+    ylim = bboxSkrim[c(2,4)],
+    crs = 25833, expand = FALSE, label_axes = "EN--") +
+  annotation_scale(location = "tr") +
+  annotation_north_arrow(
+    location = "tr", 
+    pad_x = unit(0, "cm"),
+    pad_y = unit(1, "cm"),
+    which_north = "true", 
+    style = north_arrow_minimal()) +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.8, 0.3),
+    legend.background = element_rect(fill = "white", color = "black"),
+    axis.title.x = element_blank(), axis.title.y= element_blank()
+  )
+
+### Depth distribution ####
+mean_depth <- mean(modelSkrim$depth_cm)
+quantiles_depth <- quantile(modelSkrim$depth_cm, c(0.25, 0.5, 0.75))
+
+p_base <- ggplot(modelSkrim, aes(x = depth_cm)) +
+  geom_histogram(binwidth = binwidth)
+hist_data <- layer_data(p_base)
+x_values <- c(mean_depth, quantiles_depth)
+bin_indices <- findInterval(x_values, hist_data$xmin, rightmost.closed = TRUE)
+y_values <- hist_data$count[bin_indices]
+
+label_data <- data.frame(
+  x = x_values,
+  y = y_values,
+  label = c(paste("mean:", round(mean_depth), "cm"),
+            paste("Q1:", round(quantiles_depth[1]), "cm"),
+            paste("median:", round(quantiles_depth[2]), "cm"),
+            paste("Q3:", round(quantiles_depth[3]), "cm")
+  ))
+
+densitySkrim <- ggplot(modelSkrim, aes(x = depth_cm)) +
+  geom_histogram(aes(fill = after_stat(x)), 
+                 binwidth = binwidth, color = "black", size = 0.1) +
+  scale_fill_viridis_c(limits = color_limits, direction = -1, guide = "none") +
+  scale_x_continuous(breaks = seq(0, max(modelSkrim$depth_cm), by = 200),
+                     labels = scales::label_number(suffix = " cm")) +
+  scale_y_continuous(expand = c(0, 0)) +
+  geom_text_repel(data = label_data, aes(x = x, y = y, label = label),
+                  direction = "y",
+                  min.segment.length = 0,
+                  nudge_x = max(hist_data$x) * 0.4,
+                  nudge_y = max(hist_data$count) * 1,
+                  size = 3) +
+  theme_void() +
+  theme(
+    axis.text.x = element_text(size = 8),
+    axis.ticks.x = element_line(),
+    axis.ticks.length = unit(-0.2, "cm"),
+    axis.line.x = element_line()
+  )
+
+insetwidthOrskog <- 0.89 - 0.47 
+scalingfactor <- max(modelSkrim$depth_cm) / max(modelOrskog$depth_cm)
+pSkrim <- mapSkrim + labs(tag = "(a)") +
+  inset_element(densitySkrim, 
+                left = 0.12, # Not aligning to panel, seems a bug
+                bottom = 0.03, 
+                right = 0.12 + insetwidthOrskog * scalingfactor, 
+                top = 0.5, 
+                align_to = "full", clip = TRUE, ignore_tag = TRUE)
+
+## Combined ####
+
+pAll <- pSkrim + pOrskog + plot_layout(ncol = 1, nrow = 2, heights = c(2, 3))
+ggsave(pAll, filename = 'map-distribution.pdf', path = "ms/figures",
+       width =210-30, height = 297-30-40, units = 'mm') #A4 page 210x297
 
 # Model metrics by faceting ####
 

@@ -164,6 +164,8 @@ In Norway's AR5 national land cover dataset ["areal resources in scale 1:5000", 
 
 > It is unclear how the peat depth data are distributed, both statistically and spatially. While the sampling design is described in the text, I recommend including a figure showing the spatial distribution of the data points to help readers better understand the coverage and representativeness of the dataset. Additionally, a basic statistical summary (e.g., mean, median, range, standard deviation) of the peat depth values would be beneficial to provide context and a clearer picture of the conditions being modelled.
 
+Thank you for this suggestion. We have added a figure showing the statistical and spatial distribution of the peat depths in the Results section. We have taken care to use the same map format as in the figure that presents land cover in the study areas, which we hope will help readers see the spatial representativeness of the dataset.
+
 ### Comment 2.6
 
 > Since the radiometric data are originally at 50 m resolution and the terrain data are at 1 m resolution, the method used to resample these datasets to a common 10 m resolution could influence model performance. In particular, the use of cubic spline resampling for the radiometric data may affect how well its spatial variability is represented, especially when compared to the aggregated 10 m topographic data. I would be interested to hear your thoughts on how this resampling approach might have impacted the results.
