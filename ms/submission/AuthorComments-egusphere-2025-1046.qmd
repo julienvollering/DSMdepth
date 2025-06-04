@@ -186,6 +186,8 @@ Thank you for this suggestion. We have added a figure showing the statistical an
 
 > Table 2: I think you need to move this table somewhere after it is mentioned in the main text. At first, I was quite confused with this table. What does that percentage stand for?
 
+We have moved the table after its first mention and adjusted the table caption to clarify that the percentages represent the proportion of the total number of 10 m cells across the stratifications. We have also added standard deviations to the mean depths, in accordance with comment 2.5.
+
 > Line 394-397: I don’t quite get the point of this section. To my understanding, you compared between the quartile predictions and the observed data to see the prediction interval coverage probability. If so, I think it would be better to plot this prediction interval together with the observed data in scatter plot, like in Figure 3.
 
 > Line 413-414: which curve? The information inside the parentheses is not clear to me.

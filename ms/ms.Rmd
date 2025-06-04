@@ -153,7 +153,7 @@ The little we know about the depths of Norwegian peatlands comes from surveys me
 After scattered surveys in the early 20th century, a comprehensive round of surveying was completed 1964--2001 as part of a wider land cover mapping in Norway  [@bjordalMarkslagsklassifikasjonOkonomiskKartverk2007].
 This survey produced the initial maps from which Norway's most detailed updated land cover datasets are derived -- including the AR5 and DMK datasets used in this study and described later.
 Because of its agricultural and silvicultural focus, the survey covered only productive areas below the tree line, and peat depth was measured only in places judged to be potentially arable or afforestable [@ahlstromAR5Klassifikasjonssystem2019]. 
-Field surveyors carried a 1 m probe and they measured peat depth as a categorical variable: shallow (< 1 m), or deep (> 1 m). 
+Field surveyors carried a 1 m probe and they measured peat depth as a categorical variable: shallow (<1 m), or deep (>1 m). 
 These classes were assigned to whole polygons, so spatial resolution is on the order of hectares.
 The number of measurements per unit area was not standardized but probably low.
 
@@ -254,7 +254,7 @@ For each of the seven surface water layers, we derived Depth-to-Water using the 
 ### Peat depth class
 
 We prepared one categorical predictor -- peat depth class -- from the national map dataset called *DMK* [@ahlstromAR5Klassifikasjonssystem2019].
-The DMK dataset is derived from the same historical surveys as the AR5 dataset, and peat depth classes are: < 1 m (*shallow*), > 1 m (*deep*), and *unknown*.
+The DMK dataset is derived from the same historical surveys as the AR5 dataset, and peat depth classes are: <1 m (*shallow*), >1 m (*deep*), and *unknown*.
 Surveyors generally assigned peat depth classes to polygons of at least 0.5 ha, although delineating polygons down to 0.2 ha was allowed if peat depth showed a "particularly marked difference" [@bjordalMarkslagsklassifikasjonOkonomiskKartverk2007].
 We rasterized the peat depth class attribute to our 10 m grid.
 
@@ -508,7 +508,7 @@ This point is recognized and reflected in the rise of DSM [@minasnyDigitalMappin
 
 DMK peat depth classes were a worse predictor of peat depth than our models even though we calibrated them with the same data (Fig. \@ref(fig:modelMetrics)).
 That is: we gave DMK and the DSM equal footing for a fair comparison.
-If we had taken the DMK peat depth classes at face value and assumed depths according to their class definitions (< 1 m, > 1 m), they would have performed worse and the advantage of the DSM would be greater.
+If we had taken the DMK peat depth classes at face value and assumed depths according to their class definitions (<1 m, >1 m), they would have performed worse and the advantage of the DSM would be greater.
 The advantage of the DSM was not large in absolute terms (9 cm and 21 cm improvements in mean absolute error), but it explained much more of the variation in depth (improvements in R^2^ of 0.16 and 0.19).
 We attribute this result to the poor spatial and thematic resolution of DMK peat depth, which precludes a robust correlation with peat depths varying from 0--8 m at fine spatial scales.
 

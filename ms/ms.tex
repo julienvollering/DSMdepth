@@ -242,7 +242,7 @@ The little we know about the depths of Norwegian peatlands comes from surveys me
 After scattered surveys in the early 20th century, a comprehensive round of surveying was completed 1964--2001 as part of a wider land cover mapping in Norway \citep{bjordalMarkslagsklassifikasjonOkonomiskKartverk2007}.
 This survey produced the initial maps from which Norway's most detailed updated land cover datasets are derived -- including the AR5 and DMK datasets used in this study and described later.
 Because of its agricultural and silvicultural focus, the survey covered only productive areas below the tree line, and peat depth was measured only in places judged to be potentially arable or afforestable \citep{ahlstromAR5Klassifikasjonssystem2019}.
-Field surveyors carried a 1 m probe and they measured peat depth as a categorical variable: shallow (\textless{} 1 m), or deep (\textgreater{} 1 m).
+Field surveyors carried a 1 m probe and they measured peat depth as a categorical variable: shallow (\textless1 m), or deep (\textgreater1 m).
 These classes were assigned to whole polygons, so spatial resolution is on the order of hectares.
 The number of measurements per unit area was not standardized but probably low.
 
@@ -374,7 +374,7 @@ For each of the seven surface water layers, we derived Depth-to-Water using the 
 \subsubsection{Peat depth class}
 
 We prepared one categorical predictor -- peat depth class -- from the national map dataset called \emph{DMK} \citep{ahlstromAR5Klassifikasjonssystem2019}.
-The DMK dataset is derived from the same historical surveys as the AR5 dataset, and peat depth classes are: \textless{} 1 m (\emph{shallow}), \textgreater{} 1 m (\emph{deep}), and \emph{unknown}.
+The DMK dataset is derived from the same historical surveys as the AR5 dataset, and peat depth classes are: \textless1 m (\emph{shallow}), \textgreater1 m (\emph{deep}), and \emph{unknown}.
 Surveyors generally assigned peat depth classes to polygons of at least 0.5 ha, although delineating polygons down to 0.2 ha was allowed if peat depth showed a ``particularly marked difference'' \citep{bjordalMarkslagsklassifikasjonOkonomiskKartverk2007}.
 We rasterized the peat depth class attribute to our 10 m grid.
 
@@ -526,20 +526,20 @@ Roughly 80 \% of these 10 m cells were within AR5 mires, and the remainder in fo
 DMK peat depth had higher coverage at Ørskogfjellet than at Skrimfjella (80 \% versus 27 \% of cells not \emph{unknown}), and at Ørskogfjellet the \emph{deep} and \emph{shallow} classes showed a larger difference in measured depth.
 Overall, mean peat depths were similar at Skrimfjella and Ørskogfjellet (119 cm versus 126 cm) but the distribution was more right-skewed at Ørskogfjellet (Fig. \ref{fig:map-distribution}).
 
-\begin{table}[tbp]
-\caption{Mean peat depth (cm) in \unit{10\,m} cells at Skrimfjella and Ørskogfjellet. The cells are also shown stratified by AR5 land class and DMK peat depth class.}
+\begin{table}[h]
+\caption{Selected attributes of the peat depth datasets at Skrimfjella and Ørskogfjellet. The first row summarizes all \unit{10\,m} cells, while subsequent rows stratify the dataset by AR5 land class and DMK peat depth class.}
 \begin{tabular}{llllllll}
 \hline
-                    &                            & \multicolumn{3}{c}{Skrimfjella} & \multicolumn{3}{c}{Ørskogfjellet} \\ \cline{3-8} 
-                    &                            & n        & \%      & depth      & n          & \%      & depth      \\ \hline
-all measured cells  &                            & 372      & 100     & 119        & 1878       & 100     & 126        \\
-AR5                 & Agricultural               &          &         &            & 21         & 1       & 30         \\
-                    & Forest                     & 52       & 14      & 65         & 272        & 15      & 71         \\
-                    & Open upland                & 19       & 5       & 98         & 134        & 7       & 39         \\
-                    & Peatland                   & 301      & 81      & 130        & 1451       & 77      & 145        \\
-DMK                 & deep (\textgreater 100 cm) & 94       & 25      & 100        & 659        & 35      & 219        \\
-                    & shallow (\textless 100 cm) & 6        & 2       & 50         & 838        & 45      & 82         \\
-                    & unknown                    & 272      & 73      & 127        & 381        & 20      & 60         \\ \hline
+    &                             & \multicolumn{3}{l}{Skrimfjella} & \multicolumn{3}{l}{Ørskogfjellet} \\ \cline{3-8} 
+    &                             & n     & \%   & mean (SD) depth  & n      & \%    & mean (SD) depth  \\ \cline{3-8} 
+all &                             & 372   & 100  & 119 (83) cm      & 1878   & 100   & 126 (119) cm     \\
+AR5 & Agricultural                &       &      &                  & 21     & 1     & 30 (8) cm        \\
+    & Forest                      & 52    & 14   & 65 (63) cm       & 272    & 14    & 71 (68) cm       \\
+    & Open upland                 & 19    & 5    & 98 (83) cm       & 134    & 7     & 39 (21) cm       \\
+    & Peatland                    & 301   & 81   & 130 (82) cm      & 1451   & 77    & 145 (125) cm     \\
+DMK & deep (\textgreater{}100 cm) & 94    & 25   & 100 (53) cm      & 659    & 35    & 219 (143) cm     \\
+    & shallow (\textless{}100 cm) & 6     & 2    & 50 (31) cm       & 838    & 45    & 82 (54) cm       \\
+    & unknown                     & 272   & 73   & 127 (90) cm      & 381    & 20    & 60 (62) cm       \\ \hline
 \end{tabular}
 \label{tab:depthsByClass}
 \end{table}
@@ -641,7 +641,7 @@ This point is recognized and reflected in the rise of DSM \citep{minasnyDigitalM
 
 DMK peat depth classes were a worse predictor of peat depth than our models even though we calibrated them with the same data (Fig. \ref{fig:modelMetrics}).
 That is: we gave DMK and the DSM equal footing for a fair comparison.
-If we had taken the DMK peat depth classes at face value and assumed depths according to their class definitions (\textless{} 1 m, \textgreater{} 1 m), they would have performed worse and the advantage of the DSM would be greater.
+If we had taken the DMK peat depth classes at face value and assumed depths according to their class definitions (\textless1 m, \textgreater1 m), they would have performed worse and the advantage of the DSM would be greater.
 The advantage of the DSM was not large in absolute terms (9 cm and 21 cm improvements in mean absolute error), but it explained much more of the variation in depth (improvements in R\textsuperscript{2} of 0.16 and 0.19).
 We attribute this result to the poor spatial and thematic resolution of DMK peat depth, which precludes a robust correlation with peat depths varying from 0--8 m at fine spatial scales.
 

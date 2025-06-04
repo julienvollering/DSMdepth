@@ -18,31 +18,49 @@ orskog <- sf::st_read("output/modeling.gpkg", layer="dataframe") |>
   sf::st_drop_geometry()
 sites <- bind_rows(skrim = skrim, orskog = orskog, .id = "site") |> 
   mutate(dmkdepth = case_when(
-    dmkdepth == "djup myr" ~ "djup",
-    dmkdepth == "grunn myr" ~ "grunn",
-    TRUE ~ dmkdepth
+    grepl("djup", dmkdepth, ignore.case = TRUE) ~ "deep (>100 cm)",
+    grepl("grunn", dmkdepth, ignore.case = TRUE) ~ "shallow (<100 cm)",
+    TRUE ~ "unknown"
   )) |> 
-  filter(!(ar5cover %in% c("11", "12")))
+  filter(!(ar5cover %in% c("11", "12"))) |> 
+  mutate(ar5cover = case_when(
+    ar5cover == "21" ~ "Agricultural",
+    ar5cover == "30" ~ "Forest",
+    ar5cover == "50" ~ "Open upland",
+    ar5cover == "60" ~ "Peatland",
+    TRUE ~ "unknown"
+  ))
 overall <- sites |> 
-  group_by(site) |> 
-  summarize(n = n(), depth_cm = mean(depth_cm)) |> 
-  pivot_wider(names_from = 'site', values_from = c(n, depth_cm), 
+  group_by(site, TRUE) |> 
+  summarize(n = n(), depth_mean = mean(depth_cm), depth_sd = sd(depth_cm)) |> 
+  mutate(percent = (n / sum(n))*100) |>
+  pivot_wider(names_from = 'site', 
+              values_from = c(n, percent, depth_mean, depth_sd), 
               names_vary = "slowest")
 byAR5 <- sites |> 
   group_by(site, ar5cover) |> 
-  summarize(n = n(), depth_cm = mean(depth_cm)) |> 
-  mutate(prop = n / sum(n)) |>
-  pivot_wider(names_from = 'site', values_from = c(n, prop, depth_cm), 
+  summarize(n = n(), depth_mean = mean(depth_cm), depth_sd = sd(depth_cm)) |> 
+  mutate(percent = (n / sum(n))*100) |>
+  pivot_wider(names_from = 'site', 
+              values_from = c(n, percent, depth_mean, depth_sd), 
               names_vary = "slowest")
 byDMK <- sites |> 
   group_by(site, dmkdepth) |> 
-  summarize(n = n(), depth_cm = mean(depth_cm)) |> 
-  mutate(prop = n / sum(n)) |>
-  pivot_wider(names_from = 'site', values_from = c(n, prop, depth_cm), 
+  summarize(n = n(), depth_mean = mean(depth_cm), depth_sd = sd(depth_cm)) |> 
+  mutate(percent = (n / sum(n))*100) |>
+  pivot_wider(names_from = 'site', 
+              values_from = c(n, percent, depth_mean, depth_sd), 
               names_vary = "slowest")
 bind_rows(overall, byAR5, byDMK) |> 
-  select(ar5cover, dmkdepth, n_skrim, prop_skrim, depth_cm_skrim,
-         n_orskog, prop_orskog, depth_cm_orskog) |> 
+  mutate(across(where(is.numeric), ~ round(.x, 0))) |>
+  mutate(depth_skrim = paste0(depth_mean_skrim, " (", depth_sd_skrim, ")", " cm"),
+         depth_orskog = paste0(depth_mean_orskog, " (", depth_sd_orskog, ")", " cm"),
+         class = coalesce(ar5cover, dmkdepth),
+  ) |>
+  select(class, 
+         n_skrim, percent_skrim, depth_skrim,
+         n_orskog, percent_orskog, depth_orskog) |> 
+  mutate(across(starts_with("depth_"), ~ ifelse(grepl("NA", .x), NA, .x))) |> 
   write_csv("ms/tables/celldepth-attribute.csv")
 
 # Compare predictive differences ####
