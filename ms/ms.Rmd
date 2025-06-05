@@ -225,6 +225,9 @@ Data were processed following standard procedures outlined by the International 
 Processing included: correction for aircraft and cosmic background radiation, correction for radon in the air, window stripping of the gamma ray spectrum, correction for flying height, conversion of count rates to ground concentrations, and finally gridding to 50 m resolution with micro-leveling.
 At Ørskogfjellet an additional convolution filter was added to smooth the gridded data.
 
+Although radiometric data must be in units of counts per second to model attenuation directly [@olearyDigitalSoilMapping2022], we used the radiometric data as provided to us: in units of concentration for potassium, thorium, and uranium (converted from counts per second by scalar calibration factors).
+The monotonic transformation between counts per second and concentration does not affect the tree-based machine learning algorithm that we used to model peat depth [@hastieElementsStatisticalLearning2009].
+
 ### Terrain
 
 For terrain-derived predictors, we obtained 1 m resolution rasters from the national DTM ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) Norwegian Mapping Authority).
