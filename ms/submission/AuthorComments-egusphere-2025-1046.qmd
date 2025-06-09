@@ -228,6 +228,8 @@ They provided us for each site four variables at 50 m resolution, which we downs
 
 > I found the section on sampling design and peat depth measurement to be overly detailed for the main text. While this information is valuable, it may be more appropriate to move some of it to the appendix or supplementary material, as it is less central to the analysis and interpretation of results. This would help improve the flow and focus of the main manuscript.
 
+Thank you for this helpful suggestion. We agree that this an acceptable way to reduce the length of the main text and improve its readability, especially with the added figure showing the spatial distribution of depth measurements (in response to comment 2.5). We have moved the bulk of the sections on _Peat depth sample selection_ and _Depth measurements_ to the appendix, while retaining brief summaries of these in the main text. This solution seems to be allowed under the journal's guidelines for manuscript composition.
+
 ### Comment 2.8
 
 > In the model interpretation section, it appears that three different methods were used to assess variable importance: FIRM, permutation importance, and Shapley values. However, the implications of using these different approaches are not clearly discussed. Each method captures different aspects of variable influence and may lead to different interpretations. Could you clarify how the results from these methods align or differ, and what their respective implications are for understanding the drivers of peat depth in your study?

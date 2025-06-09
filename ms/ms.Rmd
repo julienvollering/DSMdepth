@@ -78,6 +78,7 @@ acknowledgements: |
   *Acknowledgements.* We thank the Norwegian Public Roads Administration for sharing data from ground-penetrating radar surveys. We also thank Vikas Baranwal from the Geological Survey of Norway for helping us access the radiometric data from Skrim. This work contains data under the following licenses: (1) Creative Commons Attribution 4.0 International, © Kartverket, (2) *Norge digitalt* license, Norwegian Institute of Bioeconomy Research (NIBIO), © Geovekst, and (3) the Norwegian License for Public Data (NLOD), made available by the Geological Survey of Norway. Large language models have been used during the drafting and editing of this manuscript, with author oversight. We maintain full responsibility for the scientific output, as per the European Commission's *Living guidelines on the responsible use of generative AI in research*.
 output:
   bookdown::pdf_book:
+    latex_engine: lualatex
     keep_md: true
     base_format: rticles::copernicus_article # for using bookdown features like \@ref()
 ---
@@ -269,34 +270,11 @@ The places (10 m raster cells) we chose to measure peat depth were sampled from 
 Broadly, we aimed for a sample that was representative of the predictor space defined by the most important predictors of peat depth [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
 A sample that preserves the properties of the multivariate distribution of predictor and outcome variables is most likely to maintain any complex, non-linear relationships that exist in the population, while avoiding spurious ones [@brusSamplingDigitalSoil2019].
 Although we implemented the approach differently for Skrimfjella (in 2020) than for Ørskogfjellet (in 2023), the objective was the same.
+We drew 105 raster cells at Skrimfjella and 160 raster cells at Ørskogfjellet.
+A complete description of our sample selection is in Appendix \ref{sec:sample-selection}.
 
 We made several point measurements of peat depth within the sampled raster cells (three if by probing only, more if by GPR as well).
 The point measurements (described below) were ultimately aggregated to 10 m resolution by taking the mean of point values within each cell, inversely weighted by their distances to the cell center.
-
-### Skrimfjella
-
-At Skrimfjella, we used the *eSample* function in the *iSDM* R package (v1.0) to stratify our sample across elevation, slope, and potassium concentration.
-This function defines the environmental space as a two-dimensional convex hull around the PCA-ordinated data, then creates a regular grid across that space, and lastly finds for each grid cell the datum that is nearest [@hattabUnifiedFrameworkModel2017].
-We set a target sample size of 100, excluded the top and bottom percentile from the convex hull, and *eSample* returned 105 raster cells.
-
-### Ørskogfjellet
-
-At Ørskogfjellet, we first determined a minimal sample size that would adequately capture the slope and radiometric properties (potassium, thorium, uranium, and total count) of the entire AR5 mire area [@sauretteDivergenceMetricsDetermining2023].
-Specifically, we identified an elbow point in a curve of similarity between sample and population [@maloneMethodsImproveUtility2019].
-For a sequence of sample sizes (50--500) [ten replicates each, drawn by conditioned latin hypercube sampling, @minasnyConditionedLatinHypercube2006; @roudierClhsPackageConditioned2011], we calculated the mean Kullback--Leibler divergence between sample and population distributions [@maloneMethodsImproveUtility2019; @sauretteDivergenceMetricsDetermining2023].
-Then we fitted an asymptotic regression of mean divergence on sample size, and found that the curve reached 95 % of the fitted asymptote at a sample size of 160.
-
-To choose 160 locations, we performed feature space coverage sampling, implemented using the *kmeans* function in base R and the *rdist* function in the the *fields* package (v14.2).
-Feature space coverage sampling chooses locations that are closest to cluster centers in standardized predictor space [@brusSamplingDigitalSoil2019].
-This approach has been found to produce higher accuracy in RFs than conditioned latin hypercube sampling [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
-Feature space coverage sampling works best when all dimensions are important predictors of the outcome [@wadouxSamplingDesignOptimization2019], and we used the same five predictors that we used to choose sample size: slope and four radiometrics.
-
-We adjusted the feature space coverage sampling to ensure that locations were accessible within time constraints, and assessed how this changed our sample from an ideal feature space coverage sample.
-Adjusting for accessibility is justified because the smaller sample size that would result if accessibility were ignored can degrade model accuracy as much or more as deviations from ideal sampling designs [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
-To adjust, we first restricted the sampling population to AR5 mire areas that were within an arbitrary cost distance of publicly accessible roads.
-Cost distance was calculated using GRASS's *r.walk* function, with friction costs defined by AR5 land classes [@GRASSv8-2].
-After creating a feature space coverage sample with this restriction, we also inspected a map of the sample and substituted 16 inaccessible locations with accessible locations from the same or a nearby cluster.
-Our two accessibility adjustments increased the distance in standardized predictor space between sample locations and cluster centers by 78 % (compared to the ideal sample), but distance in our sample was still only 46 % of the mean distance to cluster centers -- i.e., accessibility did not force locations far from cluster centers relative to the size of the clusters.
 
 ## Depth measurements
 
@@ -305,44 +283,11 @@ At both sites we used manual probing as the primary method of measuring peat dep
 That is: peat depth was always measured by probing, and also by GPR in a subset of cells that partly overlapped with the probed cells
 We chose this approach because probing is a fast and reliable method for point measurements, while GPR can provide higher lateral density of data in the same amount of time [@parryEvaluatingApproachesEstimating2014].
 Probed depths serve to calibrate GPR measurements when calibration by common midpoint survey is not possible -- as was the case with our fixed radar antennas -- so the methods are complementary.
-
-### Peat probing
-
-We navigated to the centers of the raster cells in our samples using handheld (Skrimfjella) or real time kinematic (Ørskogfjellet) global navigation satellite system (GNSS) receivers.
-We dampened the effect of outlying measurements by probing three times at each location [@parryEvaluatingApproachesEstimating2014], at the vertices of a centered triangle with 2 m (Skrimfjella) or 4.5 m (Ørskogfjellet) sides. 
-We used changes in resistance to indicate the base of the peat column.
-Probe locations were adjusted up to 20 cm if the base of the peat column seemed to be blocked by an obvious artifact, like a buried rock.
-Where the peat column was deeper than the extendable probe could be manually inserted and extracted by a pair of operators, we recorded a right-censored result (one at Skrimfjella, five at Ørskogfjellet).
+A complete description of our peat depth measurements is in Appendix \ref{sec:depth-measurements}. 
 
 We also extracted a set of existing depth measurements for Ørskogfjellet from a paper map made by the Norwegian Soil and Mire Company in 1984.
 The map presents 44 borehole depths (in decimeters) across a 9 ha peatland area.
 We georeferenced the map and digitized the borehole locations and depths.
-
-### Ground-penetrating radar
-
-We performed GPR surveys in three subjectively chosen peatlands at Skrimfjella and in areas with a high density of sampled raster cells at Ørskogfjellet. 
-We used the Malå ProEx GPR system (Guideline Geo AB, Sweden) with a GNSS-enabled control unit connected to a 500 MHz shielded antenna mounted in a plastic sledge (transmitter--receiver separation 0.18 m, trace frequency 10 Hz).
-For some transects at Ørskogfjellet we substituted a 100 MHz Malå rough terrain antenna (transmitter--receiver separation 2.2 m, trace frequency 5 Hz), because the lower frequency antenna gives greater penetration depth.
-In all cases the system was towed by a walking GPR operator.
-
-GPR traces were recorded along zigzag (Skrimfjella) or snaking (Ørskogfjellet) transects.
-At Ørskogfjellet, transects were predetermined to pass through the centers of sampled raster cells, and we marked these precisely with flags to guide the GPR operator.
-A GPR records the time taken for a radio wave to travel from the transmitter to a reflector and back to the receiver, and the velocity of the wave varies with properties of the peat column.
-Therefore, wave velocity has to be calibrated to convert travel time to peat depth, and we probed peat depth along the transects.
-
-We processed the GPR data with Reflex2DQuick (v.3.0; Skrimfjella) or REFLEXW (v.8.5; Ørskogfjellet) software (Sandmeier Scientific Software, Germany). 
-We applied a time-zero correction, a dewow filter, and a gain filter based on observed energy decay. 
-With Ørskogfjellet data, we also applied a bandpass filter and a dynamic correction that accounts for the non-vertical wave path between offset transmitter and receiver antennas.
-The latter is important for the rough terrain antenna, where the antenna separation is comparable to typical peat depths.
-From the processed radargrams, we picked travel times from strong reflectors that we interpreted as the base of the peat column.
-
-We used picks near probed depths to calibrate wave speed velocity -- separately for each site.
-Calibration data were created by matching marked trace locations to a corresponding depth probe (Skrimfjella), or by a spatial join that identified interpreted traces and depth probes within 2 m of each other (Ørskogfjellet).
-We had sufficient calibration point density to avoid bias in wave velocity as a major source of error [@rosaDeterminingNumberManual2009]: 46 calibration points along 3.5 km of interpretable traces at Skrimfjella, and 78 along 7.8 km at Ørskogfjellet. 
-We fitted site-specific linear regressions of probed depth on picked travel time, with the intercept fixed at zero, to estimate wave velocities.
-Notwithstanding a few outlying points, our regressions showed good fits and the resulting velocities are within the range reported for peat [@parsekianUncertaintyPeatVolume2012]: \unit{0.0387\,m\,ns^{-1}}, $R^2 = 0.874$ at Skrimfjella and \unit{0.0427\,m\,ns^{-1}}, $R^2 = 0.946$ at Ørskogfjellet.
-Finally, we used these two wave velocities to convert the travel times of all picks to calibrated peat depths.
-In total, the GPR surveys produced 48579 point measurements of peat depth at Skrimfjella and 32653 at Ørskogfjellet.
 
 We also used a set of existing GPR depth measurements from Ørskogfjellet, commissioned and provided to us by the Norwegian Public Roads Administration.
 These data were collected in 2020 and 2021 with a dual channel system (70 MHz and 300 MHz; ImpulseRadar AB, Sweden), connected to GNSS with CPOS correction.
@@ -714,29 +659,96 @@ Though peatland definitions may encourage reducing continuous depth predictions 
 \section{}
 
 \appendixtables
-\begin{table}[h]
+\begin{table}[ht]
 \caption{Attributes of the radiometric surveys, as reported in Baranwal et al., \citeyearpar{baranwalHelicopterborneMagneticElectromagnetic2013} and Ofstad \citeyearpar{ofstadHelicopterborneMagneticRadiometric2015}.}
 \begin{tabular}{lll}
 \hline
 & Skrimfjella & Ørskogfjellet              \\ \cline{2-3} 
-Survey period                            & 2008-2011   & December 2014–January 2015 \\
-Average flight altitude (m)              & 75          & 80                         \\
-Average flight speed (\unit{km\,h^{-1}}) & 108         & 88                         \\
-Flight line spacing (m)                  & 200         & 200                        \\ \hline
+Survey period                            & 2008--2011   & 2014.12-–2015.01 \\
+Average flight altitude (m)              & 75           & 80               \\
+Average flight speed (\unit{km\,h^{-1}}) & 108          & 88               \\
+Flight line spacing (m)                  & 200          & 200              \\ \hline
 \end{tabular}
 \label{tab:radSurveys}
 \end{table}
 \clearpage
 
-\appendixfigures
+\section{}
+\subsection{Peat depth sample selection} \label{sec:sample-selection}
+\subsubsection{Skrimfjella}
+
+At Skrimfjella, we used the *eSample* function in the *iSDM* R package (v1.0) to stratify our sample across elevation, slope, and potassium concentration.
+This function defines the environmental space as a two-dimensional convex hull around the PCA-ordinated data, then creates a regular grid across that space, and lastly finds for each grid cell the datum that is nearest [@hattabUnifiedFrameworkModel2017].
+We set a target sample size of 100, excluded the top and bottom percentile from the convex hull, and *eSample* returned 105 raster cells.
+
+\subsubsection{Ørskogfjellet}
+
+At Ørskogfjellet, we first determined a minimal sample size that would adequately capture the slope and radiometric properties (potassium, thorium, uranium, and total count) of the entire AR5 mire area [@sauretteDivergenceMetricsDetermining2023].
+Specifically, we identified an elbow point in a curve of similarity between sample and population [@maloneMethodsImproveUtility2019].
+For a sequence of sample sizes (50--500) [ten replicates each, drawn by conditioned latin hypercube sampling, @minasnyConditionedLatinHypercube2006; @roudierClhsPackageConditioned2011], we calculated the mean Kullback--Leibler divergence between sample and population distributions [@maloneMethodsImproveUtility2019; @sauretteDivergenceMetricsDetermining2023].
+Then we fitted an asymptotic regression of mean divergence on sample size, and found that the curve reached 95 % of the fitted asymptote at a sample size of 160.
+
+To choose 160 locations, we performed feature space coverage sampling, implemented using the *kmeans* function in base R and the *rdist* function in the the *fields* package (v14.2).
+Feature space coverage sampling chooses locations that are closest to cluster centers in standardized predictor space [@brusSamplingDigitalSoil2019].
+This approach has been found to produce higher accuracy in RFs than conditioned latin hypercube sampling [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
+Feature space coverage sampling works best when all dimensions are important predictors of the outcome [@wadouxSamplingDesignOptimization2019], and we used the same five predictors that we used to choose sample size: slope and four radiometrics.
+
+We adjusted the feature space coverage sampling to ensure that locations were accessible within time constraints, and assessed how this changed our sample from an ideal feature space coverage sample.
+Adjusting for accessibility is justified because the smaller sample size that would result if accessibility were ignored can degrade model accuracy as much or more as deviations from ideal sampling designs [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
+To adjust, we first restricted the sampling population to AR5 mire areas that were within an arbitrary cost distance of publicly accessible roads.
+Cost distance was calculated using GRASS's *r.walk* function, with friction costs defined by AR5 land classes [@GRASSv8-2].
+After creating a feature space coverage sample with this restriction, we also inspected a map of the sample and substituted 16 inaccessible locations with accessible locations from the same or a nearby cluster.
+Our two accessibility adjustments increased the distance in standardized predictor space between sample locations and cluster centers by 78 % (compared to the ideal sample), but distance in our sample was still only 46 % of the mean distance to cluster centers -- i.e., accessibility did not force locations far from cluster centers relative to the size of the clusters.
+
+\subsection{Depth measurements} \label{sec:depth-measurements}
+
+\subsubsection{Peat probing}
+
+We navigated to the centers of the raster cells in our samples using handheld (Skrimfjella) or real time kinematic (Ørskogfjellet) global navigation satellite system (GNSS) receivers.
+We dampened the effect of outlying measurements by probing three times at each location [@parryEvaluatingApproachesEstimating2014], at the vertices of a centered triangle with 2 m (Skrimfjella) or 4.5 m (Ørskogfjellet) sides. 
+We used changes in resistance to indicate the base of the peat column.
+Probe locations were adjusted up to 20 cm if the base of the peat column seemed to be blocked by an obvious artifact, like a buried rock.
+Where the peat column was deeper than the extendable probe could be manually inserted and extracted by a pair of operators, we recorded a right-censored result (one at Skrimfjella, five at Ørskogfjellet).
+
+\subsubsection{Ground-penetrating radar}
+
+We performed GPR surveys in three subjectively chosen peatlands at Skrimfjella and in areas with a high density of sampled raster cells at Ørskogfjellet. 
+We used the Malå ProEx GPR system (Guideline Geo AB, Sweden) with a GNSS-enabled control unit connected to a 500 MHz shielded antenna mounted in a plastic sledge (transmitter--receiver separation 0.18 m, trace frequency 10 Hz).
+For some transects at Ørskogfjellet we substituted a 100 MHz Malå rough terrain antenna (transmitter--receiver separation 2.2 m, trace frequency 5 Hz), because the lower frequency antenna gives greater penetration depth.
+In all cases the system was towed by a walking GPR operator.
+
+GPR traces were recorded along zigzag (Skrimfjella) or snaking (Ørskogfjellet) transects.
+At Ørskogfjellet, transects were predetermined to pass through the centers of sampled raster cells, and we marked these precisely with flags to guide the GPR operator.
+A GPR records the time taken for a radio wave to travel from the transmitter to a reflector and back to the receiver, and the velocity of the wave varies with properties of the peat column.
+Therefore, wave velocity has to be calibrated to convert travel time to peat depth, and we probed peat depth along the transects.
+
+We processed the GPR data with Reflex2DQuick (v.3.0; Skrimfjella) or REFLEXW (v.8.5; Ørskogfjellet) software (Sandmeier Scientific Software, Germany). 
+We applied a time-zero correction, a dewow filter, and a gain filter based on observed energy decay. 
+With Ørskogfjellet data, we also applied a bandpass filter and a dynamic correction that accounts for the non-vertical wave path between offset transmitter and receiver antennas.
+The latter is important for the rough terrain antenna, where the antenna separation is comparable to typical peat depths.
+From the processed radargrams, we picked travel times from strong reflectors that we interpreted as the base of the peat column.
+
+We used picks near probed depths to calibrate wave speed velocity -- separately for each site.
+Calibration data were created by matching marked trace locations to a corresponding depth probe (Skrimfjella), or by a spatial join that identified interpreted traces and depth probes within 2 m of each other (Ørskogfjellet).
+We had sufficient calibration point density to avoid bias in wave velocity as a major source of error [@rosaDeterminingNumberManual2009]: 46 calibration points along 3.5 km of interpretable traces at Skrimfjella, and 78 along 7.8 km at Ørskogfjellet. 
+We fitted site-specific linear regressions of probed depth on picked travel time, with the intercept fixed at zero, to estimate wave velocities.
+Notwithstanding a few outlying points, our regressions showed good fits and the resulting velocities are within the range reported for peat [@parsekianUncertaintyPeatVolume2012]: \unit{0.0387\,m\,ns^{-1}}, $R^2 = 0.874$ at Skrimfjella and \unit{0.0427\,m\,ns^{-1}}, $R^2 = 0.946$ at Ørskogfjellet (Fig. \ref{fig:GPRwavevelocity}).
+Finally, we used these two wave velocities to convert the travel times of all picks to calibrated peat depths.
+In total, the GPR surveys produced 48579 point measurements of peat depth at Skrimfjella and 32653 at Ørskogfjellet.
+
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.8\textwidth]{figures/GPRwavevelocity.pdf}
+\includegraphics[height=0.7\textheight]{figures/GPRwavevelocity.pdf}
 \caption{\label{fig:GPRwavevelocity}Calibration of GPR wave velocity at Skrimfjella (a) and Ørskogfjellet (b) by regression of probed depth against wave travel time.}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics{figures/semivariograms.pdf}
+\caption{\label{fig:semivariograms}Empirical semivariograms of peat depth point measurements at Skrimfjella (a) and Ørskogfjellet (b).}
 \end{figure}
 \clearpage
 
-\newpage
 \section{}
 
 ```{r pairwiseSkrimCCC, echo=FALSE, message=FALSE}
@@ -787,9 +799,4 @@ kableExtra::kbl(tab, format = 'latex', vline = "", linesep = "", position = "h",
 ```
 \clearpage
 
-\begin{figure}[ht]
-\centering
-\includegraphics{figures/semivariograms.pdf}
-\caption{\label{fig:semivariograms}Empirical semivariograms of peat depth point measurements at Skrimfjella (a) and Ørskogfjellet (b).}
-\end{figure}
-\clearpage
+\noappendix
