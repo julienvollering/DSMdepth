@@ -213,6 +213,17 @@ Thank you for this suggestion. We have added a figure showing the statistical an
 
 > Since the radiometric data are originally at 50 m resolution and the terrain data are at 1 m resolution, the method used to resample these datasets to a common 10 m resolution could influence model performance. In particular, the use of cubic spline resampling for the radiometric data may affect how well its spatial variability is represented, especially when compared to the aggregated 10 m topographic data. I would be interested to hear your thoughts on how this resampling approach might have impacted the results.
 
+We appreciate this attention to the potential impact of radiometric resampling methodology on our results. To address this concern, we added to our code a sensitivity analysis comparing cubic spline and bilinear resampling methods for downscaling the 50 m radiometric data. Using field measurement locations from both study sites, we extracted radiometric values resampled by both methods and calculated correlations for each radiometric variable (K, Th, U, TC). The correlations between cubic spline and bilinear resampling methods were very high, with the lowest correlation being 0.995. This near-perfect correlation demonstrates that the choice of resampling method has negligible impact on the spatial representation of radiometric variability at our target resolution.
+
+The consistently high correlations across all radiometric variables indicate that our conclusions about radiometric predictive performance would remain unchanged regardless of resampling method. Since we now mention this fact in the _Materials and methods_, we do not raise this point specifically in the _Discussion_ -- in the interest of brevity.
+
+::: {.callout appearance="simple"}
+**In _Materials and methods_**
+
+They provided us for each site four variables at 50 m resolution, which we downscaled to 10 m resolution by cubic spline resampling[, using the *terra* package (v1.7) in R]{.deleted}. 
+[Sensitivity analysis showed that Pearson correlations between cubic spline and bilinear resampling methods exceeded 0.99 for all radiometric variables, so we are confident that the choice of resampling method did not affect our results.]{.added}
+:::
+
 ### Comment 2.7
 
 > I found the section on sampling design and peat depth measurement to be overly detailed for the main text. While this information is valuable, it may be more appropriate to move some of it to the appendix or supplementary material, as it is less central to the analysis and interpretation of results. This would help improve the flow and focus of the main manuscript.

@@ -3,28 +3,68 @@ library(sf)
 library(terra)
 
 # Radiometrics #### 
+# Load original 50m resolution radiometric data for resampling comparison
+radK50m <- rast("data/NGU-2015-015/Romsdalsfjorden_RAD_miclev_K.ers") 
+radTh50m <- rast("data/NGU-2015-015/Romsdalsfjorden_RAD_miclev_Th.ers") 
+radU50m <- rast("data/NGU-2015-015/Romsdalsfjorden_RAD_miclev_U.ers") 
+radTC50m <- rast("data/NGU-2015-015/Romsdalsfjorden_RAD_miclev_TC.ers") 
+
+rad50m <- c(radK50m, radTh50m, radU50m, radTC50m)
+rad50m[rad50m < 0] <- NA
+
+# Sensitivity analysis: Compare cubic spline vs bilinear resampling methods
+rad10m_cubic <- rad50m |> 
+  project(y = "epsg:25832",  
+          method = "cubicspline",
+          res = 10)
+
+rad10m_bilinear <- rad50m |> 
+  project(y = "epsg:25832",  
+          method = "bilinear",
+          res = 10)
+
+# Use pre-processed 10m data as default (original method)
 radK10m <- rast("data/RAD_miclev_K_10m.tif") 
 radK10m[radK10m < 0] <- NA
-plot(radK10m)
 
 radTh10m <- rast("data/RAD_miclev_Th_10m.tif") 
 radTh10m[radTh10m < 0] <- NA
-plot(radTh10m)
 
 radU10m <- rast("data/RAD_miclev_U_10m.tif") 
 radU10m[radU10m < 0] <- NA
-plot(radU10m)
 
 radTC10m <- rast("data/RAD_miclev_TC_10m.tif") 
 radTC10m[radTC10m < 0] <- NA
-plot(radTC10m)
 
+plot(radK10m)
+
+# Correlation analysis between cubic spline and bilinear resampling methods
+# Sample points for comparison (using field measurement locations)
 probe <- read_csv("data/depth/concatenatedRawProbe.csv")
 probe <- st_as_sf(probe, coords = c('utm32E', 'utm32N'), crs = 25832)
 probecells <- extract(radK10m, probe, cells = TRUE, xy=TRUE, ID=FALSE) |> 
   select(cell, x, y) |> 
   distinct(cell, .keep_all = TRUE) |> 
   st_as_sf(coords = c('x','y'), crs=crs(radK10m))
+
+# Extract values at measurement locations for both methods
+rad_cubic_values <- extract(rad10m_cubic, probecells, ID=FALSE)
+rad_bilinear_values <- extract(rad10m_bilinear, probecells, ID=FALSE)
+
+# Calculate correlations for each radiometric variable
+map2_dfr(rad_cubic_values, rad_bilinear_values, 
+         ~tibble(correlation = cor(.x, .y, use="complete.obs")),
+         .id = "variable") |> 
+  mutate(variable = names(rad10m_cubic))
+
+# Visual comparison
+par(mfrow=c(2,2))
+walk2(rad_cubic_values, rad_bilinear_values, 
+      ~plot(.x, .y, 
+            xlab="Cubic spline", ylab="Bilinear",
+            main=paste(names(rad_cubic_values)[which(map_lgl(rad_cubic_values, identical, .x))],
+                      "\nr =", round(cor(.x, .y, use="complete.obs"), 3))))
+par(mfrow=c(1,1))
 
 # Simple terrain ####
 

@@ -18,12 +18,51 @@ radTC <- rast("data/Skrim/NGU-2013-029/Kong_Rad_Area3_TC/Kong_Rad_Area3_TC.ERS")
 
 rad <- c(radK, radTh, radU, radTC) |> 
   crop(y = st_transform(st_buffer(sa, 1000), st_crs(radK)))
-rad10m <- rad |> 
+
+# Sensitivity analysis: Compare cubic spline vs bilinear resampling methods
+rad10m_cubic <- rad |> 
   project(y = "epsg:25833",  
           method = "cubicspline",
           res = 10,
           origin = origin(dtm1m))
+
+rad10m_bilinear <- rad |> 
+  project(y = "epsg:25833",  
+          method = "bilinear",
+          res = 10,
+          origin = origin(dtm1m))
+
+# Use cubic spline as default (original method)
+rad10m <- rad10m_cubic
 plot(rad10m)
+
+# Correlation analysis between cubic spline and bilinear resampling methods
+# Sample points for comparison (using field measurement locations)
+probe <- read_csv("data/Skrim/depth_all.csv")
+probe <- st_as_sf(probe, coords = c('X', 'Y'), crs = 25833)
+probecells <- extract(rad10m_cubic, probe, cells = TRUE, xy=TRUE, ID=FALSE) |> 
+  select(cell, x, y) |> 
+  distinct(cell, .keep_all = TRUE) |> 
+  st_as_sf(coords = c('x','y'), crs=crs(rad10m_cubic))
+
+# Extract values at measurement locations for both methods
+rad_cubic_values <- extract(rad10m_cubic, probecells, ID=FALSE)
+rad_bilinear_values <- extract(rad10m_bilinear, probecells, ID=FALSE)
+
+# Calculate correlations for each radiometric variable
+map2_dfr(rad_cubic_values, rad_bilinear_values, 
+         ~tibble(correlation = cor(.x, .y, use="complete.obs")),
+         .id = "variable") |> 
+  mutate(variable = names(rad10m_cubic))
+
+# Visual comparison
+par(mfrow=c(2,2))
+walk2(rad_cubic_values, rad_bilinear_values, 
+      ~plot(.x, .y, 
+            xlab="Cubic spline", ylab="Bilinear",
+            main=paste(names(rad_cubic_values)[which(map_lgl(rad_cubic_values, identical, .x))],
+                      "\nr =", round(cor(.x, .y, use="complete.obs"), 3))))
+par(mfrow=c(1,1))
 
 # Simple terrain ####
 

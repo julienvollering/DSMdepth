@@ -218,7 +218,8 @@ cat(predictors)
 ### Radiometric
 
 The Geological Survey of Norway conducted and processed radiometric surveys over our study areas, as reported in Baranwal et al. [-@baranwalHelicopterborneMagneticElectromagnetic2013] and Ofstad [-@ofstadHelicopterborneMagneticRadiometric2015].
-They provided us for each site four variables at 50 m resolution, which we downscaled to 10 m resolution by cubic spline resampling, using the *terra* package (v1.7) in R. 
+They provided us for each site four variables at 50 m resolution, which we downscaled to 10 m resolution by cubic spline resampling. 
+Sensitivity analysis showed that Pearson correlations between cubic spline and bilinear resampling methods exceeded 0.99 for all radiometric variables, so we are confident that the choice of resampling method did not affect our results. 
 
 The radiometric surveys were conduced with similar flight parameters (Table \ref{tab:radSurveys}).
 Spectrometer count rates were calibrated to known concentrations of potassium, thorium, and uranium in mobile pads.
