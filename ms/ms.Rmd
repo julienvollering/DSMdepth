@@ -111,8 +111,8 @@ Maps of peat depth also make it possible to quantify the effect of specific mana
 Measuring peat depth on the ground by probing or ground-penetrating radar is straightforward, and a field survey can map a small area at low cost. 
 However, surveying large areas is impractical when depth varies widely over short distances (e.g. 10 m) -- as in many peatlands [@torppaStatisticalApproachDetermining2011; @proulx-mcinnisReviewGroundpenetratingRadar2013; @henrionMappingMonitoringPeatlands2024]. 
 A complementary approach from soil science is digital soil mapping (DSM). 
-DSM scales up field measurements from a set of locations to a wider area, by relating the measured values to other variables mapped over the area of interest. 
-This approach has grown in importance with the availability of remotely sensed data and the advancement of methods for identifying patterns, especially through machine learning [@minasnyDigitalMappingPeatlands2019; @wadouxMachineLearningDigital2020].
+DSM scales up field measurements from a set of locations to a wider area, by relating the measured values to other variables mapped over the area of interest, through a statistical model. 
+This approach has grown in importance with the availability of remotely sensed data and the advancement of methods for identifying statistical patterns, especially through machine learning [@minasnyDigitalMappingPeatlands2019; @wadouxMachineLearningDigital2020].
 
 The crux for DSM of peat depth is the relationship between peat depth and each of the other, mapped predictors. 
 For DSM to work, these relationships must be strong and consistent over the area of interest.
@@ -177,6 +177,7 @@ Where machine learning algorithms have previously been used on airborne radiomet
 
 To assess the predictive value of terrain and radiometric data for mapping peat depth, we chose two sites with conspicuously different physical geography: Skrimfjella in eastern Norway (Fig. \@ref(fig:map-sites)a) and Ørskogfjellet in western Norway (Fig. \@ref(fig:map-sites)b).
 These sites were chosen because they were covered by radiometric data from airborne surveys, had relatively little built-up area, and were accessible by road.  
+Ørskogfjellet was additionally chosen for its relatively uniform bedrock geology, which should improve the peat depth signal in radiometric data, all else being equal [@minasnyDigitalMappingPeatlands2019].
 
 ```{r map-sites, out.height="81%", echo = FALSE, fig.cap = "Study areas with land cover at Skrimfjella (a) and Ørskogfjellet (b). To fit the scale of the maps, the land cover shown here is from the AR50 national land resource dataset, which has simplified geometry with respect to the AR5 dataset that is used in the study. Terrain is visualized with light orange contour lines at intervals of 100 m, and a hillshade with slope 45° and azimuth 225°. AR50 data are from Norwegian Institute of Bioeconomy Research under the Norwegian Licence for Open Government Data (https://data.norge.no/nlod/en/1.0) and terrain data are from the Norwegian Mapping Authority under the Creative Commons Attribution 4.0 International license (https://creativecommons.org/licenses/by/4.0/)."}
 knitr::include_graphics("figures/map-sites.pdf")
@@ -566,7 +567,7 @@ Although this recommendation aligns with the precautionary principle, here we ma
 
 Radiometric data had little to no predictive value at either site (poor performance of *radiometric* configuration), although they did contribute to the best model at Skrimfjella (marginal improvement in *all predictors* configuration compared to *terrain + DMK*).
 These results contrast with earlier studies that found that radiometrics were useful predictors of peat depth [@keaneySpatialStatisticsEstimate2013; @gatisMappingUplandPeat2019; @kogantiMappingPeatDepth2023].
-The bedrock is more homogeneous at Ørskogfjellet than at Skrimfjella, so uneven radiogenesis is not a viable explanation for the differences between sites nor the poor performance in general [@beamishEnvironmentalRadioactivityUK2014; @reinhardtGammaraySpectrometryVersatile2019]. 
+The bedrock is more homogeneous at Ørskogfjellet than at Skrimfjella, so uneven radiogenesis is not a good explanation for the higher predictive value of radiometric variables at Skrimfjella [@beamishEnvironmentalRadioactivityUK2014; @reinhardtGammaraySpectrometryVersatile2019].
 All four radiometric variables were highly correlated within the peatland parts of our study sites, so there could be no large differences in their predictive value. 
 This contrasts with Koganti et al. [-@kogantiMappingPeatDepth2023], who found that radiometric total count was a much better predictor than potassium ground concentration. 
 
@@ -582,13 +583,18 @@ Karjalainen et al. [-@karjalainenComparisonTwoGammaray2025] found that ground-ba
 Nevertheless, a large radiometric footprint did not prevent strong associations with peat depth in Gatis et al. [-@gatisMappingUplandPeat2019] and Marchant [-@marchantUsingRemoteSensors2021], perhaps because the extensive blanket bog landscape in these studies has more gradual changes in depth [@lindsayBogsEcologyClassification1995]. 
 We are unsure whether short-range depth changes explain the weak associations that Siemon et al. [-@siemonAirborneElectromagneticRadiometric2020] found in a large raised bog.
 
-Weather conditions varied during the Ørskogfjellet radiometric survey and affected its data [@ofstadHelicopterborneMagneticRadiometric2015]. 
-Thus, uneven snow cover and air moisture may also have masked the soil signal in these data.
+Another possible reason for the poor predictive value of the radiometric data could be that other physical parameters influencing the amount of intercepted radiation varied too much within sites.
+Initial source strength, soil moisture, bulk density, and porosity all affect the amount of radiation that reaches the detector [@beamishGammaRayAttenuation2013; @reinhardtGammaraySpectrometryVersatile2019].
+Therefore, variation in these parameters could have masked the relationship between peat depth and radiometric data.
+We chose the Ørskogfjellet site in part because it has a relatively homogeneous bedrock, which should reduce the variation in initial source strength.
+Soil moisture, bulk density, and porosity, however, are not easily measured across landscape scales and were assumed to be homogeneous.
+Uneven snow cover and air moisture during the Ørskogfjellet radiometric survey may also have masked the soil signal these data, as Ofstad [-@ofstadHelicopterborneMagneticRadiometric2015] reports large variation in weather conditions.
+If maps of these other physical parameters at the time of the radiometric survey were available and included in the model, the predictive value of radiometric data might improve, but this is not a practical solution for digital soil mapping of peat depth.
 
 We do not believe that the poor predictive value of the radiometric data in this study was caused by fully attenuated radioactivity — at least not in large part. 
 The RF algorithm’s flexibility means that radiometrics could be used for shallower peats if they provided predictive value for that part of the depth distribution, but there is no evidence of that in our results. 
 In the partial dependence plot of uranium ground concentration at Skrimfjella, the expected negative relationship between depth and uranium ground concentration cannot be found by ignoring the left (highly attenuated) side of the distribution. 
-About a quarter of the peats in our study were less than a meter deep, and full attenuation is unlikely for these [@beamishGammaRayAttenuation2013].
+More than a quarter of the peats in each our study areas were less than 60 cm deep, and full attenuation is unlikely for these [@beamishGammaRayAttenuation2013].
 
 Although we do not believe full attenuation is the primary reason for poor performance in our study, it may limit peat depth mapping under other circumstances. 
 First-principle calculations suggest that radiation should be 90 % attenuated after about 50--60 cm of typical, wet peat or 85 cm of unnaturally dry peat [@beamishGammaRayAttenuation2013; @beamishDetailedMappingPeat2024], and some field tests support these values [@billenEignungGammaspektrometrieKartieren2015]. 

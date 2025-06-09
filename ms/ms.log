@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.6.4)  5 JUN 2025 14:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.6.4)  9 JUN 2025 10:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -645,12 +645,12 @@ Package xcolor Warning: Incompatible color definition on input line 155.
 [2]
 
 [3]
-<figures/map-sites.pdf, id=178, 511.9125pt x 645.41125pt>
+<figures/map-sites.pdf, id=180, 511.9125pt x 645.41125pt>
 File: figures/map-sites.pdf Graphic file (type pdf)
 <use figures/map-sites.pdf>
-Package pdftex.def Info: figures/map-sites.pdf  used on input line 271.
+Package pdftex.def Info: figures/map-sites.pdf  used on input line 272.
 (pdftex.def)             Requested size: 377.22366pt x 475.5989pt.
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 271.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 272.
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
@@ -658,7 +658,7 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 [4]
 
 [5 <./figures/map-sites.pdf>]
-Overfull \hbox (3.7017pt too wide) in paragraph at lines 342--347
+Overfull \hbox (3.7017pt too wide) in paragraph at lines 343--348
 \T1/ptm/m/n/10 to known concentrations of potassium, thorium, and uranium in mobile pads. Data were processed following standard procedures
  []
 
@@ -673,7 +673,7 @@ Overfull \hbox (3.7017pt too wide) in paragraph at lines 342--347
 [9]
 
 [10]
-Overfull \hbox (5.45064pt too wide) in paragraph at lines 451--456
+Overfull \hbox (5.45064pt too wide) in paragraph at lines 452--457
 []\T1/ptm/m/n/10 We processed the GPR data with Reflex2DQuick (v.3.0; Skrimfjella) or REFLEXW (v.8.5; Ørskogfjellet) software (Sandmeier
  []
 
@@ -684,45 +684,45 @@ Overfull \hbox (5.45064pt too wide) in paragraph at lines 451--456
 [12]
 
 [13]
-<figures/map-distribution.pdf, id=503, 511.9125pt x 645.41125pt>
+<figures/map-distribution.pdf, id=505, 511.9125pt x 645.41125pt>
 File: figures/map-distribution.pdf Graphic file (type pdf)
 <use figures/map-distribution.pdf>
-Package pdftex.def Info: figures/map-distribution.pdf  used on input line 551.
+Package pdftex.def Info: figures/map-distribution.pdf  used on input line 552.
 (pdftex.def)             Requested size: 377.22366pt x 475.5989pt.
-<figures/modelmetrics.pdf, id=505, 511.9125pt x 284.06125pt>
+<figures/modelmetrics.pdf, id=507, 511.9125pt x 284.06125pt>
 File: figures/modelmetrics.pdf Graphic file (type pdf)
 <use figures/modelmetrics.pdf>
-Package pdftex.def Info: figures/modelmetrics.pdf  used on input line 562.
+Package pdftex.def Info: figures/modelmetrics.pdf  used on input line 563.
 (pdftex.def)             Requested size: 503.61377pt x 279.45737pt.
 
 
 [14]
 
 [15 <./figures/map-distribution.pdf>]
-Overfull \hbox (3.11133pt too wide) in paragraph at lines 573--577
+Overfull \hbox (3.11133pt too wide) in paragraph at lines 574--578
 \T1/ptm/m/n/10 predictors to these configurations slightly worsened model performance. The \T1/ptm/m/it/10 terrain \T1/ptm/m/n/10 configuration outperformed the \T1/ptm/m/it/10 radiometric
  []
 
 
 
 [16 <./figures/modelmetrics.pdf>]
-<figures/calibration_plots.pdf, id=558, 511.9125pt x 284.06125pt>
+<figures/calibration_plots.pdf, id=560, 511.9125pt x 284.06125pt>
 File: figures/calibration_plots.pdf Graphic file (type pdf)
 <use figures/calibration_plots.pdf>
-Package pdftex.def Info: figures/calibration_plots.pdf  used on input line 582.
+Package pdftex.def Info: figures/calibration_plots.pdf  used on input line 583.
 (pdftex.def)             Requested size: 503.61377pt x 279.45737pt.
 
 
 [17 <./figures/calibration_plots.pdf>]
-<figures/variable_importance.pdf, id=577, 511.9125pt x 454.69875pt>
+<figures/variable_importance.pdf, id=579, 511.9125pt x 454.69875pt>
 File: figures/variable_importance.pdf Graphic file (type pdf)
 <use figures/variable_importance.pdf>
-Package pdftex.def Info: figures/variable_importance.pdf  used on input line 601.
+Package pdftex.def Info: figures/variable_importance.pdf  used on input line 602.
 (pdftex.def)             Requested size: 503.61377pt x 447.32933pt.
-<figures/partial_dependence.pdf, id=580, 511.9125pt x 511.9125pt>
+<figures/partial_dependence.pdf, id=582, 511.9125pt x 511.9125pt>
 File: figures/partial_dependence.pdf Graphic file (type pdf)
 <use figures/partial_dependence.pdf>
-Package pdftex.def Info: figures/partial_dependence.pdf  used on input line 621.
+Package pdftex.def Info: figures/partial_dependence.pdf  used on input line 622.
 (pdftex.def)             Requested size: 503.61377pt x 503.61581pt.
 
 
@@ -741,7 +741,7 @@ Package pdftex.def Info: figures/partial_dependence.pdf  used on input line 621.
 [24]
 
 [25]
-Overfull \hbox (1.60141pt too wide) in paragraph at lines 788--795
+Overfull \hbox (1.60141pt too wide) in paragraph at lines 794--801
 \T1/ptm/m/n/10 Municipalities and local actors in Norway are increasingly measuring peat depth and can contribute to a growing data foundation
  []
 
@@ -751,35 +751,33 @@ Overfull \hbox (1.60141pt too wide) in paragraph at lines 788--795
 
 [27]
 
-[28
+[28]
+
+[29
 pdfTeX warning (ext4): destination with the same identifier (name{appendix.A}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.855 \clearpage
+l.861 \clearpage
                 ]
 pdfTeX warning (ext4): destination with the same identifier (name{appendix.A}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.857 \appendixfigures
+l.863 \appendixfigures
                       
-<figures/GPRwavevelocity.pdf, id=841, 511.9125pt x 597.23125pt>
+<figures/GPRwavevelocity.pdf, id=850, 511.9125pt x 597.23125pt>
 File: figures/GPRwavevelocity.pdf Graphic file (type pdf)
 <use figures/GPRwavevelocity.pdf>
-Package pdftex.def Info: figures/GPRwavevelocity.pdf  used on input line 860.
+Package pdftex.def Info: figures/GPRwavevelocity.pdf  used on input line 866.
 (pdftex.def)             Requested size: 402.89255pt x 470.03958pt.
 
 
-[29
+[30
 
  <./figures/GPRwavevelocity.pdf>]
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 870.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 876.
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
-
-[30
-
-]
 
 [31
 
@@ -800,23 +798,27 @@ File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 [35
 
 ]
-<figures/semivariograms.pdf, id=882, 511.9125pt x 298.11375pt>
+
+[36
+
+]
+<figures/semivariograms.pdf, id=891, 511.9125pt x 298.11375pt>
 File: figures/semivariograms.pdf Graphic file (type pdf)
 <use figures/semivariograms.pdf>
-Package pdftex.def Info: figures/semivariograms.pdf  used on input line 1074.
+Package pdftex.def Info: figures/semivariograms.pdf  used on input line 1080.
 (pdftex.def)             Requested size: 511.91125pt x 298.11302pt.
 
-Overfull \hbox (8.29749pt too wide) in paragraph at lines 1074--1075
+Overfull \hbox (8.29749pt too wide) in paragraph at lines 1080--1081
  [][] 
  []
 
 
 
-[36
+[37
 
  <./figures/semivariograms.pdf>] (./ms.bbl
 
-[37
+[38
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 40--41
@@ -840,14 +842,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 58--59
 
 
 
-[38]
+[39]
 Underfull \hbox (badness 10000) in paragraph at lines 64--65
 []\T1/ptm/m/n/9 Brus, D. J.: Sampling for Digital Soil Mapping: A Tutorial Supported by R Scripts, Geoderma, 338, 464--480,
  []
 
 
 
-[39]
+[40]
 Underfull \hbox (badness 3557) in paragraph at lines 145--146
 []\T1/ptm/m/n/9 Karjalainen, V., Malinen, J., and Tokola, T.: Comparison of Two Gamma-Ray Datasets Measured with Different Methods
  []
@@ -859,7 +861,7 @@ Underfull \hbox (badness 2735) in paragraph at lines 145--146
 
 
 
-[40]
+[41]
 Underfull \hbox (badness 1796) in paragraph at lines 163--164
 []\T1/ptm/m/n/9 Kyrkjeeide, M. O., Fandrem, M., Kolstad, A. L., Bartlett, J., Cretois, B., and Silvennoinen, H. M.: A Calculator for Local
  []
@@ -871,7 +873,7 @@ Underfull \hbox (badness 2680) in paragraph at lines 163--164
 
 
 
-[41]
+[42]
 Underfull \hbox (badness 3302) in paragraph at lines 199--200
 []\T1/ptm/m/n/9 Ma, T., Brus, D. J., Zhu, A.-X., Zhang, L., and Scholten, T.: Comparison of Conditioned Latin Hypercube and Feature
  []
@@ -883,7 +885,7 @@ Underfull \hbox (badness 7981) in paragraph at lines 199--200
 
 
 
-[42]
+[43]
 Underfull \hbox (badness 3138) in paragraph at lines 238--239
 []\T1/ptm/m/n/9 Minasny, B., Bandai, T., Ghezzehei, T. A., Huang, Y.-C., Ma, Y., McBratney, A. B., Ng, W., Norouzi, S., Padarian, J.,
  []
@@ -905,7 +907,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 286--287
 
 
 
-[43]
+[44]
 Underfull \hbox (badness 4108) in paragraph at lines 304--305
 []\T1/ptm/m/n/9 Riihimäki, H., Kemppinen, J., Kopecký, M., and Luoto, M.: Topographic Wetness Index as a Proxy for Soil Moisture:
  []
@@ -937,7 +939,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 331--332
 
 
 
-[44]
+[45]
 Underfull \hbox (badness 1337) in paragraph at lines 355--356
 []\T1/ptm/m/n/9 Szabó, B., Szatmári, G., Takács, K., Laborczi, A., Makó, A., Rajkai, K., and Pásztor, L.: Mapping Soil Hydraulic Properties
  []
@@ -964,27 +966,27 @@ Underfull \hbox (badness 10000) in paragraph at lines 388--389
 
 
 
-[45])
+[46])
 
-[46] (./ms.aux)
+[47] (./ms.aux)
  ***********
 LaTeX2e <2025-06-01>
 L3 programming layer <2021/03/21>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 18320 strings out of 469873
- 304051 string characters out of 5482670
+ 18321 strings out of 469873
+ 304058 string characters out of 5482670
  752868 words of memory out of 5000000
  46075 multiletter control sequences out of 15000+600000
  666881 words of font info for 101 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  90i,13n,93p,1383b,868s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on ms.pdf (46 pages, 7822744 bytes).
+Output written on ms.pdf (47 pages, 7824074 bytes).
 PDF statistics:
- 1160 PDF objects out of 1200 (max. 8388607)
- 1061 compressed objects within 11 object streams
- 241 named destinations out of 1000 (max. 500000)
+ 1169 PDF objects out of 1200 (max. 8388607)
+ 1069 compressed objects within 11 object streams
+ 242 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
