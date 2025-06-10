@@ -483,12 +483,32 @@ import_shap <- fit_RTD_uncorr %>%
           scale = TRUE)
 vip::vip(import_shap, num_features = 30)
 
-bind_rows(perm.vip = import_perm_vip, 
+vi_combined <- bind_rows(perm.vip = import_perm_vip, 
           firm = import_firm, 
           shap = import_shap,
           .id = 'type') |> 
-  left_join(corrKey, by = c("Variable" = "correlated")) |>
+  left_join(corrKey, by = c("Variable" = "correlated"))
+
+vi_combined |> 
   readr::write_csv("output/Skrim/variable_importance.csv")
+
+### Variable importance rank correlations ####
+
+vi_ranks <- vi_combined |>
+  group_by(type) |>
+  mutate(rank = rank(-Importance, ties.method = "average")) |>
+  select(type, Variable, rank) |>
+  pivot_wider(names_from = type, values_from = rank)
+
+# Pairwise rank correlations
+rank_correlations <- vi_ranks |>
+  select(-Variable) |>
+  cor(method = "spearman", use = "complete.obs") |>
+  as_tibble(rownames = "method1") |>
+  pivot_longer(-method1, names_to = "method2", values_to = "correlation")
+rank_correlations
+rank_correlations |>
+  readr::write_csv("output/Skrim/variable_importance_rank_correlations.csv")
 
 ## Partial dependence plots ####
 # https://www.tmwr.org/explain#building-global-explanations-from-local-explanations

@@ -234,6 +234,26 @@ Thank you for this helpful suggestion. We agree that this an acceptable way to r
 
 > In the model interpretation section, it appears that three different methods were used to assess variable importance: FIRM, permutation importance, and Shapley values. However, the implications of using these different approaches are not clearly discussed. Each method captures different aspects of variable influence and may lead to different interpretations. Could you clarify how the results from these methods align or differ, and what their respective implications are for understanding the drivers of peat depth in your study?
 
+Thank you for this suggestion. We have added text to the _Materials and methods_ and _Results_ sections to clarify how the three variable importance methods relate to each other. We have also added rank correlations to our figure on variable importance, to highlight the similarities and differences. In short, we find that Shapley and permutation importance are very similar for our application, while FIRM values capture a different aspect of variable importance.
+
+Since the different methods are broadly congruent and their differences do not affect our interpretation much -- and in the interest of brevity -- we do not go into this point in our _Discussion_.
+
+::: {.callout appearance="simple"}
+**In _Materials and methods_**
+
+We calculated variable importance with the *vip* R package (v0.4), by three different methods: *FIRM*, *permutation*, and *Shapley* [@greenwellVariableImportancePlots2020].
+*FIRM* values measure the flatness of the partial dependence plot, *permutation* values measure the decrease in model performance when the predictor is permuted, and *Shapley* values are aggregated from local, game-theoretical measures of variable importance [@greenwellVariableImportancePlots2020].
+[Since *FIRM* reflects the flatness of the partial dependence plot, it captures functional complexity rather than overall predictive impact.]{.added}
+*Permutation* values were obtained from ten iterations, with root mean square error as the performance measure.
+
+**In _Results_**
+
+[The *permutation* and *Shapley* methods of variable importance were highly correlated at both sites, while the *FIRM* method was less correlated with the other two (Fig. \@ref(fig:varImp)).]{.added}
+
+At both sites, elevation and Multi-Resolution Valley Bottom Flatness were important predictors (Fig. \@ref(fig:varImp)).
+At Skrimfjella these two predictors were of similar importance, while at Ørskogfjellet elevation [was more important than Multi-Resolution Valley Bottom Flatness]{.deleted} [had higher predictive impact (*permutation* and *Shapley*) but lower functional complexity (*FIRM*) than Multi-Resolution Valley Bottom Flatness]{.added}.
+:::
+
 ### Comment 2.9
 
 > I recommend adding a dedicated section to summarise the key results and findings. This would help readers clearly see how the study addresses its original research aims and questions. A concise summary at the end of the results or discussion section would also improve the overall structure and coherence of the paper.

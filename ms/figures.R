@@ -690,6 +690,39 @@ orskog <- read_csv("output/variable_importance.csv") %>%
 skrim <- read_csv("output/Skrim/variable_importance.csv") %>% 
   filter(type != "perm.ranger")
 
+# Read correlation matrices for insets
+corr_orskog <- read_csv("output/variable_importance_rank_correlations.csv")
+corr_skrim <- read_csv("output/Skrim/variable_importance_rank_correlations.csv")
+
+# Create simple correlation matrix plots for insets
+create_simple_corr_plot <- function(corr_data) {
+  corr_data %>%
+    mutate(
+      method1 = case_when(
+        method1 == "firm" ~ "FIRM",
+        method1 == "perm.vip" ~ "permutation", 
+        method1 == "shap" ~ "Shapley",
+        TRUE ~ method1
+      ),
+      method2 = case_when(
+        method2 == "firm" ~ "FIRM",
+        method2 == "perm.vip" ~ "permutation", 
+        method2 == "shap" ~ "Shapley",
+        TRUE ~ method2
+      )
+    ) %>%
+    ggplot(aes(method1, method2)) +
+    geom_tile(fill = "white", color = "black") +
+    geom_text(aes(label = round(correlation, 2)), size = 2.5, color = "black") +
+    coord_flip() +
+    theme_void() +
+    theme(axis.text = element_text(size = 6),
+          plot.margin = margin(2, 2, 2, 2))
+}
+
+corr_plot_orskog <- create_simple_corr_plot(corr_orskog)
+corr_plot_skrim <- create_simple_corr_plot(corr_skrim)
+
 orskog.rank <- orskog %>% 
   group_by(Variable) %>% 
   summarize(Imp.median = median(Importance))
@@ -704,7 +737,7 @@ labs.orskog <- plot.orskog |>
   arrange(Imp.median) |> 
   pull(removed) |> 
   stringr::str_wrap(width = 40)
-g1 <- plot.orskog %>% 
+pOrskog <- plot.orskog %>% 
   mutate(Variable = case_when(
     Variable == "dmkdepth_grunn.myr" ~ "DMK_shallow",
     Variable == "dmkdepth_unknown" ~ "DMK_unknown",
@@ -723,11 +756,14 @@ g1 <- plot.orskog %>%
   theme_minimal() +
   theme(axis.title.y = element_blank(),
         legend.title = element_blank(),
-        axis.text.y.right = element_text(size = 8, color = "grey50"),
+        axis.text.y.right = element_text(size = 8, color = "grey50", hjust = 0),
         legend.position = "inside",
-        legend.position.inside = c(1.2, 0.85)) + 
-  guides(fill = guide_legend(reverse = TRUE))
-
+        legend.position.inside = c(0.77, 0.22)) + 
+  guides(fill = guide_legend(reverse = TRUE)) +
+  labs(tag = "(b)") +
+  inset_element(corr_plot_orskog, left = 0.7, bottom = 0.7, right = 1, top = 1, 
+                align_to = "plot", clip = TRUE, ignore_tag = TRUE)
+  
 plot.skrim <- left_join(skrim, skrim.rank, by = join_by(Variable))
 labs.skrim <- plot.skrim |> 
   distinct(Variable, removed, Imp.median) |>
@@ -735,7 +771,7 @@ labs.skrim <- plot.skrim |>
   arrange(Imp.median) |> 
   pull(removed) |> 
   stringr::str_wrap(width = 40)
-g2 <- plot.skrim %>% 
+pSkrim <- plot.skrim %>% 
   mutate(Variable = case_when(
     Variable == "dmkdepth_grunn" ~ "DMK_shallow",
     Variable == "dmkdepth_unknown" ~ "DMK_unknown",
@@ -752,13 +788,16 @@ g2 <- plot.skrim %>%
   theme_minimal() +
   theme(axis.title.y = element_blank(),
         legend.title = element_blank(),
-        axis.text.y.right = element_text(size = 8, color = "grey50"))
+        axis.text.y.right = element_text(size = 8, color = "grey50", hjust = 0)) +
+  labs(tag = "(a)") +
+  inset_element(corr_plot_skrim, left = 0.7, bottom = 0.1, right = 1, top = 0.4, 
+                align_to = "plot", clip = TRUE, ignore_tag = TRUE)
 
 ## Combined ####
 
-g2 + g1 + plot_layout(ncol = 1, axes = 'collect') +
-  plot_annotation(tag_levels = 'a', tag_prefix = '(', tag_suffix = ')') 
-ggsave(filename = 'variable_importance.pdf', path = "ms/figures",
+pAll <- pSkrim + pOrskog + plot_layout(ncol = 1, axes = 'collect') 
+
+ggsave(pAll, filename = 'variable_importance.pdf', path = "ms/figures",
        width =(210-30), height = (240-40)/1.25, units = 'mm') #copernicus.cls page 210x240
 # ggsave(filename = 'variable_importance.png', path = "ms/figures",
 #        width =(210-30), height = (240-40)/1.25, units = 'mm', dpi=300) #copernicus.cls page 210x240

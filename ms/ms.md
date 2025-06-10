@@ -373,7 +373,8 @@ Specifically, we eliminated variables from the best performing predictor configu
 Thus, highly correlated sets of variables are represented by a single variable for the purposes of model interpretation.
 
 We calculated variable importance with the *vip* R package (v0.4), by three different methods: *FIRM*, *permutation*, and *Shapley* [@greenwellVariableImportancePlots2020].
-*FIRM* values measure the flatness of the partial dependence plot, *permutation* values measure the decrease in model performance when the predictor is permuted, and *Shapley* values are aggregated from local, game-theoretical measures of variable importance [@greenwellVariableImportancePlots2020]. 
+*FIRM* values measure the flatness of the partial dependence plot, *permutation* values measure the decrease in model performance when the predictor is permuted, and *Shapley* values are aggregated from local, game-theoretical measures of variable importance [@greenwellVariableImportancePlots2020].
+Since *FIRM* reflects the flatness of the partial dependence plot, it captures functional complexity rather than overall predictive impact.
 *Permutation* values were obtained from ten iterations, with root mean square error as the performance measure.
 
 We calculated partial dependence with the *pdp* R package [v0.8, @greenwellPdpPackageConstructing2017].
@@ -445,10 +446,12 @@ The mean error (bias) of these models was 10 cm at Skrimfjella and -4 cm at Ørs
 For the purpose of model interpretation, the *all predictors* configuration for Skrimfjella was reduced from 27 variables to 11 non-collinear variables, by removing one of the variables in each highly-correlated pair.
 Similarly, the *terrain + DMK* configuration for Ørskogfjellet was reduced from 23 variables to 11 non-collinear variables.
 
+The *permutation* and *Shapley* methods of variable importance were highly correlated at both sites, while the *FIRM* method was less correlated with the other two (Fig. \@ref(fig:varImp)).
+
 ### Variable importance
 
 At both sites, elevation and Multi-Resolution Valley Bottom Flatness were important predictors (Fig. \@ref(fig:varImp)).
-At Skrimfjella these two predictors were of similar importance, while at Ørskogfjellet elevation was more important than Multi-Resolution Valley Bottom Flatness.
+At Skrimfjella these two predictors were of similar importance, while at Ørskogfjellet elevation had higher predictive impact (*permutation* and *Shapley*) but lower functional complexity (*FIRM*) than Multi-Resolution Valley Bottom Flatness.
 DMK was also important -- the shallow class in particular -- but only at Ørskogfjellet.
 Some realizations of the hydrological predictors Topographic Wetness Index and Depth-to-Water showed considerable importance, while others showed little -- with no consistency between sites.
 For example, TWI5m, DTW40000, and DTW2500 rounded out the top five most important variables at Skrimfjella, while TWI20m and TWI50m were least important, other than DMK.
@@ -456,7 +459,7 @@ At both sites, the most important realizations of hydrological predictors were m
 The radiometric predictor uranium ground concentration showed moderate importance at Skrimfjella.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{figures/variable_importance} \caption{Global variable importance in the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), as measured by three different metrics: Shapley values, permutation importance, and the Feature Importance Ranking Measure [@greenwellVariableImportancePlots2020]. Variables removed due to collinearity are shown to the right of the variable with which they are most correlated.}(\#fig:varImp)
+\includegraphics[width=1\linewidth]{figures/variable_importance} \caption{Global variable importance in the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), as measured by three different metrics: Shapley values, permutation importance, and the Feature Importance Ranking Measure \citep{greenwellVariableImportancePlots2020}. Variables removed due to collinearity are shown to the right of the variable with which they are most correlated. Spearman rank correlations between the three metrics are displayed in matrices.}(\#fig:varImp)
 \end{figure}
 
 ### Partial dependence
