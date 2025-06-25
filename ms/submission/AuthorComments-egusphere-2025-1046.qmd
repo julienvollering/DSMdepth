@@ -302,54 +302,36 @@ We have moved the table after its first mention and adjusted the table caption t
 
 > Line 394-397: I don’t quite get the point of this section. To my understanding, you compared between the quartile predictions and the observed data to see the prediction interval coverage probability. If so, I think it would be better to plot this prediction interval together with the observed data in scatter plot, like in Figure 3.
 
+Thank you for identifying this confusion. We have revised the text to clarify that we are comparing the quartile predictions to the observed data, to follow best practices in digital soil mapping. We have also added the prediction intervals to figure 3, and moved the text description to where we also present the figure. We think that this makes this particular result clearer to readers.
+
 > Line 413-414: which curve? The information inside the parentheses is not clear to me.
+
+Thank you. Revised for clarity.
 
 > Figure 4: is the null derived from the calculation between observations and assumptions of 30 cm peat depth? Where is the standard error come from?
 
+We have removed this figure along with all sections about peat extent mapping. The null did reflect the error between observations and assuming 30 cm depth. The standard errors on the other error estimates were from the cross-validation folds.
+
 > Line 464: “low hanging fruit” ?
+
+Revised.
 
 > Line 515: This sentence is unclear to me.
 
+Revised. The sentence was intended to reiterate what came before, so we removed it for clarity conciseness.
+
 > Line 531: “0% in prediction” what does this sentence mean?
 
+Removed along with all sections about peat extent (occurrence) mapping.
+
 > Line 614: What are the ‘both indicators variables’ referring to?
-  
-# Response to Referee 3
 
-### Comment 3.1
-  
-> Referee's comment goes here.
-
-We thank the Referee for this insightful comment. We have revised the manuscript accordingly:
-
-::: {.callout appearance="simple"}
-**Original text:**
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-**Revised text:**
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et **dolore magna aliqua** [and additional explanation of the concept]{.added}.
-:::
-
-### Comment 3.2
-
-> Referee's comment goes here.
-
-Thank you for highlighting this issue. We have made the following changes:
-  
-::: {.callout appearance="simple"}
-**Original text:**
-  
-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-**Revised text:**
-  
-[We have completely revised this section]{.added} [to address the Referee's concerns.]{.added} [Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.]{.deleted}
-:::
+Revised for clarity.
 
 # Response to editorial support team
 
 ### Comment E.1
 
 > Please add the section headlines "Appendix A" (in front of Table A1) and "Appendix B" (in front of Figure B1).
+
+Thank you. Revised.

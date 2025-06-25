@@ -335,20 +335,23 @@ quant_predict <- function(fit, new_data, level = 0.9) {
   quant_pred
 }
 # Fit the model and get predictions using resampling
-quantiles.cv <- map(folds$splits, function(spliti) {
-  train_data <- analysis(spliti)
-  test_data <- assessment(spliti)
-  # Fit QRF model
-  set.seed(345)
-  qrf_wf <- workflow_RTD_uncertainty %>% 
-    fit(train_data)
-  # Make predictions
-  test_data_baked <- workflows::extract_recipe(qrf_wf) %>% 
-    bake(test_data)
-  predictions <- quant_predict(qrf_wf$fit$fit$fit, test_data_baked)
-  # Return results
-  bind_cols(predictions, test_data)
-}) %>% 
+quantiles.cv <- folds |> 
+  arrange(id) |> 
+  pull(splits) |> 
+  map(function(spliti) {
+    train_data <- analysis(spliti)
+    test_data <- assessment(spliti)
+    # Fit QRF model
+    set.seed(345)
+    qrf_wf <- workflow_RTD_uncertainty %>% 
+      fit(train_data)
+    # Make predictions
+    test_data_baked <- workflows::extract_recipe(qrf_wf) %>% 
+      bake(test_data)
+    predictions <- quant_predict(qrf_wf$fit$fit$fit, test_data_baked)
+    # Return results
+    bind_cols(predictions, test_data)
+  }) %>% 
   bind_rows()
 
 # Evaluate prediction intervals

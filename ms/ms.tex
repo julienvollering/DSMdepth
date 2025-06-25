@@ -240,7 +240,7 @@ The little we know about the depths of Norwegian peatlands comes from surveys me
 After scattered surveys in the early 20th century, a comprehensive round of surveying was completed 1964--2001 as part of a wider land cover mapping in Norway \citep{bjordalMarkslagsklassifikasjonOkonomiskKartverk2007}.
 This survey produced the initial maps from which Norway's most detailed updated land cover datasets are derived -- including the AR5 and DMK datasets used in this study and described later.
 Because of its agricultural and silvicultural focus, the survey covered only productive areas below the tree line, and peat depth was measured only in places judged to be potentially arable or afforestable \citep{ahlstromAR5Klassifikasjonssystem2019}.
-Field surveyors carried a 1 m probe and they measured peat depth as a categorical variable: shallow (\textless1 m), or deep (\textgreater1 m).
+Field surveyors carried a 1 m probe and they measured peat depth as a categorical variable: \emph{shallow} (\textless1 m), or \emph{deep} (\textgreater1 m).
 These classes were assigned to whole polygons, so spatial resolution is on the order of hectares.
 The number of measurements per unit area was not standardized but probably low.
 
@@ -447,7 +447,7 @@ We formally assessed the effect of predictor configuration on performance metric
 
 DSM products have much more value when their predictions are accompanied by uncertainty estimates, and all DSM should strive to assess uncertainty \citep{arrouaysImpressionsDigitalSoil2020, wadouxMachineLearningDigital2020} and evaluate uncertainty estimates \citep{heuvelinkSpatialStatisticsSoil2022}.
 Therefore, we produced prediction intervals with quantile regression forests \citep{meinshausenQuantileRegressionForests2006}, and used the same spatial cross-validation to evaluate the prediction interval coverage probability \citep{shresthaMachineLearningApproaches2006}.
-The quantile regression forests were trained with predictor configuration that showed the highest performance at each site (under the assumption that these models would be put into production) and we extracted 90 \% prediction intervals.
+The quantile regression forests were trained with predictor configuration that showed the highest performance at each site, and we extracted 90 \% prediction intervals.
 
 \subsubsection{Model interpretation}
 
@@ -507,10 +507,6 @@ These values were derived from kNNDM spatial cross-validation with 20 folds at S
 \includegraphics[width=1\linewidth]{figures/modelmetrics} \caption{Performance of peatland depth models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error.}\label{fig:modelMetrics}
 \end{figure}
 
-Although the difficulty of predicting peat depth caused prediction intervals to be wide, these uncertainty estimates were well calibrated.
-At Skrimfjella, the prediction interval coverage probability was 91 \%, and at Ørskogfjellet it was 84 \% (both compared to the target value of 90 \%).
-Observations outside of the prediction intervals were evenly distributed across each of the study areas.
-
 For Skrimfjella, the best predictor configuration was \emph{all predictors}, followed closely by \emph{terrain + radiometric} (Fig. \ref{fig:modelMetrics}).
 The \emph{terrain} configuration outperformed the \emph{radiometric} configuration by 0.27 in concordance correlation coefficient (\(p < 0.001\); Appendix Table \ref{tab:pairwiseSkrimCCC}), by 0.16 in R\textsuperscript{2} (\(p = 0.190\); Appendix Table \ref{tab:pairwiseSkrimRsq}), and by 10 cm in mean absolute error (\(p = 0.038\); Appendix Table \ref{tab:pairwiseSkrimMAE}).
 The \emph{terrainDMK} configuration outperformed the \emph{radiometricDMK} configuration by 0.32 in concordance correlation coefficient (\(p < 0.001\); Appendix Table \ref{tab:pairwiseSkrimCCC}), by 0.11 in R\textsuperscript{2} (\(p = 0.605\); Appendix Table \ref{tab:pairwiseSkrimRsq}), and by 11 cm in mean absolute error (\(p = 0.011\); Appendix Table \ref{tab:pairwiseSkrimMAE}).
@@ -522,9 +518,12 @@ The \emph{terrainDMK} configuration outperformed the \emph{radiometricDMK} confi
 
 The best models at both sites overpredicted shallow peats and strongly underpredicted very deep peats (Fig. \ref{fig:calPlots}).
 The mean error (bias) of these models was 10 cm at Skrimfjella and -4 cm at Ørskogfjellet.
+Although the prediction intervals from the quantile regression forests were wide, they were well calibrated.
+At Skrimfjella, the prediction interval coverage probability was 92 \%, and at Ørskogfjellet it was 84 \% (both compared to the target value of 90 \%).
+Observations outside of the prediction intervals showed no obvious spatial pattern.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{figures/calibration_plots} \caption{Calibration plots for the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), with predictions from spatial cross-validation. Points are transparent to show overlap. Blue lines are local polynomial regressions and the red dashed line in each panel shows the 1:1 line. Marginal distributions (top) are shaded by quartile.}\label{fig:calPlots}
+\includegraphics[width=1\linewidth]{figures/calibration_plots} \caption{Calibration plots for the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), with predictions and 90 \% prediction intervals (grey veritical lines) from spatial cross-validation. Points are transparent to show overlap. Blue lines are local polynomial regressions and the red dashed line in each panel shows the 1:1 line. Marginal distributions (top) are shaded by quartile.}\label{fig:calPlots}
 \end{figure}
 
 \subsection{Model interpretation}
@@ -538,7 +537,7 @@ The \emph{permutation} and \emph{Shapley} methods of variable importance were hi
 
 At both sites, elevation and Multi-Resolution Valley Bottom Flatness were important predictors (Fig. \ref{fig:varImp}).
 At Skrimfjella these two predictors were of similar importance, while at Ørskogfjellet elevation had higher predictive impact (\emph{permutation} and \emph{Shapley}) but lower functional complexity (\emph{FIRM}) than Multi-Resolution Valley Bottom Flatness.
-DMK was also important -- the shallow class in particular -- but only at Ørskogfjellet.
+DMK was also important -- the \emph{shallow} class in particular -- but only at Ørskogfjellet.
 Some realizations of the hydrological predictors Topographic Wetness Index and Depth-to-Water showed considerable importance, while others showed little -- with no consistency between sites.
 At both sites, the most important realizations of hydrological predictors were more important than the simple terrain indices slope, Terrain Ruggedness Index, Topographic Position Index, and roughness.
 The radiometric predictor uranium ground concentration showed moderate importance at Skrimfjella.
@@ -711,11 +710,11 @@ Including multiple scales of these variables allows the model to capture differe
 
 DMK peat depth class proved an inconsistent predictor of peat depth.
 At Skrimfjella, it barely improved model performance (Fig. \ref{fig:modelMetrics}).
-At Ørskogfjellet, it increased performance more, and both indicator variables were among the most important in the model (Fig. \ref{fig:varImp}).
+At Ørskogfjellet, it increased performance more, and both indicator variables (\emph{shallow} and \emph{unknown}) were among the most important in the model (Fig. \ref{fig:varImp}).
 We suspect the discrepancy between sites is due to different levels of effort and coverage during the historical surveys; more lowland peatland near agriculture at Ørskogfjellet may have caused more purposeful surveying.
 This is evidenced by the fact that 73 \% of the cells measured at Skrimfjella had unknown depth in DMK, compared to 20 \% at Ørskogfjellet.
 Interactions between DMK and other variables also underline the inconsistency of DMK depth maps, even within a site.
-For example, shallow peat classification in DMK sometimes increased rather than decreased predicted depth at Ørskogfjellet.
+For example, \emph{shallow} peat classification in DMK sometimes increased rather than decreased predicted depth at Ørskogfjellet.
 
 \subsection{Implications for digital soil mapping of peat depth}
 

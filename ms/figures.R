@@ -634,17 +634,33 @@ library(tidyverse)
 library(patchwork)
 
 orskog <- read_csv("output/calibrationplot.csv")
+orskogQuantiles <- sf::st_read("output/modeling.gpkg", layer = "quantiles.cv") |> 
+  sf::st_drop_geometry() |> 
+  select(coverage, .pred_lower, .pred_upper, depth_cm) |> 
+  as_tibble()
+all(orskog$depth_cm == orskogQuantiles$depth_cm) # Check that depth_cm matches
+orskog <- bind_cols(orskog, select(orskogQuantiles, -depth_cm))
+
 skrim <- read_csv("output/Skrim/calibrationplot.csv")
+skrimQuantiles <- sf::st_read("output/Skrim/modeling.gpkg", layer = "quantiles.cv") |> 
+  sf::st_drop_geometry() |> 
+  select(coverage, .pred_lower, .pred_upper, depth_cm) |> 
+  as_tibble()
+all(skrim$depth_cm == skrimQuantiles$depth_cm) # Check that depth_cm matches
+skrim <- bind_cols(skrim, select(skrimQuantiles, -depth_cm))
 
 probs <- c(0.25, 0.5, 0.75)
 
 scatter1 <- ggplot(orskog, aes(x = depth_cm, y = .pred)) +
-  geom_point(size = 0.8, alpha=0.5) +
+  geom_segment(aes(x = depth_cm, xend = depth_cm, 
+                   y = .pred_lower, yend = .pred_upper), 
+               color = "grey70", alpha = 0.2, linewidth = 0.2) +
+  geom_point(size = 0.7, alpha=0.5) +
   geom_smooth(method = 'loess', formula= y ~ x, se = FALSE) +
   geom_abline(intercept = 0, slope = 1, linetype = 2, color = "red") +
   tune::coord_obs_pred(ratio = 1) +
   labs(x = "Observed depth (cm)", y = "Predicted depth (cm)") +
-  theme_bw()
+  theme_classic()
 dens <- density(orskog$depth_cm)
 df <- data.frame(x = dens$x, y = dens$y)
 quantiles <- quantile(orskog$depth_cm, prob=probs)
@@ -656,12 +672,15 @@ density1 <- ggplot(df, aes(x,y)) +
   theme_void()
 
 scatter2 <- ggplot(skrim, aes(x = depth_cm, y = .pred)) +
-  geom_point(size = 0.8, alpha=0.5) +
+  geom_segment(aes(x = depth_cm, xend = depth_cm, 
+                   y = .pred_lower, yend = .pred_upper), 
+               color = "grey70", alpha = 0.2, linewidth = 0.2) +
+  geom_point(size = 0.7, alpha=0.5) +
   geom_smooth(method = 'loess', formula= y ~ x, se = FALSE) +
   geom_abline(intercept = 0, slope = 1, linetype = 2, color = "red") +
   tune::coord_obs_pred(ratio = 1) +
   labs(x = "Observed depth (cm)", y = "Predicted depth (cm)") +
-  theme_bw()
+  theme_classic()
 dens <- density(skrim$depth_cm)
 df <- data.frame(x = dens$x, y = dens$y)
 quantiles <- quantile(skrim$depth_cm, prob=probs)

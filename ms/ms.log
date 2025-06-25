@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.6.23)  25 JUN 2025 09:49
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.6.23)  25 JUN 2025 11:19
  restricted system commands enabled.
 **ms.tex
 (./ms.tex
@@ -711,30 +711,30 @@ Package luatex.def Info: figures/modelmetrics.pdf  used on input line 507.
 [12]
 
 [13<./figures/map-distribution.pdf>]
-Overfull \hbox (3.11133pt too wide) in paragraph at lines 518--522
+Overfull \hbox (3.11133pt too wide) in paragraph at lines 514--518
 \T1/ptm/m/n/10 predictors to these configurations slightly worsened model performance. The \T1/ptm/m/it/10 terrain \T1/ptm/m/n/10 configuration outperformed the \T1/ptm/m/it/10 radiometric
  []
 
 
 
 [14<./figures/modelmetrics.pdf>]
-<figures/calibration_plots.pdf, id=511, 511.9125pt x 284.06125pt>
+<figures/calibration_plots.pdf, id=514, 511.9125pt x 284.06125pt>
 File: figures/calibration_plots.pdf Graphic file (type pdf)
 <use figures/calibration_plots.pdf>
-Package luatex.def Info: figures/calibration_plots.pdf  used on input line 527.
+Package luatex.def Info: figures/calibration_plots.pdf  used on input line 526.
 (luatex.def)             Requested size: 503.61377pt x 279.45737pt.
 
 
 [15<./figures/calibration_plots.pdf>]
-<figures/variable_importance.pdf, id=533, 511.9125pt x 454.69875pt>
+<figures/variable_importance.pdf, id=534, 511.9125pt x 454.69875pt>
 File: figures/variable_importance.pdf Graphic file (type pdf)
 <use figures/variable_importance.pdf>
-Package luatex.def Info: figures/variable_importance.pdf  used on input line 547.
+Package luatex.def Info: figures/variable_importance.pdf  used on input line 546.
 (luatex.def)             Requested size: 503.61377pt x 447.32933pt.
-<figures/partial_dependence.pdf, id=538, 511.9125pt x 511.9125pt>
+<figures/partial_dependence.pdf, id=539, 511.9125pt x 511.9125pt>
 File: figures/partial_dependence.pdf Graphic file (type pdf)
 <use figures/partial_dependence.pdf>
-Package luatex.def Info: figures/partial_dependence.pdf  used on input line 567.
+Package luatex.def Info: figures/partial_dependence.pdf  used on input line 566.
 (luatex.def)             Requested size: 503.61377pt x 503.61581pt.
 
 
@@ -755,7 +755,7 @@ Package luatex.def Info: figures/partial_dependence.pdf  used on input line 567.
 [23]
 
 [24]
-Overfull \hbox (5.17242pt too wide) in paragraph at lines 771--775
+Overfull \hbox (5.17242pt too wide) in paragraph at lines 770--774
 []\T1/ptm/m/n/10 The best models achieved mean absolute errors of 56--60 cm against mean depths of 119--126 cm, and explained approximately
  []
 
@@ -774,25 +774,25 @@ Missing character: There is no – (U+2013) in font ptmr8t!
 [27
 
 ]
-Overfull \hbox (5.45062pt too wide) in paragraph at lines 844--849
+Overfull \hbox (5.45062pt too wide) in paragraph at lines 843--848
 []\T1/ptm/m/n/10 We processed the GPR data with Reflex2DQuick (v.3.0; Skrimfjella) or REFLEXW (v.8.5; Ørskogfjellet) software (Sandmeier
  []
 
 
 
 [28]
-<figures/GPRwavevelocity.pdf, id=864, 511.9125pt x 597.23125pt>
+<figures/GPRwavevelocity.pdf, id=865, 511.9125pt x 597.23125pt>
 File: figures/GPRwavevelocity.pdf Graphic file (type pdf)
 <use figures/GPRwavevelocity.pdf>
-Package luatex.def Info: figures/GPRwavevelocity.pdf  used on input line 860.
+Package luatex.def Info: figures/GPRwavevelocity.pdf  used on input line 859.
 (luatex.def)             Requested size: 352.2983pt x 411.01085pt.
-<figures/semivariograms.pdf, id=865, 511.9125pt x 298.11375pt>
+<figures/semivariograms.pdf, id=866, 511.9125pt x 298.11375pt>
 File: figures/semivariograms.pdf Graphic file (type pdf)
 <use figures/semivariograms.pdf>
-Package luatex.def Info: figures/semivariograms.pdf  used on input line 866.
+Package luatex.def Info: figures/semivariograms.pdf  used on input line 865.
 (luatex.def)             Requested size: 511.91125pt x 298.11302pt.
 
-Overfull \hbox (8.29749pt too wide) in paragraph at lines 866--867
+Overfull \hbox (8.29749pt too wide) in paragraph at lines 865--866
  [][] 
  []
 
@@ -801,7 +801,7 @@ Overfull \hbox (8.29749pt too wide) in paragraph at lines 866--867
 [29<./figures/GPRwavevelocity.pdf>]
 
 [30<./figures/semivariograms.pdf>]
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 875.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 874.
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
@@ -987,10 +987,10 @@ Here is how much of LuaTeX's memory you used:
  85 fonts using 5529671 bytes
  87i,13n,88p,1384b,770s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on ms.pdf (46 pages, 7821996 bytes).
+Output written on ms.pdf (46 pages, 7838982 bytes).
 
-PDF statistics: 1137 PDF objects out of 1200 (max. 8388607)
- 1050 compressed objects within 11 object streams
+PDF statistics: 1138 PDF objects out of 1200 (max. 8388607)
+ 1051 compressed objects within 11 object streams
  245 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 100000000)
 
