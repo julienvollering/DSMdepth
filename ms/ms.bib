@@ -454,6 +454,24 @@
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Bohn and Miller - 2024 - Locally enhanced digital soil mapping in support o.pdf}
 }
 
+@article{borowiecDeepLearningTool2022,
+  title = {Deep Learning as a Tool for Ecology and Evolution},
+  author = {Borowiec, Marek L. and Dikow, Rebecca B. and Frandsen, Paul B. and McKeeken, Alexander and Valentini, Gabriele and White, Alexander E.},
+  year = {2022},
+  journal = {Methods in Ecology and Evolution},
+  volume = {13},
+  number = {8},
+  pages = {1640--1660},
+  issn = {2041-210X},
+  doi = {10.1111/2041-210X.13901},
+  urldate = {2025-06-24},
+  abstract = {Deep learning is driving recent advances behind many everyday technologies, including speech and image recognition, natural language processing and autonomous driving. It is also gaining popularity in biology, where it has been used for automated species identification, environmental monitoring, ecological modelling, behavioural studies, DNA sequencing and population genetics and phylogenetics, among other applications. Deep learning relies on artificial neural networks for predictive modelling and excels at recognizing complex patterns. In this review we synthesize 818 studies using deep learning in the context of ecology and evolution to give a discipline-wide perspective necessary to promote a rethinking of inference approaches in the field. We provide an introduction to machine learning and contrast it with mechanistic inference, followed by a gentle primer on deep learning. We review the applications of deep learning in ecology and evolution and discuss its limitations and efforts to overcome them. We also provide a practical primer for biologists interested in including deep learning in their toolkit and identify its possible future applications. We find that deep learning is being rapidly adopted in ecology and evolution, with 589 studies (64\%) published since the beginning of 2019. Most use convolutional neural networks (496 studies) and supervised learning for image identification but also for tasks using molecular data, sounds, environmental data or video as input. More sophisticated uses of deep learning in biology are also beginning to appear. Operating within the machine learning paradigm, deep learning can be viewed as an alternative to mechanistic modelling. It has desirable properties of good performance and scaling with increasing complexity, while posing unique challenges such as sensitivity to bias in input data. We expect that rapid adoption of deep learning in ecology and evolution will continue, especially in automation of biodiversity monitoring and discovery and inference from genetic data. Increased use of unsupervised learning for discovery and visualization of clusters and gaps, simplification of multi-step analysis pipelines, and integration of machine learning into graduate and postgraduate training are all likely in the near future.},
+  copyright = {{\copyright} 2022 The Authors. Methods in Ecology and Evolution published by John Wiley \& Sons Ltd on behalf of British Ecological Society.},
+  langid = {english},
+  keywords = {Convolutional Neural Network,Deep learning,ecology,machine learning,review},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Borowiec et al. - 2022 - Deep learning as a tool for ecology and evolution.pdf}
+}
+
 @article{breimanRandomForests2001,
   title = {Random {{Forests}}},
   author = {Breiman, Leo},
@@ -1032,6 +1050,23 @@
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Gregorutti et al. - 2017 - Correlation and variable importance in random forests.pdf}
 }
 
+@article{gregoruttiCorrelationVariableImportance2017a,
+  title = {Correlation and Variable Importance in Random Forests},
+  author = {Gregorutti, Baptiste and Michel, Bertrand and {Saint-Pierre}, Philippe},
+  year = {2017},
+  month = may,
+  journal = {Statistics and Computing},
+  volume = {27},
+  number = {3},
+  pages = {659--678},
+  issn = {1573-1375},
+  doi = {10.1007/s11222-016-9646-1},
+  urldate = {2025-06-23},
+  abstract = {This paper is about variable selection with the random forests algorithm in presence of correlated predictors. In high-dimensional regression or classification frameworks, variable selection is a difficult task, that becomes even more challenging in the presence of highly correlated predictors. Firstly we provide a theoretical study of the permutation importance measure for an additive regression model. This allows us to describe how the correlation between predictors impacts the permutation importance. Our results motivate the use of the recursive feature elimination (RFE) algorithm for variable selection in this context. This algorithm recursively eliminates the variables using permutation importance measure as a ranking criterion. Next various simulation experiments illustrate the efficiency of the RFE algorithm for selecting a small number of variables together with a good prediction error. Finally, this selection algorithm is tested on the Landsat Satellite data from the UCI Machine Learning Repository.},
+  langid = {english},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Gregorutti et al. - 2017 - Correlation and variable importance in random forests 1.pdf}
+}
+
 @article{griesEnvironmentalDataInitiative2023,
   title = {The {{Environmental Data Initiative}}: {{Connecting}} the Past to the Future through Data Reuse},
   shorttitle = {The {{Environmental Data Initiative}}},
@@ -1049,6 +1084,14 @@
   langid = {english},
   keywords = {data,ecological,environmental,FAIR,metadata,open,science},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Gries et al. - 2023 - The Environmental Data Initiative Connecting the past to the future through data reuse.pdf}
+}
+
+@article{guyonIntroductionVariableFeature,
+  title = {An {{Introduction}} to {{Variable}} and {{Feature Selection}}},
+  author = {Guyon, Isabelle and Elisseeff, Andre},
+  abstract = {Variable and feature selection have become the focus of much research in areas of application for which datasets with tens or hundreds of thousands of variables are available. These areas include text processing of internet documents, gene expression array analysis, and combinatorial chemistry. The objective of variable selection is three-fold: improving the prediction performance of the predictors, providing faster and more cost-effective predictors, and providing a better understanding of the underlying process that generated the data. The contributions of this special issue cover a wide range of aspects of such problems: providing a better definition of the objective function, feature construction, feature ranking, multivariate feature selection, efficient search methods, and feature validity assessment methods.},
+  langid = {english},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Guyon and Elisseeff - An Introduction to Variable and Feature Selection.pdf}
 }
 
 @article{hapfelmeierEfficientPermutationTesting2023,
@@ -1634,6 +1677,21 @@
   urldate = {2024-08-16},
   abstract = {Although machine learning models are commonly used in medical research, many analyses implement a simple partition into training data and hold-out test data, with cross-validation (CV) for tuning of model hyperparameters. Nested CV with embedded feature selection is especially suited to biomedical data where the sample size is frequently limited, but the number of predictors may be significantly larger (P {$\gg$} n).The nestedcv R package implements fully nested k\,{\texttimes}\,l-fold CV for lasso and elastic-net regularized linear models via the glmnet package and supports a large array of other machine learning models via the caret framework. Inner CV is used to tune models and outer CV is used to determine model performance without bias. Fast filter functions for feature selection are provided and the package ensures that filters are nested within the outer CV loop to avoid information leakage from performance test sets. Measurement of performance by outer CV is also used to implement Bayesian linear and logistic regression models using the horseshoe prior over parameters to encourage a sparse model and determine unbiased model accuracy.The R package nestedcv is available from CRAN: https://CRAN.R-project.org/package=nestedcv.},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Lewis et al. - 2023 - nestedcv an R package for fast implementation of .pdf}
+}
+
+@article{liDeeplearningBasedHighresolution2020,
+  title = {Deep-Learning Based High-Resolution Mapping Shows Woody Vegetation Densification in Greater {{Maasai Mara}} Ecosystem},
+  author = {Li, Wang and Buitenwerf, Robert and Munk, Michael and B{\o}cher, Peder Klith and Svenning, Jens-Christian},
+  year = {2020},
+  month = sep,
+  journal = {Remote Sensing of Environment},
+  volume = {247},
+  pages = {111953},
+  issn = {0034-4257},
+  doi = {10.1016/j.rse.2020.111953},
+  urldate = {2025-06-24},
+  abstract = {The Greater Maasai Mara Ecosystem (GMME) in Kenya is an iconic savanna ecosystem of high importance as natural and cultural heritage, notably by including the largest remaining seasonal migration of African ungulates and the semi-nomadic pastoralist Maasai culture. Comprehensive mapping of vegetation distribution and dynamics in GMME is important for understanding ecosystem changes across time and space since recent reports suggest dramatic declines in wildlife populations alongside troubling reports of grassland conversion to cropland and habitat fragmentation due to increasing small-holder fencing. Here, we present the first comprehensive vegetation map of GMME at high (10-m) spatial resolution. The map consists of nine key vegetation cover types (VCTs), which were derived in a two-step process integrating data from high-resolution WorldView-3 images (1.2-m) and Sentinel-2 images using a deep-learning workflow. We evaluate the role of anthropogenic, topographic, and climatic factors in affecting the fractional cover of the identified VCTs in 2017 and their MODIS-derived browning/greening rates in the preceding 17~years at 250-m resolution. Results show that most VCTs showed a preceding greening trend in the protected land. In contrast, the semi- and unprotected land showed a general preceding greening trend in the woody-dominated cover types, while they exhibited browning trends in grass-dominated cover types. These results suggest that woody vegetation densification may be happening across much of the GMME, alongside vegetation declines within the non-woody covers in the semi- and unprotected lands. Greening and potential woody densification in GMME is positively correlated with mean annual precipitation and negatively correlated with anthropogenic pressure. Increasing woody densification across the entire GMME in the future would replace high-quality grass cover and pose a risk to the maintenance of the region's rich savanna megafauna, thus pointing to a need for further investigation using alternative data sources. The increasing availability of high-resolution remote sensing and efficient approaches for vegetation mapping will play a crucial role in monitoring conservation effectiveness as well as ecosystem dynamics due to pressures such as climate change.},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Li et al. - 2020 - Deep-learning based high-resolution mapping shows woody vegetation densification in greater Maasai M.pdf}
 }
 
 @article{lieNorgesTorvressurser1982,
@@ -2866,6 +2924,24 @@
   langid = {english},
   keywords = {To read},
   file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Rimondini et al. - 2023 - Mapping of peatlands in the forested landscape of Sweden using lidar-based terrain indices.pdf}
+}
+
+@article{robbSoilPropertyCarbon2025,
+  title = {Soil {{Property}}, {{Carbon Stock}} and {{Peat Extent Mapping}} at 10 m {{Resolution}} in {{Scotland Using Digital Soil Mapping Techniques}}},
+  author = {Robb, Ciaran and Aitkenhead, Matt and Coull, Malcolm and MacFarlane, Fraser and Matthews, Keith},
+  year = {2025},
+  journal = {European Journal of Soil Science},
+  volume = {76},
+  number = {3},
+  pages = {e70123},
+  issn = {1365-2389},
+  doi = {10.1111/ejss.70123},
+  urldate = {2025-06-12},
+  abstract = {The estimation of soil carbon stocks is an important component in environmental planning, policy and land management, particularly in the context of climate change mitigation. The following work presents national-scale soil property mapping at 10 m resolution, a level of detail not previously attempted in Scotland. The ultimate aim of this work is to facilitate carbon stock estimation from the soil properties to help inform planning and policy. Scottish organisations possess extensive field-based soil property records obtained through various initiatives, but coverage is inevitably constrained by cost and labour. A modelling-based approach informed by both field measurement, remote sensing imagery and other spatial covariates has the potential to fill the gaps in field-based accounts, providing contiguous estimates of soil carbon content, bulk density, profile depth, organic layer thickness and peat extent. Carbon content, bulk density and profile depth were predicted using machine learning techniques, yielding {\textbackslash} r{\textasciicircum}2 {\textbackslash} scores of 0.78, 0.65 and 0.7, respectively. Presence of peat was determined by the thickness of the organic layer for every grid cell profile (30\% carbon content) that was greater or equal to 50 cm. National carbon stock was calculated by integrating the predicted soil properties down the full profile depth. This work demonstrates that soil properties can be mapped effectively using digital soil mapping techniques at high resolution, on a national scale, providing estimates of carbon stock and peat extent to aid policy makers in decision making.},
+  copyright = {{\copyright} 2025 The Author(s). European Journal of Soil Science published by John Wiley \& Sons Ltd on behalf of British Society of Soil Science.},
+  langid = {english},
+  keywords = {carbon,digital,mapping,peat,peatland,Scotland,soil},
+  file = {C:\Users\julienv\OneDrive - Høgskulen på Vestlandet\ZoteroLibrary\Robb et al. - 2025 - Soil Property, Carbon Stock and Peat Extent Mapping at 10 m Resolution in Scotland Using Digital Soi.pdf}
 }
 
 @article{robertsCrossvalidationStrategiesData2017,

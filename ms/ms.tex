@@ -194,7 +194,6 @@ Since then, a larger proportion of peatland loss is driven by construction \cite
 
 The spatial distribution of peat depth is often overlooked in land use planning and carbon accounting because peat depth is not mapped with sufficient coverage, resolution, or accuracy \citep{beilmanPeatCarbonStocks2008, hastieRisksCarbonStorage2022, unepGlobalPeatlandsAssessment2022}.
 Maps are crucial because they link high-level targets to specific management decisions, unlike spatially aggregated estimates \citep{oecdOECDEnvironmentalPerformance2022}.
-For example, Norwegian regulations restrict conversion of peatland to farmland more strictly where peat depth exceeds 1 m, and the distribution of peat depth on a farmer's property determines whether they are allowed to convert peatland (Forskrift om nydyrking, 1997, § 5a).
 Maps of peat depth also make it possible to quantify the effect of specific management decisions and thereby understand how local outcomes contribute to regional and national outcomes \citep{oecdOECDEnvironmentalPerformance2022}.
 
 Measuring peat depth on the ground by probing or ground-penetrating radar is straightforward, and a field survey can map a small area at low cost.
@@ -203,8 +202,8 @@ A complementary approach from soil science is digital soil mapping (DSM).
 DSM scales up field measurements from a set of locations to a wider area, by relating the measured values to other variables mapped over the area of interest, through a statistical model.
 This approach has grown in importance with the availability of remotely sensed data and the advancement of methods for identifying statistical patterns, especially through machine learning \citep{minasnyDigitalMappingPeatlands2019, wadouxMachineLearningDigital2020}.
 
-The crux for DSM of peat depth is the relationship between peat depth and each of the other, mapped predictors.
-For DSM to work, these relationships must be strong and consistent over the area of interest.
+The crux for DSM of peat depth is the relationship between peat depth and the other, mapped predictors.
+For DSM to be effective, these relationships must be strong and consistent over the area of interest.
 They can be purely correlative rather than causal, but mechanistic relationships are stronger and more consistent than non-causal ones.
 The \emph{scorpan} framework for DSM suggests seven predictor classes to explore: other soil properties, climate, organisms, relief (topography), parent material, age, and spatial position \citep{mcbratneyDigitalSoilMapping2003}.
 
@@ -214,7 +213,6 @@ However, the short range of spatial autocorrelation in peat depth limits its map
 Relief, or topography, is widely and accurately mapped in digital terrain models (DTMs).
 For example, most of mainland Norway has at least one elevation measurement per square meter from airborne Light Detection and Ranging (LiDAR) surveys.
 Moreover, mechanisms of peat formation are linked to topography.
-For example, a steep slope is unlikely to have a high water table, thereby limiting accumulation of peat.
 
 Studies have consistently shown relationships between peat depth and topography, although the specific patterns vary.
 One of the most robust relationships is a negative correlation between depth and terrain slope \citep[e.g.][]{holdenEstimatingCarbonStock2011, parryMethodModellingPeat2012, gatisMappingUplandPeat2019}.
@@ -290,14 +288,14 @@ Its mean elevation is 211 m above sea level (range 0--807 m, IQR 73--310 m), and
 \subsection{Peat depth predictors}
 
 We created the same suite of peat depth predictors for both sites (25 continuous and 1 categorical; Table \ref{tab:preds}).
-Each continuous predictor equates to one variable in the model, while the categorical predictor equates to two variables in the model because its three levels become two indicator variables (one level is used as the reference).
 All continuous predictors were derived either from an airborne radiometric survey or from a DTM.
 From the radiometric surveys, we simply used the four variables produced by the Geological Survey of Norway: ground concentration of potassium, thorium, uranium, as well as total count.
 From the DTMs we calculated several land surface parameters, ranging from simple terrain indices to more complex geomorphometric and hydrological variables \citep{maxwellLandsurfaceParametersSpatial2022}.
 The categorical predictor was peat depth class, from a national map dataset.
-We chose a spatial resolution of 10 m for our predictors, peat depth sample, and modelling.
+Predictor preparation is described in more detail below.
+
+We chose a spatial resolution of 10 m for our predictors, depth sampling, and modelling.
 We considered this a reasonable compromise between DTM resolution (1 m) and small peatlands on the one hand, and airborne radiometric resolution (50 m) on the other hand.
-Complete descriptions of predictors follow below.
 
 \begin{table}[tbp]
 \caption{Twenty-six candidate predictors of peat depth. Note that each continuous predictor contributes one variable to the model while the single categorical predictor (DMK) contributes two binary variables, corresponding to its three levels (one level is used as the reference). 
@@ -341,7 +339,7 @@ The Geological Survey of Norway conducted and processed radiometric surveys over
 They provided us for each site four variables at 50 m resolution, which we downscaled to 10 m resolution by cubic spline resampling.
 Sensitivity analysis showed that Pearson correlations between cubic spline and bilinear resampling methods exceeded 0.99 for all radiometric variables, so we are confident that the choice of resampling method did not affect our results.
 
-The radiometric surveys were conduced with similar flight parameters (Table \ref{tab:radSurveys}).
+The radiometric surveys were conduced with 75--80 m average flight altitude, 88--108 \unit{km\,h^{-1}} average flight speed, and 200 m flight line spacing (Table \ref{tab:radSurveys}).
 Spectrometer count rates were calibrated to known concentrations of potassium, thorium, and uranium in mobile pads.
 Data were processed following standard procedures outlined by the International Atomic Energy Association.
 Processing included: correction for aircraft and cosmic background radiation, correction for radon in the air, window stripping of the gamma ray spectrum, correction for flying height, conversion of count rates to ground concentrations, and finally gridding to 50 m resolution with micro-leveling.
@@ -371,7 +369,7 @@ We filled depressions in the DTM with the algorithm in Wang \& Liu \citeyearpar{
 The Depth-to-Water index \citep{murphyMappingWetlandsComparison2007} approximates a location's vertical height above the surface water feature (e.g.~stream, lake, or sea) that it is likely to drain towards.
 It is calculated as the minimum cumulative slope (scaled by cell size) to a surface water feature \citep[eq. 5 in][]{murphyTopographicModellingSoil2009}.
 We calculated unitless slope from the 1 m DTM using the Whitebox software.
-Also using Whitebox, we defined surface water features from the DTM by filling depressions and then calculating flow accumulation to define catchment areas for each cell \citep{schonauerSpatiotemporalPredictionSoil2021, schonauerRcodeCalculatingDepthwater2021}.
+We defined surface water features from the DTM by filling depressions and then calculating flow accumulation to define catchment areas for each cell \citep{schonauerSpatiotemporalPredictionSoil2021, schonauerRcodeCalculatingDepthwater2021}.
 This catchment area layer was then thresholded at seven different levels (flow initiation area 0.25--16 ha) to estimate surface water features under moisture scenarios varying from wet to dry \citep{murphyModellingMappingTopographic2011, agrenEvaluatingDigitalTerrain2014, schonauerSpatiotemporalPredictionSoil2021}.
 In addition, all surface water features mapped in the AR5 dataset were also transferred to the raster layer.
 For each of the seven surface water layers, we derived Depth-to-Water using the \emph{Distance Accumulation} tool in ArcGIS Pro (v.3.1, ESRI, USA), which has an efficient algorithm to find the cumulative distance over a cost surface to the least-cost source.
@@ -381,7 +379,7 @@ For each of the seven surface water layers, we derived Depth-to-Water using the 
 We prepared one categorical predictor -- peat depth class -- from the national map dataset called \emph{DMK} \citep{ahlstromAR5Klassifikasjonssystem2019}.
 The DMK dataset is derived from the same historical surveys as the AR5 dataset, and peat depth classes are: \textless1 m (\emph{shallow}), \textgreater1 m (\emph{deep}), and \emph{unknown}.
 Surveyors generally assigned peat depth classes to polygons of at least 0.5 ha, although delineating polygons down to 0.2 ha was allowed if peat depth showed a ``particularly marked difference'' \citep{bjordalMarkslagsklassifikasjonOkonomiskKartverk2007}.
-We rasterized the peat depth class attribute to our 10 m grid.
+We rasterized the peat depth class attribute to our 10 m grid and this predictor equates to two variables in the model because its three levels become two indicator variables (one level is used as the reference).
 
 \subsection{Peat depth sample selection}
 
@@ -457,7 +455,7 @@ We quantified global variable importance (predictor influence across all locatio
 Both are useful for understanding the mechanisms behind the model's predictions and the roles of the predictors in the model.
 
 For both sites, we interpreted a model trained on a non-collinear subset of variables from the best performing predictor configuration -- because correlation between predictors degrades variable importance metrics \citep{stroblConditionalVariableImportance2008, biauRandomForestGuided2016} and can produce misleading visualizations of predictor--outcome relationships \citep{biecekExplanatoryModelAnalysis2021, dwivediExplainableAIXAI2023}.
-Specifically, we eliminated variables from the best performing predictor configuration to obtain a set with no pairwise Pearson correlation coefficient above 0.7.
+Specifically, we eliminated variables from the best performing predictor configuration to obtain a set with no pairwise Pearson correlation coefficient above 0.7 (an arbitrary but conventional threshold for this purpose).
 Thus, highly correlated sets of variables are represented by a single variable for the purposes of model interpretation.
 
 We calculated variable importance with the \emph{vip} R package (v0.4), by three different methods: \emph{FIRM}, \emph{permutation}, and \emph{Shapley} \citep{greenwellVariableImportancePlots2020}.
@@ -472,16 +470,16 @@ Non-parallel individual conditional expectation lines indicate the presence of i
 \section{Results}
 
 Our point measurements of peat depth (all sources) produced aggregated depths for 372 cells or 2.4 \% of AR5 mire area at Skrimfjella, and 1878 cells or 1.2 \% of AR5 mire area at Ørskogfjellet (Table \ref{tab:depthsByClass}).
-Roughly 80 \% of these 10 m cells were within AR5 mires, and the remainder in forest, open upland, or farmland.
+Approximately 80 \% of these 10 m cells were within AR5 mires, and the remainder in forest, open upland, or farmland.
 DMK peat depth had higher coverage at Ørskogfjellet than at Skrimfjella (80 \% versus 27 \% of cells not \emph{unknown}), and at Ørskogfjellet the \emph{deep} and \emph{shallow} classes showed a larger difference in measured depth.
 Overall, mean peat depths were similar at Skrimfjella and Ørskogfjellet (119 cm versus 126 cm) but the distribution was more right-skewed at Ørskogfjellet (Fig. \ref{fig:map-distribution}).
 
 \begin{table}[ht]
 \caption{Selected attributes of the peat depth datasets at Skrimfjella and Ørskogfjellet. The first row summarizes all \unit{10\,m} cells, while subsequent rows stratify the dataset by AR5 land class and DMK peat depth class.}
-\begin{tabular}{llllllll}
+\begin{tabular}{llrrr@{\hspace{5em}}rrr}
 \hline
-    &                             & \multicolumn{3}{l}{Skrimfjella} & \multicolumn{3}{l}{Ørskogfjellet} \\ \cline{3-8} 
-    &                             & n     & \%   & mean (SD) depth  & n      & \%    & mean (SD) depth  \\ \cline{3-8} 
+    &                             & \multicolumn{3}{l}{Skrimfjella} & \multicolumn{3}{l}{Ørskogfjellet} \\ \cline{3-5} \cline{6-8}
+    &                             & n     & \%   & mean (SD) depth  & n      & \%    & mean (SD) depth  \\ \hline 
 all &                             & 372   & 100  & 119 (83) cm      & 1878   & 100   & 126 (119) cm     \\
 AR5 & Agricultural                &       &      &                  & 21     & 1     & 30 (8) cm        \\
     & Forest                      & 52    & 14   & 65 (63) cm       & 272    & 14    & 71 (68) cm       \\
@@ -542,7 +540,6 @@ At both sites, elevation and Multi-Resolution Valley Bottom Flatness were import
 At Skrimfjella these two predictors were of similar importance, while at Ørskogfjellet elevation had higher predictive impact (\emph{permutation} and \emph{Shapley}) but lower functional complexity (\emph{FIRM}) than Multi-Resolution Valley Bottom Flatness.
 DMK was also important -- the shallow class in particular -- but only at Ørskogfjellet.
 Some realizations of the hydrological predictors Topographic Wetness Index and Depth-to-Water showed considerable importance, while others showed little -- with no consistency between sites.
-For example, TWI5m, DTW40000, and DTW2500 rounded out the top five most important variables at Skrimfjella, while TWI20m and TWI50m were least important, other than DMK.
 At both sites, the most important realizations of hydrological predictors were more important than the simple terrain indices slope, Terrain Ruggedness Index, Topographic Position Index, and roughness.
 The radiometric predictor uranium ground concentration showed moderate importance at Skrimfjella.
 
@@ -562,19 +559,19 @@ The partial dependence on Multi-Resolution Valley Bottom Flatness was quite simi
 Also, TWI5m and DTW2500 at Skrimfjella showed monotonically positive and negative predictive effects, respectively.
 
 Individual conditional expectation lines indicated some interactions between predictors (Fig. \ref{fig:pdps}).
-For example, the magnitude of the increase in depth with elevation that the model expected at Ørskogfjellet was different for different observations; some depth predictions increased by only 40 cm while others increased by more than 100 cm, over the same elevation gain.
-Similarly, individual conditional expectation lines of uranium ground concentration at Skrimfjella were non-parallel, with some locations showing monotonically increasing peat depth predictions with uranium concentration (unlike the average effect).
-Nevertheless, most individual conditional expectation lines were generally parallel -- indicating that the average effects of the predictors were good representations of their overall effects.
+For example, the positive association of depth with elevation at Ørskogfjellet was larger for some observations than others; depth increases ranged 40--100 cm over the same elevation gain.
+Similarly, individual conditional expectations along uranium ground concentration at Skrimfjella were non-parallel, with some locations showing decreasing peat depth predictions (unlike the average effect).
+Nevertheless, most individual conditional expectations were approximately parallel, so the average effects of the predictors are representative of their overall effects.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{figures/partial_dependence} \caption{Partial dependence plots of the six most important variables in the best-performing models at Skrimfjella (a) and Ørskogfjellet (b). The average effect of the predictor on the outcome (red line) overlays the variation in the effect across observations (grey lines). The variables' training data distributions are indicated with rug plots along the x-axes.}\label{fig:pdps}
+\includegraphics[width=1\linewidth]{figures/partial_dependence} \caption{Partial dependence plots of the six most important variables in the best-performing models at Skrimfjella (a) and Ørskogfjellet (b). The average effect of the predictor on the outcome (red line) overlays the individual conditional expectations, which show the variation in the effect across observations (grey lines). The variables' training data distributions are indicated with rug plots along the x-axes.}\label{fig:pdps}
 \end{figure}
 
 \section{Discussion}
 
 \subsection{Can we improve Norway's peat depth maps?}
 
-\subsubsection{Remotely sensed variables are weak (but not useless!) predictors of peat depth}
+\subsubsection{Remotely sensed variables are weak predictors of peat depth}
 
 Our ability to predict peat depth in the study sites based on terrain and radiometric data was limited.
 Mean absolute errors of 60 and 56 cm at the two sites --- relative to mean depths of 119 and 126 cm --- illustrate the practical limitations of these maps.
@@ -588,7 +585,7 @@ Ultimately, the effect of measurement error falls mostly outside the scope of DS
 
 Although model performance was limited, we improved on the best available map of peat depth (DMK depth class), which is based on field measurements only.
 This highlights the general value of remotely sensed data, whose complete coverage can improve maps even when their association with the variable of interest is weak \citep{mulderUseRemoteSensing2011}.
-Since remotely sensed data are widely available, improvements to soil maps as shown here are low hanging fruit.
+Since remotely sensed data are widely available, improvements to soil maps as shown here are readily achievable at low cost.
 This point is recognized and reflected in the rise of DSM \citep{minasnyDigitalMappingPeatlands2019}.
 
 DMK peat depth classes were a worse predictor of peat depth than our models even though we calibrated them with the same data (Fig. \ref{fig:modelMetrics}).
@@ -637,8 +634,7 @@ Our models erred most for the deepest peats (Fig. \ref{fig:calPlots}).
 Where overprediction occurred, the error was smaller.
 This is not unexpected for the right-skewed distributions of peat depth, but it has management implications.
 Identifying the deepest peats will require additional field work in candidate areas, which could be defined by an upper quantile of predicted depth.
-Map users should not trust the maps to identify all large carbon stocks, but they can trust that identified large stocks really are large.
-That makes the map more suited for ``red-lighting'' than ``green-lighting'' peatland conversion, for example.
+That makes the maps more suited for ``red-lighting'' than ``green-lighting'' peatland conversion, for example.
 Where it does not prohibit conversion (i.e.~predicts shallow peat), a ground survey should be done before conversion is allowed (assuming depth is the only consideration).
 Although this recommendation aligns with the precautionary principle, here we make it on technical grounds based on the maps' characteristics.
 
@@ -705,7 +701,7 @@ The multiscale nature of the index allows small elevated but flat areas (includi
 Our results suggest that Multi-Resolution Valley Bottom Flatness is a robust indicator of high water tables (and peat accumulation) over millennial time scales, corroborating other studies \citep{rudiyantoOpenDigitalMapping2018, deragonMappingMaximumPeat2023}.
 
 Other terrain-derived predictors with predictive value in our study are hydrological (Topographic Wetness Index and Depth-to-Water).
-Notably, slope was inferior to (Ørskogfjellet) or highly correlated with (Skrimfjella) these hydrological indices.
+Notably, slope was inferior to (at Ørskogfjellet) or highly correlated with (at Skrimfjella) these hydrological indices.
 Mappers of peat depth should not assume that slope is the best predictor in its class, despite its prevalence in the literature.
 Wetter locations (high Topographic Wetness Index and low Depth-to-Water) were generally associated with deeper peat, but these relationships were not as strong or consistent as with Multi-Resolution Valley Bottom Flatness (Figs. \ref{fig:varImp}, \ref{fig:pdps}).
 The optimal scale for Topographic Wetness Index and Depth-to-Water varied, and likely depends on both the dominant peat formation processes and the typical size of peatland features in a landscape.
@@ -718,54 +714,33 @@ At Skrimfjella, it barely improved model performance (Fig. \ref{fig:modelMetrics
 At Ørskogfjellet, it increased performance more, and both indicator variables were among the most important in the model (Fig. \ref{fig:varImp}).
 We suspect the discrepancy between sites is due to different levels of effort and coverage during the historical surveys; more lowland peatland near agriculture at Ørskogfjellet may have caused more purposeful surveying.
 This is evidenced by the fact that 73 \% of the cells measured at Skrimfjella had unknown depth in DMK, compared to 20 \% at Ørskogfjellet.
-Our results show that classification as deep peat at Skrimfjella had no predictive value -- these cells were no different than those classified as shallow or unknown, all else being equal.
 Interactions between DMK and other variables also underline the inconsistency of DMK depth maps, even within a site.
-For example, that a peat at Ørskogfjellet was classified as shallow rather than deep did not always cause the model to predict shallower peat -- sometimes it increased the predicted depth.
+For example, shallow peat classification in DMK sometimes increased rather than decreased predicted depth at Ørskogfjellet.
 
 \subsection{Implications for digital soil mapping of peat depth}
 
-The performance gap between the best models and the DMK models shows that peat depth in Norway should be mapped digitally.
-Anywhere we have some calibrating measurements, we can get better maps than DMK peat depth classes, at low cost.
-Moreover, DSM methodology can align map products with open science principles by making their production transparent, reproducible, and updatable.
-The large difference we found between the coverage and quality of DMK peat depth at Skrimfjella versus Ørskogfjellet underlines these advantages.
-With DSM we can apply the same approach across different areas and make maps with full spatial coverage, continuous values, and validated uncertainty.
-The rest of this section discusses recommendations and needs for more extensive peat depth DSM.
+The performance gap between the best models and the DMK models shows that digital soil mapping of peat depth has value in Norway.
+Where calibrating measurements are available, better maps than DMK peat depth class can be produced at low cost.
+Moreover, DSM can make the production of maps transparent, reproducible, and updatable.
+We can apply the same approach across different areas and make maps with full spatial coverage, continuous values, and validated uncertainty.
+The large difference in coverage and quality of DMK peat depth at Skrimfjella versus Ørskogfjellet underlines these advantages.
 
 \subsubsection{Peat depth measurements should be organized}
 
-High quality DTMs are available for mainland Norway, making peat depth measurements the critical training data need.
-For a given area, some minimum number of measurements is necessary to create meaningful improvement over DMK peat depth.
-The proportion of peatlands sampled at Skrimfjella was twice that at Ørskogfjellet, but the Skrimfjella model performed worse, which shows that the size of the depth dataset is not all-important.
-We had the luxury of stratifying our measurements over candidate predictors, and performance may suffer where locations are opportunistic or tied to a sampling design with a different purpose.
-The magnitude of this penalty will depend on the dataset characteristics, but having enough depth measurements is probably more consequential \citep{wadouxSamplingDesignOptimization2019}.
-
-Depth measurements are foundational, and better infrastructure to make these data findable, accessible, interoperable, and reusable would help DSM and other applications.
+High quality DTMs are available for mainland Norway, which makes peat depth measurements the critical training data need for DSM.
+Better infrastructure to make depth measurements findable, accessible, interoperable, and reusable would help DSM and other applications.
 Geoportal access and data exchange standards \citeyearpar[like Natural England's for peat surveys,][]{naturalenglandDataExchangeStandard2023} are important.
-Peat data often fall through the cracks between geology-oriented and ecology-oriented archives, but increased awareness of peatland importance is a good impetus to remedy this situation.
 Peat depth is quick and easy to measure, so integrating its measurement into existing national field programs, like Norway's spatially representative nature monitoring or national forest inventory, would be helpful (although not sufficient for regional or local mapping).
-Municipalities and local actors in Norway are increasingly measuring peat depth and can contribute to a growing data foundation \citep{kyrkjeeideCalculatorLocalPeatland2023}.
 Low-altitude, drone-mounted GPR may prove an efficient approach for collecting many, accurate depth data in a landscape, by combining the advantages of airborne deployment and active sensing \citep{pelletierPeatAnalysesHudson1991, ruolsDevelopmentDronebasedGroundpenetrating2023}.
-All of the above can lay the groundwork for renewed peatland maps.
 
 \subsubsection{Spatial scale affects model performance and utility}
 
-Peat depths typically vary over short distances (e.g.~\textless{} 1 m), so mapping at 10 m resolution implies that the map will compress much of the fine-scale variation in depth.
-For example, large differences in maximum depth can be obscured at 10 m resolution.
-For the same reason, seemingly small improvements in mean absolute error at 10 m resolution may represent meaningful improvements for map users.
-Spatial aggregation also means that an uneven distribution of point measurements within a cell can cause its mean depth to be unrepresentative.
-Some cells had dense and evenly distributed measurements, while others had only a few in one corner.
-Although we tried to reduce the influence of uneven point coverage -- by inversely weighing point values by their distances to the cell center -- it probably contributed to model inaccuracy.
-Fine-scale variation in peat depth may favor mapping at very fine resolution (1 m) --- even if land use planning and carbon accounting do not operate at this grain.
-Terrain--depth relationships might be stronger in 1 m cells than in our 10 m cells, especially considering the hummock--hollow microtopography of many peatlands \citep{rydin7Mires1999, lindsayPeatbogsCarbonCritical2010}.
+Peat depths typically vary over short distances (e.g.~\textless{} 1 m), so mapping at 10 m resolution implies that the map will compress much of the fine-scale variation.
+Terrain--depth relationships might be stronger at finer resolution than 10 m, especially considering the hummock--hollow microtopography of many peatlands \citep{rydin7Mires1999, lindsayPeatbogsCarbonCritical2010}.
+Therefore, it may be advantageous to model peat depth at 1 m resolution -- even if land use planning and carbon accounting do not operate at such fine scale.
 
-The scarcity of depth measurements and their short spatial autocorrelation mean that mapping peat depth at broad scales is not an exercise in spatial interpolation \citep{henglGenericFrameworkSpatial2004}.
-Peat depths in our GPR data showed spatial autocorrelation to a range of 50--100 m, and getting measurements at such fine grain is only realistic for small areas, not across whole landscapes.
-Therefore, we anticipate that spatially explicit DSM is of limited value in all but the most intensively sampled landscapes (currently nowhere in Norway).
-
-Choosing a spatial extent for DSM can be tricky.
-A natural starting point is the bounding area around a spatial cluster of depth measurements.
-For a given cluster, kNNDM can define how far the boundary can extend beyond the point measurements; if the sample-to-prediction nearest neighbor distribution cannot be simulated by any set of cross-validation folds, then the extent is too expansive \citep{meyerMachineLearningbasedGlobal2022, linnenbrinkKNNDMCVKfold2024}.
-However, it is unclear how big (N) any cluster of depths should be, and the tradeoff between multiple small-extent DSM and fewer large-extent DSM needs research.
+To define a spatial extent for a particular DSM, kNNDM can be used to investigate how far the mapping can extend beyond a set of point measurements; if the sample-to-prediction nearest neighbor distribution cannot be simulated by any set of cross-validation folds, then the extent is too expansive \citep{meyerMachineLearningbasedGlobal2022, linnenbrinkKNNDMCVKfold2024}.
+However, the tradeoff between multiple small-extent DSM and fewer large-extent DSM needs research.
 Bohn and Miller \citeyearpar{bohnLocallyEnhancedDigital2024} advocate for bottom-up stitching of local DSM, and for peat depth we assert that these should at least stay within peatland regions (or `supertopes'), where the composition of mesotopes is similar -- e.g.~regions dominated by raised bogs versus regions dominated by sloping fens \citep{moenNationalAtlasNorway1999, joostenWiseUseMires2002}.
 Depth varies systematically between bogs and fens \citep{lindsayPeatlandMireTypes2016}, between peats formed by terrestrialization versus paludification \citep{buffamFillingHolesRegional2010}, and probably along other axes of peatland typology.
 Therefore, DSM is more likely to uncover consistent predictor--depth relationships within peatland regions than across them.
@@ -774,12 +749,10 @@ Therefore, DSM is more likely to uncover consistent predictor--depth relationshi
 
 The DSM literature and our results support using flexible machine learning algorithms like RF to predict peat depth.
 RF avoids negative predictions \citep[c.f.][]{kogantiMappingPeatDepth2023} and produces good uncertainty estimates \citep[our study,][]{vaysseUsingQuantileRegression2017, takoutsingComparingPredictionPerformance2022}.
-As depth data become more abundant, we may move from pixel-based learners to deep learning approaches like convolutional neural networks.
-Bakkestuen et al. \citeyearpar{bakkestuenDelineationWetlandAreas2023} successfully predicted peatland extent using convolutional neural networks, and their ability to automatically learn multiscale spatial features would reduce the need to manually engineer these.
-The success of Multi-Resolution Valley Bottom Flatness as a predictor of peat depth demonstrates that multiscale spatial patterns matter for peat depth and convolutional neural networks are designed to learn such patterns.
+As depth data become more abundant, pixel-based learners may be surpassed by deep learning approaches like convolutional neural networks.
+The success of Multi-Resolution Valley Bottom Flatness as a predictor of peat depth demonstrates that multiscale spatial patterns matter for peat depth, and convolutional neural networks are designed to learn such patterns \citep{borowiecDeepLearningTool2022}.
 The kind of relationship described in Buffam et al. \citeyearpar{buffamFillingHolesRegional2010}, where peat depth in basins related to terrain slope at the basin edge, is also something a convolutional neural network could learn.
 However, since this approach is data-hungry, we should build soil knowledge into the DSM where we can \citep{minasnySoilScienceInformedMachine2024}.
-For example, if further research confirms the effect of the marine limit that we found, then it is better to include the marine limit as a predictor than to make the algorithm learn this pattern from elevation independently.
 
 \subsubsection{Peat extent and depth should be mapped together}
 
@@ -788,6 +761,17 @@ Since peatland extent is defined by non-zero peat depth \citep[the specific thre
 The goal, therefore, should be a unified prediction framework for extent and depth.
 Research is needed to determine whether it is better to parameterize a single model of peat depth across a full landscape, or to break down the problem into a hurdle model by classifying zero depth and then regressing non-zero depths.
 Though peatland definitions may encourage reducing continuous depth predictions to arbitrary classes, we caution against this practice \citep[as in][]{ivanovsModelingGeospatialDistribution2024, karjalainenComparisonTwoGammaray2025}.
+
+\section{Conclusions}
+
+This study demonstrates that digital soil mapping at 10 m resolution can improve upon existing peat depth maps in Norway, though the strength of the relationship between available predictors and peat depth remains limited.
+Our findings show that terrain-derived variables, particularly elevation and Multi-Resolution Valley Bottom Flatness, provide predictive value for peat depth mapping within peatland extents.
+In contrast, airborne radiometric data showed little to no predictive value at either of two study sites, likely due to the large footprint of airborne sensors relative to the fine-scale variation in peat depths.
+
+The best models achieved mean absolute errors of 56--60 cm against mean depths of 119--126 cm, and explained approximately one-third of the variation in peat depth across landscapes with with aggregate peatland areas of 1.5--15.3 km\textsuperscript{2}.
+Though field measurements remain necessary for local, detailed assessments of peat depth, digital soil maps at 10 m resolution can provide valuable information for landscape-scale planning and regional carbon assessments.
+The models' tendency to underpredict the deepest peats has important practical implications, making them more suitable for precautionary screening than comprehensive coverage.
+As Norway and other nations pursue nature-based climate solutions, these findings highlight both the potential and limitations of remote sensing for peatland carbon mapping.
 
 \newpage
 \appendix

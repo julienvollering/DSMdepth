@@ -109,35 +109,69 @@ Thank you for this helpful suggestion. We initially thought it would be worth in
 
 > Line 58- 59. There is no need to include this sentence with an example here, as the next paragraph goes into the necessary detail on Slope. This is an example of how the authors might reduce the overall size of the article.
 
+Thank you. We have removed this sentence and looked to remove similar cases.
+
 > Section 2.2 I would suggest moving this opening paragraph to the end of this section as it acts more to sum up how the authors are using the various predictors. It mentions several of the predictors directly, but the are not described until later sections (for example 2.2.1). This would increase the readability of this section.
+
+Thank you for this suggestion. This opening paragraph is intended to give a brief overview of the full suite of predictors before going into a complete description of how each predictor was derived. We think therefore that it is best placed at the start of the section, but we have tried to improve its readability within the structure (including the mentions of specific predictors).
 
 > Line 179: Remove “also using White Box” as this is obvious.
 
+Thank you.
+
 > Line 258: The authors mention density; however, they do not expand on this. Was this measured in the field, or an operator’s observation and subjective interpretation of density?
+
+Thank you. We have clarified that this was the operator's observation and subjective interpretation.
 
 >  371: What is the relevance of the Persons correlation coefficient of 0.7. Was this tested at all? Readers may not be familiar with this so it should be explained a bit more.
 
+Thank you. We have added some more context to explain the 0.7-cutoff.
+
 > Table 2:  I recommend putting a vertical line between the results for both sites so as to easier distinguish between them.
+
+Thank you. We have reexamined the formatting of the table.
 
 > Heading Section 4.1.1 – “but not useless!” is very casual language to be using in a scientific article. This is just one example of this casual language. I suggest the authors review the article for this throughout.
 
+Thank you for this example. We have gone through the manuscript and revised the language to make it more formal and scientific, while aiming to retain clarity and accessibility. We have removed this phrase and similar casual language throughout the manuscript.
+
 > Line 464: “low hanging fruit” is also casual and colloquial and may not be understood by all cultures.
+
+Thank you. Removed.
 
 > Line 515: “large stocks really are large” – very vague and non-scientific comment. What is large?
 
+Thank you. Clarified.
+
 > Line 530: remove the question at the start of this section.
+
+Thank you. Removed.
 
 > Line 549: This section is the first mention of the radiometric survey parameters. I would recommend moving some of this section to the Methods and Material section as it is useful descriptors of how the data came to be.
 
+Thank you. We have added a very brief summary of the radiometric surveys to the _Materials and methods_ section, while retaining the reference to an appendix for the full details.
+
 > Line 564: Typically, airborne radiometric surveys have strict conditions that they must fly under. One is related to rainfall occurrence and airborne surveys should not happen directly after rainfall. The authors statement with regards to air moisture should be clarified as otherwise the contractor may have been at fault by provide incorrect data, which would have implications for the usage of radiometric data in this area in this study.
+
+Thank you. We have clarified our statement based on the information in the report by the Geological Survey of Norway.
 
 > Line 628 – 629: remove the sentence starting “The rest of this section….” As it is unnecessary.
 
+Thank you. Removed.
+
 > Line 634: “luxury” is again a very casual phrasing within a scientific article.
+
+Revised.
 
 > Line 664: “tricky” – casual
 
+Revised.
+
 > Finally, there is no definite conclusion to this article, nor a heading stating same. I suggest the authors either add a section at the end and move some text here to highlight the main conclusions as currently the “discussion” section is quite large and probably not appropriate to act as a combined discussion and conclusion section.
+
+Thank you for this helpful recommendation. We have added a _Conclusions_ section to summarize the key findings of the study. This summary highlights the main results and their implications, which we hope will help readers more easily see how the study addresses its research aims of quantifying predictive accuracy and identifying key predictors.
+
+We have also used this addition to reduce the length of the _Discussion_ section, by reserving some of the more general discussion points for the _Conclusions_.
 
 # Response to Referee 2
 
@@ -257,6 +291,8 @@ At Skrimfjella these two predictors were of similar importance, while at Ørskog
 ### Comment 2.9
 
 > I recommend adding a dedicated section to summarise the key results and findings. This would help readers clearly see how the study addresses its original research aims and questions. A concise summary at the end of the results or discussion section would also improve the overall structure and coherence of the paper.
+
+Thank you for this helpful recommendation. We have added a _Conclusions_ section to summarize the key findings of the study. This summary highlights the main results and their implications, which we hope will help readers more easily see how the study addresses its research aims of quantifying predictive accuracy and identifying key predictors.
 
 ## Technical Corrections
 
