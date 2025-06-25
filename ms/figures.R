@@ -655,7 +655,7 @@ scatter1 <- ggplot(orskog, aes(x = depth_cm, y = .pred)) +
   geom_segment(aes(x = depth_cm, xend = depth_cm, 
                    y = .pred_lower, yend = .pred_upper), 
                color = "grey70", alpha = 0.2, linewidth = 0.2) +
-  geom_point(size = 0.7, alpha=0.5) +
+  geom_point(size = 0.7, alpha=0.5, pch = 16) +
   geom_smooth(method = 'loess', formula= y ~ x, se = FALSE) +
   geom_abline(intercept = 0, slope = 1, linetype = 2, color = "red") +
   tune::coord_obs_pred(ratio = 1) +
@@ -675,7 +675,7 @@ scatter2 <- ggplot(skrim, aes(x = depth_cm, y = .pred)) +
   geom_segment(aes(x = depth_cm, xend = depth_cm, 
                    y = .pred_lower, yend = .pred_upper), 
                color = "grey70", alpha = 0.2, linewidth = 0.2) +
-  geom_point(size = 0.7, alpha=0.5) +
+  geom_point(size = 0.7, alpha=0.5, pch = 16) +
   geom_smooth(method = 'loess', formula= y ~ x, se = FALSE) +
   geom_abline(intercept = 0, slope = 1, linetype = 2, color = "red") +
   tune::coord_obs_pred(ratio = 1) +

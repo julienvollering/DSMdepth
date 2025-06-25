@@ -39,13 +39,19 @@ bibliography: ../ms.bib
 
 > Overall, I found the article to be generally well written, with a very comprehensive and detailed description of modelling mechanism, error derivation, and feature choice. It is a very long article, going into great detail in several areas, and below I suggest at least one section/topic that could be removed entirely to reduce length and increase overall readability. I suggest the authors review all sections for conciseness and reduce the article length where possible. The level of detail may mean a reader less familiar with machine learning modelling may find the article hard to follow. While I do find the article to be within the scope of SOIL, I would be concerned that it focuses heavily on the modelling methodology.
 
+Thank you for your positive comments on the article and for your suggestions to improve its readability. We have taken your advice to review the article for conciseness and have made several changes to reduce its length, while retaining the key details of the modelling methodology. In particular, we have removed the sections on peatland extent mapping, which was not central to the main focus of the study, and we have shortened some of the other sections as well. We have moved some of the more detailed descriptions of the methodology to the appendix, to make the main text more accessible and focused.
+
 ### Comment 1.3
 
 > Additionally, there were several areas where the language used was quite casual for a scientific article. Several are highlighted under minor considerations below.
 
+Thank you for this advice and the specific examples you provided. We have gone through the manuscript and revised the language to make it more formal and scientific, while aiming to retain clarity and accessibility.
+
 ### Comment 1.4
 
 > Finally, the main concern noted is the imbalance between the consideration given to radiometric data compared to terrain variables. Considering the title is stating terrain being “better” than radiometrics, and given the emerging understanding of the use of radiometric data in peat land mapping, there is are some fundamental errors in the methods presented, which may be biasing the conclusion alluded to in the title.
+
+Thank you for raising this concern. We address the specific comments on this theme below, and believe that our responses show why we disagree that there are fundamental errors in the methods. For the same reasons outlined below, we do not think that the conclusion the title alludes to is biased.
 
 ## Specific Comments
 
@@ -187,7 +193,9 @@ We have also used this addition to reduce the length of the _Discussion_ section
 
 > Overall, this research addresses a significant challenge in peat depth mapping. The title is clear and likely to attract attention from readers interested in this topic. However, I have some concerns regarding the writing style. Certain sections use jargon excessively or are phrased in a way that feels less scientific, which may hinder clarity and accessibility for a broader audience.
 
-## Specifics Comments
+Thank you for your positive comments on the research and title, and for your suggestions to improve the writing style. We have gone through the manuscript and revised the language to make it more formal and scientific, while aiming to retain clarity and accessibility. We have also tried to reduce jargon where possible, while retaining the necessary technical terms.
+
+## Specific Comments
 
 ### Comment 2.3
 
