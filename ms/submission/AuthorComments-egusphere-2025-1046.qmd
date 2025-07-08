@@ -78,11 +78,13 @@ include-in-header:
     \let\oldquote\quote
     \let\endoldquote\endquote
     \renewenvironment{quote}{\oldquote\color{gray}}{\endoldquote}
+    \usepackage{siunitx}
 toc: true
 toc-depth: 2
 bibliography: ../ms.bib
 ---
 
+\vfill
 Throughout this document, changes in the manuscript text are indicated with the following formatting:
 
 ::: {.callout appearance="simple"}
@@ -91,6 +93,7 @@ Unchanged text. \DIFdelbegin \DIFdel{Deleted text.}\DIFdelend \DIFaddbegin \DIFa
 ```
 :::
 
+Please disregard missing cross-reference numbers (e.g., 'Figure ??') in the boxes with changed text. These are formatted correctly in the revised manuscript and the tracked changes document.
 
 \clearpage          
 # Response to Topic Editor
@@ -99,8 +102,6 @@ Unchanged text. \DIFdelbegin \DIFdel{Deleted text.}\DIFdelend \DIFaddbegin \DIFa
 
 > Dear Dr. Vollering and Coauthors,
 Thank you for your detailed responses to the reviewers’ comments. Both reviewers offered positive assessments of your manuscript, recognizing the importance of your study and the inherent challenges in predicting peat depth using a digital soil mapping approach. They also raised several shared concerns, particularly the need for clearer and more formal scientific language, improved manuscript focus, and a more balanced treatment of terrain and radiometric predictors. Your responses to these points appear appropriate, and I encourage you to complete your revisions and submit a revised manuscript for further review.
-
-Thank you to the topic editor.
 
 ### Comment TS.2
 
@@ -131,11 +132,35 @@ Thank you to the topic editor.
 
 Thank you for your positive comments on the article and for your suggestions to improve its readability. We have taken your advice to review the article for conciseness and have made several changes to reduce its length, while retaining the key details of the modelling methodology. In particular, we have removed the sections on peatland extent mapping, which was not central to the main focus of the study, and we have shortened some of the other sections as well. We have moved some of the more detailed descriptions of the methodology to the appendix, to make the main text more accessible and focused.
 
+We do not reproduce all of the removed text here. Please see the tracked changes document to examine these changes.
+
 ### Comment 1.3
 
 > Additionally, there were several areas where the language used was quite casual for a scientific article. Several are highlighted under minor considerations below.
 
-Thank you for this advice and the specific examples you provided. We have gone through the manuscript and revised the language to make it more formal and scientific, while aiming to retain clarity and accessibility.
+Thank you for this advice and the specific examples you provided. We have gone through the manuscript and revised the language to make it more formal and scientific, while aiming to retain clarity and accessibility. A few examples:
+
+::: {.callout appearance="simple"}
+**In _Abstract_**
+```{=latex}
+\DIFdelbegin \DIFdel{The accuracy of }\DIFdelend \DIFaddbegin \DIFadd{Our remote sensing models had better accuracy than }\DIFaddend the national map of peat depth\DIFdelbegin \DIFdel{did not measure up to any of our remote sensing models, even though it was calibrated }\DIFdelend \DIFaddbegin \DIFadd{, even when we calibrated the national map }\DIFaddend to the same \DIFaddbegin \DIFadd{depth }\DIFaddend data.
+```
+:::
+
+::: {.callout appearance="simple"}
+**In _Introduction_**
+```{=latex}
+The \DIFdelbegin \DIFdel{little we know about the depths of Norwegian peatlands }\DIFdelend \DIFaddbegin \DIFadd{only systematic mapping of peat depth at the national scale in Norway }\DIFaddend comes from surveys meant to identify arable land.
+```
+:::
+
+::: {.callout appearance="simple"}
+**In _Discussion_**
+```{=latex}
+Since remotely sensed data are widely available, improvements to soil maps as shown here are \DIFdelbegin \DIFdel{low hanging fruit.
+This point is recognized and reflected in the rise of DSM }\DIFdelend \DIFaddbegin \DIFadd{readily achievable at low cost }\DIFaddend \citep{minasnyDigitalMappingPeatlands2019}.
+```
+:::
 
 ### Comment 1.4
 
@@ -215,6 +240,26 @@ If maps of these other physical parameters at the time of the radiometric survey
 
 Thank you for this helpful suggestion. We initially thought it would be worth including the analysis on extent mapping -- especially since our occurrence data at Skrimfjella is a good test set -- but based on the comments of both referees, we recognize that it distracts too much from the main focus. We have removed all sections related to mapping peatland extent (including section 4.1.4), to shorten the manuscript and improve its readability. We still discuss briefly the importance of coupling peat depth and extent mapping, since we consider this a research need directly related to the present study, but we have shortened this section as well.
 
+::: {.callout appearance="simple"}
+**In _Discussion_**
+```{=latex}
+Finally, we \DIFdelbegin \DIFdel{want to highlight }\DIFdelend \DIFaddbegin \DIFadd{would like to highlight briefly }\DIFaddend the need for \DIFdelbegin \DIFdel{research on peatland extent }\DIFdelend \DIFaddbegin \DIFadd{peatland extent mapping }\DIFaddend and peat depth \DIFaddbegin \DIFadd{mapping }\DIFaddend to be better integrated.
+Since peatland extent is defined by non-zero peat depth \citep[the specific threshold varies by definition,][]{minasnyMappingMonitoringPeatland2024}, \DIFdelbegin \DIFdel{they }\DIFdelend \DIFaddbegin \DIFadd{the lateral and vertical dimensions }\DIFaddend are fundamentally linked.
+The goal, therefore, should be a unified prediction framework for extent and depth.
+\DIFdelbegin \DIFdel{We caution against reducing continuous depth predictions to arbitrary classes \mbox{%DIFAUXCMD
+\citep[as in][]{ivanovsModelingGeospatialDistribution2024, karjalainenComparisonTwoGammaray2025}}\hskip0pt%DIFAUXCMD
+, since classes can be derived from continuous predictions.
+The distribution of peat depths across full landscapes is zero-inflated, and research }\DIFdelend \DIFaddbegin \DIFadd{Research }\DIFaddend is needed to determine whether it is \DIFdelbegin \DIFdel{more efficient }\DIFdelend \DIFaddbegin \DIFadd{better }\DIFaddend to parameterize a single model of peat depth \DIFdelbegin \DIFdel{(with a larger, generalized dataset) }\DIFdelend \DIFaddbegin \DIFadd{across a full landscape, }\DIFaddend or to break down the problem into a hurdle model by classifying zero depth and then regressing non-zero depths\DIFdelbegin \DIFdel{(with smaller, specialized datasets).
+Coupling extent and depth will reduce the prevalence of incoherence that we found: deep peat outside the peatland extent and zero depth inside it.
+A key challenge going forward will be obtaining training data that represents both zero and non-zero components of the depth distribution, since sampling designs often focus on known peatlands.
+}\DIFdelend \DIFaddbegin \DIFadd{.
+Though peatland definitions may encourage reducing continuous depth predictions to arbitrary classes, we caution against this practice \mbox{%DIFAUXCMD
+\citep[as in][]{ivanovsModelingGeospatialDistribution2024, karjalainenComparisonTwoGammaray2025}}\hskip0pt%DIFAUXCMD
+.
+}\DIFaddend 
+```
+:::
+
 ## Technical Corrections
 
 > Line 58- 59. There is no need to include this sentence with an example here, as the next paragraph goes into the necessary detail on Slope. This is an example of how the authors might reduce the overall size of the article.
@@ -225,17 +270,36 @@ Thank you. We have removed this sentence and looked to remove similar cases.
 
 Thank you for this suggestion. This opening paragraph is intended to give a brief overview of the full suite of predictors before going into a complete description of how each predictor was derived. We think therefore that it is best placed at the start of the section, but we have tried to improve its readability within the structure (including the mentions of specific predictors).
 
+::: {.callout appearance="simple"}
+```{=latex}
+We created the same suite of peat depth predictors for both sites (25 continuous and 1 categorical; Table \ref{tab:preds}).
+\DIFdelbegin \DIFdel{Each continuous predictor equates to one variable in the model, while the categorical predictor equates to two variables in the model because its three levels become two indicator variables (one level is used as the reference).
+}\DIFdelend All continuous predictors were derived either from an airborne radiometric survey or from a DTM.
+From the radiometric surveys, we simply used the four variables produced by the Geological Survey of Norway: ground concentration of potassium, thorium, uranium, as well as total count.
+From the DTMs we calculated several land surface parameters, ranging from simple terrain indices to more complex geomorphometric and hydrological variables \citep{maxwellLandsurfaceParametersSpatial2022}.
+The categorical predictor was peat depth class, from a national map dataset.
+\DIFaddbegin \DIFadd{Predictor preparation is described in more detail below.
+}
+```
+:::
+
 > Line 179: Remove “also using White Box” as this is obvious.
 
 Thank you.
 
 > Line 258: The authors mention density; however, they do not expand on this. Was this measured in the field, or an operator’s observation and subjective interpretation of density?
 
-Thank you. We have clarified that this was the operator's observation and subjective interpretation.
+Thank you. We would have clarified that this was the operator's observation and subjective interpretation, but this section is now removed entirely.
 
 >  371: What is the relevance of the Persons correlation coefficient of 0.7. Was this tested at all? Readers may not be familiar with this so it should be explained a bit more.
 
-Thank you. We have added some more context to explain the 0.7-cutoff.
+Thank you. We have added some more context to explain the 0.7-cutoff:
+
+::: {.callout appearance="simple"}
+```{=latex}
+Specifically, we eliminated variables from the best performing predictor configuration to obtain a set with no pairwise Pearson correlation coefficient above 0.7 \DIFaddbegin \DIFadd{(an arbitrary but conventional threshold for this purpose)}\DIFaddend .
+```
+:::
 
 > Table 2:  I recommend putting a vertical line between the results for both sites so as to easier distinguish between them.
 
@@ -251,7 +315,22 @@ Thank you. Removed.
 
 > Line 515: “large stocks really are large” – very vague and non-scientific comment. What is large?
 
-Thank you. Clarified.
+Thank you. Clarified: 
+
+::: {.callout appearance="simple"}
+```{=latex}
+This is not unexpected for the right-skewed distributions of peat depth, but it has \DIFdelbegin \DIFdel{management implications .
+Identifying the deepest peats will require additional field work in candidate areas, which could be defined by an upper quantile of predicted depth.
+Map users should not trust the mapsto identify all large carbon stocks, but they can trust that identified large stocks really are large.
+That makes the map }\DIFdelend \DIFaddbegin \DIFadd{implications for potential users of the maps.
+For example, it makes the maps }\DIFaddend more suited for ``red-lighting'' than ``green-lighting'' peatland conversion \DIFdelbegin \DIFdel{, for example.
+Where it does not prohibit conversion (i.e.~predicts shallow peat), a ground survey should be done before conversion is allowed }\DIFdelend (assuming depth is the \DIFdelbegin \DIFdel{only consideration).
+Although this recommendation aligns with the precautionary principle, here we make it on technical grounds based on the maps' characteristics.
+}%DIFDELCMD < 
+\DIFaddbegin \DIFadd{determinative factor).
+Identifying the deepest peats will require additional field work in candidate areas -- where candidate areas could be defined by some upper quantile of predicted depth}\DIFaddend .
+```
+:::
 
 > Line 530: remove the question at the start of this section.
 
@@ -261,9 +340,33 @@ Thank you. Removed.
 
 Thank you. We have added a very brief summary of the radiometric surveys to the _Materials and methods_ section, while retaining the reference to an appendix for the full details.
 
+::: {.callout appearance="simple"}
+```{=latex}
+The radiometric surveys were \DIFdelbegin \DIFdel{conduced with similar flight parameters }\DIFdelend \DIFaddbegin \DIFadd{conducted with 75--80 m average flight altitude, 88--108 }\unit{km\,h^{-1}} \DIFadd{average flight speed, and 200 m flight line spacing }\DIFaddend (Table \ref{tab:radSurveys}).
+```
+:::
+
 > Line 564: Typically, airborne radiometric surveys have strict conditions that they must fly under. One is related to rainfall occurrence and airborne surveys should not happen directly after rainfall. The authors statement with regards to air moisture should be clarified as otherwise the contractor may have been at fault by provide incorrect data, which would have implications for the usage of radiometric data in this area in this study.
 
 Thank you. We have clarified our statement based on the information in the report by the Geological Survey of Norway.
+
+::: {.callout appearance="simple"}
+```{=latex}
+\DIFdelbegin \DIFdel{Weather conditions varied during the Ørskogfjellet radiometric survey and affected its data\mbox{%DIFAUXCMD
+\citep{ofstadHelicopterborneMagneticRadiometric2015}}\hskip0pt%DIFAUXCMD
+.
+Thus, uneven }\DIFdelend \DIFaddbegin \DIFadd{Another possible reason for the poor predictive value of the radiometric data could be that other physical parameters influencing the amount of intercepted radiation varied too much within sites.
+Initial source strength, soil moisture, bulk density, and porosity all affect the amount of radiation that reaches the detector \mbox{%DIFAUXCMD
+\citep{beamishGammaRayAttenuation2013, reinhardtGammaraySpectrometryVersatile2019}}\hskip0pt%DIFAUXCMD
+.
+Therefore, variation in these parameters could have masked the relationship between peat depth and radiometric data.
+We chose the Ørskogfjellet site in part because it has a relatively homogeneous bedrock, which should reduce the variation in initial source strength.
+Soil moisture, bulk density, and porosity, however, are not easily measured across landscape scales and were assumed to be homogeneous.
+Uneven }\DIFaddend snow cover and air moisture \DIFaddbegin \DIFadd{during the Ørskogfjellet radiometric survey }\DIFaddend may also have masked the soil signal in these data\DIFaddbegin \DIFadd{, as Ofstad \mbox{%DIFAUXCMD
+\citeyearpar{ofstadHelicopterborneMagneticRadiometric2015} }\hskip0pt%DIFAUXCMD
+reports large variation in weather conditions.}\DIFaddend
+```
+:::
 
 > Line 628 – 629: remove the sentence starting “The rest of this section….” As it is unnecessary.
 
@@ -282,6 +385,25 @@ Revised.
 Thank you for this helpful recommendation. We have added a _Conclusions_ section to summarize the key findings of the study. This summary highlights the main results and their implications, which we hope will help readers more easily see how the study addresses its research aims of quantifying predictive accuracy and identifying key predictors.
 
 We have also used this addition to reduce the length of the _Discussion_ section, by reserving some of the more general discussion points for the _Conclusions_.
+
+::: {.callout appearance="simple"}
+**In _Conclusions_**
+```{=latex}
+%DIF < %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%DIF < % optional
+\DIFaddbegin \DIFadd{This study demonstrates that digital soil mapping at 10 m resolution can improve upon existing peat depth maps in Norway, though the strength of the relationship between available predictors and peat depth remains limited.
+Our findings show that terrain-derived variables, particularly elevation and Multi-Resolution Valley Bottom Flatness, provide predictive value for peat depth mapping within peatland extents.
+In contrast, airborne radiometric data showed little to no predictive value at either of two study sites, possibly because of the large footprint of airborne spectrometers relative to the fine-scale variation in peat depths.
+}\DIFaddend 
+
+%DIF < %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DIFaddbegin \DIFadd{The best models achieved mean absolute errors of 56--60 cm against mean depths of 119--126 cm, and explained approximately one-third of the variation in peat depth across landscapes with aggregate peatland areas of 1.5--15.3 km\textsuperscript{2}.
+Though field measurements remain necessary for local, detailed assessments of peat depth, digital soil maps at 10 m resolution can provide valuable information for landscape-scale planning and regional carbon assessments.
+The models' tendency to underpredict the deepest peats has important practical implications, making them more suitable for precautionary screening than comprehensive coverage.
+As Norway and other nations pursue nature-based climate solutions, these findings highlight both the potential and limitations of remote sensing for peatland carbon mapping.
+}
+```
+:::
 
 # Response to Referee 2
 
@@ -443,6 +565,25 @@ Some realizations of the hydrological predictors Topographic Wetness Index and D
 
 Thank you for this helpful recommendation. We have added a _Conclusions_ section to summarize the key findings of the study. This summary highlights the main results and their implications, which we hope will help readers more easily see how the study addresses its research aims of quantifying predictive accuracy and identifying key predictors.
 
+::: {.callout appearance="simple"}
+**In _Conclusions_**
+```{=latex}
+%DIF < %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%DIF < % optional
+\DIFaddbegin \DIFadd{This study demonstrates that digital soil mapping at 10 m resolution can improve upon existing peat depth maps in Norway, though the strength of the relationship between available predictors and peat depth remains limited.
+Our findings show that terrain-derived variables, particularly elevation and Multi-Resolution Valley Bottom Flatness, provide predictive value for peat depth mapping within peatland extents.
+In contrast, airborne radiometric data showed little to no predictive value at either of two study sites, possibly because of the large footprint of airborne spectrometers relative to the fine-scale variation in peat depths.
+}\DIFaddend 
+
+%DIF < %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DIFaddbegin \DIFadd{The best models achieved mean absolute errors of 56--60 cm against mean depths of 119--126 cm, and explained approximately one-third of the variation in peat depth across landscapes with aggregate peatland areas of 1.5--15.3 km\textsuperscript{2}.
+Though field measurements remain necessary for local, detailed assessments of peat depth, digital soil maps at 10 m resolution can provide valuable information for landscape-scale planning and regional carbon assessments.
+The models' tendency to underpredict the deepest peats has important practical implications, making them more suitable for precautionary screening than comprehensive coverage.
+As Norway and other nations pursue nature-based climate solutions, these findings highlight both the potential and limitations of remote sensing for peatland carbon mapping.
+}
+```
+:::
+
 ## Technical Corrections
 
 > Table 2: I think you need to move this table somewhere after it is mentioned in the main text. At first, I was quite confused with this table. What does that percentage stand for?
@@ -453,9 +594,20 @@ We have moved the table after its first mention and adjusted the table caption t
 
 Thank you for identifying this confusion. We have revised the text to clarify that we are comparing the quartile predictions to the observed data, to follow best practices in digital soil mapping. We have also added the prediction intervals to figure 3, and moved the text description to where we also present the figure. We think that this makes this particular result clearer to readers.
 
+::: {.callout appearance="simple"}
+```{=latex}
+The best models at both sites overpredicted shallow peats and strongly underpredicted very deep peats (Fig. \ref{fig:calPlots}).
+The mean error (bias) of these models was 10 cm at Skrimfjella and -4 cm at Ørskogfjellet.
+\DIFaddbegin \DIFadd{Although the prediction intervals from the quantile regression forests were wide, they were well calibrated.
+At Skrimfjella, the prediction interval coverage probability was 92 \%, and at Ørskogfjellet it was 84 \% (both compared to the target value of 90 \%).
+Observations outside of the prediction intervals showed no obvious spatial pattern.
+}\DIFaddend 
+```
+:::
+
 > Line 413-414: which curve? The information inside the parentheses is not clear to me.
 
-Thank you. Revised for clarity.
+Thank you. We would have revised this for clarity, but this entire section has been removed.
 
 > Figure 4: is the null derived from the calculation between observations and assumptions of 30 cm peat depth? Where is the standard error come from?
 
