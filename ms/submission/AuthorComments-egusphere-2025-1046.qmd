@@ -178,7 +178,24 @@ Thank you to the referee for pointing out this concern and providing a thorough 
 
 After careful consideration, we disagree that the radiometrics variables we used are not valid for predicting peat depth. In particular, we assert that converting the concentrations we use to counts per second -- as the referee suggests -- would produce identical results. That is because the method we use to predict peat depth (Random Forest) is insensitive to any monotonic transformation of the predictors, like the scalar conversion between concentration and counts per second [see Table 10.1 on p.351 in @hastieElementsStatisticalLearning2009]. The Random Forest algorithm is based on decision trees, which partition the predictor space into regions based on the values of the predictors. As a result, any monotonic transformation of the predictors will not change the partitioning of the predictor space, and therefore will not change the predictions made by the model [see Fig. 9.2 on p.306 and Algorithm 15.1 on p.588 in @hastieElementsStatisticalLearning2009]. Appendix B3 in @baranwalHelicopterborneMagneticElectromagnetic2013 and Appendix A2 in @ofstadHelicopterborneMagneticRadiometric2015 confirm that the concentration values we use in our models are simply the counts per second multiplied by a constant conversion factor. 
 
-To try to avoid confusion on this point, we have added a short explanation in the _Materials and methods_ section that the distinction between counts per second and concentration is not relevant for our analysis and it does not affect the predictive power of the radiometric variables in our models.
+To try to avoid confusion on this point, we have added a brief mention of it in the _Introduction_. We also added a short explanation in the _Materials and methods_ section that the distinction between counts per second and concentration is not relevant for our analysis and it does not affect the predictive power of the radiometric variables in our models.
+
+::: {.callout appearance="simple"}
+**In _Introduction_**
+```{=latex}
+Another set of predictors related to peat depth are measurements of natural radioactivity from the ground surface.
+Gamma-ray spectrometry can survey the activity (decay counts per second) from radioactive isotopes in \DIFdelbegin \DIFdel{the earth's crust}\DIFdelend \DIFaddbegin \DIFadd{bedrock and mineral soils}\DIFaddend : potassium-40, uranium-238, and thorium-232 \DIFdelbegin \DIFdel{\mbox{%DIFAUXCMD
+\citep{reinhardtGammaraySpectrometryVersatile2019}}\hskip0pt%DIFAUXCMD
+.
+These exist in bedrock (and mineral soils)and a peat overburden attenuates the radiation intensity at the surface.
+The degree of attenuation relates to properties of the overburden, especially composition and depth}\DIFdelend \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep{beamishEnvironmentalRadioactivityUK2014, reinhardtGammaraySpectrometryVersatile2019}}\hskip0pt%DIFAUXCMD
+.
+Although survey measurements are commonly reported as ground concentrations (linearly scaled from decay counts per second), in peatland environments these predictors do not reflect the concentration of radionuclides near the ground surface, but rather the radiation intensity after attenuation by the peat overburden}\DIFaddend .
+Deep soil with high water content will attenuate radiation most \citep{beamishGammaRayAttenuation2013, reinhardtGammaraySpectrometryVersatile2019}.
+Thus, \DIFdelbegin \DIFdel{gamma-ray radiometrics integrate }\DIFdelend \DIFaddbegin \DIFadd{reported ground concentrations can be statistically informative about peat soils, even if not physically correct, with respect to }\DIFaddend two \emph{scorpan} factors: other soil properties and parent material \citep{mcbratneyDigitalSoilMapping2003}.
+```
+:::
 
 ::: {.callout appearance="simple"}
 **In _Materials and methods_**
@@ -225,6 +242,7 @@ Initial source strength, soil moisture, bulk density, and porosity all affect th
 \citep{beamishGammaRayAttenuation2013, reinhardtGammaraySpectrometryVersatile2019}}\hskip0pt%DIFAUXCMD
 .
 Therefore, variation in these parameters could have masked the relationship between peat depth and radiometric data.
+This makes physical modeling of peat depth from radiometric data an undetermined problem.
 We chose the Ørskogfjellet site in part because it has a relatively homogeneous bedrock, which should reduce the variation in initial source strength.
 Soil moisture, bulk density, and porosity, however, are not easily measured across landscape scales and were assumed to be homogeneous.
 Uneven }\DIFaddend snow cover and air moisture \DIFaddbegin \DIFadd{during the Ørskogfjellet radiometric survey }\DIFaddend may also have masked the soil signal in these data\DIFaddbegin \DIFadd{, as Ofstad \mbox{%DIFAUXCMD

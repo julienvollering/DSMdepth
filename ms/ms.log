@@ -1,9 +1,9 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.6.23)  27 JUN 2025 09:58
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.8.4)  5 AUG 2025 08:21
  restricted system commands enabled.
 **ms.tex
 (./ms.tex
 LaTeX2e <2025-06-01> patch level 1
-L3 programming layer <2025-05-26>
+L3 programming layer <2025-07-20>
 Lua module: luaotfload 2024-12-03 v3.29 Lua based OpenType font support
 Lua module: lualibs 2023-07-13 v2.76 ConTeXt Lua standard libraries.
 Lua module: lualibs-extended 2023-07-13 v2.76 ConTeXt Lua libraries -- extended collection.
@@ -93,16 +93,16 @@ Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/upquote/upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verbatim
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/regexpatch/regexpatch.sty (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2025-05-26 L3 programming layer (loader) 
+Package: expl3 2025-07-20 L3 programming layer (loader) 
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
-File: l3backend-luatex.def 2025-04-14 L3 backend support: PDF output (LuaTeX)
+File: l3backend-luatex.def 2025-06-09 L3 backend support: PDF output (LuaTeX)
 \l__color_backend_stack_int=\count282
 Inserting `l3color' in `luaotfload.parse_color'.))
 Package: regexpatch 2021/03/21 v0.2f Extending etoolbox patching commands
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
 Package: xparse 2024-08-16 L3 Experimental document command parser
 )) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2025/06/10 v25.10 The multilingual framework for pdfLaTeX, LuaLaTeX and XeLaTeX
+Package: babel 2025/08/03 v25.12 The multilingual framework for LuaLaTeX, pdfLaTeX and XeLaTeX
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/babel/luababel.def
 \bbl@readstream=\read2
 \l@dumylang=\language2
@@ -112,22 +112,22 @@ Package babel Info: Non-standard hyphenation setup on input line 118.
 \bbl@pattcodes=\catcodetable15
 )
 \babel@savecnt=\count283
-LaTeX Encoding Info:    Redeclaring text command \ij (encoding OT1) on input line 2043.
-LaTeX Encoding Info:    Redeclaring text command \IJ (encoding OT1) on input line 2045.
-LaTeX Encoding Info:    Redeclaring text command \ij (encoding T1) on input line 2047.
-LaTeX Encoding Info:    Redeclaring text command \IJ (encoding T1) on input line 2048.
-LaTeX Encoding Info:    Ignoring declaration for text command \ij (encoding ?) on input line 2049.
-LaTeX Encoding Info:    Ignoring declaration for text command \IJ (encoding ?) on input line 2051.
-LaTeX Encoding Info:    Ignoring declaration for text command \SS (encoding ?) on input line 2076.
+LaTeX Encoding Info:    Redeclaring text command \ij (encoding OT1) on input line 2045.
+LaTeX Encoding Info:    Redeclaring text command \IJ (encoding OT1) on input line 2047.
+LaTeX Encoding Info:    Redeclaring text command \ij (encoding T1) on input line 2049.
+LaTeX Encoding Info:    Redeclaring text command \IJ (encoding T1) on input line 2050.
+LaTeX Encoding Info:    Ignoring declaration for text command \ij (encoding ?) on input line 2051.
+LaTeX Encoding Info:    Ignoring declaration for text command \IJ (encoding ?) on input line 2053.
+LaTeX Encoding Info:    Ignoring declaration for text command \SS (encoding ?) on input line 2078.
 \U@D=\dimen152
 \l@unhyphenated=\language4
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/babel/luababel.def
 \bbl@attr@locale=\attribute4
 )
 Package babel Info: You haven't specified a language as a class or package
-(babel)             option. I'll load 'nil'. Reported on input line 4266.
+(babel)             option. I'll load 'nil'. Reported on input line 4309.
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/babel/nil.ldf
-Language: nil 2025/06/10 v25.10 Nil language
+Language: nil 2025/08/03 v25.12 Nil language
 \l@nil=\language5
 )) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/array.sty
 Package: array 2025/06/08 v2.6j Tabular extension package (FMi)
@@ -392,7 +392,7 @@ LaTeX Font Info:    Trying to load font information for U+psy on input line 64.
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/upsy.fd
 File: upsy.fd 2001/06/04 font definitions for U/psy.
 )) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2025-06-21 v7.01n Hypertext links for LaTeX
+Package: hyperref 2025-07-12 v7.01o Hypertext links for LaTeX
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
@@ -432,24 +432,24 @@ Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 \Hy@linkcounter=\count323
 \Hy@pagecounter=\count324
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2025-06-21 v7.01n Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2025-07-12 v7.01o Hyperref: PDFDocEncoding definition (HO)
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
 \Hy@SavedSpaceFactor=\count325
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2025-06-21 v7.01n Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2025-07-12 v7.01o Hyperref: PDF Unicode definition (HO)
 )
-Package hyperref Info: Option `bookmarks' set `false' on input line 4052.
-Package hyperref Info: Hyper figures OFF on input line 4181.
-Package hyperref Info: Link nesting OFF on input line 4186.
-Package hyperref Info: Hyper index ON on input line 4189.
-Package hyperref Info: Plain pages OFF on input line 4196.
-Package hyperref Info: Backreferencing OFF on input line 4201.
+Package hyperref Info: Option `bookmarks' set `false' on input line 4066.
+Package hyperref Info: Hyper figures OFF on input line 4195.
+Package hyperref Info: Link nesting OFF on input line 4200.
+Package hyperref Info: Hyper index ON on input line 4203.
+Package hyperref Info: Plain pages OFF on input line 4210.
+Package hyperref Info: Backreferencing OFF on input line 4215.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks OFF on input line 4454.
+Package hyperref Info: Bookmarks OFF on input line 4468.
 \c@Hy@tempcnt=\count326
-LaTeX Info: Redefining \url on input line 4787.
+LaTeX Info: Redefining \url on input line 4801.
 \XeTeXLinkMargin=\dimen196
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -459,20 +459,20 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 \Fld@menulength=\count327
 \Field@Width=\dimen197
 \Fld@charsize=\dimen198
-Package hyperref Info: Hyper figures OFF on input line 6066.
-Package hyperref Info: Link nesting OFF on input line 6071.
-Package hyperref Info: Hyper index ON on input line 6074.
-Package hyperref Info: backreferencing OFF on input line 6081.
-Package hyperref Info: Link coloring OFF on input line 6086.
-Package hyperref Info: Link coloring with OCG OFF on input line 6091.
-Package hyperref Info: PDF/A mode OFF on input line 6096.
+Package hyperref Info: Hyper figures OFF on input line 6078.
+Package hyperref Info: Link nesting OFF on input line 6083.
+Package hyperref Info: Hyper index ON on input line 6086.
+Package hyperref Info: backreferencing OFF on input line 6093.
+Package hyperref Info: Link coloring OFF on input line 6098.
+Package hyperref Info: Link coloring with OCG OFF on input line 6103.
+Package hyperref Info: PDF/A mode OFF on input line 6108.
 \Hy@abspage=\count328
 \c@Item=\count329
 \c@Hfootnote=\count330
 )
 Package hyperref Info: Driver (autodetected): hluatex.
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hluatex.def
-File: hluatex.def 2025-06-21 v7.01n Hyperref driver for luaTeX
+File: hluatex.def 2025-07-12 v7.01o Hyperref driver for luaTeX
 \Fld@listcount=\count331
 \c@bookmark@seq@number=\count332
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
@@ -672,12 +672,17 @@ Package xcolor Warning: Incompatible color definition on input line 155.
 {c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
 [2]
+Overfull \hbox (1.8824pt too wide) in paragraph at lines 221--226
+\T1/ptm/m/n/10 potassium-40, uranium-238, and thorium-232 ([]Beamish[], []2014[]; []Reinhardt and Herrmann[], []2019[]). Although survey measurements
+ []
+
+
 
 [3]
-<figures/map-sites.pdf, id=188, 511.9125pt x 645.41125pt>
+<figures/map-sites.pdf, id=190, 511.9125pt x 645.41125pt>
 File: figures/map-sites.pdf Graphic file (type pdf)
 <use figures/map-sites.pdf>
-Package luatex.def Info: figures/map-sites.pdf  used on input line 267.
+Package luatex.def Info: figures/map-sites.pdf  used on input line 266.
 (luatex.def)             Requested size: 377.22366pt x 475.5989pt.
 
 
@@ -696,45 +701,45 @@ Package luatex.def Info: figures/map-sites.pdf  used on input line 267.
 [10]
 
 [11]
-<figures/map-distribution.pdf, id=460, 511.9125pt x 645.41125pt>
+<figures/map-distribution.pdf, id=462, 511.9125pt x 645.41125pt>
 File: figures/map-distribution.pdf Graphic file (type pdf)
 <use figures/map-distribution.pdf>
-Package luatex.def Info: figures/map-distribution.pdf  used on input line 488.
+Package luatex.def Info: figures/map-distribution.pdf  used on input line 487.
 (luatex.def)             Requested size: 377.22366pt x 475.5989pt.
-<figures/modelmetrics.pdf, id=462, 511.9125pt x 284.06125pt>
+<figures/modelmetrics.pdf, id=464, 511.9125pt x 284.06125pt>
 File: figures/modelmetrics.pdf Graphic file (type pdf)
 <use figures/modelmetrics.pdf>
-Package luatex.def Info: figures/modelmetrics.pdf  used on input line 499.
+Package luatex.def Info: figures/modelmetrics.pdf  used on input line 498.
 (luatex.def)             Requested size: 503.61377pt x 279.45737pt.
 
 
 [12]
 
 [13<./figures/map-distribution.pdf>]
-Overfull \hbox (3.11133pt too wide) in paragraph at lines 506--510
+Overfull \hbox (3.11133pt too wide) in paragraph at lines 505--509
 \T1/ptm/m/n/10 predictors to these configurations slightly worsened model performance. The \T1/ptm/m/it/10 terrain \T1/ptm/m/n/10 configuration outperformed the \T1/ptm/m/it/10 radiometric
  []
 
 
 
 [14<./figures/modelmetrics.pdf>]
-<figures/calibration_plots.pdf, id=515, 511.9125pt x 284.06125pt>
+<figures/calibration_plots.pdf, id=517, 511.9125pt x 284.06125pt>
 File: figures/calibration_plots.pdf Graphic file (type pdf)
 <use figures/calibration_plots.pdf>
-Package luatex.def Info: figures/calibration_plots.pdf  used on input line 518.
+Package luatex.def Info: figures/calibration_plots.pdf  used on input line 517.
 (luatex.def)             Requested size: 503.61377pt x 279.45737pt.
 
 
 [15<./figures/calibration_plots.pdf>]
-<figures/variable_importance.pdf, id=533, 511.9125pt x 454.69875pt>
+<figures/variable_importance.pdf, id=535, 511.9125pt x 454.69875pt>
 File: figures/variable_importance.pdf Graphic file (type pdf)
 <use figures/variable_importance.pdf>
-Package luatex.def Info: figures/variable_importance.pdf  used on input line 537.
+Package luatex.def Info: figures/variable_importance.pdf  used on input line 536.
 (luatex.def)             Requested size: 503.61377pt x 447.32933pt.
-<figures/partial_dependence.pdf, id=538, 511.9125pt x 511.9125pt>
+<figures/partial_dependence.pdf, id=540, 511.9125pt x 511.9125pt>
 File: figures/partial_dependence.pdf Graphic file (type pdf)
 <use figures/partial_dependence.pdf>
-Package luatex.def Info: figures/partial_dependence.pdf  used on input line 557.
+Package luatex.def Info: figures/partial_dependence.pdf  used on input line 556.
 (luatex.def)             Requested size: 503.61377pt x 503.61581pt.
 
 
@@ -743,7 +748,7 @@ Package luatex.def Info: figures/partial_dependence.pdf  used on input line 557.
 [17<./figures/variable_importance.pdf>]
 
 [18<./figures/partial_dependence.pdf>]
-Overfull \hbox (12.11124pt too wide) in paragraph at lines 579--582
+Overfull \hbox (12.11124pt too wide) in paragraph at lines 578--581
 \T1/ptm/m/n/10 Therefore, the improvement from regression kriging would be small overall and limited to parts of the maps close to measurements. 
  []
 
@@ -786,12 +791,12 @@ Overfull \hbox (5.45062pt too wide) in paragraph at lines 823--828
 
 
 [28]
-<figures/GPRwavevelocity.pdf, id=865, 511.9125pt x 597.23125pt>
+<figures/GPRwavevelocity.pdf, id=866, 511.9125pt x 597.23125pt>
 File: figures/GPRwavevelocity.pdf Graphic file (type pdf)
 <use figures/GPRwavevelocity.pdf>
 Package luatex.def Info: figures/GPRwavevelocity.pdf  used on input line 839.
 (luatex.def)             Requested size: 352.2983pt x 411.01085pt.
-<figures/semivariograms.pdf, id=866, 511.9125pt x 298.11375pt>
+<figures/semivariograms.pdf, id=867, 511.9125pt x 298.11375pt>
 File: figures/semivariograms.pdf Graphic file (type pdf)
 <use figures/semivariograms.pdf>
 Package luatex.def Info: figures/semivariograms.pdf  used on input line 845.
@@ -987,19 +992,19 @@ L3 programming layer <2021/03/21>
 )
 
 Here is how much of LuaTeX's memory you used:
- 18672 strings out of 470203
+ 18679 strings out of 470118
  100000,953878 words of node,token memory allocated
- 784 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 12 kern, 1 glyph, 44 attribute, 67 glue_spec, 23 attribute_list, 2 write, 12 pdf_action nodes
-   avail lists: 2:1357,3:295,4:78,5:408,6:65,7:10062,8:43,9:769,10:20,11:84,12:1
- 46270 multiletter control sequences out of 65536+600000
+ 772 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 2 glue, 12 kern, 1 glyph, 42 attribute, 67 glue_spec, 22 attribute_list, 2 write, 11 pdf_action nodes
+   avail lists: 2:1387,3:295,4:78,5:408,6:66,7:10062,8:43,9:769,10:20,11:84,12:1
+ 46362 multiletter control sequences out of 65536+600000
  86 fonts using 5591751 bytes
  87i,13n,88p,1384b,770s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on ms.pdf (46 pages, 7845568 bytes).
+Output written on ms.pdf (46 pages, 7845836 bytes).
 
-PDF statistics: 1143 PDF objects out of 1200 (max. 8388607)
- 1055 compressed objects within 11 object streams
+PDF statistics: 1144 PDF objects out of 1200 (max. 8388607)
+ 1056 compressed objects within 11 object streams
  245 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 100000000)
 
