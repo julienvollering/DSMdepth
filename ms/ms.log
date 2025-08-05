@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.8.4)  5 AUG 2025 15:05
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.8.5)  5 AUG 2025 15:41
  restricted system commands enabled.
 **ms.tex
 (./ms.tex
@@ -297,17 +297,34 @@ Package: supertabular 2024/07/20 v4.2c the supertabular environment
 \ST@toadd=\dimen180
 \ST@dimen=\dimen181
 \ST@pbox=\box61
+) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/algorithms/algorithmic.sty
+Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
 )
-
-Class copernicus Warning: Cannot find algorithmic.sty; proceeding without it.
-
-
-Class copernicus Warning: Cannot find algorithm.sty; proceeding without it.
-
-\c@figscheme=\count305
-\c@plates=\count306
-\c@listings=\count307
-\c@boxes=\count308
+\c@ALC@unique=\count305
+\c@ALC@line=\count306
+\c@ALC@rem=\count307
+\c@ALC@depth=\count308
+\ALC@tlm=\skip70
+\algorithmicindent=\skip71
+) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
+(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count309
+\float@exts=\toks33
+\float@box=\box62
+\@float@everytoks=\toks34
+\@floatcapt=\box63
+)
+\@float@every@algorithm=\toks35
+\c@algorithm=\count310
+)
+\c@figscheme=\count311
+\c@plates=\count312
+\c@listings=\count313
+\c@boxes=\count314
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
@@ -329,29 +346,30 @@ Package caption Warning: Unknown document class (or package),
 (caption)                standard defaults will be used.
 See the caption package documentation for explanation.
 
-\c@caption@flags=\count309
-\c@continuedfloat=\count310
+\c@caption@flags=\count315
+\c@continuedfloat=\count316
+Package caption Info: float package is loaded.
 Package caption Info: supertabular package is loaded.
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count311
-\lst@gtempboxa=\box62
-\lst@token=\toks33
-\lst@length=\count312
+\lst@mode=\count317
+\lst@gtempboxa=\box64
+\lst@token=\toks36
+\lst@length=\count318
 \lst@currlwidth=\dimen190
-\lst@column=\count313
-\lst@pos=\count314
+\lst@column=\count319
+\lst@pos=\count320
 \lst@lostspace=\dimen191
 \lst@width=\dimen192
-\lst@newlines=\count315
-\lst@lineno=\count316
+\lst@newlines=\count321
+\lst@lineno=\count322
 \lst@maxwidth=\dimen193
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/listings/lstpatch.sty
 File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
-\c@lstnumber=\count317
-\lst@skipnumbers=\count318
-\lst@framebox=\box63
+\c@lstnumber=\count323
+\lst@skipnumbers=\count324
+\lst@framebox=\box65
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2024/09/23 1.10c listings configuration
 ))
@@ -362,25 +380,45 @@ Class copernicus Warning: Cannot find subfloat.sty; proceeding without it.
 
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip70
-\bibsep=\skip71
+\bibhang=\skip72
+\bibsep=\skip73
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count319
+\c@NAT@ctr=\count325
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/rotating.sty
 Package: rotating 2025/01/14 v2.16e rotated objects in LaTeX
-(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/ifthen.sty
-Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
-)
-\c@r@tfl@t=\count320
-\rotFPtop=\skip72
-\rotFPbot=\skip73
-\rot@float@box=\box64
-\rot@mess@toks=\toks34
-)
-
-Class copernicus Warning: Cannot find lineno.sty; proceeding without it.
-
-(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/times.sty
+\c@r@tfl@t=\count326
+\rotFPtop=\skip74
+\rotFPbot=\skip75
+\rot@float@box=\box66
+\rot@mess@toks=\toks37
+) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lineno/lineno.sty
+Package: lineno 2025/05/13 line numbers on paragraphs v5.5
+(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count327
+) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+))
+\linenopenalty=\count328
+\output=\toks38
+\linenoprevgraf=\count329
+\linenumbersep=\dimen195
+\linenumberwidth=\dimen196
+\c@linenumber=\count330
+\c@pagewiselinenumber=\count331
+\c@LN@truepage=\count332
+\c@internallinenumber=\count333
+\c@internallinenumbers=\count334
+\quotelinenumbersep=\dimen197
+\bframerule=\dimen198
+\bframesep=\dimen199
+\bframebox=\box67
+\@LN@amsmath@ams@eqpen=\count335
+) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/times.sty
 Package: times 2020/03/25 PSNFSS-v9.3 (SPQR) 
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/pifont.sty
 Package: pifont 2020/03/25 PSNFSS-v9.3 Pi font support (SPQR) 
@@ -393,15 +431,11 @@ LaTeX Font Info:    Trying to load font information for U+psy on input line 64.
 File: upsy.fd 2001/06/04 font definitions for U/psy.
 )) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2025-07-12 v7.01o Hypertext links for LaTeX
-(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
-Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
-) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
-(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
-Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
-) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
@@ -409,7 +443,7 @@ Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-\pdftexcmds@toks=\toks35
+\pdftexcmds@toks=\toks39
 )) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
@@ -418,25 +452,20 @@ Package: nameref 2025-06-21 v2.57 Cross-referencing by name of section
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
-(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
-Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
-))
-\c@section@level=\count321
-) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count322
+)
+\c@section@level=\count336
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/stringenc/stringenc.sty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 )
-\@linkdim=\dimen195
-\Hy@linkcounter=\count323
-\Hy@pagecounter=\count324
+\@linkdim=\dimen256
+\Hy@linkcounter=\count337
+\Hy@pagecounter=\count338
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2025-07-12 v7.01o Hyperref: PDFDocEncoding definition (HO)
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count325
+\Hy@SavedSpaceFactor=\count339
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2025-07-12 v7.01o Hyperref: PDF Unicode definition (HO)
 )
@@ -448,17 +477,17 @@ Package hyperref Info: Plain pages OFF on input line 4210.
 Package hyperref Info: Backreferencing OFF on input line 4215.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks OFF on input line 4468.
-\c@Hy@tempcnt=\count326
+\c@Hy@tempcnt=\count340
 LaTeX Info: Redefining \url on input line 4801.
-\XeTeXLinkMargin=\dimen196
+\XeTeXLinkMargin=\dimen257
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
-\Fld@menulength=\count327
-\Field@Width=\dimen197
-\Fld@charsize=\dimen198
+\Fld@menulength=\count341
+\Field@Width=\dimen258
+\Fld@charsize=\dimen259
 Package hyperref Info: Hyper figures OFF on input line 6078.
 Package hyperref Info: Link nesting OFF on input line 6083.
 Package hyperref Info: Hyper index ON on input line 6086.
@@ -466,15 +495,15 @@ Package hyperref Info: backreferencing OFF on input line 6093.
 Package hyperref Info: Link coloring OFF on input line 6098.
 Package hyperref Info: Link coloring with OCG OFF on input line 6103.
 Package hyperref Info: PDF/A mode OFF on input line 6108.
-\Hy@abspage=\count328
-\c@Item=\count329
-\c@Hfootnote=\count330
+\Hy@abspage=\count342
+\c@Item=\count343
+\c@Hfootnote=\count344
 )
 Package hyperref Info: Driver (autodetected): hluatex.
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hluatex.def
 File: hluatex.def 2025-07-12 v7.01o Hyperref driver for luaTeX
-\Fld@listcount=\count331
-\c@bookmark@seq@number=\count332
+\Fld@listcount=\count345
+\c@bookmark@seq@number=\count346
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
@@ -482,10 +511,10 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 284.
 )
-\Hy@SectionHShift=\skip74
+\Hy@SectionHShift=\skip76
 )
-\c@reaction=\count333
-\tabularwidth=\dimen199
+\c@reaction=\count347
+\tabularwidth=\dimen260
 Package color Info: Redefining color textcol on input line 2976.
 Package color Info: Redefining color bgcol on input line 2976.
 Package color Info: Redefining color barcol on input line 2976.
@@ -496,41 +525,34 @@ Package color Info: Redefining color barcol on input line 2982.
 LaTeX Info: Redefining \vec on input line 14.
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2024-12-18 v4.23 Multi-page Table package (DPC)
-\LTleft=\skip75
-\LTright=\skip76
-\LTpre=\skip77
-\LTpost=\skip78
-\LTchunksize=\count334
-\LTcapwidth=\dimen256
-\LT@head=\box65
-\LT@firsthead=\box66
-\LT@foot=\box67
-\LT@lastfoot=\box68
-\LT@gbox=\box69
-\LT@cols=\count335
-\LT@rows=\count336
-\c@LT@tables=\count337
-\c@LT@chunks=\count338
-\LT@p@ftn=\toks36
+\LTleft=\skip77
+\LTright=\skip78
+\LTpre=\skip79
+\LTpost=\skip80
+\LTchunksize=\count348
+\LTcapwidth=\dimen261
+\LT@head=\box68
+\LT@firsthead=\box69
+\LT@foot=\box70
+\LT@lastfoot=\box71
+\LT@gbox=\box72
+\LT@cols=\count349
+\LT@rows=\count350
+\c@LT@tables=\count351
+\c@LT@chunks=\count352
+\LT@p@ftn=\toks40
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
-\wrapoverhang=\dimen257
-\WF@size=\dimen258
-\c@WF@wrappedlines=\count339
-\WF@box=\box70
-\WF@everypar=\toks37
+\wrapoverhang=\dimen262
+\WF@size=\dimen263
+\c@WF@wrappedlines=\count353
+\WF@box=\box73
+\WF@everypar=\toks41
 Package: wrapfig 2003/01/31  v 3.6
-) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/float/float.sty
-Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count340
-\float@exts=\toks38
-\float@box=\box71
-\@float@everytoks=\toks39
-\@floatcapt=\box72
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2024/10/29 v1.0k Color table columns (DPC)
-\everycr=\toks40
-\minrowclearance=\skip79
-\rownum=\count341
+\everycr=\toks42
+\minrowclearance=\skip81
+\rownum=\count354
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty
 Package: pdflscape 2025-06-23 v0.14 Display of landscape pages in PDF
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.sty
@@ -543,37 +565,37 @@ Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.sty
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
-\@vwid@box=\box73
-\sift@deathcycles=\count342
-\@vwid@loff=\dimen259
-\@vwid@roff=\dimen260
+\@vwid@box=\box74
+\sift@deathcycles=\count355
+\@vwid@loff=\dimen264
+\@vwid@roff=\dimen265
 )
 ==> First Aid for varwidth.sty applied!
-\c@taburow=\count343
-\tabu@nbcols=\count344
-\tabu@cnt=\count345
-\tabu@Xcol=\count346
-\tabu@alloc=\count347
-\tabu@nested=\count348
-\tabu@target=\dimen261
-\tabu@spreadtarget=\dimen262
-\tabu@naturalX=\dimen263
-\tabucolX=\dimen264
-\tabu@Xsum=\dimen265
-\extrarowdepth=\dimen266
-\abovetabulinesep=\dimen267
-\belowtabulinesep=\dimen268
-\tabustrutrule=\dimen269
-\tabu@thebody=\toks41
-\tabu@footnotes=\toks42
-\tabu@box=\box74
-\tabu@arstrutbox=\box75
-\tabu@hleads=\box76
-\tabu@vleads=\box77
-\tabu@cellskip=\skip80
+\c@taburow=\count356
+\tabu@nbcols=\count357
+\tabu@cnt=\count358
+\tabu@Xcol=\count359
+\tabu@alloc=\count360
+\tabu@nested=\count361
+\tabu@target=\dimen266
+\tabu@spreadtarget=\dimen267
+\tabu@naturalX=\dimen268
+\tabucolX=\dimen269
+\tabu@Xsum=\dimen270
+\extrarowdepth=\dimen271
+\abovetabulinesep=\dimen272
+\belowtabulinesep=\dimen273
+\tabustrutrule=\dimen274
+\tabu@thebody=\toks43
+\tabu@footnotes=\toks44
+\tabu@box=\box75
+\tabu@arstrutbox=\box76
+\tabu@hleads=\box77
+\tabu@vleads=\box78
+\tabu@cellskip=\skip82
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttable/threeparttable.sty
 Package: threeparttable 2003/06/13  v 3.0
-\@tempboxb=\box78
+\@tempboxb=\box79
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttablex/threeparttablex.sty
 Package: threeparttablex 2013/07/23 v0.3 by daleif
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/environ/environ.sty
@@ -581,12 +603,12 @@ Package: environ 2014/05/04 v0.3 A new way to define environments
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
-\TPTL@width=\skip81
+\TPTL@width=\skip83
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
-\rotheadsize=\dimen270
-\c@nlinenum=\count349
-\TeXr@lab=\toks43
+\rotheadsize=\dimen275
+\c@nlinenum=\count362
+\TeXr@lab=\toks45
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -638,7 +660,6 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: longtable package is loaded.
@@ -649,7 +670,7 @@ Package caption Info: rotating package is loaded.
 Package caption Info: threeparttable package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count350
+\c@lstlisting=\count363
 Package hyperref Info: Link coloring OFF on input line 114.
 LaTeX Font Info:    Trying to load font information for U+msa on input line 153.
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -665,6 +686,12 @@ Package xcolor Warning: Incompatible color definition on input line 153.
 
 Package xcolor Warning: Incompatible color definition on input line 155.
 
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 170.
+(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/t1phv.fd
+File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
+)
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 8.54997pt on input line 170.
 
 
 [1
@@ -679,7 +706,7 @@ Overfull \hbox (1.8824pt too wide) in paragraph at lines 221--226
 
 
 [3]
-<figures/map-sites.pdf, id=190, 511.9125pt x 645.41125pt>
+<figures/map-sites.pdf, id=193, 511.9125pt x 645.41125pt>
 File: figures/map-sites.pdf Graphic file (type pdf)
 <use figures/map-sites.pdf>
 Package luatex.def Info: figures/map-sites.pdf  used on input line 266.
@@ -701,12 +728,12 @@ Package luatex.def Info: figures/map-sites.pdf  used on input line 266.
 [10]
 
 [11]
-<figures/map-distribution.pdf, id=467, 511.9125pt x 645.41125pt>
+<figures/map-distribution.pdf, id=473, 511.9125pt x 645.41125pt>
 File: figures/map-distribution.pdf Graphic file (type pdf)
 <use figures/map-distribution.pdf>
 Package luatex.def Info: figures/map-distribution.pdf  used on input line 488.
 (luatex.def)             Requested size: 377.22366pt x 475.5989pt.
-<figures/modelmetrics.pdf, id=469, 511.9125pt x 284.06125pt>
+<figures/modelmetrics.pdf, id=475, 511.9125pt x 284.06125pt>
 File: figures/modelmetrics.pdf Graphic file (type pdf)
 <use figures/modelmetrics.pdf>
 Package luatex.def Info: figures/modelmetrics.pdf  used on input line 499.
@@ -723,7 +750,7 @@ Overfull \hbox (3.11133pt too wide) in paragraph at lines 506--510
 
 
 [14<./figures/modelmetrics.pdf>]
-<figures/calibration_plots.pdf, id=522, 511.9125pt x 284.06125pt>
+<figures/calibration_plots.pdf, id=528, 511.9125pt x 284.06125pt>
 File: figures/calibration_plots.pdf Graphic file (type pdf)
 <use figures/calibration_plots.pdf>
 Package luatex.def Info: figures/calibration_plots.pdf  used on input line 518.
@@ -731,12 +758,12 @@ Package luatex.def Info: figures/calibration_plots.pdf  used on input line 518.
 
 
 [15<./figures/calibration_plots.pdf>]
-<figures/variable_importance.pdf, id=540, 511.9125pt x 454.69875pt>
+<figures/variable_importance.pdf, id=546, 511.9125pt x 454.69875pt>
 File: figures/variable_importance.pdf Graphic file (type pdf)
 <use figures/variable_importance.pdf>
 Package luatex.def Info: figures/variable_importance.pdf  used on input line 537.
 (luatex.def)             Requested size: 503.61377pt x 447.32933pt.
-<figures/partial_dependence.pdf, id=545, 511.9125pt x 511.9125pt>
+<figures/partial_dependence.pdf, id=551, 511.9125pt x 511.9125pt>
 File: figures/partial_dependence.pdf Graphic file (type pdf)
 <use figures/partial_dependence.pdf>
 Package luatex.def Info: figures/partial_dependence.pdf  used on input line 557.
@@ -791,12 +818,12 @@ Overfull \hbox (5.45062pt too wide) in paragraph at lines 824--829
 
 
 [28]
-<figures/GPRwavevelocity.pdf, id=871, 511.9125pt x 597.23125pt>
+<figures/GPRwavevelocity.pdf, id=881, 511.9125pt x 597.23125pt>
 File: figures/GPRwavevelocity.pdf Graphic file (type pdf)
 <use figures/GPRwavevelocity.pdf>
 Package luatex.def Info: figures/GPRwavevelocity.pdf  used on input line 840.
 (luatex.def)             Requested size: 352.2983pt x 411.01085pt.
-<figures/semivariograms.pdf, id=872, 511.9125pt x 298.11375pt>
+<figures/semivariograms.pdf, id=882, 511.9125pt x 298.11375pt>
 File: figures/semivariograms.pdf Graphic file (type pdf)
 <use figures/semivariograms.pdf>
 Package luatex.def Info: figures/semivariograms.pdf  used on input line 846.
@@ -992,19 +1019,19 @@ L3 programming layer <2021/03/21>
 )
 
 Here is how much of LuaTeX's memory you used:
- 18683 strings out of 470118
+ 19184 strings out of 470118
  100000,953878 words of node,token memory allocated
- 772 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 12 kern, 1 glyph, 42 attribute, 67 glue_spec, 22 attribute_list, 2 write, 11 pdf_action nodes
-   avail lists: 2:1372,3:295,4:78,5:408,6:66,7:10062,8:43,9:769,10:20,11:84,12:1
- 46365 multiletter control sequences out of 65536+600000
- 86 fonts using 5591751 bytes
- 87i,13n,88p,1384b,772s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on ms.pdf (46 pages, 7846882 bytes).
+ 777 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 2 glue, 12 kern, 1 glyph, 42 attribute, 68 glue_spec, 22 attribute_list, 2 write, 11 pdf_action nodes
+   avail lists: 2:1852,3:379,4:230,5:512,6:66,7:10217,8:43,9:775,10:20,11:84,12:1
+ 46844 multiletter control sequences out of 65536+600000
+ 88 fonts using 5752695 bytes
+ 84i,13n,88p,1384b,792s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on ms.pdf (46 pages, 7854293 bytes).
 
-PDF statistics: 1149 PDF objects out of 1200 (max. 8388607)
- 1061 compressed objects within 11 object streams
+PDF statistics: 1164 PDF objects out of 1200 (max. 8388607)
+ 1075 compressed objects within 11 object streams
  246 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 100000000)
 
