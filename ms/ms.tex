@@ -331,7 +331,7 @@ DMK          & DMK          & categorical           & peat depth class in the DM
 
 The Geological Survey of Norway conducted and processed radiometric surveys over our study areas, as reported in Baranwal et al. \citeyearpar{baranwalHelicopterborneMagneticElectromagnetic2013} and Ofstad \citeyearpar{ofstadHelicopterborneMagneticRadiometric2015}.
 They provided us for each site four variables at 50 m resolution, which we downscaled to 10 m resolution by cubic spline resampling.
-Sensitivity analysis showed that Pearson correlations between cubic spline and bilinear resampling methods exceeded 0.99 for all radiometric variables, so we are confident that the choice of resampling method did not affect our results.
+Sensitivity analysis showed that Pearson correlations between cubic spline and bilinear resampling methods exceeded 0.995 for all radiometric variables, so we are confident that the choice of resampling method did not affect our results.
 
 The radiometric surveys were conducted with 75--80 m average flight altitude, 88--108 \unit{km\,h^{-1}} average flight speed, and 200 m flight line spacing (Table \ref{tab:radSurveys}).
 Spectrometer count rates were calibrated to known concentrations of potassium, thorium, and uranium in mobile pads.
@@ -434,7 +434,7 @@ That way, the spatial separation between folds is similar to the separation betw
 For spatially clustered training data, this approach strikes a balance between the risk of optimistic metrics from random cross-validation and the risk of pessimistic metrics from other forms of spatial cross-validation \citep{wadouxSpatialCrossvalidationNot2021}.
 We implemented the kNNDM with the \emph{CAST} R package \citep[v1.0,][]{meyerCASTPackageTraining2024}, setting prediction locations to all AR5 mire cells in the study area, and choosing a number of folds (k = 5--20) that produced the best match between the two NND distributions.
 From the cross-validation we quantified mean absolute error (error magnitude, original scale), R\textsuperscript{2} (explained variation, standardized scale), and Lin's concordance correlation coefficient (error magnitude and explained variation, standardized scale).
-We formally assessed the effect of predictor configuration on performance metrics using mixed-effects models to account for the cross-validation fold structure, and testing pairwise differences between configurations.
+We formally assessed the effect of predictor configuration on performance metrics using mixed-effects models to account for the cross-validation fold structure (folds as random effects), and testing pairwise differences between configurations.
 
 DSM products have much more value when their predictions are accompanied by uncertainty estimates, and all DSM should strive to assess uncertainty \citep{arrouaysImpressionsDigitalSoil2020, wadouxMachineLearningDigital2020} and evaluate uncertainty estimates \citep{heuvelinkSpatialStatisticsSoil2022}.
 Therefore, we produced prediction intervals with quantile regression forests \citep{meinshausenQuantileRegressionForests2006}, and used the same spatial cross-validation to evaluate the prediction interval coverage probability \citep{shresthaMachineLearningApproaches2006}.
@@ -521,7 +521,7 @@ Observations outside of the prediction intervals showed no obvious spatial patte
 
 For the purpose of model interpretation, the \emph{all predictors} configuration for Skrimfjella was reduced from 27 variables to 11 non-collinear variables, by removing one of the variables in each highly-correlated pair.
 Similarly, the \emph{terrain + DMK} configuration for Ørskogfjellet was reduced from 23 variables to 11 non-collinear variables.
-The \emph{permutation} and \emph{Shapley} methods of variable importance showed high rank correlation at both sites, while the \emph{FIRM} method ranked variable importance differently (Fig. \ref{fig:varImp}).
+The \emph{permutation} and \emph{Shapley} methods of variable importance showed high Spearman rank correlation at both sites, while the \emph{FIRM} method ranked variable importance differently (Fig. \ref{fig:varImp}).
 
 \subsubsection{Variable importance}
 
@@ -621,7 +621,7 @@ Radiometric data had little to no predictive value at either site (poor performa
 These results contrast with earlier studies that found that radiometrics were useful predictors of peat depth \citep{keaneySpatialStatisticsEstimate2013, gatisMappingUplandPeat2019, kogantiMappingPeatDepth2023, pohjankukkaDigitalMappingPeat2025}.
 The bedrock is more homogeneous at Ørskogfjellet than at Skrimfjella, so uneven radiogenesis is not a good explanation for the higher predictive value of radiometric variables at Skrimfjella \citep{beamishEnvironmentalRadioactivityUK2014, reinhardtGammaraySpectrometryVersatile2019}.
 All four radiometric variables were highly correlated within the peatland parts of our study sites, so there could be no large differences in their predictive value.
-This contrasts with Koganti et al. \citeyearpar{kogantiMappingPeatDepth2023}, who found that radiometric total count was a much better predictor than potassium ground concentration.
+This contrasts with Koganti et al. \citeyearpar{kogantiMappingPeatDepth2023}, who found that radiometric total count and potassium ground concentration were better predictors than thorium or uranium ground concentration.
 
 We suspect that the primary reason for the poor predictive value of the radiometric data was the large footprint of the detector in the airborne survey.
 With an average flight altitude of 75 m, less than half of the radiation reaching the detector comes from inside the 100 m diameter circle directly below it \citep{beamishEnhancingResolutionAirborne2016, beamishDetailedMappingPeat2024}.

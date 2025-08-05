@@ -1,0 +1,1722 @@
+%% Copernicus Publications Manuscript Preparation Template for LaTeX Submissions
+%DIF LATEXDIFF DIFFERENCE FILE
+%DIF DEL ms-de46d8c3ffa1d3f5c72ed223eaf1c1b7e3d24d53.tex   Wed Apr 23 15:11:04 2025
+%DIF ADD ms.tex                                            Tue Aug  5 11:47:50 2025
+%% ---------------------------------
+%% This template should be used for copernicus.cls
+%% The class file and some style files are bundled in the Copernicus Latex Package, which can be downloaded from the different journal webpages.
+%% For further assistance please contact Copernicus Publications at: production@copernicus.org
+%% https://publications.copernicus.org/for_authors/manuscript_preparation.html
+
+%% copernicus_rticles_template (flag for rticles template detection - do not remove!)
+
+%% Please use the following documentclass and journal abbreviations for discussion papers and final revised papers.
+
+%% 2-column papers and discussion papers
+\documentclass[soil, manuscript]{copernicus}
+
+
+
+%% Journal abbreviations (please use the same for preprints and final revised papers)
+
+% Advances in Geosciences (adgeo)
+% Advances in Radio Science (ars)
+% Advances in Science and Research (asr)
+% Advances in Statistical Climatology, Meteorology and Oceanography (ascmo)
+% Aerosol Research (ar)
+% Annales Geophysicae (angeo)
+% Archives Animal Breeding (aab)
+% Atmospheric Chemistry and Physics (acp)
+% Atmospheric Measurement Techniques (amt)
+% Biogeosciences (bg)
+% Climate of the Past (cp)
+% DEUQUA Special Publications (deuquasp)
+% Earth Surface Dynamics (esurf)
+% Earth System Dynamics (esd)
+% Earth System Science Data (essd)
+% E&G Quaternary Science Journal (egqsj)
+% EGUsphere (egusphere) | This is only for EGUsphere preprints submitted without relation to an EGU journal.
+% European Journal of Mineralogy (ejm)
+% Fossil Record (fr)
+% Geochronology (gchron)
+% Geographica Helvetica (gh)
+% Geoscience Communication (gc)
+% Geoscientific Instrumentation, Methods and Data Systems (gi)
+% Geoscientific Model Development (gmd)
+% History of Geo- and Space Sciences (hgss)
+% Hydrology and Earth System Sciences (hess)
+% Journal of Bone and Joint Infection (jbji)
+% Journal of Micropalaeontology (jm)
+% Journal of Sensors and Sensor Systems (jsss)
+% Magnetic Resonance (mr)
+% Mechanical Sciences (ms)
+% Natural Hazards and Earth System Sciences (nhess)
+% Nonlinear Processes in Geophysics (npg)
+% Ocean Science (os)
+% Polarforschung - Journal of the German Society for Polar Research (polf)
+% Primate Biology (pb)
+% Proceedings of the International Association of Hydrological Sciences (piahs)
+% Safety of Nuclear Waste Disposal (sand)
+% Scientific Drilling (sd)
+% SOIL (soil)
+% Solid Earth (se)
+% State of the Planet (sp)
+% The Cryosphere (tc)
+% Weather and Climate Dynamics (wcd)
+% Web Ecology (we)
+% Wind Energy Science (wes)
+
+% Pandoc citation processing
+
+% The "Technical instructions for LaTex" by Copernicus require _not_ to insert any additional packages.
+% % % From pandoc table feature
+% \usepackage{longtable,booktabs,array}
+% % \usepackage{calc} % for calculating minipage widths
+% % Correct order of tables after \paragraph or \subparagraph
+% \usepackage{etoolbox}
+% \makeatletter
+% \patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+% \makeatother
+% % Allow footnotes in longtable head/foot
+% \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+% \makesavenoteenv{longtable}
+% 
+% tightlist command for lists without linebreak
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+%DIF 86a86-99
+%%\usepackage{booktabs} %DIF > 
+\usepackage{longtable} %DIF > 
+\usepackage{array} %DIF > 
+\usepackage{multirow} %DIF > 
+\usepackage{wrapfig} %DIF > 
+\usepackage{float} %DIF > 
+\usepackage{colortbl} %DIF > 
+\usepackage{pdflscape} %DIF > 
+\usepackage{tabu} %DIF > 
+\usepackage{threeparttable} %DIF > 
+\usepackage{threeparttablex} %DIF > 
+\usepackage[normalem]{ulem} %DIF > 
+\usepackage{makecell} %DIF > 
+\usepackage{xcolor} %DIF > 
+%DIF -------
+%
+%% \usepackage commands included in the copernicus.cls:
+%\usepackage[german, english]{babel}
+%\usepackage{tabularx}
+%\usepackage{cancel}
+%\usepackage{multirow}
+%\usepackage{supertabular}
+%\usepackage{algorithmic}
+%\usepackage{algorithm}
+%\usepackage{amsthm}
+%\usepackage{float}
+%\usepackage{subfig}
+%\usepackage{rotating}
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\RequirePackage[normalem]{ulem} %DIF PREAMBLE
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
+\providecommand{\DIFadd}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
+\providecommand{\DIFdel}[1]{{\protect\color{red}\sout{#1}}}                      %DIF PREAMBLE
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{} %DIF PREAMBLE
+\providecommand{\DIFaddend}{} %DIF PREAMBLE
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE
+\providecommand{\DIFdelend}{} %DIF PREAMBLE
+\providecommand{\DIFmodbegin}{} %DIF PREAMBLE
+\providecommand{\DIFmodend}{} %DIF PREAMBLE
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE
+%DIF COLORLISTINGS PREAMBLE %DIF PREAMBLE
+\RequirePackage{listings} %DIF PREAMBLE
+\RequirePackage{color} %DIF PREAMBLE
+\lstdefinelanguage{DIFcode}{ %DIF PREAMBLE
+%DIF DIFCODE_UNDERLINE %DIF PREAMBLE
+  moredelim=[il][\color{red}\sout]{\%DIF\ <\ }, %DIF PREAMBLE
+  moredelim=[il][\color{blue}\uwave]{\%DIF\ >\ } %DIF PREAMBLE
+} %DIF PREAMBLE
+\lstdefinestyle{DIFverbatimstyle}{ %DIF PREAMBLE
+	language=DIFcode, %DIF PREAMBLE
+	basicstyle=\ttfamily, %DIF PREAMBLE
+	columns=fullflexible, %DIF PREAMBLE
+	keepspaces=true %DIF PREAMBLE
+} %DIF PREAMBLE
+\lstnewenvironment{DIFverbatim}{\lstset{style=DIFverbatimstyle}}{} %DIF PREAMBLE
+\lstnewenvironment{DIFverbatim*}{\lstset{style=DIFverbatimstyle,showspaces=true}}{} %DIF PREAMBLE
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+
+\begin{document}
+
+
+\title{Terrain is a stronger predictor of peat depth than airborne radiometrics in Norwegian landscapes}
+
+
+\Author[1][julien.vollering@hvl.no]{Julien}{Vollering}
+\Author[2]{Naomi}{Gatis}
+\Author[1]{Mette}{Kusk Gillespie}
+\Author[1]{Karl-Kristian}{Muggerud}
+\Author[1]{Sigurd Daniel}{Nerhus}
+\Author[1]{Knut}{Rydgren}
+\Author[1]{Mikko}{Sparf}
+
+
+\affil[1]{Department of Civil Engineering and Environmental Sciences, Western Norway University of Applied Sciences, Norway}
+\affil[2]{Department of Geography, University of Exeter, United Kingdom}
+
+\runningtitle{Peat depth from terrain and radiometrics}
+
+\runningauthor{Vollering et al.}
+
+
+\correspondence{Julien\ Vollering\ (julien.vollering@hvl.no)}
+
+
+
+\received{}
+\pubdiscuss{} %% only important for two-stage journals
+\revised{}
+\accepted{}
+\published{}
+
+%% These dates will be inserted by Copernicus Publications during the typesetting process.
+
+
+\firstpage{1}
+
+\maketitle
+
+
+\begin{abstract}
+Peatlands are Earth's most carbon-dense terrestrial ecosystems and their carbon density varies with the depth of the peat layer.
+Accurate mapping of peat depth is crucial for carbon accounting and land management, yet existing maps lack the resolution and accuracy needed for these applications.
+This study evaluates whether digital soil mapping using remotely sensed data can improve existing maps of peat depth in western and southeastern Norway.
+Specifically, we assessed the predictive value of LiDAR-derived terrain variables and airborne radiometric data across two, \textgreater10 km\textsuperscript{2} sites.
+We measured peat depth by probing and ground-penetrating radar at 372 and 1878 locations at the two sites, respectively.
+Then we trained Random Forest models using radiometric and terrain variables, plus the national map of peat depth, to predict peat depth at 10 m resolution.
+The two best models achieved mean absolute errors of 60 and 56 cm, explaining one-third of the variation in peat depth.
+Terrain variables were better predictors than radiometric variables, with elevation and valley bottom flatness showing the strongest relationships to depth.
+Radiometric variables showed inconsistent \DIFaddbegin \DIFadd{and weak }\DIFaddend predictive value -- improving performance at one site while degrading it at the other.
+\DIFdelbegin \DIFdel{The accuracy of }\DIFdelend \DIFaddbegin \DIFadd{Our remote sensing models had better accuracy than }\DIFaddend the national map of peat depth\DIFdelbegin \DIFdel{did not measure up to any of our remote sensing models, even though it was calibrated }\DIFdelend \DIFaddbegin \DIFadd{, even when we calibrated the national map }\DIFaddend to the same \DIFaddbegin \DIFadd{depth }\DIFaddend data.
+Still, weak relationships with remotely sensed variables made peat depth hard to predict overall.
+Based on these findings, we conclude that digital soil mapping can improve \DIFdelbegin \DIFdel{existing, broad-scale maps }\DIFdelend \DIFaddbegin \DIFadd{the existing, national map }\DIFaddend of peat depth in Norway, but \DIFdelbegin \DIFdel{highly localized carbon stock assessments }\DIFdelend \DIFaddbegin \DIFadd{detailed local maps }\DIFaddend are best made from \DIFaddbegin \DIFadd{tailored }\DIFaddend field measurements.
+\DIFdelbegin \DIFdel{Furthermore, the inability of models to identify peat presence outside known peatlands highlights the need for integrated mapping of peat lateral extent and depth.
+}\DIFdelend Together, these pathways promise more accurate landscape-scale carbon stock assessments and better-informed land management policies.
+\end{abstract}
+
+
+
+
+\section{Introduction}
+
+Peat soils are a terrestrial carbon stock of global importance.
+They store 450-650 Gt of carbon, or about 30 \% of global soil carbon, despite covering only 2--3 \% of Earth's land \citep{xuPEATMAPRefiningEstimates2018, friedlingsteinGlobalCarbonBudget2020, unepGlobalPeatlandsAssessment2022}.
+Peatlands (areas with peat soil) are more carbon dense per square meter than any other ecosystem \citep{temminkRecoveringWetlandBiogeomorphic2022}.
+This makes them crucial to climate change mitigation.
+Intact peatlands sequester carbon and overall produce a negative temperature forcing \citep{joostenRolePeatlandsClimate2016}.
+When disturbed \DIFdelbegin \DIFdel{, }\DIFdelend \DIFaddbegin \DIFadd{-- }\DIFaddend often by conversion to another land use \DIFdelbegin \DIFdel{, }\DIFdelend \DIFaddbegin \DIFadd{-- }\DIFaddend they can produce large greenhouse gas emissions \citep{maGloballyRobustRelationship2022}.
+
+One of the keys to the areal density of peatland carbon stocks \DIFaddbegin \DIFadd{(and variation therein) }\DIFaddend lies in the third dimension: their depth.
+Peat soils range from zero to over ten meters deep \citep{widyastutiPEATGRIDSMappingThickness2024}\DIFdelbegin \DIFdel{, so deep peats comprise a large volume}\DIFdelend .
+Their depth \DIFdelbegin \DIFdel{results from the accumulation }\DIFdelend \DIFaddbegin \DIFadd{depends on the rate and duration }\DIFaddend of organic matter \DIFaddbegin \DIFadd{accumulation, potentially }\DIFaddend over thousands of years \citep{loiselDatabaseSynthesisNorthern2014, joostenRolePeatlandsClimate2016}.
+In the anoxic and acidic conditions created by a high water table, plant material decay is slightly outweighed by new growth, and the surplus carbon is laid down as peat.
+\DIFdelbegin \DIFdel{There it remains sequestered as long as the water table stays high and prevents oxidative peat decomposition.
+}\DIFdelend 
+
+Peatlands are most common at high latitudes, and in regions with high cover they are frequently converted to human land use \citep{unepGlobalPeatlandsAssessment2022}.
+They are attractive for agriculture and forestry because they are flat, treeless, and have developed soils\DIFdelbegin \DIFdel{.
+However, }\DIFdelend \DIFaddbegin \DIFadd{, but }\DIFaddend other land uses also displace peatlands.
+In Norway -- where flat lowland is relatively scarce but upward of 9 \% of the land area is peatland \citep{brynLandCoverNorway2018, bakkestuenDelineationWetlandAreas2023} -- lawmakers have restricted peatland afforestation and cultivation in recent decades.
+Since then, a larger proportion of peatland loss is driven by construction \citep{flagetMyrMellomLokal2024}.
+
+\DIFdelbegin \DIFdel{The spatial distribution of peat depth }\DIFdelend \DIFaddbegin \DIFadd{Variation in peat depth and its spatial distribution }\DIFaddend is often overlooked in land use planning and carbon accounting because peat depth is not mapped with sufficient coverage, resolution, or accuracy \citep{beilmanPeatCarbonStocks2008, hastieRisksCarbonStorage2022, unepGlobalPeatlandsAssessment2022}.
+Maps are crucial because\DIFaddbegin \DIFadd{, unlike spatially aggregated estimates, }\DIFaddend they link high-level targets to specific management decisions \DIFdelbegin \DIFdel{, unlike spatially aggregated estimates \mbox{%DIFAUXCMD
+\citep{oecdOECDEnvironmentalPerformance2022}}\hskip0pt%DIFAUXCMD
+.
+For example, Norwegian regulations restrict conversion of peatland to farmland more strictly where peat depth exceeds 1 m, and the distribution of peat depth on a farmer's property determines whether they are allowed to convert peatland (Forskrift om nydyrking, 1997, § 5a).
+}\DIFdelend \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep{oecdOECDEnvironmentalPerformance2022}}\hskip0pt%DIFAUXCMD
+.
+}\DIFaddend Maps of peat depth also make it possible to quantify the effect of specific management decisions and thereby understand how local outcomes contribute to regional and national outcomes \citep{oecdOECDEnvironmentalPerformance2022}.
+
+Measuring peat depth on the ground \DIFdelbegin \DIFdel{by probing or ground-penetrating radar }\DIFdelend is straightforward, and a field survey can map a small area at low cost.
+However, surveying large areas is impractical when depth varies widely over short distances (e.g.\DIFdelbegin \DIFdel{~}\DIFdelend \DIFaddbegin \DIFadd{, }\DIFaddend 10 m) -- as in many peatlands \citep{torppaStatisticalApproachDetermining2011, proulx-mcinnisReviewGroundpenetratingRadar2013, henrionMappingMonitoringPeatlands2024}.
+A complementary approach from soil science is digital soil mapping (DSM).
+DSM scales up field measurements from a set of locations to a wider area, by relating the measured values to other variables mapped over the area of interest\DIFaddbegin \DIFadd{, through a statistical model}\DIFaddend .
+This approach has grown in importance with the availability of remotely sensed data and the advancement of \DIFdelbegin \DIFdel{methods for identifying patterns, especially through machine learning }\DIFdelend \DIFaddbegin \DIFadd{machine learning methods }\DIFaddend \citep{minasnyDigitalMappingPeatlands2019, wadouxMachineLearningDigital2020}.
+
+The crux for DSM of peat depth is the relationship between peat depth and \DIFdelbegin \DIFdel{each of }\DIFdelend the other, mapped predictors.
+For DSM to \DIFdelbegin \DIFdel{work}\DIFdelend \DIFaddbegin \DIFadd{be effective}\DIFaddend , these relationships must be strong and consistent over the area of interest.
+They can be purely correlative rather than causal, but mechanistic relationships are stronger and more consistent than non-causal ones.
+The \emph{scorpan} framework for DSM suggests seven predictor classes to explore: other soil properties, climate, organisms, relief (topography), parent material, age, and spatial position \citep{mcbratneyDigitalSoilMapping2003}.
+
+For peat depth, the most practical and widespread \emph{scorpan} factors are relief and spatial position.
+Spatial position is unique because it is always known (with varying accuracy).
+However, the short range of spatial autocorrelation in peat depth limits its mapping value \citep{henglGenericFrameworkSpatial2004}.
+Relief, or topography, is widely and accurately mapped in digital terrain models (DTMs).
+For example, most of mainland Norway has at least one elevation measurement per square meter from airborne Light Detection and Ranging (LiDAR) surveys.
+Moreover, mechanisms of peat formation are linked to topography.
+\DIFdelbegin \DIFdel{For example, a steep slope is unlikely to have a high water table, thereby limiting accumulation of peat.
+}\DIFdelend 
+
+Studies have consistently shown relationships between peat depth and topography, \DIFdelbegin \DIFdel{although }\DIFdelend \DIFaddbegin \DIFadd{though }\DIFaddend the specific patterns vary.
+One of the most robust relationships is a negative correlation between depth and terrain slope \DIFdelbegin \DIFdel{\mbox{%DIFAUXCMD
+\citep[e.g.][]{holdenEstimatingCarbonStock2011, parryMethodModellingPeat2012, gatisMappingUplandPeat2019}}\hskip0pt%DIFAUXCMD
+}\DIFdelend \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep[e.g.,][]{holdenEstimatingCarbonStock2011, parryMethodModellingPeat2012, gatisMappingUplandPeat2019}}\hskip0pt%DIFAUXCMD
+}\DIFaddend .
+Peat depth also changes with elevation in many contexts, but with inconsistent directionality \DIFdelbegin \DIFdel{\mbox{%DIFAUXCMD
+\citep[e.g.][]{holdenEstimatingCarbonStock2011, parryMethodModellingPeat2012, rudiyantoDigitalMappingCosteffective2016, rudiyantoOpenDigitalMapping2018, kogantiMappingPeatDepth2023, liFactorsControllingPeat2024}}\hskip0pt%DIFAUXCMD
+}\DIFdelend \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep[e.g.,][]{holdenEstimatingCarbonStock2011, parryMethodModellingPeat2012, rudiyantoDigitalMappingCosteffective2016, rudiyantoOpenDigitalMapping2018, kogantiMappingPeatDepth2023, liFactorsControllingPeat2024}}\hskip0pt%DIFAUXCMD
+}\DIFaddend .
+Also more complex derivations of topography, such as the Topographic Wetness Index and the Multi-Resolution Valley Bottom Flatness index, have shown associations with peat depth \DIFdelbegin \DIFdel{in some studies \mbox{%DIFAUXCMD
+\citep[e.g.][]{rudiyantoOpenDigitalMapping2018, kogantiMappingPeatDepth2023, liFactorsControllingPeat2024}}\hskip0pt%DIFAUXCMD
+}\DIFdelend \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep[e.g.,][]{rudiyantoOpenDigitalMapping2018, kogantiMappingPeatDepth2023, liFactorsControllingPeat2024, pohjankukkaDigitalMappingPeat2025}}\hskip0pt%DIFAUXCMD
+}\DIFaddend .
+Some of the variation between studies in quantifying these relationships is undoubtedly attributable to issues of spatial scale -- both the scaling of the topographic predictors and the resolution of the peat depth analysis.
+
+Another set of predictors related to peat depth are measurements of natural radioactivity from the ground surface.
+Gamma-ray spectrometry can survey the activity (decay counts per second) from radioactive isotopes in \DIFdelbegin \DIFdel{the earth's crust}\DIFdelend \DIFaddbegin \DIFadd{bedrock and mineral soils}\DIFaddend : potassium-40, uranium-238, and thorium-232 \DIFdelbegin \DIFdel{\mbox{%DIFAUXCMD
+\citep{reinhardtGammaraySpectrometryVersatile2019}}\hskip0pt%DIFAUXCMD
+.
+These exist in bedrock (and mineral soils)and a peat overburden attenuates the radiation intensity at the surface.
+The degree of attenuation relates to properties of the overburden, especially composition and depth}\DIFdelend \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep{beamishEnvironmentalRadioactivityUK2014, reinhardtGammaraySpectrometryVersatile2019}}\hskip0pt%DIFAUXCMD
+.
+Although survey measurements are commonly reported as ground concentrations (linearly scaled from decay counts per second), in peatland environments these predictors do not reflect the concentration of radionuclides near the ground surface, but rather the radiation intensity after attenuation by the peat overburden}\DIFaddend .
+Deep soil with high water content will attenuate radiation most \citep{beamishGammaRayAttenuation2013, reinhardtGammaraySpectrometryVersatile2019}.
+Thus, \DIFdelbegin \DIFdel{gamma-ray radiometrics integrate }\DIFdelend \DIFaddbegin \DIFadd{reported ground concentrations can be statistically informative about peat soils, even if not physically correct, with respect to }\DIFaddend two \emph{scorpan} factors: other soil properties and parent material \citep{mcbratneyDigitalSoilMapping2003}.
+
+Although theory suggests that one meter of peat may fully attenuate radiometric signal \citep{beamishGammaRayAttenuation2013, reinhardtGammaraySpectrometryVersatile2019}, empirical investigations show that the association between peat depth and radioactivity can extend beyond the first meter \citep{keaneySpatialStatisticsEstimate2013, gatisMappingUplandPeat2019, kogantiMappingPeatDepth2023}.
+Radiometric data are increasingly available over large areas \DIFdelbegin \DIFdel{, presenting a big opportunity for mapping peat depth, }\DIFdelend \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep{minasnyDigitalMappingPeatlands2019, baranwalAirborneGeophysicalSurveys2020}}\hskip0pt%DIFAUXCMD
+, and -- }\DIFaddend insofar as they are predictive of peat depth \DIFdelbegin \DIFdel{.
+Airborne surveys are used for various applications like mineral prospecting and radon risk management, and some countries have high spatial coverage of such data \mbox{%DIFAUXCMD
+\citep{minasnyDigitalMappingPeatlands2019, baranwalAirborneGeophysicalSurveys2020}}\hskip0pt%DIFAUXCMD
+}\DIFdelend \DIFaddbegin \DIFadd{-- this presents an opportunity for DSM}\DIFaddend .
+
+The effectiveness of DSM depends not only on the methods and data, but also on the characteristics of the mapping area.
+Norway may be instructive in this respect because its peatlands vary widely across climates and topographies.
+Norway has 22 peatland mesotopes, with different hydrology, formation, and development -- from topogeneous or soligeneous fens to blanket or raised bogs \citep{joostenWiseUseMires2002, lyngstadBeskrivelserAvTorvmassivenheter2023}.
+These mesotopes have fundamentally different geomorphology, \DIFdelbegin \DIFdel{suggesting that peat depth relationships with }\DIFdelend \DIFaddbegin \DIFadd{which suggests that relationships between peat depth and }\DIFaddend terrain or radiometric predictors \DIFdelbegin \DIFdel{will }\DIFdelend \DIFaddbegin \DIFadd{may }\DIFaddend vary by landscape.
+
+The \DIFdelbegin \DIFdel{little we know about the depths of Norwegian peatlands }\DIFdelend \DIFaddbegin \DIFadd{only systematic mapping of peat depth at the national scale in Norway }\DIFaddend comes from surveys meant to identify arable land.
+After scattered \DIFdelbegin \DIFdel{surveys }\DIFdelend \DIFaddbegin \DIFadd{efforts }\DIFaddend in the early 20th century, a comprehensive round of surveying was completed 1964--2001 as part of a wider land cover mapping in Norway \citep{bjordalMarkslagsklassifikasjonOkonomiskKartverk2007}.
+This survey produced the initial maps from which Norway's most detailed updated land cover datasets are derived -- including the AR5 and DMK datasets used in this study and described later.
+Because of its agricultural and silvicultural focus, the survey covered only productive areas below the tree line, and peat depth was measured only in places judged to be potentially arable or afforestable \citep{ahlstromAR5Klassifikasjonssystem2019}.
+Field surveyors carried a 1 m probe and they measured peat depth as a categorical variable: \DIFdelbegin \DIFdel{shallow (\textless{} 1 }\DIFdelend \DIFaddbegin \emph{\DIFadd{shallow}} \DIFadd{(\textless1 }\DIFaddend m), or \DIFdelbegin \DIFdel{deep (\textgreater{} 1 }\DIFdelend \DIFaddbegin \emph{\DIFadd{deep}} \DIFadd{(\textgreater1 }\DIFaddend m).
+These classes were assigned to whole polygons, so spatial resolution is on the order of hectares.
+The number of measurements per unit area was not standardized but probably low.
+
+The push for nature-based climate solutions motivates for \DIFdelbegin \DIFdel{broad }\DIFdelend \DIFaddbegin \DIFadd{extensive }\DIFaddend mapping of peat depth, to identify peatlands with rich carbon stocks to avoid their conversion and prioritize their preservation or restoration \citep{strackPotentialPeatlandsNatureBased2022}.
+Although ground surveys of peat depth are accurate and feasible across small areas, having landscape-scale maps \DIFdelbegin \emph{\DIFdel{before}} %DIFAUXCMD
+\DIFdelend \DIFaddbegin \DIFadd{available before }\DIFaddend detailed investigation increases the option space for spatial planning and land management.
+For example, the Norwegian Public Roads Administration routinely measures peat depth during geotechnical work \DIFaddbegin \DIFadd{before road construction}\DIFaddend , but by that time, the route of the road is already set.
+With a \DIFdelbegin \DIFdel{digital }\DIFdelend \DIFaddbegin \DIFadd{landscape-scale }\DIFaddend peat depth map, planners could better compare \DIFdelbegin \DIFdel{routes and climate mitigation measures would have more leverage.
+Therefore, soil science needs more studies of }\DIFdelend \DIFaddbegin \DIFadd{the climate impact of different routes.
+To make landscape-scale maps possible, more studies need to investigate the }\DIFaddend relationships between peat depth and topographic or radiometric \DIFdelbegin \DIFdel{data }\DIFdelend \DIFaddbegin \DIFadd{variables, }\DIFaddend to determine how \DIFdelbegin \DIFdel{predictive they are, which variables are most predictive, and how consistent their associations }\DIFdelend \DIFaddbegin \DIFadd{strong and consistent these }\DIFaddend are.
+
+Here, we assess how well remotely sensed topographic and radiometric data can predict peat depth at two contrasting sites, with a view \DIFdelbegin \DIFdel{towards }\DIFdelend \DIFaddbegin \DIFadd{toward }\DIFaddend revising regional and national maps in Norway.
+Specifically, we aim to: (1) quantify the accuracy of predictions from topographic and radiometric variables, and (2) identify key predictive variables.
+Reflecting on our results and the need for continued improvement in peat depth maps, we close by discussing implications for digital soil mapping of peat depth.
+
+To our knowledge, this is the first study to predict \DIFaddbegin \DIFadd{continuous }\DIFaddend peat depth from airborne radiometric data using machine learning\DIFdelbegin \DIFdel{algorithms}\DIFdelend .
+Where airborne radiometric data have previously been used to predict \DIFaddbegin \DIFadd{continuous }\DIFaddend peat depth, it has been through modeling techniques less suited for prediction and spatial extrapolation \citep[e.g.,][]{keaneySpatialStatisticsEstimate2013, gatisMappingUplandPeat2019, siemonAirborneElectromagneticRadiometric2020}.
+Where machine learning \DIFdelbegin \DIFdel{algorithms have }\DIFdelend \DIFaddbegin \DIFadd{has }\DIFaddend previously been used \DIFdelbegin \DIFdel{on }\DIFdelend \DIFaddbegin \DIFadd{with }\DIFaddend airborne radiometric data, it has been to predict peat extent \DIFdelbegin \DIFdel{rather than depth \mbox{%DIFAUXCMD
+\citep[e.g.,][]{olearyDigitalSoilMapping2022}}\hskip0pt%DIFAUXCMD
+}\DIFdelend \DIFaddbegin \DIFadd{or depth classes rather than continuous depth \mbox{%DIFAUXCMD
+\citep[e.g.,][]{olearyDigitalSoilMapping2022, pohjankukkaDigitalMappingPeat2025}}\hskip0pt%DIFAUXCMD
+}\DIFaddend .
+
+\section{Materials and methods}
+
+\subsection{Sites}
+
+To assess the predictive value of terrain and radiometric data for mapping peat depth, we chose two sites with conspicuously different physical geography: Skrimfjella \DIFdelbegin \DIFdel{(Fig. \ref{fig:sites}b) }\DIFdelend in eastern Norway \DIFdelbegin \DIFdel{and Ørskogfjellet }\DIFdelend (Fig. \DIFdelbegin \DIFdel{\ref{fig:sites}a) }\DIFdelend \DIFaddbegin \DIFadd{\ref{fig:map-sites}a) and Ørskogfjellet }\DIFaddend in western Norway (Fig. \DIFdelbegin \DIFdel{\ref{fig:sites}c}\DIFdelend \DIFaddbegin \DIFadd{\ref{fig:map-sites}b}\DIFaddend ).
+These sites were chosen because they were covered by radiometric data from airborne surveys, had relatively little built-up area, and were accessible by road.
+\DIFaddbegin \DIFadd{Ørskogfjellet was additionally chosen for its relatively uniform bedrock geology, which should improve the peat depth signal in radiometric data, all else being equal \mbox{%DIFAUXCMD
+\citep{minasnyDigitalMappingPeatlands2019}}\hskip0pt%DIFAUXCMD
+.
+}\DIFaddend 
+
+\begin{figure}
+\DIFdelbeginFL %DIFDELCMD < \includegraphics[height=0.81\textheight]{figures/sites-patchwork} %%%
+\DIFdelendFL \DIFaddbeginFL \includegraphics[height=0.81\textheight]{figures/map-sites} \DIFaddendFL \caption{\DIFdelbeginFL \DIFdelFL{Sites in southern Norway (a) }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{Study areas }\DIFaddendFL with land cover at Skrimfjella (\DIFdelbeginFL \DIFdelFL{b}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{a}\DIFaddendFL ) and Ørskogfjellet (\DIFdelbeginFL \DIFdelFL{c}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{b}\DIFaddendFL ). To fit the scale of the maps, the land cover shown here is from the AR50 national land resource dataset, which has simplified geometry with respect to the AR5 dataset that is used in the study. Terrain is visualized \DIFdelbeginFL \DIFdelFL{using }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{with light orange contour lines at intervals of 100 m, and }\DIFaddendFL a hillshade with slope \DIFdelbeginFL \DIFdelFL{45° }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{$45^\circ$ }\DIFaddendFL and azimuth \DIFdelbeginFL \DIFdelFL{225°}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{$225^\circ$}\DIFaddendFL . AR50 data are from Norwegian Institute of Bioeconomy Research under the Norwegian Licence for Open Government Data (https://data.norge.no/nlod/en/1.0) and terrain data are from the Norwegian Mapping Authority under the Creative Commons Attribution 4.0 International license (https://creativecommons.org/licenses/by/4.0/).}\DIFdelbeginFL %DIFDELCMD < \label{fig:sites}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \label{fig:map-sites}
+\DIFaddendFL \end{figure}
+
+At Skrimfjella we delineated a study area of 34 km\textsuperscript{2} based on radiometric coverage \DIFaddbegin \DIFadd{(limiting to the west) }\DIFaddend and accessibility (\DIFdelbegin \DIFdel{Fig. \ref{fig:sites}b) }\DIFdelend \DIFaddbegin \DIFadd{limiting to the south), as part of a pilot project (Fig. \ref{fig:map-sites}a).
+In Norway's AR5 national land cover dataset \mbox{%DIFAUXCMD
+\citep[``areal resources in scale 1:5000'',][]{ahlstromAR5Klassifikasjonssystem2019}}\hskip0pt%DIFAUXCMD
+, 1.5 km\textsuperscript{2} (4.5 \%) of the study area is classified as `mire' -- defined as areas with mire vegetation and at least 30 cm of peat depth.
+Relatively sparse peatland cover did not disqualify the area for our purposes, since we were also interested in peatland extent mapping in the pilot project}\DIFaddend .
+The study area has a diverse bedrock, with 32 \% alkali feldspar granite, 26 \% marlstone, 10 \% granite, 8 \% monzonite, 7 \% sandstone, 6 \% limestone, and five other rock types with 1--5 \% coverage (Geological Survey of Norway, 1:250 000 dataset).
+\DIFdelbegin \DIFdel{The area within our delineation at Skrimfjella is classified as the landscape type }\emph{\DIFdel{inland hills and mountains}} %DIFAUXCMD
+\DIFdel{\mbox{%DIFAUXCMD
+\citep{simensenDiversityDistributionLandscape2021}}\hskip0pt%DIFAUXCMD
+.
+}\DIFdelend It is almost without human infrastructure, dominated by conifer forest, and borders on a nature reserve.
+\DIFdelbegin \DIFdel{The study area has a mean elevation of }\DIFdelend \DIFaddbegin \DIFadd{Its mean elevation is }\DIFaddend 438 m a.s.l. (range 223--711 m, IQR 351--509 m), and its mean slope at 10 m resolution is \DIFdelbegin \DIFdel{10.8° (IQR 4.6--15.1°).
+In Norway's AR5 national land cover dataset \mbox{%DIFAUXCMD
+\citep[``areal resources in scale 1:5000'',][]{ahlstromAR5Klassifikasjonssystem2019}}\hskip0pt%DIFAUXCMD
+, 1.5 km\textsuperscript{2} (4.5 \%)of the study area is classified as `mire' -- defined as areas with mire vegetation and at least 30 cm of peat depth}\DIFdelend \DIFaddbegin \DIFadd{\(10.8^\circ\) (IQR \(4.6-15.1^\circ\))}\DIFaddend .
+
+At Ørskogfjellet we defined a study area of 124 km\textsuperscript{2} which basically followed the southernmost part of the radiometric survey extent (Fig. \DIFdelbegin \DIFdel{\ref{fig:sites}a).
+}\DIFdelend \DIFaddbegin \DIFadd{\ref{fig:map-sites}b).
+In the AR5 dataset, 15.3 km\textsuperscript{2} (12.4 \%) of the study area is classified as mire.
+}\DIFaddend Bedrock in the area is 84 \% granitic gneiss, 11 \% granite, and 5 \% aluminium silicate gneiss (Geological Survey of Norway, 1:250 000 dataset).
+This study area \DIFdelbegin \DIFdel{comprises a wide range of major landscape types: }\emph{\DIFdel{coastal plains}}%DIFAUXCMD
+\DIFdel{, }\emph{\DIFdel{coastal fjord}}%DIFAUXCMD
+\DIFdel{, }\emph{\DIFdel{inland valleys}}%DIFAUXCMD
+\DIFdel{, as well as }\emph{\DIFdel{inland hills and mountains}} %DIFAUXCMD
+\DIFdel{\mbox{%DIFAUXCMD
+\citep{simensenDiversityDistributionLandscape2021}}\hskip0pt%DIFAUXCMD
+.
+It }\DIFdelend is mostly forested, but also contains considerable farmland and open upland, and has several large lakes.
+Its mean elevation is 211 m above sea level (range 0--807 m, IQR 73--310 m), and its mean slope at 10 m resolution is \DIFdelbegin \DIFdel{13.0° (IQR 4.7--18.3°).
+In the AR5 dataset, 15.3 km\textsuperscript{2} (12.4 \%)of the study area is classified as mire}\DIFdelend \DIFaddbegin \DIFadd{\(13.0^\circ\) (IQR \(4.7-18.3^\circ\))}\DIFaddend .
+
+\subsection{Peat depth predictors}
+
+We created the same suite of peat depth predictors for both sites (25 continuous and 1 categorical; Table \ref{tab:preds}).
+\DIFdelbegin \DIFdel{Each continuous predictor equates to one variable in the model, while the categorical predictor equates to two variables in the model because its three levels become two indicator variables (one level is used as the reference).
+}\DIFdelend All continuous predictors were derived either from an airborne radiometric survey or from a DTM.
+From the radiometric surveys, we simply used the four variables produced by the Geological Survey of Norway: ground concentration of potassium, thorium, uranium, as well as total count.
+From the DTMs we calculated several land surface parameters, ranging from simple terrain indices to more complex geomorphometric and hydrological variables \citep{maxwellLandsurfaceParametersSpatial2022}.
+The categorical predictor was peat depth class, from a national map dataset.
+\DIFaddbegin \DIFadd{Predictor preparation is described in more detail below.
+}
+
+\DIFaddend We chose a spatial resolution of 10 m for our predictors, \DIFdelbegin \DIFdel{peat depth sample, and modelling}\DIFdelend \DIFaddbegin \DIFadd{depth sampling, and modeling}\DIFaddend .
+We considered this a reasonable compromise between DTM resolution (1 m) and small peatlands on the one hand, and airborne radiometric resolution (50 m) on the other hand.
+\DIFdelbegin \DIFdel{Complete descriptions of predictors follow below.
+}\DIFdelend 
+
+\begin{table}[tbp]
+\caption{Twenty-six candidate predictors of peat depth. Note that each continuous predictor contributes one variable to the model while the single categorical predictor (DMK) contributes two binary variables, corresponding to its three levels (one level is used as the reference). 
+This results in a total of 27 variables.}
+\begin{tabular}{llll}
+\hline
+Group        & Code         & Units                 & Description                                                            \\ \hline
+radiometric  & radK         & \%                    & Potassium ground concentration                                         \\ 
+             & radTh        & ppm                   & Thorium ground concentration                                           \\
+             & radU         & ppm                   & Uranium ground concentration                                           \\
+             & radTC        & \unit{counts\,s^{-1}} & Total Count of gamma radiation                                         \\
+terrain      & elevation    & m                     & mean elevation from DTM with 1 m resolution                            \\
+             & slope1m      & degrees               & mean of slope at 1 m resolution                                        \\
+             & TPI1m        & m                     & mean of Topographic Position Index at 1 m resolution                   \\
+             & TRI1m        & m                     & mean of Terrain Ruggedness Index at 1 m resolution                     \\
+             & roughness1m  & m                     & mean of roughness at 1 m resolution                                    \\
+             & slope10m     & degrees               & slope from DTM with 10 m resolution                                    \\
+             & TPI10m       & m                     & Topographic Position Index from DTM with 10 m resolution               \\
+             & TRI10m       & m                     & Terrain Ruggedness Index from DTM with 10 m resolution                 \\
+             & roughness10m & m                     & roughness from DTM with 10 m resolution                                \\
+             & MRVBF        & dimensionless         & Multi-Resolution Valley Bottom Flatness                                \\
+             & TWI5m        & dimensionless         & mean of Topographic Wetness Index at 5 m resolution                    \\
+             & TWI10m       & dimensionless         & Topographic Wetness Index at 10 m resolution                           \\
+             & TWI20m       & dimensionless         & bilinear interpolation of Topographic Wetness Index at 20 m resolution \\
+             & TWI50m       & dimensionless         & bilinear interpolation of Topographic Wetness Index at 50 m resolution \\
+             & DTW2500      & m                     & Depth-To-Water index, flow initiation area of 0.25 ha                  \\
+             & DTW5000      & m                     & Depth-To-Water index, flow initiation area of 0.5 ha                   \\
+             & DTW10000     & m                     & Depth-To-Water index, flow initiation area of 1 ha                     \\
+             & DTW20000     & m                     & Depth-To-Water index, flow initiation area of 2 ha                     \\
+             & DTW40000     & m                     & Depth-To-Water index, flow initiation area of 4 ha                     \\
+             & DTW80000     & m                     & Depth-To-Water index, flow initiation area of 8 ha                     \\
+             & DTW160000    & m                     & Depth-To-Water index, flow initiation area of 16 ha                    \\
+DMK          & DMK          & categorical           & peat depth class in the DMK national map dataset: shallow/deep/unknown \\ \hline
+\end{tabular}
+\label{tab:preds}
+\end{table}
+
+\subsubsection{Radiometric}
+
+The Geological Survey of Norway conducted and processed radiometric surveys over our study areas, as reported in Baranwal et al. \citeyearpar{baranwalHelicopterborneMagneticElectromagnetic2013} and Ofstad \citeyearpar{ofstadHelicopterborneMagneticRadiometric2015}.
+They provided us for each site four variables at 50 m resolution, which we downscaled to 10 m resolution by cubic spline resampling\DIFdelbegin \DIFdel{, using the }\emph{\DIFdel{terra}} %DIFAUXCMD
+\DIFdel{package (v1.7) in R}\DIFdelend \DIFaddbegin \DIFadd{.
+Sensitivity analysis showed that Pearson correlations between cubic spline and bilinear resampling methods exceeded 0.995 for all radiometric variables, so we are confident that the choice of resampling method did not affect our results}\DIFaddend .
+
+The radiometric surveys were \DIFdelbegin \DIFdel{conduced with similar flight parameters }\DIFdelend \DIFaddbegin \DIFadd{conducted with 75--80 m average flight altitude, 88--108 }\unit{km\,h^{-1}} \DIFadd{average flight speed, and 200 m flight line spacing }\DIFaddend (Table \ref{tab:radSurveys}).
+Spectrometer count rates were calibrated to known concentrations of potassium, thorium, and uranium in mobile pads.
+Data were processed following standard procedures outlined by the International Atomic Energy Association.
+Processing included: correction for aircraft and cosmic background radiation, correction for radon in the air, window stripping of the gamma ray spectrum, correction for flying height, conversion of count rates to ground concentrations, and finally gridding to 50 m resolution with micro-leveling.
+At Ørskogfjellet an additional convolution filter was added to smooth the gridded data.
+
+\DIFaddbegin \DIFadd{Although radiometric data must be in units of counts per second to model attenuation directly \mbox{%DIFAUXCMD
+\citep{olearyDigitalSoilMapping2022}}\hskip0pt%DIFAUXCMD
+, we used the radiometric data as provided to us: in units of concentration for potassium, thorium, and uranium (converted from counts per second by scalar calibration factors).
+The monotonic transformation between counts per second and concentration has no effect on the tree-based machine learning algorithm that we used to model peat depth \mbox{%DIFAUXCMD
+\citep{hastieElementsStatisticalLearning2009}}\hskip0pt%DIFAUXCMD
+.
+}
+
+\DIFaddend \subsubsection{Terrain}
+
+For terrain-derived predictors, we obtained 1 m resolution rasters from the national DTM (\href{https://creativecommons.org/licenses/by/4.0/}{CC BY 4.0} Norwegian Mapping Authority).
+The DTM for Skrimfjella was produced from airborne laser scanning surveys in 2015 and 2022, with laser point density of \unit{5\,pts\,m^{-2}}.
+For Ørskogfjellet, the DTM was produced from a 2015 survey with \unit{2\,pts\,m^{-2}}.
+Where necessary, DTMs were resampled to the coordinate reference system of the radiometric data.
+
+We used the \emph{terra} \DIFdelbegin \DIFdel{package }\DIFdelend \DIFaddbegin \DIFadd{R package (v1.8) }\DIFaddend to calculate from the DTMs: slope, Topographic Position Index (difference from mean of eight neighbors), Terrain Ruggedness Index (mean of absolute differences from eight neighbors), and roughness (range in the nine-cell neighborhood).
+These were derived at two scales to produce eight different predictors; we either calculated the indices at 1 m DTM resolution and then aggregated to 10 m resolution, or aggregated to 10 m DTM resolution and then calculated the indices.
+This kind of multiscale feature engineering of land surface parameters has been found to improve machine learning predictions of soil properties \citep{millerImpactMultiscalePredictor2015, dornikOptimalScalingPredictors2022, newmanAssessingSpatiallyHeterogeneous2023}.
+We know that peat depth tends to vary at fine scales in Norway, which is why we chose 1 m and 10 m resolutions \citep{maxwellLandsurfaceParametersSpatial2022}.
+We also calculated the Multi-Resolution Valley Bottom Flatness index, which indicates the degree of valley bottom flatness at a given location via a multiscale algorithm \citep{gallantMultiresolutionIndexValley2003}.
+We calculated this index in SAGA GIS \citep[v.9.3.2, Morphometry library,][]{conradSystemAutomatedGeoscientific2015} with default parameters (initial slope threshold = 16 \%, lowness threshold = 0.4, upness threshold = 0.35, slope shape parameter = 4, elevation shape parameter = 3).
+
+The Topographic Wetness Index \citep{quinnPredictionHillslopeFlow1991} is notoriously scale-dependent and often matches real hydrological conditions best when calculated from moderate to coarse resolution DTMs \citep{agrenEvaluatingDigitalTerrain2014, riihimakiTopographicWetnessIndex2021}, so we calculated it from 5 m, 10 m, 20 m, and 50 m DTM resolution.
+The calculations were performed with Whitebox software \citep{lindsayWhiteboxGATCase2016}, accessed through the \emph{whitebox} R package \citep[v2.4,][]{wuWhiteboxWhiteboxToolsFrontend2022}.
+We filled depressions in the DTM with the algorithm in Wang \& Liu \citeyearpar{wangEfficientMethodIdentifying2006}, and used the deterministic infinity flow accumulation algorithm \citep{tarbotonNewMethodDetermination1997}.
+
+The Depth-to-Water index \citep{murphyMappingWetlandsComparison2007} approximates a location's vertical height above the surface water feature (e.g.\DIFdelbegin \DIFdel{~}\DIFdelend \DIFaddbegin \DIFadd{, }\DIFaddend stream, lake, or sea) that it is likely to drain towards.
+It is calculated as the minimum cumulative slope (scaled by cell size) to a surface water feature \citep[eq. 5 in][]{murphyTopographicModellingSoil2009}.
+We calculated unitless slope from the 1 m DTM using \DIFdelbegin \DIFdel{the Whiteboxsoftware.
+Also using Whitebox, we }\DIFdelend \DIFaddbegin \DIFadd{Whitebox.
+We }\DIFaddend defined surface water features from the DTM by filling depressions and then calculating flow accumulation to define catchment areas for each cell \citep{schonauerSpatiotemporalPredictionSoil2021, schonauerRcodeCalculatingDepthwater2021}.
+This catchment area layer was then thresholded at seven different levels (flow initiation area 0.25--16 ha) to estimate surface water features under moisture scenarios varying from wet to dry \citep{murphyModellingMappingTopographic2011, agrenEvaluatingDigitalTerrain2014, schonauerSpatiotemporalPredictionSoil2021}.
+In addition, all surface water features mapped in the AR5 dataset were also transferred to the raster layer.
+For each of the seven surface water layers, we derived Depth-to-Water using the \emph{Distance Accumulation} tool in ArcGIS Pro (v.3.1, ESRI, USA), which has an efficient algorithm to find the cumulative distance over a cost surface to the least-cost source.
+
+\subsubsection{Peat depth class}
+
+We prepared one categorical predictor -- peat depth class -- from the national map dataset called \emph{DMK} \citep{ahlstromAR5Klassifikasjonssystem2019}.
+The DMK dataset is derived from the same historical surveys as the AR5 dataset, and peat depth classes are: \DIFdelbegin \DIFdel{\textless{} 1 }\DIFdelend \DIFaddbegin \DIFadd{\textless1 }\DIFaddend m (\emph{shallow}), \DIFdelbegin \DIFdel{\textgreater{} 1 }\DIFdelend \DIFaddbegin \DIFadd{\textgreater1 }\DIFaddend m (\emph{deep}), and \emph{unknown}.
+Surveyors generally assigned peat depth classes to polygons of at least 0.5 ha, although delineating polygons down to 0.2 ha was allowed if peat depth showed a ``particularly marked difference'' \citep{bjordalMarkslagsklassifikasjonOkonomiskKartverk2007}.
+We rasterized the peat depth class attribute to our 10 m grid \DIFaddbegin \DIFadd{and this predictor equates to two variables in the model because its three levels become two indicator variables (one level is used as the reference)}\DIFaddend .
+
+\subsection{Peat depth sample selection}
+
+The places (10 m raster cells) we chose to measure peat depth were sampled from mire areas in the AR5 dataset, and optimized for training a Random Forest (RF) model of peat depth \citep{brusSamplingDigitalSoil2019}.
+Broadly, we aimed for a sample that was representative of the predictor space defined by the most important predictors of peat depth \citep{wadouxSamplingDesignOptimization2019, maComparisonConditionedLatin2020}.
+A sample that preserves the properties of the multivariate distribution of predictor and outcome variables is most likely to maintain any complex, non-linear relationships that exist in the population, while avoiding spurious ones \citep{brusSamplingDigitalSoil2019}.
+Although we implemented the \DIFdelbegin \DIFdel{approach differently for }\DIFdelend \DIFaddbegin \DIFadd{sampling design differently at }\DIFaddend Skrimfjella (in 2020) than \DIFdelbegin \DIFdel{for }\DIFdelend \DIFaddbegin \DIFadd{at }\DIFaddend Ørskogfjellet (in 2023), the \DIFdelbegin \DIFdel{objective }\DIFdelend \DIFaddbegin \DIFadd{overall approach }\DIFaddend was the same.
+\DIFdelbegin %DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{We made several point measurements of peat depth within the sampled raster cells (three if by probing only, more if by GPR as well).
+The point measurements (described below) were ultimately aggregated to 10 m resolution by taking the mean of point values within each cell, inversely weighted by their distances to the cell center.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\subsubsection{\DIFdel{Skrimfjella}}
+%DIFAUXCMD
+\addtocounter{subsubsection}{-1}%DIFAUXCMD
+%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{At Skrimfjella, we used the }\emph{\DIFdel{eSample}} %DIFAUXCMD
+\DIFdel{function in the }\emph{\DIFdel{iSDM}} %DIFAUXCMD
+\DIFdel{R package (v1.0) to stratify our sample across elevation, slope, and potassium concentration.
+This function defines the environmental space as a two-dimensional convex hull around the PCA-ordinated data, then creates a regular grid across that space, and lastly finds for each grid cell the datum that is nearest \mbox{%DIFAUXCMD
+\citep{hattabUnifiedFrameworkModel2017}}\hskip0pt%DIFAUXCMD
+.
+We set a target sample size of 100, excluded the top and bottom percentile from the convex hull, and }\emph{\DIFdel{eSample}} %DIFAUXCMD
+\DIFdel{returned }\DIFdelend \DIFaddbegin \DIFadd{We chose }\DIFaddend 105 raster cells \DIFdelbegin \DIFdel{.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{We also measured peatland occurrence (binary variable) in a separate sample at Skrimfjella .
+We measured peatland occurrence because the AR5 dataset is known to underestimate peatland extent \mbox{%DIFAUXCMD
+\citep[especially in forests,][]{brynLandCoverNorway2018}}\hskip0pt%DIFAUXCMD
+, and because airborne radiometrics may help identify unmapped peatland \mbox{%DIFAUXCMD
+\citep{gatisMappingUplandPeat2019, olearyDigitalSoilMapping2022}}\hskip0pt%DIFAUXCMD
+.
+The 10 m cells were sampled from those outside AR5 mire and with slope \textless{} 20°.
+Following the same procedure, }\emph{\DIFdel{eSample}} %DIFAUXCMD
+\DIFdel{returned 106 raster cells from this population.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\subsubsection{\DIFdel{Ørskogfjellet}}
+%DIFAUXCMD
+\addtocounter{subsubsection}{-1}%DIFAUXCMD
+%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{At }\DIFdelend \DIFaddbegin \DIFadd{at Skrimfjella and 160 raster cells at }\DIFaddend Ørskogfjellet \DIFdelbegin \DIFdel{, we first determined a minimal sample size that would adequately capture the slope and radiometric properties (potassium, thorium, uranium, and total count) of the entire AR5 mire area \mbox{%DIFAUXCMD
+\citep{sauretteDivergenceMetricsDetermining2023}}\hskip0pt%DIFAUXCMD
+.
+Specifically, we identified an elbow point in a curve of similarity between sample and population \mbox{%DIFAUXCMD
+\citep{maloneMethodsImproveUtility2019}}\hskip0pt%DIFAUXCMD
+.
+For a sequence of sample sizes (50--500) \mbox{%DIFAUXCMD
+\citep[ten replicates each, drawn by conditioned latin hypercube sampling,][]{minasnyConditionedLatinHypercube2006, roudierClhsPackageConditioned2011}}\hskip0pt%DIFAUXCMD
+, we calculated the mean Kullback--Leibler divergence between sample and population distributions \mbox{%DIFAUXCMD
+\citep{maloneMethodsImproveUtility2019, sauretteDivergenceMetricsDetermining2023}}\hskip0pt%DIFAUXCMD
+.
+Then we fitted an asymptotic regression of mean divergence on sample size, and found that the curve reached 95 \% of the fitted asymptote at a sample size of 160.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{To choose 160 locations, we performed feature space coverage sampling, implemented using the }\emph{\DIFdel{kmeans}} %DIFAUXCMD
+\DIFdel{function in base R and the }\emph{\DIFdel{rdist}} %DIFAUXCMD
+\DIFdel{function in the the }\emph{\DIFdel{fields}} %DIFAUXCMD
+\DIFdel{package (v14.2).
+Feature space coverage sampling chooses locations that are closest to cluster centers in standardized predictor space \mbox{%DIFAUXCMD
+\citep{brusSamplingDigitalSoil2019}}\hskip0pt%DIFAUXCMD
+.
+This approach has been found to produce higher accuracy in RFs than conditioned latin hypercube sampling \mbox{%DIFAUXCMD
+\citep{wadouxSamplingDesignOptimization2019, maComparisonConditionedLatin2020}}\hskip0pt%DIFAUXCMD
+.
+Feature space coverage sampling works best when all dimensions are important predictors of the outcome \mbox{%DIFAUXCMD
+\citep{wadouxSamplingDesignOptimization2019}}\hskip0pt%DIFAUXCMD
+, and we used the same five predictors that we used to choose sample size: slope and four radiometrics.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{We adjusted the feature space coverage sampling to ensure that locations were accessible within time constraints, and assessed how this changed our sample from an ideal feature space coverage sample.
+Adjusting for accessibility is justified because the smaller sample size that would result if accessibility were ignored can degrade model accuracy as much or more as deviations from ideal sampling designs \mbox{%DIFAUXCMD
+\citep{wadouxSamplingDesignOptimization2019, maComparisonConditionedLatin2020}}\hskip0pt%DIFAUXCMD
+.
+To adjust, we first restricted the sampling population to AR5 mire areas that were within an arbitrary cost distance of publicly accessible roads.
+Cost distance was calculated using GRASS's }\emph{\DIFdel{r.walk}} %DIFAUXCMD
+\DIFdel{function, with friction costs defined by AR5 land classes \mbox{%DIFAUXCMD
+\citep{GRASSv8-2}}\hskip0pt%DIFAUXCMD
+.
+After creating a feature space coverage sample with this restriction, we also inspected a map of the sample and substituted 16 inaccessible locations with accessible locations from the same or a nearby cluster.
+Our two accessibility adjustments increased the distance in standardized predictor space between sample locations and cluster centers by 78 \% (compared to the ideal sample), but distance in our sample was still only 46 \% of the mean distance to cluster centers -- i.e., accessibility did not force locations far from cluster centers relative to the size of the clusters}\DIFdelend \DIFaddbegin \DIFadd{as our designed samples.
+A complete description of our sample selection is in Appendix \ref{sec:sample-selection}}\DIFaddend .
+
+\subsection{Depth measurements}
+
+We measured peat depths at Skrimfjella in August 2020 and at Ørskogfjellet in August 2023.
+\DIFaddbegin \DIFadd{We made at least three point measurements of peat depth within each of the raster cells in the designed samples.
+}\DIFaddend At both sites\DIFaddbegin \DIFadd{, }\DIFaddend we used manual probing as the primary method of measuring peat depth \DIFdelbegin \DIFdel{, }\DIFdelend and ground-penetrating radar (GPR) as a secondary method.
+That is: peat depth was always measured by probing \DIFdelbegin \DIFdel{, and also by }\DIFdelend \DIFaddbegin \DIFadd{in our designed samples, and we also used }\DIFaddend GPR in a \DIFdelbegin \DIFdel{subset }\DIFdelend \DIFaddbegin \DIFadd{set }\DIFaddend of cells that partly overlapped with the \DIFdelbegin \DIFdel{probed cells
+}\DIFdelend \DIFaddbegin \DIFadd{designed samples.
+}\DIFaddend We chose this \DIFaddbegin \DIFadd{combined }\DIFaddend approach because probing is a fast and reliable method for point measurements, while GPR can provide higher lateral density of data in the same amount of time \citep{parryEvaluatingApproachesEstimating2014}.
+Probed depths serve to calibrate GPR measurements when calibration by common midpoint survey is not possible -- as was the case with our fixed radar antennas -- so the methods are complementary.
+\DIFaddbegin \DIFadd{A complete description of our peat depth measurements is in Appendix \ref{sec:depth-measurements}.
+}\DIFaddend 
+
+\DIFdelbegin \subsubsection{\DIFdel{Peat probing}}
+%DIFAUXCMD
+\addtocounter{subsubsection}{-1}%DIFAUXCMD
+%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{We navigated to the centers of the raster cells in our samples using handheld (Skrimfjella) or real time kinematic (Ørskogfjellet) global navigation satellite system (GNSS) receivers.
+We dampened the effect of outlying measurements by probing three times at each location \mbox{%DIFAUXCMD
+\citep{parryEvaluatingApproachesEstimating2014}}\hskip0pt%DIFAUXCMD
+, at the vertices of a centered triangle with 2 m (Skrimfjella) or 4.5 m (Ørskogfjellet) sides.
+We used changes in resistance to indicate the base of the peat column.
+Probe locations were adjusted up to 20 cm if the base of the peat column seemed to be blocked by an obvious artifact, like a buried rock.
+Where the peat column was deeper than the extendable probe could be manually inserted and extracted by a pair of operators, we recorded a right-censored result (one at Skrimfjella, five at }\DIFdelend \DIFaddbegin \DIFadd{At }\DIFaddend Ørskogfjellet \DIFdelbegin \DIFdel{).
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{We also }\DIFdelend \DIFaddbegin \DIFadd{we were also able to use two existing sets of peat depth measurements in addition to our own.
+We }\DIFaddend extracted a set of \DIFdelbegin \DIFdel{existing depth measurements for Ørskogfjellet from a paper map made by the Norwegian Soil and Mire Company in 1984.
+The map presents }\DIFdelend 44 borehole depths (in decimeters) across a 9 ha peatland area\DIFdelbegin \DIFdel{.
+We georeferenced the map and digitized the borehole locations and depths.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{For our sample of peatland occurrence at Skrimfjella, we recorded the presence or absence of peatland at the cell center -- primarily by digging and examining the top 20 cm of soil.
+We judged whether the soil was a peat soil based on its density, texture, and color, as well as the presence or absence of mire vegetation.
+Although peat soil is strictly defined by organic content (which we did not analyze), we believe our protocol produced reasonable determinations of presence or absence that would generally satisfy most of the varying definitions of peatland \mbox{%DIFAUXCMD
+\citep{minasnyMappingMonitoringPeatland2024}}\hskip0pt%DIFAUXCMD
+.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\subsubsection{\DIFdel{Ground-penetrating radar}}
+%DIFAUXCMD
+\addtocounter{subsubsection}{-1}%DIFAUXCMD
+%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{We performed GPR surveys in three subjectively chosen peatlands at Skrimfjella and in areas with a high density of sampled raster cells at Ørskogfjellet.
+We used the Malå ProEx GPR system (Guideline Geo AB, Sweden) with a GNSS-enabled control unit connected to a 500 MHz shielded antenna mounted in a plastic sledge (transmitter--receiver separation 0.18 m, trace frequency 10 Hz).
+For some transects at Ørskogfjellet we substituted a 100 MHz Malå rough terrain antenna (transmitter--receiver separation 2.2 m, trace frequency 5 Hz), because the lower frequency antenna gives greater penetration depth.
+In all cases the system was towed by a walking GPR operator.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{GPR traces were recorded along zigzag (Skrimfjella) or snaking (Ørskogfjellet) transects.
+At Ørskogfjellet, transects were predetermined to pass through the centers of sampled raster cells, and we marked these precisely with flags to guide the GPR operator.
+A GPR records the time taken for a radio wave to travel from the transmitter to a reflector and back to the receiver, and the velocity of the wave varies with properties of the peat column.
+Therefore, wave velocity has to be calibrated to convert travel time to peat depth, and we probed peat depth along the transects.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{We processed the GPR data with Reflex2DQuick (v.3.0; Skrimfjella) or REFLEXW (v.8.5; Ørskogfjellet) software (Sandmeier Scientific Software, Germany).
+We applied a time-zero correction, a dewow filter, and a gain filter based on observed energy decay.
+With Ørskogfjellet data, we also applied a bandpass filter and a dynamic correction that accounts for the non-vertical wave path between offset transmitter and receiver antennas.
+The latter is important for the rough terrain antenna, where the antenna separation is comparable to typical peat depths.
+From the processed radargrams, we picked travel times from strong reflectors that we interpreted as the base of the peat column.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{We used picks near probed depths to calibrate wave speed velocity -- separately for each site.
+Calibration data were created by matching marked trace locations to a corresponding depth probe (Skrimfjella), or by a spatial join that identified interpreted traces and depth probes within 2 m of each other (Ørskogfjellet).
+We had sufficient calibration point density to avoid bias in wave velocity as a major source of error \mbox{%DIFAUXCMD
+\citep{rosaDeterminingNumberManual2009}}\hskip0pt%DIFAUXCMD
+: 46 calibration points along 3.5 km of interpretable traces at Skrimfjella, and 78 along 7.8 km at Ørskogfjellet.
+We fitted site-specific linear regressions of probed depth on picked travel time, with the intercept fixed at zero, to estimate wave velocities.
+Notwithstanding a few outlying points, our regressions showed good fits and the resulting velocities are within the range reported for peat \mbox{%DIFAUXCMD
+\citep{parsekianUncertaintyPeatVolume2012}}\hskip0pt%DIFAUXCMD
+: }%DIFDELCMD < \unit{0.0387\,m\,ns^{-1}}%%%
+\DIFdel{, \(R^2 = 0.874\) at Skrimfjella and }%DIFDELCMD < \unit{0.0427\,m\,ns^{-1}}%%%
+\DIFdelend , \DIFdelbegin \DIFdel{\(R^2 = 0.946\) at Ørskogfjellet.
+Finally, we used these two wave velocities to convert the travel times of all picks to calibrated peat depths.
+In total, the GPR surveys produced 48579 point measurements of peat depth at Skrimfjella and 32653 at Ørskogfjellet.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \DIFadd{from a paper map made by the Norwegian Soil and Mire Company in 1984.
+}\DIFaddend We also used a set of \DIFdelbegin \DIFdel{existing GPR depth measurementsfrom Ørskogfjellet}\DIFdelend \DIFaddbegin \DIFadd{GPR-based depth measurements}\DIFaddend , commissioned and provided to us by the Norwegian Public Roads Administration.
+These data were collected in 2020 and 2021 with a dual channel system (70 MHz and 300 MHz; ImpulseRadar AB, Sweden), connected to GNSS with CPOS correction.
+\DIFdelbegin \DIFdel{For the work presented here, we }\DIFdelend \DIFaddbegin \DIFadd{We }\DIFaddend used a total of 403440 interpreted and calibrated traces along 7.4 km of transects \DIFaddbegin \DIFadd{from this work }\DIFaddend -- discarding data where multiple depths were interpreted for the same location.
+
+\DIFaddbegin \DIFadd{All point measurements described above were ultimately aggregated to 10 m resolution by taking the mean of point values within each cell, inversely weighted by their distances to the cell center.
+}
+
+\DIFaddend \subsection{Predictive models of peat depth}
+
+\subsubsection{\DIFdelbegin \DIFdel{Modelling }\DIFdelend \DIFaddbegin \DIFadd{Modeling }\DIFaddend approach}
+
+We used Random Forests (RF) to predict peat depth at both sites.
+RF is \DIFdelbegin \DIFdel{a tree-based }\DIFdelend \DIFaddbegin \DIFadd{an }\DIFaddend ensemble machine learning algorithm that builds many decision trees on bootstrapped samples of the training data, randomly subsets predictors in the trees, and averages the predictions of the trees \citep{breimanRandomForests2001}.
+We chose RF because it can handle complex interactions between predictors, is robust to overfitting, and generally shows higher performance in DSM applications than other algorithms \citep{beguinPredictingSoilProperties2017, nussbaumEvaluationDigitalSoil2018, lamichhaneDigitalSoilMapping2019}.
+It is suited for use on relatively small training datasets and its predictions can be interrogated to learn about predictor importance \citep{khaledianSelectingAppropriateMachine2020}.
+\DIFdelbegin \DIFdel{Evaluating variable importance in a maximally predictive model aligns with the aim of this study.
+}\DIFdelend 
+
+RF by itself is not a spatial model, and it will only predict spatial structure in the \DIFdelbegin \DIFdel{outcome }\DIFdelend \DIFaddbegin \DIFadd{peat depth }\DIFaddend to the degree that \DIFdelbegin \DIFdel{the }\DIFdelend \DIFaddbegin \DIFadd{spatial }\DIFaddend structure is captured by predictors.
+We considered using regression kriging -- a hybrid between non-spatial and spatial techniques that \DIFdelbegin \DIFdel{would be achieved by adding }\DIFdelend \DIFaddbegin \DIFadd{adds }\DIFaddend to the RF predictions a geostatistically interpolated surface of RF residuals \citep{henglGenericFrameworkSpatial2004}.
+The spatial component in regression kriging often improves map accuracy \DIFdelbegin \DIFdel{compared to a non-spatial model }\DIFdelend \citep{beguinPredictingSoilProperties2017, lamichhaneDigitalSoilMapping2019, mollaMachineLearningGeostatistical2023}, but it can do so only if the spatial autocorrelation range in the non-spatial residuals is large compared to distances between samples and prediction locations \citep{henglGenericFrameworkSpatial2004, szaboMappingSoilHydraulic2019, takoutsingComparingPredictionPerformance2022}.
+If the outcome varies at fine scales and the samples are clustered in small parts of the study area, a spatial component will hardly improve overall map accuracy.
+We used semivariograms to assess the spatial structure in the residuals of the RF predictions, and found that (non-spatial) RF \DIFdelbegin \DIFdel{rather than regression kriging }\DIFdelend was justified at both sites.
+
+We implemented models in the \emph{tidymodels} framework in R \citep{kuhnTidymodelsCollectionPackages2020}, with the \emph{ranger} R package for RFs \citep[v0.16,][]{wrightRangerFastImplementation2017}.
+RFs were fit with 1000 trees, minimum node size of 5, and the number of predictors randomly sampled at each split was the square root of the total number of predictors (\emph{ranger} default).
+We did not tune these hyperparameters because RFs are relatively insensitive to tuning \citep{probstHyperparametersTuningStrategies2019}, and because it would require nested spatial cross-validation to prevent data leakage \citep{schratzHyperparameterTuningPerformance2019}.
+
+\subsubsection{Model performance}
+
+For both sites, we compared the performance of models with \DIFdelbegin \DIFdel{five different configurations of predictors.
+Specifically, we trained models with: }%DIFDELCMD < 
+
+%DIFDELCMD < \begin{enumerate}
+%DIFDELCMD < \def\labelenumi{\arabic{enumi}.}
+%DIFDELCMD < \tightlist
+%DIFDELCMD < \item
+%DIFDELCMD <   %%%
+\emph{\DIFdel{DMK}} %DIFAUXCMD
+\DIFdel{(2 variables)
+}%DIFDELCMD < \item
+%DIFDELCMD <   %%%
+\emph{\DIFdel{terrain}} %DIFAUXCMD
+\DIFdel{(21 variables)
+}%DIFDELCMD < \item
+%DIFDELCMD <   %%%
+\emph{\DIFdel{terrain + DMK}} %DIFAUXCMD
+\DIFdelend \DIFaddbegin \DIFadd{different predictor configurations, where each configuration was one of the seven combinations of the three predictor groups: }\DIFaddend (\DIFdelbegin \DIFdel{23 variables) }%DIFDELCMD < \item
+%DIFDELCMD <   %%%
+\emph{\DIFdel{terrain + radiometric}} %DIFAUXCMD
+\DIFdel{(25 variables) }%DIFDELCMD < \item
+%DIFDELCMD <   %%%
+\emph{\DIFdel{all predictors}} %DIFAUXCMD
+\DIFdel{(27 variables) }%DIFDELCMD < \end{enumerate}
+%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{These different configurations simulate different scenarios of data availability}\DIFdelend \DIFaddbegin \DIFadd{1) radiometric (2) terrain and (3) DMK}\DIFaddend .
+Comparing the different configurations allowed us to isolate the added value of each of the predictor groups.
+\DIFdelbegin \DIFdel{We did not explore configurations comprising radiometrics without terrain, because LiDAR terrain surveys typically precede airborne radiometric surveys.
+}\DIFdelend The models with only DMK peat depth class \DIFdelbegin \DIFdel{were simple linear models rather than RFs, and }\DIFdelend served to provide a fair comparison between the accuracy of the RF models and the existing national map of peat depth, calibrated on the same data.
+
+We used a spatial cross-validation scheme to evaluate model performance \citep{wadouxSpatialCrossvalidationNot2021, meyerMachineLearningbasedGlobal2022}.
+To set the folds we used k-Means Nearest Neighbor Distance Matching (kNNDM), which aims to mimic the spatial prediction task that is defined as the goal \citep{linnenbrinkKNNDMCVKfold2024}.
+In particular, kNNDM \DIFdelbegin \DIFdel{looks for the spatial assignment of training data to folds }\DIFdelend \DIFaddbegin \DIFadd{searches for a fold assignment }\DIFaddend that minimizes the difference between two distributions: nearest neighbor distances between training and test locations in the cross-validation, and nearest neighbor distances between training and prediction locations for the model.
+That way, the spatial separation between folds is similar to the separation between training and prediction locations -- which increases the quality of the map accuracy estimate \citep{linnenbrinkKNNDMCVKfold2024}.
+For spatially clustered training data, this approach strikes a balance between the risk of optimistic metrics from random cross-validation and the risk of pessimistic metrics from other forms of spatial cross-validation \citep{wadouxSpatialCrossvalidationNot2021}.
+We implemented the kNNDM with the \emph{CAST} R package \citep[v1.0,][]{meyerCASTPackageTraining2024}, setting prediction locations to all AR5 mire cells in the study area, and choosing a number of folds (\DIFaddbegin \DIFadd{k = }\DIFaddend 5--20) that produced the best match between the two NND distributions.
+From the cross-validation we quantified mean absolute error (error magnitude, original scale), R\textsuperscript{2} (explained variation, standardized scale), and Lin's concordance correlation coefficient (error magnitude and explained variation, standardized scale).
+\DIFaddbegin \DIFadd{We formally assessed the effect of predictor configuration on performance metrics using mixed-effects models to account for the cross-validation fold structure (folds as random effects), and testing pairwise differences between configurations.
+}\DIFaddend 
+
+DSM products have much more value when their predictions are accompanied by uncertainty estimates, and all DSM should strive to assess uncertainty \citep{arrouaysImpressionsDigitalSoil2020, wadouxMachineLearningDigital2020} and evaluate uncertainty estimates \citep{heuvelinkSpatialStatisticsSoil2022}.
+Therefore, we produced prediction intervals with quantile regression forests \citep{meinshausenQuantileRegressionForests2006}, and used the same spatial cross-validation to evaluate the prediction interval coverage probability \citep{shresthaMachineLearningApproaches2006}.
+The quantile regression forests were trained with \DIFaddbegin \DIFadd{the }\DIFaddend predictor configuration that showed the highest performance at each site\DIFdelbegin \DIFdel{(under the assumption that these models would be put into production) }\DIFdelend \DIFaddbegin \DIFadd{, }\DIFaddend and we extracted 90 \% prediction intervals.
+
+\DIFdelbegin \paragraph{\DIFdel{Peatland extent}}
+%DIFAUXCMD
+\addtocounter{paragraph}{-1}%DIFAUXCMD
+%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{While the primary aim of the DSM was to predict peat depth within AR5 mires (where peat depth is supposed to be \textgreater{} 30 cm), we also tested whether our mire-trained models of peat depth could identify peatlands outside of AR5 mires.
+For both sites we performed an evaluation with our (cell-aggregated) peat depth measurements, of which about one-fifth were outside of AR5 mires.
+For this evaluation we used the same spatial cross-validation folds as previously, but now we trained the models only on AR5 mire locations (in the training folds), and evaluated them only on (test fold) locations classified in AR5 as something other than mire.
+From the cross-validation we quantified mean absolute error.
+For Skrimfjella -- where we measured peatland occurrence separately from depth -- we also trained a model on all peat depth measurements (AR5 mire or not) and then used the independent occurrence dataset to evaluate this model.
+Specifically, we calculated the area under the curve of the receiver operating characteristic, to evaluate the model's ability to discriminate between peat presence and absence.
+This analysis treats the model's prediction of peat depth as a rank index of peatland likelihood.
+Since the purpose was to test the models' ability to uncover unmapped peatland (where DMK peat depth class is undefined), we evaluated models with two predictor configurations: }\emph{\DIFdel{terrain}} %DIFAUXCMD
+\DIFdel{or }\emph{\DIFdel{terrain + radiometric}}%DIFAUXCMD
+\DIFdel{.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdelend \subsubsection{Model interpretation}
+
+We quantified global variable importance (predictor influence across all locations) and examined partial dependence plots (curves of fitted relationships) for the best-performing predictor configuration at each site.
+Both are useful for understanding the mechanisms behind the model's predictions and the roles of the predictors in the model.
+
+For both sites, we interpreted a model trained on a non-collinear subset of variables from the best performing predictor configuration -- because correlation between predictors degrades variable importance metrics \citep{stroblConditionalVariableImportance2008, biauRandomForestGuided2016} and can produce misleading visualizations of predictor--outcome relationships \citep{biecekExplanatoryModelAnalysis2021, dwivediExplainableAIXAI2023}.
+Specifically, we eliminated variables from the best performing predictor configuration to obtain a set with no pairwise Pearson correlation coefficient above 0.7 \DIFaddbegin \DIFadd{(an arbitrary but conventional threshold for this purpose)}\DIFaddend .
+Thus, highly correlated sets of variables are represented by a single variable for the purposes of model interpretation.
+
+We calculated variable importance with the \emph{vip} R package (v0.4), by three different methods: \emph{FIRM}, \emph{permutation}, and \emph{Shapley} \citep{greenwellVariableImportancePlots2020}.
+\emph{FIRM} values measure the flatness of the partial dependence plot, \emph{permutation} values measure the decrease in model performance when the predictor is permuted, and \emph{Shapley} values are aggregated from local, game-theoretical measures of variable importance \citep{greenwellVariableImportancePlots2020}.
+\DIFaddbegin \DIFadd{Since }\emph{\DIFadd{FIRM}} \DIFadd{reflects the flatness of the partial dependence plot, it captures functional complexity rather than overall predictive impact.
+}\DIFaddend \emph{Permutation} values were obtained from ten iterations, with root mean square error as the performance measure.
+
+We calculated partial dependence with the \emph{pdp} R package \citep[v0.8,][]{greenwellPdpPackageConstructing2017}.
+For the six most important variables, we plotted \DIFdelbegin \DIFdel{both partial dependence and individual conditional expectation, }\DIFdelend \DIFaddbegin \DIFadd{partial dependence }\DIFaddend to show the average effect of the predictor on the outcome and \DIFdelbegin \DIFdel{the }\DIFdelend \DIFaddbegin \DIFadd{individual conditional expectations to show }\DIFaddend variation in the effect across observations \DIFdelbegin \DIFdel{, respectively }\DIFdelend \citep{goldsteinPeekingBlackBox2015}.
+Non-parallel individual conditional expectation lines indicate the presence of interactions between predictors.
+
+\section{Results}
+
+Our point measurements of peat depth (all sources) produced aggregated depths for 372 cells \DIFdelbegin \DIFdel{at Skrimfjella (}\DIFdelend \DIFaddbegin \DIFadd{or }\DIFaddend 2.4 \% of AR5 mire area \DIFdelbegin \DIFdel{) }\DIFdelend \DIFaddbegin \DIFadd{at Skrimfjella, }\DIFaddend and 1878 cells \DIFdelbegin \DIFdel{at Ørskogfjellet (}\DIFdelend \DIFaddbegin \DIFadd{or }\DIFaddend 1.2 \% of AR5 mire area \DIFdelbegin \DIFdel{).
+Roughly }\DIFdelend \DIFaddbegin \DIFadd{at Ørskogfjellet.
+Approximately }\DIFaddend 80 \% of these 10 m cells were within AR5 mires, and the remainder in forest, open upland, or farmland (Table \ref{tab:depthsByClass}).
+\DIFdelbegin \DIFdel{Coverage of }\DIFdelend DMK peat depth \DIFdelbegin \DIFdel{classes was higher }\DIFdelend \DIFaddbegin \DIFadd{had higher coverage }\DIFaddend at Ørskogfjellet than at Skrimfjella (\DIFdelbegin \DIFdel{79 }\DIFdelend \DIFaddbegin \DIFadd{80 }\DIFaddend \% versus 27 \% of cells \DIFaddbegin \DIFadd{not }\emph{\DIFadd{unknown}}\DIFaddend ), and at Ørskogfjellet the \emph{deep} and \emph{shallow} classes showed a larger difference in measured depth.
+Overall\DIFaddbegin \DIFadd{, }\DIFaddend mean peat depths were similar at Skrimfjella and Ørskogfjellet \DIFdelbegin \DIFdel{: }\DIFdelend \DIFaddbegin \DIFadd{(}\DIFaddend 119 cm \DIFdelbegin \DIFdel{and }\DIFdelend \DIFaddbegin \DIFadd{versus }\DIFaddend 126 cm\DIFdelbegin \DIFdel{, respectively}\DIFdelend \DIFaddbegin \DIFadd{) but the distribution was more right-skewed at Ørskogfjellet (Fig. \ref{fig:map-distribution})}\DIFaddend .
+
+\DIFdelbegin %DIFDELCMD < \begin{table}[tbp]
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \begin{table}[ht]
+\DIFaddendFL \caption{\DIFdelbeginFL \DIFdelFL{Mean }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{Selected attributes of the }\DIFaddendFL peat depth \DIFdelbeginFL \DIFdelFL{(cm) in }%DIFDELCMD < \unit{10\,m} %%%
+\DIFdelFL{cells }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{datasets }\DIFaddendFL at Skrimfjella and Ørskogfjellet. The \DIFaddbeginFL \DIFaddFL{first row summarizes all }\unit{10\,m} \DIFaddendFL cells\DIFdelbeginFL \DIFdelFL{are also shown stratified }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{, while subsequent rows stratify the dataset }\DIFaddendFL by AR5 land class and DMK peat depth class.}
+\DIFdelbeginFL %DIFDELCMD < \begin{tabular}{llllllll}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \begin{tabular}{llrrr@{\hspace{5em}}rrr}
+\DIFaddendFL \hline
+    &                             & \DIFdelbeginFL %DIFDELCMD < \multicolumn{3}{c}{Skrimfjella} %%%
+\DIFdelendFL \DIFaddbeginFL \multicolumn{3}{l}{Skrimfjella} \DIFaddendFL & \DIFdelbeginFL %DIFDELCMD < \multicolumn{3}{c}{Ørskogfjellet} %%%
+\DIFdelendFL \DIFaddbeginFL \multicolumn{3}{l}{Ørskogfjellet} \DIFaddendFL \\ \DIFdelbeginFL %DIFDELCMD < \cline{3-8} 
+%DIFDELCMD <                     %%%
+\DIFdelendFL \DIFaddbeginFL \cline{3-5} \cline{6-8}
+    \DIFaddendFL &                             & n     & \%   & \DIFaddbeginFL \DIFaddFL{mean (SD) }\DIFaddendFL depth  & n      & \%    & \DIFaddbeginFL \DIFaddFL{mean (SD) }\DIFaddendFL depth  \\ \hline 
+all \DIFdelbeginFL \DIFdelFL{measured cells  }\DIFdelendFL &                             & 372   & 100  & 119 \DIFaddbeginFL \DIFaddFL{(83) cm      }\DIFaddendFL & 1878   & 100   & 126 \DIFaddbeginFL \DIFaddFL{(119) cm     }\DIFaddendFL \\
+AR5 & Agricultural                &       &      &                  & 21     & 1     & 30 \DIFaddbeginFL \DIFaddFL{(8) cm        }\DIFaddendFL \\
+    & Forest                      & 52    & 14   & 65 \DIFaddbeginFL \DIFaddFL{(63) cm       }\DIFaddendFL & 272    & \DIFdelbeginFL \DIFdelFL{15      }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{14    }\DIFaddendFL & 71 \DIFaddbeginFL \DIFaddFL{(68) cm       }\DIFaddendFL \\
+    & Open upland                 & 19    & 5    & 98 \DIFaddbeginFL \DIFaddFL{(83) cm       }\DIFaddendFL & 134    & 7     & 39 \DIFaddbeginFL \DIFaddFL{(21) cm       }\DIFaddendFL \\
+    & Peatland                    & 301   & 81   & 130 \DIFaddbeginFL \DIFaddFL{(82) cm      }\DIFaddendFL & 1451   & 77    & 145 \DIFaddbeginFL \DIFaddFL{(125) cm     }\DIFaddendFL \\
+DMK & deep (\DIFdelbeginFL \DIFdelFL{\textgreater }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{\textgreater{}}\DIFaddendFL 100 cm) & 94    & 25   & 100 \DIFaddbeginFL \DIFaddFL{(53) cm      }\DIFaddendFL & 659    & 35    & 219 \DIFaddbeginFL \DIFaddFL{(143) cm     }\DIFaddendFL \\
+    & shallow (\DIFdelbeginFL \DIFdelFL{\textless }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{\textless{}}\DIFaddendFL 100 cm) & 6     & 2    & 50 \DIFaddbeginFL \DIFaddFL{(31) cm       }\DIFaddendFL & 838    & 45    & 82 \DIFaddbeginFL \DIFaddFL{(54) cm       }\DIFaddendFL \\
+    & unknown                     & 272   & 73   & 127 \DIFaddbeginFL \DIFaddFL{(90) cm      }\DIFaddendFL & 381    & 20    & 60 \DIFaddbeginFL \DIFaddFL{(62) cm       }\DIFaddendFL \\ \hline
+\end{tabular}
+\label{tab:depthsByClass}
+\end{table}
+
+\DIFaddbegin \begin{figure}
+\includegraphics[height=0.81\textheight]{figures/map-distribution} \caption{\DIFaddFL{Spatial and statistical distributions of mean peat depth in 10 m cells at Skrimfjella, N = 372 (a) and Ørskogfjellet, N = 1878 (b). Terrain is visualized with a hillshade with slope $45^\circ$ and azimuth $225^\circ$. Terrain data are from the Norwegian Mapping Authority under the Creative Commons Attribution 4.0 International license (https://creativecommons.org/licenses/by/4.0/).}}\label{fig:map-distribution}
+\end{figure}
+
+\DIFaddend \subsection{Model performance}
+
+None of the models were able to predict peat depth across the study areas with high accuracy (Fig. \ref{fig:modelMetrics}).
+For Skrimfjella, the best model achieved a concordance correlation coefficient of 0.30, an R\textsuperscript{2} of 0.34, and a mean absolute error of 60 cm.
+For Ørskogfjellet, the concordance correlation coefficient was 0.39, R\textsuperscript{2} was 0.33, and mean absolute error was 56 cm, so the best model at Ørskogfjellet was slightly more accurate than the best model at Skrimfjella.
+These values were derived from kNNDM spatial cross-validation with 20 folds at Skrimfjella and 10 folds at Ørskogfjellet.
+
+\begin{figure}
+\DIFdelbeginFL %DIFDELCMD < \centering
+%DIFDELCMD < \includegraphics{figures/modelmetrics.pdf}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \includegraphics[width=1\linewidth]{figures/modelmetrics} \DIFaddendFL \caption{\DIFdelbeginFL %DIFDELCMD < \label{fig:modelMetrics}%%%
+\DIFdelendFL Performance of peatland depth models with different predictor configurations, evaluated via spatial cross-validation. Parentheses denote the number of variables in each predictor configuration, and point estimates are shown +/- their standard error.}\DIFaddbeginFL \label{fig:modelMetrics}
+\DIFaddendFL \end{figure}
+
+\DIFdelbegin \DIFdel{Although the difficulty of predicting peat depth caused prediction intervals to be wide, these uncertainty estimates were well calibrated.
+At Skrimfjella, the prediction interval coverage probability was 91 \%, and at Ørskogfjellet it was 84 \% (both compared to the target value of 90 \%).
+Observations outside of the prediction intervals were evenly distributed across each of the study areas.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdelend For Skrimfjella, the best predictor configuration was \emph{all predictors}, followed closely by \emph{terrain + radiometric} \DIFdelbegin \DIFdel{.
+The performance gap between the }\emph{\DIFdel{terrain + DMK}} %DIFAUXCMD
+\DIFdel{configuration and the }\emph{\DIFdel{terrain}} %DIFAUXCMD
+\DIFdel{configuration was similarly small.
+Compared to the }\DIFdelend \DIFaddbegin \DIFadd{(Fig. \ref{fig:modelMetrics}).
+The }\DIFaddend \emph{terrain} configuration \DIFdelbegin \DIFdel{, the }\DIFdelend \DIFaddbegin \DIFadd{outperformed the }\DIFaddend \emph{\DIFdelbegin \DIFdel{terrain + }\DIFdelend radiometric} configuration \DIFdelbegin \DIFdel{improved concordance correlation }\DIFdelend by \DIFdelbegin \DIFdel{0.04, R\textsuperscript{2} }\DIFdelend \DIFaddbegin \DIFadd{0.27 in concordance correlation coefficient (\(p < 0.001\); Appendix Table \ref{tab:pairwiseSkrimCCC}), }\DIFaddend by \DIFdelbegin \DIFdel{0.04, and }\DIFdelend \DIFaddbegin \DIFadd{0.16 in R\textsuperscript{2} (\(p = 0.190\); Appendix Table \ref{tab:pairwiseSkrimRsq}), and by 10 cm in }\DIFaddend mean absolute error \DIFdelbegin \DIFdel{by 1 cm.
+}\DIFdelend \DIFaddbegin \DIFadd{(\(p = 0.038\); Appendix Table \ref{tab:pairwiseSkrimMAE}).
+The }\DIFaddend \emph{\DIFaddbegin \DIFadd{terrain + }\DIFaddend DMK} \DIFdelbegin \DIFdel{was a very poor predictor of peat depth even though it was calibrated to measured depths, with a }\DIFdelend \DIFaddbegin \DIFadd{configuration outperformed the }\emph{\DIFadd{radiometric + DMK}} \DIFadd{configuration by 0.32 in }\DIFaddend concordance correlation coefficient \DIFdelbegin \DIFdel{of 0.0077}\DIFdelend \DIFaddbegin \DIFadd{(\(p < 0.001\); Appendix Table \ref{tab:pairwiseSkrimCCC}), by 0.11 in R\textsuperscript{2} (\(p = 0.605\); Appendix Table \ref{tab:pairwiseSkrimRsq}), and by 11 cm in mean absolute error (\(p = 0.011\); Appendix Table \ref{tab:pairwiseSkrimMAE})}\DIFaddend .
+
+For Ørskogfjellet, the best predictor configuration was \emph{terrain + DMK}, followed by \emph{terrain} \DIFaddbegin \DIFadd{(Fig. \ref{fig:modelMetrics})}\DIFaddend .
+Adding radiometric predictors to these configurations \DIFaddbegin \DIFadd{slightly }\DIFaddend worsened model performance\DIFdelbegin \DIFdel{, especially in terms of concordance correlation and R\textsuperscript{2} .
+By itself, }\DIFdelend \DIFaddbegin \DIFadd{.
+The }\emph{\DIFadd{terrain}} \DIFadd{configuration outperformed the }\emph{\DIFadd{radiometric}} \DIFadd{configuration by 0.24 in concordance correlation coefficient (\(p = 0.068\); Appendix Table \ref{tab:pairwiseOrskogCCC}), by 0.24 in R\textsuperscript{2} (\(p = 0.004\); Appendix Table \ref{tab:pairwiseOrskogRsq}), and by 25 cm in mean absolute error (\(p = 0.086\); Appendix Table \ref{tab:pairwiseOrskogMAE}).
+The }\DIFaddend \emph{\DIFaddbegin \DIFadd{terrain + }\DIFaddend DMK\DIFdelbegin \DIFdel{class}\DIFdelend } \DIFdelbegin \DIFdel{produced a }\DIFdelend \DIFaddbegin \DIFadd{configuration outperformed the }\emph{\DIFadd{radiometric + DMK}} \DIFadd{configuration by 0.28 in }\DIFaddend concordance correlation coefficient \DIFdelbegin \DIFdel{of 0.17 (compared to 0.008 at Skrimfjella), but the worst }\DIFdelend \DIFaddbegin \DIFadd{(\(p = 0.015\); Appendix Table \ref{tab:pairwiseOrskogCCC}), by 0.27 in R\textsuperscript{2} (\(p < 0.001\); Appendix Table \ref{tab:pairwiseOrskogRsq}), and by 28 cm in }\DIFaddend mean absolute error \DIFdelbegin \DIFdel{of any model at either site: 77 cm}\DIFdelend \DIFaddbegin \DIFadd{(\(p = 0.031\); Appendix Table \ref{tab:pairwiseOrskogMAE})}\DIFaddend .
+
+The best models at both sites overpredicted shallow peats and strongly underpredicted very deep peats (Fig. \ref{fig:calPlots}).
+The mean error (bias) of these models was 10 cm at Skrimfjella and -4 cm at Ørskogfjellet.
+\DIFaddbegin \DIFadd{Although the prediction intervals from the quantile regression forests were wide, they were well calibrated.
+At Skrimfjella, the prediction interval coverage probability was 92 \%, and at Ørskogfjellet it was 84 \% (both compared to the target value of 90 \%).
+Observations outside of the prediction intervals showed no obvious spatial pattern.
+}\DIFaddend 
+
+\begin{figure}
+\DIFdelbeginFL %DIFDELCMD < \centering
+%DIFDELCMD < \includegraphics{figures/calibration_plots.pdf}
+%DIFDELCMD < %%%
+%DIFDELCMD < \caption{%
+{%DIFAUXCMD
+%DIFDELCMD < \label{fig:calPlots}%%%
+\DIFdelFL{Calibration plots for the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), with predictions from spatial cross-validation. Points are transparent to show overlap. Blue lines are local polynomial regressions and the red dashed line in each panel shows the 1:1 line. Marginal distributions (top) are shaded by quartile.}}
+%DIFAUXCMD
+%DIFDELCMD < \end{figure}
+%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\subsubsection{\DIFdel{Peatland extent}}
+%DIFAUXCMD
+\addtocounter{subsubsection}{-1}%DIFAUXCMD
+%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{When we tested how well models extrapolated from within to outside of AR5 mire areas, we found that the models produced worse mean absolute error than just assuming a constant 30 cm depth (Fig. \ref{fig:modelMetricsExtrapolation}).
+With the independent occurrence data at Skrimfjella, we found that neither the }\emph{\DIFdel{terrain}} %DIFAUXCMD
+\DIFdel{nor }\emph{\DIFdel{terrain + radiometric}} %DIFAUXCMD
+\DIFdel{configurations were able to discriminate between peat presence and absence (area under the curve of the receiver operating characteristic 0.44 and 0.52 respectively, where 0.5 indicates random guessing).
+}%DIFDELCMD < 
+
+%DIFDELCMD < \begin{figure}
+%DIFDELCMD < \centering
+%DIFDELCMD < \includegraphics{figures/modelmetrics-extrapolation.pdf}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \includegraphics[width=1\linewidth]{figures/calibration_plots} \DIFaddendFL \caption{\DIFdelbeginFL %DIFDELCMD < \label{fig:modelMetricsExtrapolation}%%%
+\DIFdelFL{Performance of }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{Calibration plots for the best-performing }\DIFaddendFL models \DIFdelbeginFL \DIFdelFL{that extrapolate from training data inside of mapped mires to test data outside of mapped mires }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{at Skrimfjella }\DIFaddendFL (\DIFdelbeginFL \DIFdelFL{AR5 dataset}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{a) and Ørskogfjellet (b}\DIFaddendFL ), \DIFdelbeginFL \DIFdelFL{evaluated via }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{with predictions and 90 \% prediction intervals (grey vertical lines) from }\DIFaddendFL spatial cross-validation. \DIFdelbeginFL \DIFdelFL{Parentheses denote }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{Points have transparency to show overlap. Blue lines are local polynomial regressions and }\DIFaddendFL the \DIFdelbeginFL \DIFdelFL{number of variables }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{red dashed line }\DIFaddendFL in each \DIFdelbeginFL \DIFdelFL{model, and point estimates }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{panel shows the 1:1 line. Marginal distributions (top) }\DIFaddendFL are \DIFdelbeginFL \DIFdelFL{shown +/- their standard error}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{shaded by quartile}\DIFaddendFL .}\DIFaddbeginFL \label{fig:calPlots}
+\DIFaddendFL \end{figure}
+
+\subsection{Model interpretation}
+
+For the purpose of model interpretation, the \emph{all predictors} configuration for Skrimfjella was reduced from 27 variables to 11 non-collinear variables, by removing one of the variables in each highly-correlated pair.
+Similarly, the \emph{terrain + DMK} configuration for Ørskogfjellet was reduced from 23 variables to 11 non-collinear variables.
+\DIFaddbegin \DIFadd{The }\emph{\DIFadd{permutation}} \DIFadd{and }\emph{\DIFadd{Shapley}} \DIFadd{methods of variable importance showed high Spearman rank correlation at both sites, while the }\emph{\DIFadd{FIRM}} \DIFadd{method ranked variable importance differently (Fig. \ref{fig:varImp}).
+}\DIFaddend 
+
+\subsubsection{Variable importance}
+
+At both sites, elevation and Multi-Resolution Valley Bottom Flatness were important predictors (Fig. \ref{fig:varImp}).
+At Skrimfjella these two predictors were of similar importance, while at Ørskogfjellet elevation \DIFdelbegin \DIFdel{was more important }\DIFdelend \DIFaddbegin \DIFadd{had higher predictive impact (}\emph{\DIFadd{permutation}} \DIFadd{and }\emph{\DIFadd{Shapley}}\DIFadd{) but lower functional complexity (}\emph{\DIFadd{FIRM}}\DIFadd{) }\DIFaddend than Multi-Resolution Valley Bottom Flatness.
+DMK was also important -- the \DIFdelbegin \DIFdel{shallow }\DIFdelend \DIFaddbegin \emph{\DIFadd{shallow}} \DIFaddend class in particular -- but only at Ørskogfjellet.
+Some realizations of the hydrological predictors Topographic Wetness Index and Depth-to-Water showed considerable importance, while others showed little -- with no \DIFaddbegin \DIFadd{clear }\DIFaddend consistency between sites.
+\DIFdelbegin \DIFdel{For example, TWI5m, DTW40000, and DTW2500 rounded out the top five most important variables at Skrimfjella, while TWI20m and TWI50m were least important, other than DMK.
+}\DIFdelend At both sites, the most important \DIFdelbegin \DIFdel{realizations of }\DIFdelend hydrological predictors were more important than the simple terrain indices slope, Terrain Ruggedness Index, Topographic Position Index, and roughness.
+\DIFdelbegin \DIFdel{The }\DIFdelend \DIFaddbegin \DIFadd{At Skrimfjella, the }\DIFaddend radiometric predictor uranium ground concentration \DIFaddbegin \DIFadd{-- which was highly correlated with all other radiometric variables -- }\DIFaddend showed moderate importance\DIFdelbegin \DIFdel{at Skrimfjella}\DIFdelend .
+
+\begin{figure}
+\DIFdelbeginFL %DIFDELCMD < \centering
+%DIFDELCMD < \includegraphics{figures/variable_importance.pdf}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \includegraphics[width=1\linewidth]{figures/variable_importance} \DIFaddendFL \caption{\DIFdelbeginFL %DIFDELCMD < \label{fig:varImp}%%%
+\DIFdelendFL Global variable importance in the best-performing models at Skrimfjella (a) and Ørskogfjellet (b), as measured by three different metrics: Shapley values, permutation importance, and the Feature Importance Ranking Measure \citep{greenwellVariableImportancePlots2020}. Variables removed due to collinearity are shown to the right of the variable with which they are most correlated. \DIFaddbeginFL \DIFaddFL{Spearman rank correlations between the three metrics at each site are displayed in matrices.}\DIFaddendFL }\DIFaddbeginFL \label{fig:varImp}
+\DIFaddendFL \end{figure}
+
+\subsubsection{Partial dependence}
+
+Many of the most important predictors in the best performing models showed non-monotonic effects on peat depth (Fig. \ref{fig:pdps}).
+At Ørskogfjellet\DIFaddbegin \DIFadd{, }\DIFaddend for example, increasing elevation was predictive of deeper peat up to about 75 m above sea level, after which a further increase was predictive of shallower peat.
+At Skrimfjella the partial dependence on elevation had the opposite shape but covers a higher elevation range, with the shallowest peats predicted around 350 m above sea level.
+TWI50m at Ørskogfjellet and DTW4000 and uranium ground concentration at Skrimfjella were other predictors that showed \DIFdelbegin \DIFdel{considerable fluctuations in their predictive effects on }\DIFdelend \DIFaddbegin \DIFadd{non-monotonic associations with }\DIFaddend peat depth.
+The radiometric predictor in particular displayed an idiosyncratic effect, with a marked dip in predicted depth at intermediate values of uranium ground concentration.
+On the other hand, the partial effects of some important predictors were more straightforward.
+The partial dependence on Multi-Resolution Valley Bottom Flatness was quite similar across sites, with the deepest peats predicted in the very flattest valley bottoms.
+Also, TWI5m and DTW2500 at Skrimfjella showed monotonically positive and negative predictive effects, respectively.
+
+Individual conditional expectation lines indicated some interactions between predictors (Fig. \ref{fig:pdps}).
+For example, the \DIFdelbegin \DIFdel{magnitude of the increase in }\DIFdelend \DIFaddbegin \DIFadd{positive association of }\DIFaddend depth with elevation \DIFdelbegin \DIFdel{that the model expected }\DIFdelend at Ørskogfjellet was \DIFdelbegin \DIFdel{different for different observations ; some depth predictions increased by only 40 cm while others increased by more than 100 cm , }\DIFdelend \DIFaddbegin \DIFadd{larger for some observations than others; depth increases ranged 40--100 cm }\DIFaddend over the same elevation gain.
+Similarly, individual conditional \DIFdelbegin \DIFdel{expectation lines of }\DIFdelend \DIFaddbegin \DIFadd{expectations along }\DIFaddend uranium ground concentration at Skrimfjella were non-parallel, with some locations showing \DIFdelbegin \DIFdel{monotonically increasing }\DIFdelend \DIFaddbegin \DIFadd{decreasing }\DIFaddend peat depth predictions \DIFdelbegin \DIFdel{with uranium concentration }\DIFdelend (unlike the average effect).
+Nevertheless, most individual conditional \DIFdelbegin \DIFdel{expectation lines were generally parallel-- indicating that }\DIFdelend \DIFaddbegin \DIFadd{expectations were approximately parallel, so }\DIFaddend the average effects of the predictors \DIFdelbegin \DIFdel{were good representations }\DIFdelend \DIFaddbegin \DIFadd{are mostly representative }\DIFaddend of their overall effects.
+
+\begin{figure}
+\DIFdelbeginFL %DIFDELCMD < \centering
+%DIFDELCMD < \includegraphics{figures/partial_dependence.pdf}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \includegraphics[width=1\linewidth]{figures/partial_dependence} \DIFaddendFL \caption{\DIFdelbeginFL %DIFDELCMD < \label{fig:pdps}%%%
+\DIFdelendFL Partial dependence plots of the six most important variables in the best-performing models at Skrimfjella (a) and Ørskogfjellet (b). The average effect of the predictor on the outcome (red line) overlays the \DIFaddbeginFL \DIFaddFL{individual conditional expectations, which show the }\DIFaddendFL variation in the effect across observations (grey lines). The variables' training data distributions are indicated with rug plots along the x-axes.}\DIFaddbeginFL \label{fig:pdps}
+\DIFaddendFL \end{figure}
+
+\section{Discussion}
+
+\subsection{Can we improve Norway's peat depth maps?}
+
+\subsubsection{Remotely sensed variables are weak \DIFdelbegin \DIFdel{(but not useless!) }\DIFdelend predictors of peat depth}
+
+Our ability to predict peat depth in the study sites based on terrain and radiometric data was limited.
+Mean absolute errors of 60 and 56 cm at the two sites --- relative to mean depths of 119 and 126 cm --- illustrate the practical limitations of these maps.
+Since any given 10 m cell will miss by about 60 cm, applications requiring detailed peat depth in a small area (e.g.\DIFdelbegin \DIFdel{~}\DIFdelend \DIFaddbegin \DIFadd{, }\DIFaddend \textless{} 1 ha) would benefit from measuring depth on the ground rather than relying on the DSM alone.
+
+\DIFdelbegin \DIFdel{Ground-based measurements also have uncertainty \mbox{%DIFAUXCMD
+\citep{parryEvaluatingApproachesEstimating2014}}\hskip0pt%DIFAUXCMD
+, but our data show that this error was smaller than the variation in peat depth over short distances (e.g.~100 m).
+Independent probing and GPR measurements up to 2 m apart were differed by an average of 29--42 cm (Fig. \ref{fig:GPRwavevelocity}).
+By comparison, the average variation among measurements 100 m apart was 70--106 cm (Fig. \ref{fig:semivariograms}).
+We also note that cell-level measurement error that is correlated with predictors (e.g.~underestimated depth at high Multi-Resolution Valley Bottom Flatness), will go undetected by cross-validation and does not account for the limited accuracy of our models.
+Ultimately, the effect of measurement error falls mostly outside the scope of DSM, since it can only be evaluated with higher-quality, independent data.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdelend Although model performance was limited, we improved on the best available map of peat depth (DMK depth class), which is based on field measurements only.
+This highlights the general value of remotely sensed data, whose complete coverage can improve maps even when their association with the variable of interest is weak \citep{mulderUseRemoteSensing2011}.
+Since remotely sensed data are widely available, improvements to soil maps as shown here are \DIFdelbegin \DIFdel{low hanging fruit.
+This point is recognized and reflected in the rise of DSM }\DIFdelend \DIFaddbegin \DIFadd{readily achievable at low cost }\DIFaddend \citep{minasnyDigitalMappingPeatlands2019}.
+
+DMK peat depth classes were a worse predictor of peat depth than our models even though we calibrated them with the same data (Fig. \ref{fig:modelMetrics}).
+\DIFdelbegin \DIFdel{That is: we gave DMK and the DSM equal footing for a fair comparison.
+}\DIFdelend If we had taken the DMK peat depth classes at face value and assumed depths according to their class definitions (\DIFdelbegin \DIFdel{\textless{} 1 m, \textgreater{} 1 }\DIFdelend \DIFaddbegin \DIFadd{\textless1 m, \textgreater1 }\DIFaddend m), they would have performed worse and the advantage of the DSM would be greater.
+The advantage of the DSM was not large in absolute terms (9 cm and 21 cm improvements in mean absolute error), but it explained much more of the variation in depth (improvements in R\textsuperscript{2} of 0.16 and 0.19).
+We attribute this result to the poor spatial and thematic resolution of DMK peat depth, which precludes a robust correlation with peat depths\DIFdelbegin \DIFdel{varying from 0--8 m at fine spatial scales}\DIFdelend .
+
+The \DIFdelbegin \DIFdel{performance of our terrain- and radiometric-based maps }\DIFdelend \DIFaddbegin \DIFadd{accuracy of our mapping }\DIFaddend could have been improved with a spatially explicit \DIFdelbegin \DIFdel{mapping }\DIFdelend approach like regression kriging.
+\DIFdelbegin \DIFdel{By ignoring spatial autocorrelation in peat depth (i.e.~the n in }\emph{\DIFdel{scorpan}}%DIFAUXCMD
+\DIFdel{), we have not extracted all of the information about peat depth in the study area out of the training data.
+If we were to put our DSM approach into production for published maps, we would harness the spatial component, but the actual maps for Ørskogfjellet and Skrimfjella are not of primary interest in this study.
+Moreover}\DIFdelend \DIFaddbegin \DIFadd{However}\DIFaddend , residuals of the RF predictions showed weak spatial structure at Skrimfjella, and only up to a range of 150 m at Ørskogfjellet.
+Therefore, the improvement from regression kriging would be small overall and limited to parts of the maps close to measurements.
+
+\subsubsection{Similar error but less explanatory power in Norwegian peatlands}
+
+Compared to other studies using terrain and radiometric data to predict peat depth, our models explained less variability in peat depth \DIFaddbegin \DIFadd{(R\textsuperscript{2}) }\DIFaddend but generally produced better or comparable error magnitude \DIFdelbegin \DIFdel{(R\textsuperscript{2} vs.~mean absolute error or root mean square error; \mbox{%DIFAUXCMD
+\citet{wadouxIntegratedApproachEvaluation2022}}\hskip0pt%DIFAUXCMD
+)}\DIFdelend \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep[mean absolute error or root mean square error,][]{wadouxIntegratedApproachEvaluation2022}}\hskip0pt%DIFAUXCMD
+}\DIFaddend .
+It is important to keep in mind that differences in peat depth distributions, spatial scales, and evaluation methods make direct performance comparisons precarious.
+\DIFdelbegin \DIFdel{More standardized reporting would help but not eliminate this consideration.
+}\DIFdelend For example, R\textsuperscript{2} is sensitive to high leverage, extreme values, so it will evaluate a right-skewed distribution differently than a symmetrical distribution.
+We evaluated our models with respect to the explicit purpose of creating peat depth maps across the study areas, but not all studies tailored evaluation to match an explicitly formulated problem \citep{milaNearestNeighbourDistance2022}.
+
+Gatis et al. \citeyearpar{gatisMappingUplandPeat2019} used similar predictors and the same spatial grain, finding a much stronger relationship between predicted and observed peat depth (\(R^2 = 0.68\)).
+Although their random evaluation data partition could make performance estimates too optimistic \citep{robertsCrossvalidationStrategiesData2017, wadouxSpatialCrossvalidationNot2021}, the confounding effect of spatial structure is probably small because they used linear regression and few predictors\DIFdelbegin \DIFdel{.
+Their }\DIFdelend \DIFaddbegin \DIFadd{, so their }\DIFaddend model had limited opportunity to overfit to the spatial structure in peat depth.
+The most salient difference in Gatis et al. \citeyearpar{gatisMappingUplandPeat2019} compared to our study is the character of the study area.
+They study a flatter area with a higher proportion of peatland cover, and their peatland is primarily blanket bog.
+The peat surface of a blanket bog is tied more closely to its underlying topography than the peat surface of raised bogs or fens \citep{lindsayPeatlandMireTypes2016}, which may make \DIFdelbegin \DIFdel{depths in blanket bogs }\DIFdelend \DIFaddbegin \DIFadd{blanket bog depth }\DIFaddend easier to predict.
+The predominance of fens and smaller peatland extent may have contributed to worse performance in our study.
+
+Marchant \citeyearpar{marchantUsingRemoteSensors2021} examined a subset of the area studied in Gatis et al. \citeyearpar{gatisMappingUplandPeat2019} at 100 m resolution, using splines to relax linearity between radiometry/terrain and peat depth.
+He found that potassium ground concentration alone predicted peat depth with much higher concordance than our models (concordance correlation coefficient = 0.76) and that elevation alone produced comparable performance (concordance correlation coefficient = 0.27).
+The root mean square error from these univariate models was 46--68 cm (cf.~78 and 75 cm for Skrimfjella and Ørskogfjellet).
+
+Koganti et al. \citeyearpar{kogantiMappingPeatDepth2023} had a peat depth distribution and predictors similar to ours, but at much smaller spatial grain and extent.
+Their training and validation points are closer than the range of spatial autocorrelation in peat depth, so our results are best compared to their non-spatial models.
+They accounted for more variability in peat depth (adjusted \(R^2 = 0.71\)) but had larger errors (RSME = 110 cm).
+Koganti et al.'s \citeyearpar{kogantiMappingPeatDepth2023} linear regression models produced negative predictions, and it is unclear whether the values quoted above include these.
+If we disregard the negative predictions, their model showed the same pattern as ours in overpredicting shallow peats and underpredicting deep peats, although their underprediction was less severe.
+An important difference between Koganti et al. \citeyearpar{kogantiMappingPeatDepth2023} and our study (besides spatial scale) is that they measured radiometrics on the ground, rather than using airborne survey data.
+Thus, the footprint of their detector was \DIFdelbegin \DIFdel{much }\DIFdelend smaller and they \DIFdelbegin \DIFdel{could capture }\DIFdelend \DIFaddbegin \DIFadd{captured }\DIFaddend variation in radiation at finer scales.
+
+\subsubsection{Asymmetries in depth predictions for land use planning and carbon accounting}
+
+Our models erred most for the deepest peats (Fig. \ref{fig:calPlots}).
+Where overprediction occurred, the error was smaller.
+This is not unexpected for the right-skewed distributions of peat depth, but it has \DIFdelbegin \DIFdel{management implications .
+Identifying the deepest peats will require additional field work in candidate areas, which could be defined by an upper quantile of predicted depth.
+Map users should not trust the mapsto identify all large carbon stocks, but they can trust that identified large stocks really are large.
+That makes the map }\DIFdelend \DIFaddbegin \DIFadd{implications for potential users of the maps.
+For example, it makes the maps }\DIFaddend more suited for ``red-lighting'' than ``green-lighting'' peatland conversion \DIFdelbegin \DIFdel{, for example.
+Where it does not prohibit conversion (i.e.~predicts shallow peat), a ground survey should be done before conversion is allowed }\DIFdelend (assuming depth is the \DIFdelbegin \DIFdel{only consideration).
+Although this recommendation aligns with the precautionary principle, here we make it on technical grounds based on the maps' characteristics.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\subsubsection{\DIFdel{Depth predictions do not necessarily extrapolate to peat extent}}
+%DIFAUXCMD
+\addtocounter{subsubsection}{-1}%DIFAUXCMD
+%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{That we measured more than 30 cm of peat in areas not mapped as mire was expected, because AR5 underrepresents peatland extent by about one third \mbox{%DIFAUXCMD
+\citep{brynLandCoverNorway2018}}\hskip0pt%DIFAUXCMD
+.
+For that reason, maps of peatland extent also need revising.
+Unfortunately, our models did not predict peat occurrence outside AR5 mires.
+In these areas, assuming a constant 30 cm of peat (the depth threshold used in AR5) produced less error than our models (Fig. \ref{fig:modelMetricsExtrapolation}).
+Moreover, the performance gap would likely have been larger had our evaluation data been representative of all areas not classified as mire in AR5.
+Instead they were concentrated near AR5 mires.
+Most importantly, the independent occurrence data at Skrimfjella showed the model completely failing to predict occurrence, and these data were suited for testing this ability.
+Although the Ørskogfjellet model may have done better than the Skrimfjella model on a similar independent evaluation set (since it predicted depth better), the improvement would probably be small.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{Why wasn't peat occurrence predicted well?
+The models were trained on fundamentally different populations of locations (\textasciitilde80 \% AR5 mire in training vs.~0 \% in prediction), so it is not surprising that the associations they learned did not transfer well.
+Moreover, the \textasciitilde20 \% of training data from outside AR5 mires were incidentally collected (near AR5 mires) and not representative of other land cover classes.
+In short, the models were blind to the fact that most of both study areas have no peat.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{Peatland extent is probably best mapped using different remotely sensed data than we used here \mbox{%DIFAUXCMD
+\citep{bakkestuenDelineationWetlandAreas2023}}\hskip0pt%DIFAUXCMD
+, and this study's purpose was not to map extent.
+Nevertheless --- as long as the relevant peatland definition includes a depth component --- depthpredictions (or predictors thereof) should help delineate peatland extent \mbox{%DIFAUXCMD
+\citep{olearyDigitalSoilMapping2022, beamishDetailedMappingPeat2024}}\hskip0pt%DIFAUXCMD
+.
+We return to this point in our discussion of implications for digital soil mapping}\DIFdelend \DIFaddbegin \DIFadd{determinative factor).
+Identifying the deepest peats will require additional field work in candidate areas -- where candidate areas could be defined by some upper quantile of predicted depth}\DIFaddend .
+
+\subsection{Which variables predict peat depth?}
+
+\subsubsection{Airborne radiometrics do not predict Norwegian peat depth}
+
+Radiometric data had \DIFaddbegin \DIFadd{little to }\DIFaddend no predictive value at \DIFdelbegin \DIFdel{Ørskogfjellet, while at Skrimfjella they had minor influence in a relatively weak model}\DIFdelend \DIFaddbegin \DIFadd{either site (poor performance of }\emph{\DIFadd{radiometric}} \DIFadd{configuration), although they did contribute to the best model at Skrimfjella (marginal improvement in }\emph{\DIFadd{all predictors}} \DIFadd{configuration compared to }\emph{\DIFadd{terrain + DMK}}\DIFadd{).
+These results contrast with earlier studies that found that radiometrics were useful predictors of peat depth \mbox{%DIFAUXCMD
+\citep{keaneySpatialStatisticsEstimate2013, gatisMappingUplandPeat2019, kogantiMappingPeatDepth2023, pohjankukkaDigitalMappingPeat2025}}\hskip0pt%DIFAUXCMD
+}\DIFaddend .
+The bedrock is more homogeneous at Ørskogfjellet than at Skrimfjella, so uneven radiogenesis is not a \DIFdelbegin \DIFdel{viable }\DIFdelend \DIFaddbegin \DIFadd{good }\DIFaddend explanation for the \DIFdelbegin \DIFdel{differences between sites nor the poor performance in general \mbox{%DIFAUXCMD
+\citep{beamishEnvironmentalRadioactivityUK2014, reinhardtGammaraySpectrometryVersatile2019}}\hskip0pt%DIFAUXCMD
+.
+To the degree that radiometrics had predictive value at Skrimfjella, it appears that they were most valuable near the extremes of the depth distribution, since their inclusion improved R\textsuperscript{2} more than mean absolute error}\DIFdelend \DIFaddbegin \DIFadd{higher predictive value of radiometric variables at Skrimfjella \mbox{%DIFAUXCMD
+\citep{beamishEnvironmentalRadioactivityUK2014, reinhardtGammaraySpectrometryVersatile2019}}\hskip0pt%DIFAUXCMD
+}\DIFaddend .
+All four \DIFaddbegin \DIFadd{radiometric }\DIFaddend variables were highly correlated within the peatland parts of our study sites, so there could be no large differences in their predictive value.
+This contrasts with Koganti et al. \citeyearpar{kogantiMappingPeatDepth2023}, who found that radiometric total count \DIFdelbegin \DIFdel{was a much better predictor than potassium }\DIFdelend \DIFaddbegin \DIFadd{and potassium ground concentration were better predictors than thorium or uranium }\DIFaddend ground concentration.
+
+We suspect that the primary reason for the poor predictive value of the radiometric data was the large footprint of the detector in the airborne survey.
+With an average flight altitude of 75 m, less than half of the radiation reaching the detector comes from inside the 100 m diameter circle directly below it \citep{beamishEnhancingResolutionAirborne2016, beamishDetailedMappingPeat2024}.
+The rest of the measured activity integrates a much wider area.
+For comparison, empirical variograms of peat depth at Skrimfjella and Ørskogfjellet showed no spatial autocorrelation beyond 50 and 75 m (among GPR data) or 110 and 230 m (among 10 m cells).
+Basically, the airborne radiometric data will not capture large variation over short (\textless{} 100 m) distances; the instrument's field of view has a large smoothing effect on the data \citep{beamishEnhancingResolutionAirborne2016, reinhardtGammaraySpectrometryVersatile2019}.
+Different landforms and the changes they cause in the geometry between the radioactive source and the detector can also distort airborne measurements \citep{reinhardtGammaraySpectrometryVersatile2019}.
+
+Studies comparing airborne and ground radiometric surveys confirm that they are poorly correlated in low-activity areas like peatlands \citep{kockComparisonAirborneTerrestrial2011, karjalainenComparisonTwoGammaray2025}.
+Karjalainen et al. \citeyearpar{karjalainenComparisonTwoGammaray2025} found that ground-based measurements predicted peat depth better than airborne measurements.
+Nevertheless, a large radiometric footprint did not prevent strong associations with peat depth in Gatis et al. \citeyearpar{gatisMappingUplandPeat2019} and Marchant \citeyearpar{marchantUsingRemoteSensors2021}, perhaps because the extensive blanket bog landscape in these studies has more gradual changes in depth \citep{lindsayBogsEcologyClassification1995}.
+We are unsure whether short-range depth changes explain the weak associations that Siemon et al. \citeyearpar{siemonAirborneElectromagneticRadiometric2020} found in a large raised bog.
+
+\DIFdelbegin \DIFdel{Weather conditions varied during the Ørskogfjellet radiometric survey and affected its data\mbox{%DIFAUXCMD
+\citep{ofstadHelicopterborneMagneticRadiometric2015}}\hskip0pt%DIFAUXCMD
+.
+Thus, uneven }\DIFdelend \DIFaddbegin \DIFadd{Another possible reason for the poor predictive value of the radiometric data could be that other physical parameters influencing the amount of intercepted radiation varied too much within sites.
+Initial source strength, soil moisture, bulk density, and porosity all affect the amount of radiation that reaches the detector \mbox{%DIFAUXCMD
+\citep{beamishGammaRayAttenuation2013, reinhardtGammaraySpectrometryVersatile2019}}\hskip0pt%DIFAUXCMD
+.
+Therefore, variation in these parameters could have masked the relationship between peat depth and radiometric data.
+This makes physical modeling of peat depth from radiometric data an undetermined problem.
+We chose the Ørskogfjellet site in part because it has a relatively homogeneous bedrock, which should reduce the variation in initial source strength.
+Soil moisture, bulk density, and porosity, however, are not easily measured across landscape scales and were assumed to be homogeneous.
+Uneven }\DIFaddend snow cover and air moisture \DIFaddbegin \DIFadd{during the Ørskogfjellet radiometric survey }\DIFaddend may also have masked the soil signal in these data\DIFaddbegin \DIFadd{, as Ofstad \mbox{%DIFAUXCMD
+\citeyearpar{ofstadHelicopterborneMagneticRadiometric2015} }\hskip0pt%DIFAUXCMD
+reports large variation in weather conditions.
+If maps of these other physical parameters at the time of the radiometric survey were available and included in the model, the predictive value of radiometric data might improve, but this is not a practical solution for digital soil mapping of peat depth}\DIFaddend .
+
+We do not believe that the poor predictive value of the radiometric data in this study was caused \DIFdelbegin \DIFdel{by fully attenuated radioactivity--- at least not in large part}\DIFdelend \DIFaddbegin \DIFadd{primarily by full attenuation of radioactivity}\DIFaddend .
+The RF algorithm's flexibility means that radiometrics could be used for shallower peats if they provided predictive value for that part of the depth distribution, but there is no evidence of that in our results.
+In the partial dependence plot of uranium ground concentration at Skrimfjella, the expected negative relationship between depth and uranium ground concentration cannot be found by ignoring the left (highly attenuated) side of the distribution \DIFdelbegin \DIFdel{.
+About }\DIFdelend \DIFaddbegin \DIFadd{(Fig. \ref{fig:pdps}).
+More than }\DIFaddend a quarter of the peats in \DIFdelbegin \DIFdel{our study }\DIFdelend \DIFaddbegin \DIFadd{each of our study areas }\DIFaddend were less than \DIFdelbegin \DIFdel{a meter }\DIFdelend \DIFaddbegin \DIFadd{60 cm }\DIFaddend deep, and full attenuation is unlikely for these \citep{beamishGammaRayAttenuation2013}.
+
+Although we do not believe full attenuation is the primary reason for poor performance in our study, it may limit peat depth mapping under other circumstances.
+First-principle calculations suggest that radiation should be 90 \% attenuated after about 50--60 cm of typical, wet peat or 85 cm of unnaturally dry peat \citep{beamishGammaRayAttenuation2013, beamishDetailedMappingPeat2024}, and some field tests support these values \citep{billenEignungGammaspektrometrieKartieren2015}.
+It is remarkable that particular studies detected radiation differences up to several meters deep \citep{gatisMappingUplandPeat2019, kogantiMappingPeatDepth2023}, but these may be the exceptions rather than the rule.
+Perhaps relatively deeper water tables in these study sites \citep[blanket bog, drained fen,][]{pricePeatlandRestorationHydrology2016} contributed to better penetration.
+
+\subsubsection{Terrain-based variables can predict peat depth}
+
+At both our sites, LiDAR-derived terrain variables predicted peat depth much better than radiometric variables (Fig. \DIFdelbegin \DIFdel{\ref{fig:varImp}).
+Elevation }\DIFdelend \DIFaddbegin \DIFadd{\ref{fig:modelMetrics}).
+This is consistent with the findings of Pohjankukka et al. \mbox{%DIFAUXCMD
+\citeyearpar{pohjankukkaDigitalMappingPeat2025}}\hskip0pt%DIFAUXCMD
+, who mapped peat depth classes at 50 m resolution across Finland.
+}
+
+\DIFadd{At both our sites, elevation }\DIFaddend was the most important predictor\DIFdelbegin \DIFdel{at both sites}\DIFdelend , and peat depth showed non-monotonic responses to changes in elevation (\DIFdelbegin \DIFdel{Fig. }\DIFdelend \DIFaddbegin \DIFadd{Figs. \ref{fig:varImp}, }\DIFaddend \ref{fig:pdps}).
+We believe that the idiosyncratic elevational relationships we detected are mostly not generalizable beyond the study areas, because we see no simple mechanism (e.g.\DIFdelbegin \DIFdel{~}\DIFdelend \DIFaddbegin \DIFadd{, }\DIFaddend via climate) to explain the observed patterns.
+For example, the increase in peat depth from 350 to 700 m.a.s.l. at Skrimfjella is opposite to the general pattern of deeper peats in lowland than upland Norway \citep{lyngstadBeskrivelserAvTorvmassivenheter2023}.
+Moreover, elevation at Ørskogfjellet seems to interact with other variables (non-parallel individual conditional expectation lines), complicating its interpretation.
+Relationships between elevation and peat depth have previously shown opposite shapes in different areas \citep{finlaysonEstimatingOrganicSurface2021}.
+Nonetheless, a relationship that is not generalizable beyond the mapping area is still useful for DSM, as long as it is evaluated to demonstrate its robustness for the predictive task (e.g.\DIFdelbegin \DIFdel{~}\DIFdelend \DIFaddbegin \DIFadd{, }\DIFaddend through kNNDM spatial cross-validation).
+
+One interesting feature of the elevational relationships we found may be generalizable: a steep increase in peat depth near the marine limit after the last ice age.
+At Ørskogfjellet, the marine limit is about 75 meters above today's sea level \citep[Geological Survey of Norway,][]{hogaasDatabaseRegistreringAv2012}, where the partial dependence plot of elevation shows a sharp increase in peat depth.
+In areas under the marine limit there has been less time for peat accumulation since the ice sheets retreated, and it is plausible that this makes peats there shallower, all else being equal.
+This hypothesis is supported by similar findings at a coarser scale in the Hudson Bay Lowlands, where a strong positive relationship between peat depth and distance from the coast can be explained by isostatic uplift and time since peat initiation \citep{liPeatDepthCarbon2025}.
+\DIFaddbegin \DIFadd{The same has been reported for Finland \mbox{%DIFAUXCMD
+\citep{pohjankukkaDigitalMappingPeat2025}}\hskip0pt%DIFAUXCMD
+.
+}\DIFaddend We cannot evaluate this effect at Skrimfjella, where the marine limit is below our study area (at 175 m.a.s.l.).
+
+Another influential terrain-based predictor was Multi-Resolution Valley Bottom Flatness (Fig. \ref{fig:varImp}).
+Unlike elevation, it showed a monotonic effect on peat depth: greater valley bottom flatness was always associated with increases in peat depth (Fig. \ref{fig:pdps}).
+Delineating a valley bottom involves ambiguity, but the Multi-Resolution Valley Bottom Flatness index is a pragmatic approach that considers a location a valley bottom if it is sufficiently low and flat at a particular scale \citep{gallantMultiresolutionIndexValley2003}.
+The multiscale nature of the index allows small elevated but flat areas (including saddles) to be characterized as having high valley bottom flatness \citep{gallantMultiresolutionIndexValley2003}.
+Our results suggest that Multi-Resolution Valley Bottom Flatness is a robust indicator of high water tables (and peat accumulation) over millennial time scales, corroborating other studies \citep{rudiyantoOpenDigitalMapping2018, deragonMappingMaximumPeat2023}.
+
+Other terrain-derived predictors with predictive value in our study are hydrological (Topographic Wetness Index and Depth-to-Water).
+Notably, slope was inferior to (\DIFaddbegin \DIFadd{at }\DIFaddend Ørskogfjellet) or highly correlated with (\DIFaddbegin \DIFadd{at }\DIFaddend Skrimfjella) these hydrological indices.
+Mappers of peat depth should not assume that slope is the best \DIFdelbegin \DIFdel{predictor in its class}\DIFdelend \DIFaddbegin \DIFadd{terrain-derived predictor}\DIFaddend , despite its prevalence in the literature \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep{pohjankukkaDigitalMappingPeat2025}}\hskip0pt%DIFAUXCMD
+}\DIFaddend .
+Wetter locations (high Topographic Wetness Index and low Depth-to-Water) were generally associated with deeper peat, but these relationships were not as strong or consistent as with Multi-Resolution Valley Bottom Flatness (Figs. \ref{fig:varImp}, \ref{fig:pdps}).
+The optimal scale for Topographic Wetness Index and Depth-to-Water varied, and likely depends on both the dominant peat formation processes and the typical size of peatland features in a landscape.
+Including multiple scales of these variables allows the model to capture different hydrological mechanisms \DIFaddbegin \DIFadd{or patterns }\DIFaddend operating at different spatial scales.
+
+\subsubsection{Legacy depth maps have inconsistent predictive value}
+
+DMK peat depth class proved an inconsistent predictor of peat depth.
+At Skrimfjella, it barely improved model performance (Fig. \ref{fig:modelMetrics}).
+At Ørskogfjellet, it increased performance more, and both indicator variables \DIFaddbegin \DIFadd{(}\emph{\DIFadd{shallow}} \DIFadd{and }\emph{\DIFadd{unknown}}\DIFadd{) }\DIFaddend were among the most important in the model (Fig. \ref{fig:varImp}).
+We suspect the discrepancy between sites is due to different levels of effort and coverage during the historical surveys; more lowland peatland near agriculture at Ørskogfjellet may have caused more purposeful surveying.
+This is evidenced by the fact that 73 \% of the cells measured at Skrimfjella had unknown depth in DMK, compared to 20 \% at Ørskogfjellet.
+\DIFdelbegin \DIFdel{Our results show that classification as deep peat at Skrimfjella had no predictive value -- these cells were no different than those classified as shallow or unknown, all else being equal.
+}\DIFdelend Interactions between DMK and other variables also underline the inconsistency of DMK depth maps, even within a site.
+For example, \DIFdelbegin \DIFdel{that a peat at }\DIFdelend \DIFaddbegin \emph{\DIFadd{shallow}} \DIFadd{peat classification in DMK sometimes increased rather than decreased predicted depth at }\DIFaddend Ørskogfjellet\DIFdelbegin \DIFdel{was classified as shallow rather than deep did not always cause the model to predict shallower peat -- sometimes it increased the predicted depth }\DIFdelend .
+
+\subsection{Implications for digital soil mapping of peat depth}
+
+The performance gap between the best models and the DMK models shows that \DIFdelbegin \DIFdel{peat depth in Norway should be mapped digitally.
+Anywhere we have some calibrating measurements , we can get }\DIFdelend \DIFaddbegin \DIFadd{DSM of peat depth has value in Norway.
+Where calibrating measurements are available, }\DIFaddend better maps than DMK peat depth \DIFdelbegin \DIFdel{classes, }\DIFdelend \DIFaddbegin \DIFadd{class can be produced }\DIFaddend at low cost.
+Moreover, DSM \DIFdelbegin \DIFdel{methodology can align map products with open science principles by making their production }\DIFdelend \DIFaddbegin \DIFadd{can make the production of maps }\DIFaddend transparent, reproducible, and updatable.
+\DIFdelbegin \DIFdel{The large difference we found between the coverage and quality of DMK peat depth at Skrimfjella versus Ørskogfjellet underlines these advantages.
+With DSM we }\DIFdelend \DIFaddbegin \DIFadd{We }\DIFaddend can apply the same approach across different areas and make maps with full spatial coverage, continuous values, and validated uncertainty.
+The \DIFdelbegin \DIFdel{rest of this section discusses recommendations and needs for more extensive peat depth DSM}\DIFdelend \DIFaddbegin \DIFadd{large difference in coverage and quality of DMK peat depth at Skrimfjella versus Ørskogfjellet underlines these advantages}\DIFaddend .
+
+\subsubsection{Peat depth measurements should be organized}
+
+\DIFdelbegin \DIFdel{High quality }\DIFdelend \DIFaddbegin \DIFadd{High-quality }\DIFaddend DTMs are available for mainland Norway, \DIFdelbegin \DIFdel{making }\DIFdelend \DIFaddbegin \DIFadd{which makes }\DIFaddend peat depth measurements the critical training data \DIFdelbegin \DIFdel{need.
+For a given area, some minimum number of measurements is necessary to create meaningful improvement over DMK peat depth.
+The proportion of peatlands sampled at Skrimfjella was twice that at Ørskogfjellet, but the Skrimfjella model performed worse, which shows that the size of the depth dataset is not all-important.
+We had the luxury of stratifying our measurements over candidate predictors, and performance may suffer where locations are opportunistic or tied to a sampling design with a different purpose.
+The magnitude of this penalty will depend on the dataset characteristics, but having enough depth measurements is probably more consequential \mbox{%DIFAUXCMD
+\citep{wadouxSamplingDesignOptimization2019}}\hskip0pt%DIFAUXCMD
+.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{Depth measurements are foundational, and better }\DIFdelend \DIFaddbegin \DIFadd{needed for DSM.
+Better }\DIFaddend infrastructure to make \DIFdelbegin \DIFdel{these data }\DIFdelend \DIFaddbegin \DIFadd{depth measurements }\DIFaddend findable, accessible, interoperable, and reusable would help DSM and other applications.
+Geoportal access and data exchange standards \citeyearpar[like Natural England's for peat surveys,][]{naturalenglandDataExchangeStandard2023} are important.
+Peat \DIFdelbegin \DIFdel{data often fall through the cracks between geology-oriented and ecology-oriented archives, but increased awareness of peatland importance is a good impetus to remedy this situation.
+Peat }\DIFdelend depth is quick and easy to measure, so integrating its measurement into existing national field programs, like Norway's spatially representative nature monitoring or national forest inventory, would be helpful (although not sufficient for regional or local mapping).
+\DIFdelbegin \DIFdel{Municipalities and local actors in Norway are increasingly measuring peat depth and can contribute to a growing data foundation \mbox{%DIFAUXCMD
+\citep{kyrkjeeideCalculatorLocalPeatland2023}}\hskip0pt%DIFAUXCMD
+.
+}\DIFdelend Low-altitude, drone-mounted GPR may prove an efficient approach for collecting many, accurate depth data in a landscape, by combining the advantages of airborne deployment and active sensing \citep{pelletierPeatAnalysesHudson1991, ruolsDevelopmentDronebasedGroundpenetrating2023}.
+\DIFdelbegin \DIFdel{All of the above can lay the groundwork for renewed peatland maps.
+}\DIFdelend 
+
+\subsubsection{Spatial scale affects model performance and utility}
+
+Peat depths typically vary over short distances (e.g.\DIFdelbegin \DIFdel{~}\DIFdelend \DIFaddbegin \DIFadd{, }\DIFaddend \textless{} 1 m), so mapping at 10 m resolution implies that the map will compress much of the fine-scale variation\DIFdelbegin \DIFdel{in depth.
+For example, large differences in maximum depth can be obscured at 10 m resolution .
+For the same reason, seemingly small improvements in mean absolute error at }\DIFdelend \DIFaddbegin \DIFadd{.
+Terrain--depth relationships might be stronger at finer resolution than }\DIFaddend 10 m\DIFdelbegin \DIFdel{resolution may represent meaningful improvements for map users.
+Spatial aggregation also means that an uneven distribution of point measurements within a cell can cause its mean depth to be unrepresentative.
+Some cells had dense and evenly distributed measurements, while others had only a few in one corner.
+Although we tried to reduce the influence of uneven point coverage -- by inversely weighing point values by their distances to the cell center -- it probably contributed to model inaccuracy.
+Fine-scale variation in peat depth may favor mapping at very fine resolution (}\DIFdelend \DIFaddbegin \DIFadd{, especially considering the hummock--hollow microtopography of many peatlands \mbox{%DIFAUXCMD
+\citep{rydin7Mires1999, lindsayPeatbogsCarbonCritical2010}}\hskip0pt%DIFAUXCMD
+.
+Therefore, it may be advantageous to model peat depth at }\DIFaddend 1 m \DIFdelbegin \DIFdel{) --- }\DIFdelend \DIFaddbegin \DIFadd{resolution -- }\DIFaddend even if land use planning and carbon accounting do not operate at \DIFdelbegin \DIFdel{this grain.
+Terrain--depth relationships might be stronger in 1 m cells than in our 10 m cells, especially considering the hummock--hollow microtopography of many peatlands \mbox{%DIFAUXCMD
+\citep{rydin7Mires1999, lindsayPeatbogsCarbonCritical2010}}\hskip0pt%DIFAUXCMD
+.
+}%DIFDELCMD < 
+
+%DIFDELCMD < %%%
+\DIFdel{The scarcity of depth measurements and their short spatial autocorrelation mean that mapping peat depth at broad scales is not an exercise in spatial interpolation \mbox{%DIFAUXCMD
+\citep{henglGenericFrameworkSpatial2004}}\hskip0pt%DIFAUXCMD
+.
+Peat depths in our GPR data showed spatial autocorrelation to a range of 50--100 m, and getting measurements at such fine grain is only realistic for small areas, not across whole landscapes.
+Therefore, we anticipate that spatially explicit DSM is of limited value in all but the most intensively sampled landscapes (currently nowhere in Norway)}\DIFdelend \DIFaddbegin \DIFadd{such fine scale}\DIFaddend .
+
+\DIFdelbegin \DIFdel{Choosing }\DIFdelend \DIFaddbegin \DIFadd{To define }\DIFaddend a spatial extent for \DIFdelbegin \DIFdel{DSM can be tricky.
+A natural starting point is the bounding area around a spatial cluster of depth measurements.
+For a given cluster}\DIFdelend \DIFaddbegin \DIFadd{a particular DSM}\DIFaddend , kNNDM can \DIFdelbegin \DIFdel{define }\DIFdelend \DIFaddbegin \DIFadd{be used to investigate }\DIFaddend how far the \DIFdelbegin \DIFdel{boundary }\DIFdelend \DIFaddbegin \DIFadd{map }\DIFaddend can extend beyond \DIFdelbegin \DIFdel{the }\DIFdelend \DIFaddbegin \DIFadd{a set of }\DIFaddend point measurements; if the sample-to-prediction nearest neighbor distribution cannot be simulated by any set of cross-validation folds, then the extent is too expansive \citep{meyerMachineLearningbasedGlobal2022, linnenbrinkKNNDMCVKfold2024}.
+However, \DIFdelbegin \DIFdel{it is unclear how big (N) any cluster of depths should be, and }\DIFdelend the tradeoff between multiple small-extent DSM and fewer large-extent DSM needs research.
+Bohn and Miller \citeyearpar{bohnLocallyEnhancedDigital2024} advocate for bottom-up stitching of local DSM, and for peat depth we assert that these should at least stay within peatland regions (or `supertopes'), where the composition of mesotopes is similar -- e.g.\DIFdelbegin \DIFdel{~}\DIFdelend \DIFaddbegin \DIFadd{, }\DIFaddend regions dominated by raised bogs versus regions dominated by sloping fens \citep{moenNationalAtlasNorway1999, joostenWiseUseMires2002}.
+Depth varies systematically between bogs and fens \citep{lindsayPeatlandMireTypes2016}, between peats formed by terrestrialization versus paludification \citep{buffamFillingHolesRegional2010}, and probably along other axes of peatland typology.
+Therefore, DSM is more likely to uncover consistent predictor--depth relationships within peatland regions than across them.
+
+\subsubsection{Machine learning approaches can build on success}
+
+The DSM literature and our results support using flexible machine learning algorithms like RF to predict peat depth.
+RF avoids negative predictions \citep[c.f.][]{kogantiMappingPeatDepth2023} and produces good uncertainty estimates \citep[our study,][]{vaysseUsingQuantileRegression2017, takoutsingComparingPredictionPerformance2022}.
+As depth data become more abundant, \DIFdelbegin \DIFdel{we may move from }\DIFdelend pixel-based learners \DIFdelbegin \DIFdel{to }\DIFdelend \DIFaddbegin \DIFadd{may be surpassed by }\DIFaddend deep learning approaches like convolutional neural networks.
+\DIFdelbegin \DIFdel{Bakkestuen et al. \mbox{%DIFAUXCMD
+\citeyearpar{bakkestuenDelineationWetlandAreas2023} }\hskip0pt%DIFAUXCMD
+successfully predicted peatland extent using convolutional neural networks, and their ability to automatically learn multiscale spatial features would reduce the need to manually engineer these.
+}\DIFdelend The success of Multi-Resolution Valley Bottom Flatness as a predictor of peat depth demonstrates that multiscale spatial patterns matter for peat depth\DIFaddbegin \DIFadd{, }\DIFaddend and convolutional neural networks are designed to learn such patterns \DIFaddbegin \DIFadd{\mbox{%DIFAUXCMD
+\citep{borowiecDeepLearningTool2022}}\hskip0pt%DIFAUXCMD
+}\DIFaddend .
+The kind of relationship described in Buffam et al. \citeyearpar{buffamFillingHolesRegional2010}, where peat depth in basins related to terrain slope at the basin edge, is also something a convolutional neural network could learn.
+However, since this approach is data-hungry, we should build soil knowledge into the DSM where we can \citep{minasnySoilScienceInformedMachine2024}.
+\DIFdelbegin \DIFdel{For example, if further research confirms the effect of the marine limit that we found, then it is better to include the marine limit as a predictor than to make the algorithm learn this pattern from elevation independently.
+}\DIFdelend 
+
+\subsubsection{Peat extent and depth should be mapped together}
+
+Finally, we \DIFdelbegin \DIFdel{want to highlight }\DIFdelend \DIFaddbegin \DIFadd{would like to highlight briefly }\DIFaddend the need for \DIFdelbegin \DIFdel{research on peatland extent }\DIFdelend \DIFaddbegin \DIFadd{peatland extent mapping }\DIFaddend and peat depth \DIFaddbegin \DIFadd{mapping }\DIFaddend to be better integrated.
+Since peatland extent is defined by non-zero peat depth \citep[the specific threshold varies by definition,][]{minasnyMappingMonitoringPeatland2024}, \DIFdelbegin \DIFdel{they }\DIFdelend \DIFaddbegin \DIFadd{the lateral and vertical dimensions }\DIFaddend are fundamentally linked.
+The goal, therefore, should be a unified prediction framework for extent and depth.
+\DIFdelbegin \DIFdel{We caution against reducing continuous depth predictions to arbitrary classes \mbox{%DIFAUXCMD
+\citep[as in][]{ivanovsModelingGeospatialDistribution2024, karjalainenComparisonTwoGammaray2025}}\hskip0pt%DIFAUXCMD
+, since classes can be derived from continuous predictions.
+The distribution of peat depths across full landscapes is zero-inflated, and research }\DIFdelend \DIFaddbegin \DIFadd{Research }\DIFaddend is needed to determine whether it is \DIFdelbegin \DIFdel{more efficient }\DIFdelend \DIFaddbegin \DIFadd{better }\DIFaddend to parameterize a single model of peat depth \DIFdelbegin \DIFdel{(with a larger, generalized dataset) }\DIFdelend \DIFaddbegin \DIFadd{across a full landscape, }\DIFaddend or to break down the problem into a hurdle model by classifying zero depth and then regressing non-zero depths\DIFdelbegin \DIFdel{(with smaller, specialized datasets).
+Coupling extent and depth will reduce the prevalence of incoherence that we found: deep peat outside the peatland extent and zero depth inside it.
+A key challenge going forward will be obtaining training data that represents both zero and non-zero components of the depth distribution, since sampling designs often focus on known peatlands.
+}\DIFdelend \DIFaddbegin \DIFadd{.
+Though peatland definitions may encourage reducing continuous depth predictions to arbitrary classes, we caution against this practice \mbox{%DIFAUXCMD
+\citep[as in][]{ivanovsModelingGeospatialDistribution2024, karjalainenComparisonTwoGammaray2025}}\hskip0pt%DIFAUXCMD
+.
+}\DIFaddend 
+
+\DIFdelbegin %DIFDELCMD < \codedataavailability{R code used in this study is available at \url{https://github.com/julienvollering/DSMdepth}. The depth measurements we used are archived at \doi{10.6073/pasta/6ce440152f693f2156bf5b692a2e7917} and follow data and metadata standards.} %%%
+%DIF < % use this section when having data sets and software code available
+\DIFdelend \DIFaddbegin \section{\DIFadd{Conclusions}}
+\DIFaddend 
+
+%DIF < %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%DIF < % optional
+\DIFaddbegin \DIFadd{This study demonstrates that digital soil mapping at 10 m resolution can improve upon existing peat depth maps in Norway, though the strength of the relationship between available predictors and peat depth remains limited.
+Our findings show that terrain-derived variables, particularly elevation and Multi-Resolution Valley Bottom Flatness, provide predictive value for peat depth mapping within peatland extents.
+In contrast, airborne radiometric data showed little to no predictive value at either of two study sites, possibly because of the large footprint of airborne spectrometers relative to the fine-scale variation in peat depths.
+}\DIFaddend 
+
+%DIF < %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DIFaddbegin \DIFadd{The best models achieved mean absolute errors of 56--60 cm against mean depths of 119--126 cm, and explained approximately one-third of the variation in peat depth across landscapes with aggregate peatland areas of 1.5--15.3 km\textsuperscript{2}.
+Though field measurements remain necessary for local, detailed assessments of peat depth, digital soil maps at 10 m resolution can provide valuable information for landscape-scale planning and regional carbon assessments.
+The models' tendency to underpredict the deepest peats has important practical implications, making them more suitable for precautionary screening than comprehensive coverage.
+As Norway and other nations pursue nature-based climate solutions, these findings highlight both the potential and limitations of remote sensing for peatland carbon mapping.
+}
+
+\newpage
+\DIFaddend \appendix
+\DIFaddbegin \section{}
+
+\DIFaddend \appendixtables
+\DIFdelbegin %DIFDELCMD < \begin{table}[tbp]
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \begin{table}[ht]
+\DIFaddendFL \caption{Attributes of the radiometric surveys, as reported in Baranwal et al., \citeyearpar{baranwalHelicopterborneMagneticElectromagnetic2013} and Ofstad \citeyearpar{ofstadHelicopterborneMagneticRadiometric2015}.}
+\begin{tabular}{lll}
+\hline
+& Skrimfjella & Ørskogfjellet              \\ \cline{2-3} 
+Survey period                            & \DIFdelbeginFL \DIFdelFL{2008-2011   }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{2008--2011   }\DIFaddendFL & \DIFdelbeginFL \DIFdelFL{December 2014}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{2014.12-}\DIFaddendFL –\DIFdelbeginFL \DIFdelFL{January 2015 }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{2015.01 }\DIFaddendFL \\
+Average flight altitude (m)              & 75           & 80               \\
+Average flight speed (\unit{km\,h^{-1}}) & 108          & 88               \\
+Flight line spacing (m)                  & 200          & 200              \\ \hline
+\end{tabular}
+\label{tab:radSurveys}
+\end{table}
+\clearpage
+\DIFdelbegin %DIFDELCMD < \appendixfigures
+%DIFDELCMD < \begin{figure}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL 
+
+\section{}
+\subsection{\DIFaddFL{Peat depth sample selection}} \label{sec:sample-selection}
+\subsubsection{\DIFaddFL{Skrimfjella}}
+
+\DIFaddFL{At Skrimfjella, we used the }\emph{\DIFaddFL{eSample}} \DIFaddFL{function in the }\emph{\DIFaddFL{iSDM}} \DIFaddFL{R package (v1.0) to stratify our sample across elevation, slope, and potassium concentration.
+This function defines the environmental space as a two-dimensional convex hull around the PCA-ordinated data, then creates a regular grid across that space, and lastly finds for each grid cell the datum that is nearest \mbox{%DIFAUXCMD
+\citep{hattabUnifiedFrameworkModel2017}}\hskip0pt%DIFAUXCMD
+.
+We set a target sample size of 100, excluded the top and bottom percentile from the convex hull, and }\emph{\DIFaddFL{eSample}} \DIFaddFL{returned 105 raster cells.
+}
+
+\subsubsection{\DIFaddFL{Ørskogfjellet}}
+
+\DIFaddFL{At Ørskogfjellet, we first determined a minimal sample size that would adequately capture the slope and radiometric properties (potassium, thorium, uranium, and total count) of the entire AR5 mire area \mbox{%DIFAUXCMD
+\citep{sauretteDivergenceMetricsDetermining2023}}\hskip0pt%DIFAUXCMD
+.
+Specifically, we identified an elbow point in a curve of similarity between sample and population \mbox{%DIFAUXCMD
+\citep{maloneMethodsImproveUtility2019}}\hskip0pt%DIFAUXCMD
+.
+For a sequence of sample sizes (50--500) \mbox{%DIFAUXCMD
+\citep[ten replicates each, drawn by conditioned latin hypercube sampling,][]{minasnyConditionedLatinHypercube2006, roudierClhsPackageConditioned2011}}\hskip0pt%DIFAUXCMD
+, we calculated the mean Kullback--Leibler divergence between sample and population distributions \mbox{%DIFAUXCMD
+\citep{maloneMethodsImproveUtility2019, sauretteDivergenceMetricsDetermining2023}}\hskip0pt%DIFAUXCMD
+.
+Then we fitted an asymptotic regression of mean divergence on sample size, and found that the curve reached 95 \% of the fitted asymptote at a sample size of 160.
+}
+
+\DIFaddFL{To choose 160 locations, we performed feature space coverage sampling, implemented using the }\emph{\DIFaddFL{kmeans}} \DIFaddFL{function in base R and the }\emph{\DIFaddFL{rdist}} \DIFaddFL{function in the }\emph{\DIFaddFL{fields}} \DIFaddFL{package (v14.2).
+Feature space coverage sampling chooses locations that are closest to cluster centers in standardized predictor space \mbox{%DIFAUXCMD
+\citep{brusSamplingDigitalSoil2019}}\hskip0pt%DIFAUXCMD
+.
+This approach has been found to produce higher accuracy in RFs than conditioned latin hypercube sampling \mbox{%DIFAUXCMD
+\citep{wadouxSamplingDesignOptimization2019, maComparisonConditionedLatin2020}}\hskip0pt%DIFAUXCMD
+.
+Feature space coverage sampling works best when all dimensions are important predictors of the outcome \mbox{%DIFAUXCMD
+\citep{wadouxSamplingDesignOptimization2019}}\hskip0pt%DIFAUXCMD
+, and we used the same five predictors that we used to choose sample size: slope and four radiometrics.
+}
+
+\DIFaddFL{We adjusted the feature space coverage sampling to ensure that locations were accessible within time constraints, and assessed how this changed our sample from an ideal feature space coverage sample.
+Adjusting for accessibility is justified because the smaller sample size that would result if accessibility were ignored can degrade model accuracy as much or more as deviations from ideal sampling designs \mbox{%DIFAUXCMD
+\citep{wadouxSamplingDesignOptimization2019, maComparisonConditionedLatin2020}}\hskip0pt%DIFAUXCMD
+.
+To adjust, we first restricted the sampling population to AR5 mire areas that were within an arbitrary cost distance of publicly accessible roads.
+Cost distance was calculated using GRASS's }\emph{\DIFaddFL{r.walk}} \DIFaddFL{function, with friction costs defined by AR5 land classes \mbox{%DIFAUXCMD
+\citep{GRASSv8-2}}\hskip0pt%DIFAUXCMD
+.
+After creating a feature space coverage sample with this restriction, we also inspected a map of the sample and substituted 16 inaccessible locations with accessible locations from the same or a nearby cluster.
+Our two accessibility adjustments increased the distance in standardized predictor space between sample locations and cluster centers by 78 \% (compared to the ideal sample), but distance in our sample was still only 46 \% of the mean distance to cluster centers -- i.e., accessibility did not force locations far from cluster centers relative to the size of the clusters.
+}
+
+\subsection{\DIFaddFL{Depth measurements}} \label{sec:depth-measurements}
+
+\subsubsection{\DIFaddFL{Peat probing}}
+
+\DIFaddFL{We navigated to the centers of the raster cells in our samples using handheld (Skrimfjella) or real-time kinematic (Ørskogfjellet) global navigation satellite system (GNSS) receivers.
+We dampened the effect of outlying measurements by probing three times at each location \mbox{%DIFAUXCMD
+\citep{parryEvaluatingApproachesEstimating2014}}\hskip0pt%DIFAUXCMD
+, at the vertices of a centered triangle with 2 m (Skrimfjella) or 4.5 m (Ørskogfjellet) sides.
+We used changes in resistance to indicate the base of the peat column.
+Probe locations were adjusted up to 20 cm if the base of the peat column seemed to be blocked by an obvious artifact, like a buried rock.
+Where the peat column was deeper than the extendable probe could be manually inserted and extracted by a pair of operators, we recorded a right-censored result (one at Skrimfjella, five at Ørskogfjellet).
+}
+
+\subsubsection{\DIFaddFL{Ground-penetrating radar}}
+
+\DIFaddFL{We performed GPR surveys in three subjectively chosen peatlands at Skrimfjella and in areas with a high density of sampled raster cells at Ørskogfjellet.
+We used the Malå ProEx GPR system (Guideline Geo AB, Sweden) with a GNSS-enabled control unit connected to a 500 MHz shielded antenna mounted in a plastic sledge (transmitter--receiver separation 0.18 m, trace frequency 10 Hz).
+For some transects at Ørskogfjellet we substituted a 100 MHz Malå rough terrain antenna (transmitter--receiver separation 2.2 m, trace frequency 5 Hz), because the lower frequency antenna gives greater penetration depth.
+In all cases the system was towed by a walking GPR operator.
+}
+
+\DIFaddFL{GPR traces were recorded along zigzag (Skrimfjella) or snaking (Ørskogfjellet) transects.
+At Ørskogfjellet, transects were predetermined to pass through the centers of sampled raster cells, and we marked these precisely with flags to guide the GPR operator.
+A GPR records the time taken for a radio wave to travel from the transmitter to a reflector and back to the receiver, and the velocity of the wave varies with properties of the peat column.
+Therefore, wave velocity has to be calibrated to convert travel time to peat depth, and we probed peat depth along the transects.
+}
+
+\DIFaddFL{We processed the GPR data with Reflex2DQuick (v.3.0; Skrimfjella) or REFLEXW (v.8.5; Ørskogfjellet) software (Sandmeier Scientific Software, Germany).
+We applied a time-zero correction, a dewow filter, and a gain filter based on observed energy decay.
+With Ørskogfjellet data, we also applied a bandpass filter and a dynamic correction that accounts for the non-vertical wave path between offset transmitter and receiver antennas.
+The latter is important for the rough terrain antenna, where the antenna separation is comparable to typical peat depths.
+From the processed radargrams, we picked travel times from strong reflectors that we interpreted as the base of the peat column.
+}
+
+\DIFaddFL{We used picks near probed depths to calibrate wave speed velocity -- separately for each site.
+Calibration data were created by matching marked trace locations to a corresponding depth probe (Skrimfjella), or by a spatial join that identified interpreted traces and depth probes within 2 m of each other (Ørskogfjellet).
+We had sufficient calibration point density to avoid bias in wave velocity as a major source of error \mbox{%DIFAUXCMD
+\citep{rosaDeterminingNumberManual2009}}\hskip0pt%DIFAUXCMD
+: 46 calibration points along 3.5 km of interpretable traces at Skrimfjella, and 78 along 7.8 km at Ørskogfjellet.
+We fitted site-specific linear regressions of probed depth on picked travel time, with the intercept fixed at zero, to estimate wave velocities.
+Notwithstanding a few outlying points, our regressions showed good fits and the resulting velocities are within the range reported for peat \mbox{%DIFAUXCMD
+\citep{parsekianUncertaintyPeatVolume2012}}\hskip0pt%DIFAUXCMD
+: }\unit{0.0387\,m\,ns^{-1}}\DIFaddFL{, \(R^2 = 0.874\) at Skrimfjella and }\unit{0.0427\,m\,ns^{-1}}\DIFaddFL{, \(R^2 = 0.946\) at Ørskogfjellet (Fig. \ref{fig:GPRwavevelocity}).
+Finally, we used these two wave velocities to convert the travel times of all picks to calibrated peat depths.
+In total, the GPR surveys produced 48579 point measurements of peat depth at Skrimfjella and 32653 at Ørskogfjellet.
+}
+
+\begin{figure}[ht]
+\DIFaddendFL \centering
+\DIFdelbeginFL %DIFDELCMD < \includegraphics[width=0.8\textwidth]{figures/GPRwavevelocity.pdf}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL \includegraphics[height=0.7\textheight]{figures/GPRwavevelocity.pdf}
+\DIFaddendFL \caption{\label{fig:GPRwavevelocity}Calibration of GPR wave velocity at Skrimfjella (a) and Ørskogfjellet (b) by regression of probed depth against wave travel time.}
+\end{figure}
+\DIFdelbegin %DIFDELCMD < \clearpage
+%DIFDELCMD < \appendixfigures
+%DIFDELCMD < \begin{figure}
+%DIFDELCMD < %%%
+\DIFdelendFL \DIFaddbeginFL 
+
+\begin{figure}[ht]
+\DIFaddendFL \centering
+\includegraphics{figures/semivariograms.pdf}
+\caption{\label{fig:semivariograms}Empirical semivariograms of peat depth point measurements at Skrimfjella (a) and Ørskogfjellet (b).}
+\end{figure}
+\DIFaddbegin \clearpage
+
+\section{}
+
+\begin{table}[h]
+
+\caption{\label{tab:pairwiseSkrimCCC}\DIFaddFL{Pairwise comparisons of the concordance correlation coefficient among models for Skrimfjella, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (}\texttt{\DIFaddFL{emmeans}} \DIFaddFL{package) on mixed-effects models (}\texttt{\DIFaddFL{lme4}} \DIFaddFL{package) to account for the cross-validation fold structure.}}
+\centering
+\begin{tabular}[t]{lrrrrll}
+\hline
+\DIFaddFL{Comparison }& \DIFaddFL{Estimate }& \DIFaddFL{Std.error }& \DIFaddFL{Df }& \DIFaddFL{Statistic }& \DIFaddFL{Adj.p.value }& \DIFaddFL{Significance}\\
+\hline
+\DIFaddFL{DMK - Radiometric }& \DIFaddFL{0.02 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{0.44 }& \DIFaddFL{0.999 }& \\
+\DIFaddFL{DMK - RadiometricDMK }& \DIFaddFL{0.06 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{1.19 }& \DIFaddFL{0.896 }& \\
+\DIFaddFL{DMK - RadiometricTerrain }& \DIFaddFL{-0.29 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{-5.84 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{DMK - RadiometricTerrainDMK }& \DIFaddFL{-0.29 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{-5.81 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{DMK - Terrain }& \DIFaddFL{-0.25 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{-5.03 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{DMK - TerrainDMK }& \DIFaddFL{-0.26 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{-5.17 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{Radiometric - RadiometricDMK }& \DIFaddFL{0.04 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{0.75 }& \DIFaddFL{0.989 }& \\
+\DIFaddFL{Radiometric - RadiometricTerrain }& \DIFaddFL{-0.31 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{-6.28 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{Radiometric - RadiometricTerrainDMK }& \DIFaddFL{-0.31 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{-6.25 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{Radiometric - Terrain }& \DIFaddFL{-0.27 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{-5.47 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{Radiometric - TerrainDMK }& \DIFaddFL{-0.28 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{-5.62 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{RadiometricDMK - RadiometricTerrain }& \DIFaddFL{-0.35 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{-7.03 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{RadiometricDMK - RadiometricTerrainDMK }& \DIFaddFL{-0.35 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{-7.00 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{RadiometricDMK - Terrain }& \DIFaddFL{-0.31 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{-6.22 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{RadiometricDMK - TerrainDMK }& \DIFaddFL{-0.32 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{-6.37 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{RadiometricTerrain - RadiometricTerrainDMK }& \DIFaddFL{0.00 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{0.03 }& \DIFaddFL{1 }& \\
+\DIFaddFL{RadiometricTerrain - Terrain }& \DIFaddFL{0.04 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{0.81 }& \DIFaddFL{0.983 }& \\
+\DIFaddFL{RadiometricTerrain - TerrainDMK }& \DIFaddFL{0.03 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{0.67 }& \DIFaddFL{0.994 }& \\
+\DIFaddFL{RadiometricTerrainDMK - Terrain }& \DIFaddFL{0.04 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{0.79 }& \DIFaddFL{0.986 }& \\
+\DIFaddFL{RadiometricTerrainDMK - TerrainDMK }& \DIFaddFL{0.03 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{0.64 }& \DIFaddFL{0.995 }& \\
+\DIFaddFL{Terrain - TerrainDMK }& \DIFaddFL{-0.01 }& \DIFaddFL{0.05 }& \DIFaddFL{114 }& \DIFaddFL{-0.15 }& \DIFaddFL{1 }& \\
+\hline
+\end{tabular}
+\end{table}
+\clearpage
+
+\begin{table}[h]
+
+\caption{\label{tab:pairwiseSkrimRsq}\DIFaddFL{Pairwise comparisons of $R^2$ among models for Skrimfjella, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (}\texttt{\DIFaddFL{emmeans}} \DIFaddFL{package) on mixed-effects models (}\texttt{\DIFaddFL{lme4}} \DIFaddFL{package) to account for the cross-validation fold structure.}}
+\centering
+\begin{tabular}[t]{lrrrrrl}
+\hline
+\DIFaddFL{Comparison }& \DIFaddFL{Estimate }& \DIFaddFL{Std.error }& \DIFaddFL{Df }& \DIFaddFL{Statistic }& \DIFaddFL{Adj.p.value }& \DIFaddFL{Significance}\\
+\hline
+\DIFaddFL{DMK - Radiometric }& \DIFaddFL{0.04 }& \DIFaddFL{0.08 }& \DIFaddFL{108.23 }& \DIFaddFL{0.55 }& \DIFaddFL{0.998 }& \\
+\DIFaddFL{DMK - RadiometricDMK }& \DIFaddFL{0.01 }& \DIFaddFL{0.08 }& \DIFaddFL{108.23 }& \DIFaddFL{0.08 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{DMK - RadiometricTerrain }& \DIFaddFL{-0.16 }& \DIFaddFL{0.08 }& \DIFaddFL{108.23 }& \DIFaddFL{-2.07 }& \DIFaddFL{0.378 }& \\
+\DIFaddFL{DMK - RadiometricTerrainDMK }& \DIFaddFL{-0.16 }& \DIFaddFL{0.08 }& \DIFaddFL{108.23 }& \DIFaddFL{-2.11 }& \DIFaddFL{0.357 }& \\
+\DIFaddFL{DMK - Terrain }& \DIFaddFL{-0.11 }& \DIFaddFL{0.08 }& \DIFaddFL{108.23 }& \DIFaddFL{-1.48 }& \DIFaddFL{0.755 }& \\
+\DIFaddFL{DMK - TerrainDMK }& \DIFaddFL{-0.10 }& \DIFaddFL{0.08 }& \DIFaddFL{108.23 }& \DIFaddFL{-1.34 }& \DIFaddFL{0.830 }& \\
+\DIFaddFL{Radiometric - RadiometricDMK }& \DIFaddFL{-0.04 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{-0.56 }& \DIFaddFL{0.998 }& \\
+\DIFaddFL{Radiometric - RadiometricTerrain }& \DIFaddFL{-0.20 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{-3.16 }& \DIFaddFL{0.033 }& \DIFaddFL{*}\\
+\DIFaddFL{Radiometric - RadiometricTerrainDMK }& \DIFaddFL{-0.20 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{-3.20 }& \DIFaddFL{0.029 }& \DIFaddFL{*}\\
+\DIFaddFL{Radiometric - Terrain }& \DIFaddFL{-0.16 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{-2.45 }& \DIFaddFL{0.190 }& \\
+\DIFaddFL{Radiometric - TerrainDMK }& \DIFaddFL{-0.15 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{-2.28 }& \DIFaddFL{0.263 }& \\
+\DIFaddFL{RadiometricDMK - RadiometricTerrain }& \DIFaddFL{-0.17 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{-2.60 }& \DIFaddFL{0.137 }& \\
+\DIFaddFL{RadiometricDMK - RadiometricTerrainDMK }& \DIFaddFL{-0.17 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{-2.64 }& \DIFaddFL{0.124 }& \\
+\DIFaddFL{RadiometricDMK - Terrain }& \DIFaddFL{-0.12 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{-1.89 }& \DIFaddFL{0.494 }& \\
+\DIFaddFL{RadiometricDMK - TerrainDMK }& \DIFaddFL{-0.11 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{-1.72 }& \DIFaddFL{0.605 }& \\
+\DIFaddFL{RadiometricTerrain - RadiometricTerrainDMK }& \DIFaddFL{0.00 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{-0.04 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{RadiometricTerrain - Terrain }& \DIFaddFL{0.05 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{0.71 }& \DIFaddFL{0.992 }& \\
+\DIFaddFL{RadiometricTerrain - TerrainDMK }& \DIFaddFL{0.06 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{0.88 }& \DIFaddFL{0.975 }& \\
+\DIFaddFL{RadiometricTerrainDMK - Terrain }& \DIFaddFL{0.05 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{0.75 }& \DIFaddFL{0.989 }& \\
+\DIFaddFL{RadiometricTerrainDMK - TerrainDMK }& \DIFaddFL{0.06 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{0.92 }& \DIFaddFL{0.968 }& \\
+\DIFaddFL{Terrain - TerrainDMK }& \DIFaddFL{0.01 }& \DIFaddFL{0.06 }& \DIFaddFL{105.01 }& \DIFaddFL{0.17 }& \DIFaddFL{1.000 }& \\
+\hline
+\end{tabular}
+\end{table}
+\clearpage
+
+\begin{table}[h]
+
+\caption{\label{tab:pairwiseSkrimMAE}\DIFaddFL{Pairwise comparisons of mean absolute error among models for Skrimfjella, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (}\texttt{\DIFaddFL{emmeans}} \DIFaddFL{package) on mixed-effects models (}\texttt{\DIFaddFL{lme4}} \DIFaddFL{package) to account for the cross-validation fold structure.}}
+\centering
+\begin{tabular}[t]{lrrrrrl}
+\hline
+\DIFaddFL{Comparison }& \DIFaddFL{Estimate }& \DIFaddFL{Std.error }& \DIFaddFL{Df }& \DIFaddFL{Statistic }& \DIFaddFL{Adj.p.value }& \DIFaddFL{Significance}\\
+\hline
+\DIFaddFL{DMK - Radiometric }& \DIFaddFL{-2.91 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{-0.93 }& \DIFaddFL{0.967 }& \\
+\DIFaddFL{DMK - RadiometricDMK }& \DIFaddFL{-3.69 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{-1.18 }& \DIFaddFL{0.902 }& \\
+\DIFaddFL{DMK - RadiometricTerrain }& \DIFaddFL{8.10 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{2.58 }& \DIFaddFL{0.140 }& \\
+\DIFaddFL{DMK - RadiometricTerrainDMK }& \DIFaddFL{8.21 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{2.62 }& \DIFaddFL{0.130 }& \\
+\DIFaddFL{DMK - Terrain }& \DIFaddFL{6.81 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{2.17 }& \DIFaddFL{0.319 }& \\
+\DIFaddFL{DMK - TerrainDMK }& \DIFaddFL{7.33 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{2.34 }& \DIFaddFL{0.235 }& \\
+\DIFaddFL{Radiometric - RadiometricDMK }& \DIFaddFL{-0.77 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{-0.25 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{Radiometric - RadiometricTerrain }& \DIFaddFL{11.02 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{3.51 }& \DIFaddFL{0.011 }& \DIFaddFL{*}\\
+\DIFaddFL{Radiometric - RadiometricTerrainDMK }& \DIFaddFL{11.13 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{3.55 }& \DIFaddFL{0.010 }& \DIFaddFL{*}\\
+\DIFaddFL{Radiometric - Terrain }& \DIFaddFL{9.72 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{3.10 }& \DIFaddFL{0.038 }& \DIFaddFL{*}\\
+\DIFaddFL{Radiometric - TerrainDMK }& \DIFaddFL{10.24 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{3.27 }& \DIFaddFL{0.024 }& \DIFaddFL{*}\\
+\DIFaddFL{RadiometricDMK - RadiometricTerrain }& \DIFaddFL{11.79 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{3.76 }& \DIFaddFL{0.005 }& \DIFaddFL{**}\\
+\DIFaddFL{RadiometricDMK - RadiometricTerrainDMK }& \DIFaddFL{11.90 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{3.80 }& \DIFaddFL{0.004 }& \DIFaddFL{**}\\
+\DIFaddFL{RadiometricDMK - Terrain }& \DIFaddFL{10.50 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{3.35 }& \DIFaddFL{0.018 }& \DIFaddFL{*}\\
+\DIFaddFL{RadiometricDMK - TerrainDMK }& \DIFaddFL{11.01 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{3.51 }& \DIFaddFL{0.011 }& \DIFaddFL{*}\\
+\DIFaddFL{RadiometricTerrain - RadiometricTerrainDMK }& \DIFaddFL{0.11 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{0.04 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{RadiometricTerrain - Terrain }& \DIFaddFL{-1.29 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{-0.41 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{RadiometricTerrain - TerrainDMK }& \DIFaddFL{-0.77 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{-0.25 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{RadiometricTerrainDMK - Terrain }& \DIFaddFL{-1.40 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{-0.45 }& \DIFaddFL{0.999 }& \\
+\DIFaddFL{RadiometricTerrainDMK - TerrainDMK }& \DIFaddFL{-0.88 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{-0.28 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{Terrain - TerrainDMK }& \DIFaddFL{0.52 }& \DIFaddFL{3.13 }& \DIFaddFL{114 }& \DIFaddFL{0.17 }& \DIFaddFL{1.000 }& \\
+\hline
+\end{tabular}
+\end{table}
+\clearpage
+
+\begin{table}[h]
+
+\caption{\label{tab:pairwiseOrskogCCC}\DIFaddFL{Pairwise comparisons of the concordance correlation coefficient among models for Ørskogfjellet, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (}\texttt{\DIFaddFL{emmeans}} \DIFaddFL{package) on mixed-effects models (}\texttt{\DIFaddFL{lme4}} \DIFaddFL{package) to account for the cross-validation fold structure.}}
+\centering
+\begin{tabular}[t]{lrrrrrl}
+\hline
+\DIFaddFL{Comparison }& \DIFaddFL{Estimate }& \DIFaddFL{Std.error }& \DIFaddFL{Df }& \DIFaddFL{Statistic }& \DIFaddFL{Adj.p.value }& \DIFaddFL{Significance}\\
+\hline
+\DIFaddFL{DMK - Radiometric }& \DIFaddFL{0.05 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{0.61 }& \DIFaddFL{0.996 }& \\
+\DIFaddFL{DMK - RadiometricDMK }& \DIFaddFL{0.07 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{0.84 }& \DIFaddFL{0.979 }& \\
+\DIFaddFL{DMK - RadiometricTerrain }& \DIFaddFL{-0.14 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-1.79 }& \DIFaddFL{0.559 }& \\
+\DIFaddFL{DMK - RadiometricTerrainDMK }& \DIFaddFL{-0.16 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-1.95 }& \DIFaddFL{0.458 }& \\
+\DIFaddFL{DMK - Terrain }& \DIFaddFL{-0.19 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-2.33 }& \DIFaddFL{0.248 }& \\
+\DIFaddFL{DMK - TerrainDMK }& \DIFaddFL{-0.22 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-2.67 }& \DIFaddFL{0.127 }& \\
+\DIFaddFL{Radiometric - RadiometricDMK }& \DIFaddFL{0.02 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{0.24 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{Radiometric - RadiometricTerrain }& \DIFaddFL{-0.19 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-2.40 }& \DIFaddFL{0.220 }& \\
+\DIFaddFL{Radiometric - RadiometricTerrainDMK }& \DIFaddFL{-0.21 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-2.55 }& \DIFaddFL{0.161 }& \\
+\DIFaddFL{Radiometric - Terrain }& \DIFaddFL{-0.24 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-2.94 }& \DIFaddFL{0.068 }& \\
+\DIFaddFL{Radiometric - TerrainDMK }& \DIFaddFL{-0.26 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-3.27 }& \DIFaddFL{0.029 }& \DIFaddFL{*}\\
+\DIFaddFL{RadiometricDMK - RadiometricTerrain }& \DIFaddFL{-0.21 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-2.63 }& \DIFaddFL{0.136 }& \\
+\DIFaddFL{RadiometricDMK - RadiometricTerrainDMK }& \DIFaddFL{-0.23 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-2.79 }& \DIFaddFL{0.096 }& \\
+\DIFaddFL{RadiometricDMK - Terrain }& \DIFaddFL{-0.26 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-3.17 }& \DIFaddFL{0.037 }& \DIFaddFL{*}\\
+\DIFaddFL{RadiometricDMK - TerrainDMK }& \DIFaddFL{-0.28 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-3.51 }& \DIFaddFL{0.015 }& \DIFaddFL{*}\\
+\DIFaddFL{RadiometricTerrain - RadiometricTerrainDMK }& \DIFaddFL{-0.01 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-0.16 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{RadiometricTerrain - Terrain }& \DIFaddFL{-0.04 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-0.54 }& \DIFaddFL{0.998 }& \\
+\DIFaddFL{RadiometricTerrain - TerrainDMK }& \DIFaddFL{-0.07 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-0.88 }& \DIFaddFL{0.975 }& \\
+\DIFaddFL{RadiometricTerrainDMK - Terrain }& \DIFaddFL{-0.03 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-0.38 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{RadiometricTerrainDMK - TerrainDMK }& \DIFaddFL{-0.06 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-0.72 }& \DIFaddFL{0.991 }& \\
+\DIFaddFL{Terrain - TerrainDMK }& \DIFaddFL{-0.03 }& \DIFaddFL{0.08 }& \DIFaddFL{54 }& \DIFaddFL{-0.33 }& \DIFaddFL{1.000 }& \\
+\hline
+\end{tabular}
+\end{table}
+\clearpage
+
+\begin{table}[h]
+
+\caption{\label{tab:pairwiseOrskogRsq}\DIFaddFL{Pairwise comparisons of $R^2$ among models for Ørskogfjellet, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (}\texttt{\DIFaddFL{emmeans}} \DIFaddFL{package) on mixed-effects models (}\texttt{\DIFaddFL{lme4}} \DIFaddFL{package) to account for the cross-validation fold structure.}}
+\centering
+\begin{tabular}[t]{lrrrrll}
+\hline
+\DIFaddFL{Comparison }& \DIFaddFL{Estimate }& \DIFaddFL{Std.error }& \DIFaddFL{Df }& \DIFaddFL{Statistic }& \DIFaddFL{Adj.p.value }& \DIFaddFL{Significance}\\
+\hline
+\DIFaddFL{DMK - Radiometric }& \DIFaddFL{0.08 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{1.36 }& \DIFaddFL{0.818 }& \\
+\DIFaddFL{DMK - RadiometricDMK }& \DIFaddFL{0.08 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{1.35 }& \DIFaddFL{0.823 }& \\
+\DIFaddFL{DMK - RadiometricTerrain }& \DIFaddFL{-0.10 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-1.72 }& \DIFaddFL{0.607 }& \\
+\DIFaddFL{DMK - RadiometricTerrainDMK }& \DIFaddFL{-0.11 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-1.91 }& \DIFaddFL{0.485 }& \\
+\DIFaddFL{DMK - Terrain }& \DIFaddFL{-0.15 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-2.62 }& \DIFaddFL{0.14 }& \\
+\DIFaddFL{DMK - TerrainDMK }& \DIFaddFL{-0.19 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-3.29 }& \DIFaddFL{0.028 }& \DIFaddFL{*}\\
+\DIFaddFL{Radiometric - RadiometricDMK }& \DIFaddFL{0.00 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-0.01 }& \DIFaddFL{1 }& \\
+\DIFaddFL{Radiometric - RadiometricTerrain }& \DIFaddFL{-0.18 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-3.08 }& \DIFaddFL{0.048 }& \DIFaddFL{*}\\
+\DIFaddFL{Radiometric - RadiometricTerrainDMK }& \DIFaddFL{-0.19 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-3.27 }& \DIFaddFL{0.029 }& \DIFaddFL{*}\\
+\DIFaddFL{Radiometric - Terrain }& \DIFaddFL{-0.24 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-3.98 }& \DIFaddFL{0.004 }& \DIFaddFL{**}\\
+\DIFaddFL{Radiometric - TerrainDMK }& \DIFaddFL{-0.28 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-4.65 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{RadiometricDMK - RadiometricTerrain }& \DIFaddFL{-0.18 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-3.07 }& \DIFaddFL{0.049 }& \DIFaddFL{*}\\
+\DIFaddFL{RadiometricDMK - RadiometricTerrainDMK }& \DIFaddFL{-0.19 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-3.26 }& \DIFaddFL{0.03 }& \DIFaddFL{*}\\
+\DIFaddFL{RadiometricDMK - Terrain }& \DIFaddFL{-0.24 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-3.97 }& \DIFaddFL{0.004 }& \DIFaddFL{**}\\
+\DIFaddFL{RadiometricDMK - TerrainDMK }& \DIFaddFL{-0.27 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-4.64 }& \DIFaddFL{< 0.001 }& \DIFaddFL{***}\\
+\DIFaddFL{RadiometricTerrain - RadiometricTerrainDMK }& \DIFaddFL{-0.01 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-0.19 }& \DIFaddFL{1 }& \\
+\DIFaddFL{RadiometricTerrain - Terrain }& \DIFaddFL{-0.05 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-0.90 }& \DIFaddFL{0.971 }& \\
+\DIFaddFL{RadiometricTerrain - TerrainDMK }& \DIFaddFL{-0.09 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-1.57 }& \DIFaddFL{0.702 }& \\
+\DIFaddFL{RadiometricTerrainDMK - Terrain }& \DIFaddFL{-0.04 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-0.71 }& \DIFaddFL{0.991 }& \\
+\DIFaddFL{RadiometricTerrainDMK - TerrainDMK }& \DIFaddFL{-0.08 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-1.38 }& \DIFaddFL{0.809 }& \\
+\DIFaddFL{Terrain - TerrainDMK }& \DIFaddFL{-0.04 }& \DIFaddFL{0.06 }& \DIFaddFL{54 }& \DIFaddFL{-0.67 }& \DIFaddFL{0.994 }& \\
+\hline
+\end{tabular}
+\end{table}
+\clearpage
+
+\begin{table}[h]
+
+\caption{\label{tab:pairwiseOrskogMAE}\DIFaddFL{Pairwise comparisons of mean absolute error among models for Ørskogfjellet, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (}\texttt{\DIFaddFL{emmeans}} \DIFaddFL{package) on mixed-effects models (}\texttt{\DIFaddFL{lme4}} \DIFaddFL{package) to account for the cross-validation fold structure.}}
+\centering
+\begin{tabular}[t]{lrrrrrl}
+\hline
+\DIFaddFL{Comparison }& \DIFaddFL{Estimate }& \DIFaddFL{Std.error }& \DIFaddFL{Df }& \DIFaddFL{Statistic }& \DIFaddFL{Adj.p.value }& \DIFaddFL{Significance}\\
+\hline
+\DIFaddFL{DMK - Radiometric }& \DIFaddFL{-6.93 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{-0.80 }& \DIFaddFL{0.984 }& \\
+\DIFaddFL{DMK - RadiometricDMK }& \DIFaddFL{-7.63 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{-0.88 }& \DIFaddFL{0.974 }& \\
+\DIFaddFL{DMK - RadiometricTerrain }& \DIFaddFL{14.31 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{1.65 }& \DIFaddFL{0.653 }& \\
+\DIFaddFL{DMK - RadiometricTerrainDMK }& \DIFaddFL{15.83 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{1.82 }& \DIFaddFL{0.539 }& \\
+\DIFaddFL{DMK - Terrain }& \DIFaddFL{17.71 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{2.04 }& \DIFaddFL{0.403 }& \\
+\DIFaddFL{DMK - TerrainDMK }& \DIFaddFL{20.55 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{2.37 }& \DIFaddFL{0.233 }& \\
+\DIFaddFL{Radiometric - RadiometricDMK }& \DIFaddFL{-0.70 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{-0.08 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{Radiometric - RadiometricTerrain }& \DIFaddFL{21.24 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{2.45 }& \DIFaddFL{0.200 }& \\
+\DIFaddFL{Radiometric - RadiometricTerrainDMK }& \DIFaddFL{22.76 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{2.62 }& \DIFaddFL{0.140 }& \\
+\DIFaddFL{Radiometric - Terrain }& \DIFaddFL{24.64 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{2.84 }& \DIFaddFL{0.086 }& \\
+\DIFaddFL{Radiometric - TerrainDMK }& \DIFaddFL{27.48 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{3.16 }& \DIFaddFL{0.039 }& \DIFaddFL{*}\\
+\DIFaddFL{RadiometricDMK - RadiometricTerrain }& \DIFaddFL{21.95 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{2.53 }& \DIFaddFL{0.170 }& \\
+\DIFaddFL{RadiometricDMK - RadiometricTerrainDMK }& \DIFaddFL{23.47 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{2.70 }& \DIFaddFL{0.118 }& \\
+\DIFaddFL{RadiometricDMK - Terrain }& \DIFaddFL{25.35 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{2.92 }& \DIFaddFL{0.071 }& \\
+\DIFaddFL{RadiometricDMK - TerrainDMK }& \DIFaddFL{28.19 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{3.24 }& \DIFaddFL{0.031 }& \DIFaddFL{*}\\
+\DIFaddFL{RadiometricTerrain - RadiometricTerrainDMK }& \DIFaddFL{1.52 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{0.17 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{RadiometricTerrain - Terrain }& \DIFaddFL{3.40 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{0.39 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{RadiometricTerrain - TerrainDMK }& \DIFaddFL{6.24 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{0.72 }& \DIFaddFL{0.991 }& \\
+\DIFaddFL{RadiometricTerrainDMK - Terrain }& \DIFaddFL{1.88 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{0.22 }& \DIFaddFL{1.000 }& \\
+\DIFaddFL{RadiometricTerrainDMK - TerrainDMK }& \DIFaddFL{4.72 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{0.54 }& \DIFaddFL{0.998 }& \\
+\DIFaddFL{Terrain - TerrainDMK }& \DIFaddFL{2.84 }& \DIFaddFL{8.69 }& \DIFaddFL{54 }& \DIFaddFL{0.33 }& \DIFaddFL{1.000 }& \\
+\hline
+\end{tabular}
+\end{table}
+\clearpage
+
+\DIFaddend \noappendix
+
+
+
+\DIFaddbegin \codedataavailability{\emph{Code and data availability.} R code used in this study is available at \url{https://github.com/julienvollering/DSMdepth}. The depth measurements we used are archived at \doi{10.6073/pasta/6ce440152f693f2156bf5b692a2e7917} and follow data and metadata standards.} %DIF > % use this section when having data sets and software code available
+
+
+
+%DIF > %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%DIF > % optional
+
+%DIF > %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DIFaddend %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\authorcontribution{\emph{Author contributions.}
+JV: Conceptualization, Investigation, Data curation, Formal analysis, Writing -- original draft.
+NG: Conceptualization, Methodology, Writing - review \& editing.
+MKG: Investigation, Writing - review \& editing.
+KKM: Investigation, Data curation, Writing - review \& editing.
+SDN: Investigation, Writing - review \& editing.
+KR: Conceptualization, Investigation, Writing - review \& editing.
+MS: Investigation, Data curation, Writing - review \& editing.} %% optional section
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\competinginterests{\emph{Competing interests.} The authors declare that they have no conflict of interest.} %% this section is mandatory even if you declare that no competing interests are present
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\disclaimer{\emph{Disclaimer.} The authors declare that the results, discussions, and interpretations presented in this study are solely their own. The views expressed herein do not necessarily reflect those of their respective institutions or funding agencies.} %% optional section
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{acknowledgements}
+\emph{Acknowledgements.} We thank the Norwegian Public Roads Administration for sharing data from ground-penetrating radar surveys. We also thank Vikas Baranwal from the Geological Survey of Norway for helping us access the radiometric data from Skrim. This work contains data under the following licenses: (1) Creative Commons Attribution 4.0 International, \DIFdelbegin \DIFdel{© }\DIFdelend \DIFaddbegin \DIFadd{\copyright }\DIFaddend Kartverket, (2) \emph{Norge digitalt} license, Norwegian Institute of Bioeconomy Research (NIBIO), \DIFdelbegin \DIFdel{© }\DIFdelend \DIFaddbegin \DIFadd{\copyright }\DIFaddend Geovekst, and (3) the Norwegian License for Public Data (NLOD), made available by the Geological Survey of Norway. Large language models have \DIFaddbegin \DIFadd{been used to expedite coding of the analysis, with author oversight. Large language models have also }\DIFaddend been used during the drafting and editing of this manuscript, with author oversight. We maintain full responsibility for the scientific output, as per the European Commission's \emph{Living guidelines on the responsible use of generative AI in research}.
+\end{acknowledgements}
+
+%% REFERENCES
+%% DN: pre-configured to BibTeX for rticles
+
+%% The reference list is compiled as follows:
+%%
+%% \begin{thebibliography}{}
+%%
+%% \bibitem[AUTHOR(YEAR)]{LABEL1}
+%% REFERENCE 1
+%%
+%% \bibitem[AUTHOR(YEAR)]{LABEL2}
+%% REFERENCE 2
+%%
+%% \end{thebibliography}
+
+%% Since the Copernicus LaTeX package includes the BibTeX style file copernicus.bst,
+%% authors experienced with BibTeX only have to include the following two lines:
+%%
+\bibliographystyle{copernicus}
+\bibliography{ms.bib}
+%%
+%% URLs and DOIs can be entered in your BibTeX file as:
+%%
+%% URL = {http://www.xyz.org/~jones/idx_g.htm}
+%% DOI = {10.5194/xyz}
+
+
+%% LITERATURE CITATIONS
+%%
+%% command                        & example result
+%% \citet{jones90}|               & Jones et al. (1990)
+%% \citep{jones90}|               & (Jones et al., 1990)
+%% \citep{jones90,jones93}|       & (Jones et al., 1990, 1993)
+%% \citep[p.~32]{jones90}|        & (Jones et al., 1990, p.~32)
+%% \citep[e.g.,][]{jones90}|      & (e.g., Jones et al., 1990)
+%% \citep[e.g.,][p.~32]{jones90}| & (e.g., Jones et al., 1990, p.~32)
+%% \citeauthor{jones90}|          & Jones et al.
+%% \citeyear{jones90}|            & 1990
+
+
+\end{document}
