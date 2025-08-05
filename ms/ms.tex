@@ -341,6 +341,7 @@ At Ørskogfjellet an additional convolution filter was added to smooth the gridd
 
 Although radiometric data must be in units of counts per second to model attenuation directly \citep{olearyDigitalSoilMapping2022}, we used the radiometric data as provided to us: in units of concentration for potassium, thorium, and uranium (converted from counts per second by scalar calibration factors).
 The monotonic transformation between counts per second and concentration has no effect on the tree-based machine learning algorithm that we used to model peat depth \citep{hastieElementsStatisticalLearning2009}.
+We also used the total count variable as provided, rather than calculating a gamma dose rate based on the potassium, thorium, and uranium \citep[as was done in][]{gatisMappingUplandPeat2019}, because these were highly correlated at both study sites (\(\rho = 0.989, 0.986\)), and because conversions to dose rates are approximations \citep{iaeaGuidelinesRadioelementMapping2003}.
 
 \subsubsection{Terrain}
 

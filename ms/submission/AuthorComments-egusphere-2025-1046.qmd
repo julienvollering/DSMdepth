@@ -97,20 +97,39 @@ Please disregard missing cross-reference numbers (e.g., 'Figure ??') in the boxe
 \clearpage          
 # Response to Topic Editor
 
-### Comment TS.1
+### Comment TE.1
 
 > Dear Dr. Vollering and Coauthors,
 Thank you for your detailed responses to the reviewers’ comments. Both reviewers offered positive assessments of your manuscript, recognizing the importance of your study and the inherent challenges in predicting peat depth using a digital soil mapping approach. They also raised several shared concerns, particularly the need for clearer and more formal scientific language, improved manuscript focus, and a more balanced treatment of terrain and radiometric predictors. Your responses to these points appear appropriate, and I encourage you to complete your revisions and submit a revised manuscript for further review.
 
-### Comment TS.2
+### Comment TE.2
 
 > That said, I would like to highlight one important conceptual point raised by Reviewer 1. While it is correct that Random Forest models are invariant to monotonic transformations, such as converting counts/s to concentration, this overlooks the geophysical critique regarding the physical validity of concentration measurements in peat-rich environments. Addressing these physical limitations directly, rather than only statistically, would strengthen the interpretation of your findings. Please ensure that you thoroughly address the issues outlined in Comments 1.5 and 1.6.
 
-### Comment TS.3
+### Comment TE.3
 
 > On a related note, your use of K, U, and Th concentrations as separate predictors differs from the integrated radiometric dose approach used by Gatis et al. (2019), who combined channels to represent total gamma energy. Given the attenuation behavior of gamma rays in wet organic soils, modeling the aggregate energy signal may better capture depth-related variability than using individual concentrations. I encourage you to clarify this methodological distinction and discuss how it may influence model performance and the interpretation of radiometric predictor utility.
 
-### Comment TS.4
+Thank you for drawing our attention to this potential objection. We see that we need to clarify this difference for readers. In short, we use the total count variable provided to use by the surveyors as an integrated radiometric signal. The total count variable is different than the gamma dose rate used by Gatis et al. [-@gatisMappingUplandPeat2019], but at our study sites they were very highly correlated ($\rho = 0.989, 0.986$). Therefore, our choice to use total count rather than gamma dose rate can only influence model performance and our interpretations of predictor utility negligibly. 
+
+Since we now mention this point in the _Materials and methods_, we do not raise it specifically in the _Discussion_ -- in the interest of brevity.
+
+::: {.callout appearance="simple"}
+**In _Materials and methods_**
+```{=latex}
+\DIFaddbegin \DIFadd{
+We also used the total count variable as provided, rather than calculating a gamma dose rate based on the potassium, thorium, and uranium \mbox{%DIFAUXCMD
+\citep[as was done in][]{gatisMappingUplandPeat2019}}\hskip0pt%DIFAUXCMD
+, because these were highly correlated at both study sites (\(\rho = 0.989, 0.986\)), and because conversions to dose rates are approximations \mbox{%DIFAUXCMD
+\citep{iaeaGuidelinesRadioelementMapping2003}}\hskip0pt%DIFAUXCMD
+.
+}
+
+\DIFaddend
+```
+:::
+
+### Comment TE.4
 
 >Your work offers valuable insights into the role of remotely sensed data in peatland mapping. Strengthening the geophysical interpretation within your digital soil mapping framework will enhance the scientific rigor and practical relevance of the manuscript for both soil scientists and geospatial modelers.
 

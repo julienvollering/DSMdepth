@@ -12,7 +12,7 @@ radTC50m <- rast("data/NGU-2015-015/Romsdalsfjorden_RAD_miclev_TC.ers")
 rad50m <- c(radK50m, radTh50m, radU50m, radTC50m)
 rad50m[rad50m < 0] <- NA
 
-# Sensitivity analysis: Compare cubic spline vs bilinear resampling methods
+## Sensitivity analysis: Compare cubic spline vs bilinear resampling methods ####
 rad10m_cubic <- rad50m |> 
   project(y = "epsg:25832",  
           method = "cubicspline",
@@ -65,6 +65,16 @@ walk2(rad_cubic_values, rad_bilinear_values,
             main=paste(names(rad_cubic_values)[which(map_lgl(rad_cubic_values, identical, .x))],
                       "\nr =", round(cor(.x, .y, use="complete.obs"), 3))))
 par(mfrow=c(1,1))
+
+## Dose rate ####
+radDR10m <- 
+  13.078 * radK10m +
+   5.675 * radU10m +
+   2.494 * radTh10m
+names(radDR10m) <- "rad_DR_10m"
+c(radDR10m, radTC10m, radK10m, radU10m, radTh10m) |> 
+  pairs(hist=FALSE, cor=TRUE, maxcells=1e4)
+cor(values(radDR10m), values(radTC10m), use = "pairwise.complete.obs")
 
 # Simple terrain ####
 

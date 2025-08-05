@@ -19,7 +19,7 @@ radTC <- rast("data/Skrim/NGU-2013-029/Kong_Rad_Area3_TC/Kong_Rad_Area3_TC.ERS")
 rad <- c(radK, radTh, radU, radTC) |> 
   crop(y = st_transform(st_buffer(sa, 1000), st_crs(radK)))
 
-# Sensitivity analysis: Compare cubic spline vs bilinear resampling methods
+## Sensitivity analysis: Compare cubic spline vs bilinear resampling methods ####
 rad10m_cubic <- rad |> 
   project(y = "epsg:25833",  
           method = "cubicspline",
@@ -63,6 +63,16 @@ walk2(rad_cubic_values, rad_bilinear_values,
             main=paste(names(rad_cubic_values)[which(map_lgl(rad_cubic_values, identical, .x))],
                       "\nr =", round(cor(.x, .y, use="complete.obs"), 3))))
 par(mfrow=c(1,1))
+
+## Dose rate ####
+radDR10m <- 
+  13.078 * rad10m$Kong_Rad_Area3_K +
+   5.675 * rad10m$Kong_Rad_Area3_U +
+   2.494 * rad10m$Kong_Rad_Area3_Th
+names(radDR10m) <- "rad_DR"
+c(radDR10m, rad10m) |> 
+  pairs(hist=FALSE, cor=TRUE, maxcells=1e4)
+cor(values(radDR10m), values(rad10m$Kong_Rad_Area3_TC), use = "pairwise.complete.obs")
 
 # Simple terrain ####
 

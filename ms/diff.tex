@@ -1,7 +1,7 @@
 %% Copernicus Publications Manuscript Preparation Template for LaTeX Submissions
 %DIF LATEXDIFF DIFFERENCE FILE
 %DIF DEL ms-de46d8c3ffa1d3f5c72ed223eaf1c1b7e3d24d53.tex   Wed Apr 23 15:11:04 2025
-%DIF ADD ms.tex                                            Tue Aug  5 11:47:50 2025
+%DIF ADD ms.tex                                            Tue Aug  5 13:52:17 2025
 %% ---------------------------------
 %% This template should be used for copernicus.cls
 %% The class file and some style files are bundled in the Copernicus Latex Package, which can be downloaded from the different journal webpages.
@@ -457,6 +457,11 @@ At Ørskogfjellet an additional convolution filter was added to smooth the gridd
 The monotonic transformation between counts per second and concentration has no effect on the tree-based machine learning algorithm that we used to model peat depth \mbox{%DIFAUXCMD
 \citep{hastieElementsStatisticalLearning2009}}\hskip0pt%DIFAUXCMD
 .
+We also used the total count variable as provided, rather than calculating a gamma dose rate based on the potassium, thorium, and uranium \mbox{%DIFAUXCMD
+\citep[as was done in][]{gatisMappingUplandPeat2019}}\hskip0pt%DIFAUXCMD
+, because these were highly correlated at both study sites (\(\rho = 0.989, 0.986\)), and because conversions to dose rates are approximations \mbox{%DIFAUXCMD
+\citep{iaeaGuidelinesRadioelementMapping2003}}\hskip0pt%DIFAUXCMD
+.
 }
 
 \DIFaddend \subsubsection{Terrain}
@@ -717,11 +722,11 @@ Specifically, we trained models with: }%DIFDELCMD <
 }%DIFDELCMD < \item
 %DIFDELCMD <   %%%
 \emph{\DIFdel{terrain}} %DIFAUXCMD
-\DIFdel{(21 variables)
+\DIFdelend \DIFaddbegin \DIFadd{different predictor configurations, where each configuration was one of the seven combinations of the three predictor groups: }\DIFaddend (\DIFdelbegin \DIFdel{21 variables)
 }%DIFDELCMD < \item
 %DIFDELCMD <   %%%
 \emph{\DIFdel{terrain + DMK}} %DIFAUXCMD
-\DIFdelend \DIFaddbegin \DIFadd{different predictor configurations, where each configuration was one of the seven combinations of the three predictor groups: }\DIFaddend (\DIFdelbegin \DIFdel{23 variables) }%DIFDELCMD < \item
+\DIFdel{(23 variables) }%DIFDELCMD < \item
 %DIFDELCMD <   %%%
 \emph{\DIFdel{terrain + radiometric}} %DIFAUXCMD
 \DIFdel{(25 variables) }%DIFDELCMD < \item
