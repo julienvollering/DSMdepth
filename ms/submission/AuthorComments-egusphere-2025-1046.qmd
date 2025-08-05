@@ -102,9 +102,13 @@ Please disregard missing cross-reference numbers (e.g., 'Figure ??') in the boxe
 > Dear Dr. Vollering and Coauthors,
 Thank you for your detailed responses to the reviewers’ comments. Both reviewers offered positive assessments of your manuscript, recognizing the importance of your study and the inherent challenges in predicting peat depth using a digital soil mapping approach. They also raised several shared concerns, particularly the need for clearer and more formal scientific language, improved manuscript focus, and a more balanced treatment of terrain and radiometric predictors. Your responses to these points appear appropriate, and I encourage you to complete your revisions and submit a revised manuscript for further review.
 
+Thank you very much for this careful and encouraging evaluation. We appreciate the opportunity to submit a revised manuscript for further review, and thank all parties for their time and attention so far.
+
 ### Comment TE.2
 
 > That said, I would like to highlight one important conceptual point raised by Reviewer 1. While it is correct that Random Forest models are invariant to monotonic transformations, such as converting counts/s to concentration, this overlooks the geophysical critique regarding the physical validity of concentration measurements in peat-rich environments. Addressing these physical limitations directly, rather than only statistically, would strengthen the interpretation of your findings. Please ensure that you thoroughly address the issues outlined in Comments 1.5 and 1.6.
+
+Thank you for this advice. Of course the geophysical critique is valid and we do not mean to overlook it. In our revisions we have tried to address these important issues with the attention that they deserve, while also acknowledging that they do not prevent us from treating our research objectives. We have added text in the _Introduction_, _Materials and methods_, and _Discussion_ to ensure that readers are made aware of the physical limitations. Please see the sections for Comments 1.5 and 1.6 below, which highlight these specific changes to the text.
 
 ### Comment TE.3
 
@@ -133,6 +137,7 @@ We also used the total count variable as provided, rather than calculating a gam
 
 >Your work offers valuable insights into the role of remotely sensed data in peatland mapping. Strengthening the geophysical interpretation within your digital soil mapping framework will enhance the scientific rigor and practical relevance of the manuscript for both soil scientists and geospatial modelers.
 
+Thank you for this endorsement and constructive criticism. We believe that the revisions prompted by the review have strengthened our manuscript for different audiences.  
 
 # Response to Referee 1
 
@@ -143,6 +148,8 @@ We also used the total count variable as provided, rather than calculating a gam
 ### Comment 1.1
   
 > This article comprehensively addresses the modelling challenges of predicting peat depth from terrain variables. It takes high resolution terrain variables (derived from LiDAR) and low resolution (comparatively) airborne radiometric data across two individual peat landscapes in Norway and used Random Forest machine learning algorithm to train combinations of these variables to a multitude of peat depth probes and GPR peat depth measurements taken in order to establish the predict power of such variables for peat depth mapping.
+
+Thank you for the time you have kindly taken to review our manuscript.
 
 ### Comment 1.2
 
@@ -398,11 +405,13 @@ Initial source strength, soil moisture, bulk density, and porosity all affect th
 \citep{beamishGammaRayAttenuation2013, reinhardtGammaraySpectrometryVersatile2019}}\hskip0pt%DIFAUXCMD
 .
 Therefore, variation in these parameters could have masked the relationship between peat depth and radiometric data.
+This makes physical modeling of peat depth from radiometric data an undetermined problem.
 We chose the Ørskogfjellet site in part because it has a relatively homogeneous bedrock, which should reduce the variation in initial source strength.
 Soil moisture, bulk density, and porosity, however, are not easily measured across landscape scales and were assumed to be homogeneous.
 Uneven }\DIFaddend snow cover and air moisture \DIFaddbegin \DIFadd{during the Ørskogfjellet radiometric survey }\DIFaddend may also have masked the soil signal in these data\DIFaddbegin \DIFadd{, as Ofstad \mbox{%DIFAUXCMD
 \citeyearpar{ofstadHelicopterborneMagneticRadiometric2015} }\hskip0pt%DIFAUXCMD
-reports large variation in weather conditions.}\DIFaddend
+reports large variation in weather conditions.
+If maps of these other physical parameters at the time of the radiometric survey were available and included in the model, the predictive value of radiometric data might improve, but this is not a practical solution for digital soil mapping of peat depth}\DIFaddend .
 ```
 :::
 
@@ -452,6 +461,8 @@ As Norway and other nations pursue nature-based climate solutions, these finding
 ### Comment 2.1
 
 > This article focuses on improving peat depth mapping in two distinct peatland landscapes in Norway using a digital soil mapping approach. The study employed the Random Forest (RF) algorithm to model both peat presence and depth, using high-resolution terrain data, remotely sensed radiometric data, and polygonised peat depth data from an existing map. The RF models were calibrated using field-measured data points collected across both regions, and variable importance was analysed.
+
+Thank you for the time you have kindly taken to review our manuscript.
 
 ### Comment 2.2
 
@@ -630,7 +641,7 @@ We have moved the table after its first mention and adjusted the table caption t
 
 > Line 394-397: I don’t quite get the point of this section. To my understanding, you compared between the quartile predictions and the observed data to see the prediction interval coverage probability. If so, I think it would be better to plot this prediction interval together with the observed data in scatter plot, like in Figure 3.
 
-Thank you for identifying this confusion. We have revised the text to clarify that we are comparing the quartile predictions to the observed data, to follow best practices in digital soil mapping. We have also added the prediction intervals to figure 3, and moved the text description to where we also present the figure. We think that this makes this particular result clearer to readers.
+Thank you for identifying this confusion. We have revised the text to clarify that we are comparing the quartile predictions to the observed data, to follow best practices in digital soil mapping. We have also added the prediction intervals to Figure 3 (Figure 4 in the revised manuscript), and moved the text description to where we also present the figure. We think that this makes this particular result clearer to readers.
 
 ::: {.callout appearance="simple"}
 ```{=latex}
