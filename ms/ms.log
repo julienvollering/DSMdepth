@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.8.5)  5 AUG 2025 15:41
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.8.5)  29 AUG 2025 09:19
  restricted system commands enabled.
 **ms.tex
 (./ms.tex
@@ -728,12 +728,12 @@ Package luatex.def Info: figures/map-sites.pdf  used on input line 266.
 [10]
 
 [11]
-<figures/map-distribution.pdf, id=473, 511.9125pt x 645.41125pt>
+<figures/map-distribution.pdf, id=476, 511.9125pt x 645.41125pt>
 File: figures/map-distribution.pdf Graphic file (type pdf)
 <use figures/map-distribution.pdf>
 Package luatex.def Info: figures/map-distribution.pdf  used on input line 488.
 (luatex.def)             Requested size: 377.22366pt x 475.5989pt.
-<figures/modelmetrics.pdf, id=475, 511.9125pt x 284.06125pt>
+<figures/modelmetrics.pdf, id=478, 511.9125pt x 284.06125pt>
 File: figures/modelmetrics.pdf Graphic file (type pdf)
 <use figures/modelmetrics.pdf>
 Package luatex.def Info: figures/modelmetrics.pdf  used on input line 499.
@@ -750,7 +750,7 @@ Overfull \hbox (3.11133pt too wide) in paragraph at lines 506--510
 
 
 [14<./figures/modelmetrics.pdf>]
-<figures/calibration_plots.pdf, id=528, 511.9125pt x 284.06125pt>
+<figures/calibration_plots.pdf, id=531, 511.9125pt x 284.06125pt>
 File: figures/calibration_plots.pdf Graphic file (type pdf)
 <use figures/calibration_plots.pdf>
 Package luatex.def Info: figures/calibration_plots.pdf  used on input line 518.
@@ -758,12 +758,12 @@ Package luatex.def Info: figures/calibration_plots.pdf  used on input line 518.
 
 
 [15<./figures/calibration_plots.pdf>]
-<figures/variable_importance.pdf, id=546, 511.9125pt x 454.69875pt>
+<figures/variable_importance.pdf, id=550, 511.9125pt x 454.69875pt>
 File: figures/variable_importance.pdf Graphic file (type pdf)
 <use figures/variable_importance.pdf>
 Package luatex.def Info: figures/variable_importance.pdf  used on input line 537.
 (luatex.def)             Requested size: 503.61377pt x 447.32933pt.
-<figures/partial_dependence.pdf, id=551, 511.9125pt x 511.9125pt>
+<figures/partial_dependence.pdf, id=555, 511.9125pt x 511.9125pt>
 File: figures/partial_dependence.pdf Graphic file (type pdf)
 <use figures/partial_dependence.pdf>
 Package luatex.def Info: figures/partial_dependence.pdf  used on input line 557.
@@ -818,12 +818,12 @@ Overfull \hbox (5.45062pt too wide) in paragraph at lines 824--829
 
 
 [28]
-<figures/GPRwavevelocity.pdf, id=881, 511.9125pt x 597.23125pt>
+<figures/GPRwavevelocity.pdf, id=884, 511.9125pt x 597.23125pt>
 File: figures/GPRwavevelocity.pdf Graphic file (type pdf)
 <use figures/GPRwavevelocity.pdf>
 Package luatex.def Info: figures/GPRwavevelocity.pdf  used on input line 840.
 (luatex.def)             Requested size: 352.2983pt x 411.01085pt.
-<figures/semivariograms.pdf, id=882, 511.9125pt x 298.11375pt>
+<figures/semivariograms.pdf, id=885, 511.9125pt x 298.11375pt>
 File: figures/semivariograms.pdf Graphic file (type pdf)
 <use figures/semivariograms.pdf>
 Package luatex.def Info: figures/semivariograms.pdf  used on input line 846.
@@ -998,18 +998,28 @@ Underfull \hbox (badness 3861) in paragraph at lines 361--362
  []
 
 
-Underfull \hbox (badness 3333) in paragraph at lines 391--392
+Underfull \hbox (badness 5607) in paragraph at lines 379--380
+[]\T1/ptm/m/n/9 Vollering, J., Gatis, N., Gillespie, M. K., Muggerud, K.-K., Nerhus, S. D., Rydgren, K., and Sparf, M.: Peat Depth
+ []
+
+
+Underfull \hbox (badness 6859) in paragraph at lines 379--380
+\T1/ptm/m/n/9 and Occurrence in Areas Covered by Airborne Radiometric Surveys, Southeastern and Western Norway, 1983-2023.,
+ []
+
+
+
+[45]
+Underfull \hbox (badness 3333) in paragraph at lines 394--395
 []\T1/ptm/m/n/9 Wang, L. and Liu, H.: An Efficient Method for Identifying and Filling Surface Depressions in Digital Elevation Models
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 391--392
+Underfull \hbox (badness 10000) in paragraph at lines 394--395
 \T1/ptm/m/n/9 for Hydrologic Analysis and Modelling, International Journal of Geographical Information Science, 20, 193--213,
  []
 
-
-
-[45])
+)
 
 [46] (./ms.aux)
  ***********
@@ -1019,19 +1029,19 @@ L3 programming layer <2021/03/21>
 )
 
 Here is how much of LuaTeX's memory you used:
- 19184 strings out of 470118
+ 19188 strings out of 470118
  100000,953878 words of node,token memory allocated
  777 words of node memory still in use:
    6 hlist, 2 vlist, 2 rule, 2 glue, 12 kern, 1 glyph, 42 attribute, 68 glue_spec, 22 attribute_list, 2 write, 11 pdf_action nodes
-   avail lists: 2:1852,3:379,4:230,5:512,6:66,7:10217,8:43,9:775,10:20,11:84,12:1
- 46844 multiletter control sequences out of 65536+600000
+   avail lists: 2:1852,3:379,4:226,5:512,6:66,7:10217,8:43,9:775,10:20,11:84,12:1
+ 46847 multiletter control sequences out of 65536+600000
  88 fonts using 5752695 bytes
- 84i,13n,88p,1384b,792s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,13n,88p,1384b,790s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on ms.pdf (46 pages, 7854293 bytes).
+Output written on ms.pdf (46 pages, 7854873 bytes).
 
-PDF statistics: 1164 PDF objects out of 1200 (max. 8388607)
- 1075 compressed objects within 11 object streams
- 246 named destinations out of 1000 (max. 131072)
+PDF statistics: 1168 PDF objects out of 1200 (max. 8388607)
+ 1079 compressed objects within 11 object streams
+ 247 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 100000000)
 
