@@ -12,7 +12,7 @@ author:
     affiliation: 2
   - given_name: Mette
     surname: Kusk Gillespie
-    affiliation: 1
+    affiliation: 1 3
   - given_name: Karl-Kristian
     surname: Muggerud
     affiliation: 1
@@ -30,6 +30,8 @@ affiliation:
     address: Department of Civil Engineering and Environmental Sciences, Western Norway University of Applied Sciences, Norway
   - code: 2
     address: Department of Geography, University of Exeter, United Kingdom
+  - code: 3
+    address: University College VIA, Denmark
 abstract: |
   Peatlands are Earth's most carbon-dense terrestrial ecosystems and their carbon density varies with the depth of the peat layer. 
   Accurate mapping of peat depth is crucial for carbon accounting and land management, yet existing maps lack the resolution and accuracy needed for these applications. 
