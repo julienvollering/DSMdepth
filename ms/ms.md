@@ -177,7 +177,7 @@ These sites were chosen because they were covered by radiometric data from airbo
 Ørskogfjellet was additionally chosen for its relatively uniform bedrock geology, which should improve the peat depth signal in radiometric data, all else being equal [@minasnyDigitalMappingPeatlands2019].
 
 \begin{figure}
-\includegraphics[height=0.81\textheight]{figures/map-sites} \caption{Study areas with land cover at Skrimfjella (a) and Ørskogfjellet (b). To fit the scale of the maps, the land cover shown here is from the AR50 national land resource dataset, which has simplified geometry with respect to the AR5 dataset that is used in the study. Terrain is visualized with light orange contour lines at intervals of 100 m, and a hillshade with slope $45^\circ$ and azimuth $225^\circ$. AR50 data are from Norwegian Institute of Bioeconomy Research under the Norwegian Licence for Open Government Data (https://data.norge.no/nlod/en/1.0) and terrain data are from the Norwegian Mapping Authority under the Creative Commons Attribution 4.0 International license (https://creativecommons.org/licenses/by/4.0/).}(\#fig:map-sites)
+\includegraphics[height=0.81\textheight]{figures/map-sites} \caption{Study areas with land cover at Skrimfjella (a) and Ørskogfjellet (b). To fit the scale of the maps, the land cover shown here is from the AR50 national land resource dataset, which has simplified geometry with respect to the AR5 dataset that is used in the study. Terrain is visualized with light orange contour lines at intervals of 100 m, and a hillshade with slope $45^\circ$ and azimuth $225^\circ$. AR50 data are from Norwegian Institute of Bioeconomy Research under the Norwegian Licence for Open Government Data (https://data.norge.no/nlod/en/1.0) and terrain data are from the Norwegian Mapping Authority under the Creative Commons Attribution 4.0 International license (https://creativecommons.org/licenses/by/4.0/) \textcopyright\ Kartverket.}(\#fig:map-sites)
 \end{figure}
 
 At Skrimfjella we delineated a study area of 34 km^2^ based on radiometric coverage (limiting to the west) and accessibility (limiting to the south), as part of a pilot project (Fig. \@ref(fig:map-sites)a).
@@ -243,7 +243,7 @@ DMK          & DMK          & categorical           & peat depth class in the DM
 
 ### Radiometric
 
-The Geological Survey of Norway conducted and processed radiometric surveys over our study areas, as reported in Baranwal et al. [-@baranwalHelicopterborneMagneticElectromagnetic2013] and Ofstad [-@ofstadHelicopterborneMagneticRadiometric2015].
+The Geological Survey of Norway conducted and processed radiometric surveys over our study areas, as reported in @baranwalHelicopterborneMagneticElectromagnetic2013 and @ofstadHelicopterborneMagneticRadiometric2015.
 They provided us for each site four variables at 50 m resolution, which we downscaled to 10 m resolution by cubic spline resampling. 
 Sensitivity analysis showed that Pearson correlations between cubic spline and bilinear resampling methods exceeded 0.995 for all radiometric variables, so we are confident that the choice of resampling method did not affect our results. 
 
@@ -273,7 +273,7 @@ We calculated this index in SAGA GIS [v.9.3.2, Morphometry library, @conradSyste
 
 The Topographic Wetness Index [@quinnPredictionHillslopeFlow1991] is notoriously scale-dependent and often matches real hydrological conditions best when calculated from moderate to coarse resolution DTMs [@agrenEvaluatingDigitalTerrain2014; @riihimakiTopographicWetnessIndex2021], so we calculated it from 5 m, 10 m, 20 m, and 50 m DTM resolution.
 The calculations were performed with Whitebox software [@lindsayWhiteboxGATCase2016], accessed through the *whitebox* R package [v2.4, @wuWhiteboxWhiteboxToolsFrontend2022].
-We filled depressions in the DTM with the algorithm in Wang & Liu [-@wangEfficientMethodIdentifying2006], and used the deterministic infinity flow accumulation algorithm [@tarbotonNewMethodDetermination1997].
+We filled depressions in the DTM with the algorithm in @wangEfficientMethodIdentifying2006, and used the deterministic infinity flow accumulation algorithm [@tarbotonNewMethodDetermination1997].
 
 The Depth-to-Water index [@murphyMappingWetlandsComparison2007] approximates a location's vertical height above the surface water feature (e.g., stream, lake, or sea) that it is likely to drain towards.
 It is calculated as the minimum cumulative slope (scaled by cell size) to a surface water feature [eq. 5 in @murphyTopographicModellingSoil2009].
@@ -399,7 +399,7 @@ DMK & deep (\textgreater{}100 cm) & 94    & 25   & 100 (53) cm      & 659    & 3
 \end{table}
 
 \begin{figure}
-\includegraphics[height=0.81\textheight]{figures/map-distribution} \caption{Spatial and statistical distributions of mean peat depth in 10 m cells at Skrimfjella, N = 372 (a) and Ørskogfjellet, N = 1878 (b). Terrain is visualized with a hillshade with slope $45^\circ$ and azimuth $225^\circ$. Terrain data are from the Norwegian Mapping Authority under the Creative Commons Attribution 4.0 International license (https://creativecommons.org/licenses/by/4.0/).}(\#fig:map-distribution)
+\includegraphics[height=0.81\textheight]{figures/map-distribution} \caption{Spatial and statistical distributions of mean peat depth in 10 m cells at Skrimfjella, N = 372 (a) and Ørskogfjellet, N = 1878 (b). Terrain is visualized with a hillshade with slope $45^\circ$ and azimuth $225^\circ$. Terrain data are from the Norwegian Mapping Authority under the Creative Commons Attribution 4.0 International license (https://creativecommons.org/licenses/by/4.0/) \textcopyright\ Kartverket.}(\#fig:map-distribution)
 \end{figure}
 
 ## Model performance
@@ -501,23 +501,23 @@ It is important to keep in mind that differences in peat depth distributions, sp
 For example, R^2^ is sensitive to high leverage, extreme values, so it will evaluate a right-skewed distribution differently than a symmetrical distribution. 
 We evaluated our models with respect to the explicit purpose of creating peat depth maps across the study areas, but not all studies tailored evaluation to match an explicitly formulated problem [@milaNearestNeighbourDistance2022]. 
 
-Gatis et al. [-@gatisMappingUplandPeat2019] used similar predictors and the same spatial grain, finding a much stronger relationship between predicted and observed peat depth ($R^2 = 0.68$). 
+@gatisMappingUplandPeat2019 used similar predictors and the same spatial grain, finding a much stronger relationship between predicted and observed peat depth ($R^2 = 0.68$). 
 Although their random evaluation data partition could make performance estimates too optimistic [@robertsCrossvalidationStrategiesData2017; @wadouxSpatialCrossvalidationNot2021], the confounding effect of spatial structure is probably small because they used linear regression and few predictors, so their model had limited opportunity to overfit to the spatial structure in peat depth. 
-The most salient difference in Gatis et al. [-@gatisMappingUplandPeat2019] compared to our study is the character of the study area. 
+The most salient difference in @gatisMappingUplandPeat2019 compared to our study is the character of the study area. 
 They study a flatter area with a higher proportion of peatland cover, and their peatland is primarily blanket bog.
 The peat surface of a blanket bog is tied more closely to its underlying topography than the peat surface of raised bogs or fens [@lindsayPeatlandMireTypes2016], which may make blanket bog depth easier to predict.
 The predominance of fens and smaller peatland extent may have contributed to worse performance in our study.
 
-Marchant [-@marchantUsingRemoteSensors2021] examined a subset of the area studied in Gatis et al. [-@gatisMappingUplandPeat2019] at 100 m resolution, using splines to relax linearity between radiometry/terrain and peat depth. 
+@marchantUsingRemoteSensors2021 examined a subset of the area studied in @gatisMappingUplandPeat2019 at 100 m resolution, using splines to relax linearity between radiometry/terrain and peat depth. 
 He found that potassium ground concentration alone predicted peat depth with much higher concordance than our models (concordance correlation coefficient = 0.76) and that elevation alone produced comparable performance (concordance correlation coefficient = 0.27). 
 The root mean square error from these univariate models was 46--68 cm (cf. 78 and 75 cm for Skrimfjella and Ørskogfjellet).
 
-Koganti et al. [-@kogantiMappingPeatDepth2023] had a peat depth distribution and predictors similar to ours, but at much smaller spatial grain and extent. 
+@kogantiMappingPeatDepth2023 had a peat depth distribution and predictors similar to ours, but at much smaller spatial grain and extent. 
 Their training and validation points are closer than the range of spatial autocorrelation in peat depth, so our results are best compared to their non-spatial models. 
 They accounted for more variability in peat depth (adjusted $R^2 = 0.71$) but had larger errors (RSME = 110 cm). 
-Koganti et al.’s [-@kogantiMappingPeatDepth2023] linear regression models produced negative predictions, and it is unclear whether the values quoted above include these. 
+The linear regression models in @kogantiMappingPeatDepth2023 produced negative predictions, and it is unclear whether the values quoted above include these. 
 If we disregard the negative predictions, their model showed the same pattern as ours in overpredicting shallow peats and underpredicting deep peats, although their underprediction was less severe. 
-An important difference between Koganti et al. [-@kogantiMappingPeatDepth2023] and our study (besides spatial scale) is that they measured radiometrics on the ground, rather than using airborne survey data.
+An important difference between @kogantiMappingPeatDepth2023 and our study (besides spatial scale) is that they measured radiometrics on the ground, rather than using airborne survey data.
 Thus, the footprint of their detector was smaller and they captured variation in radiation at finer scales.
 
 ### Asymmetries in depth predictions for land use planning and carbon accounting
@@ -536,7 +536,7 @@ Radiometric data had little to no predictive value at either site (poor performa
 These results contrast with earlier studies that found that radiometrics were useful predictors of peat depth [@keaneySpatialStatisticsEstimate2013; @gatisMappingUplandPeat2019; @kogantiMappingPeatDepth2023; @pohjankukkaDigitalMappingPeat2025].
 The bedrock is more homogeneous at Ørskogfjellet than at Skrimfjella, so uneven radiogenesis is not a good explanation for the higher predictive value of radiometric variables at Skrimfjella [@beamishEnvironmentalRadioactivityUK2014; @reinhardtGammaraySpectrometryVersatile2019].
 All four radiometric variables were highly correlated within the peatland parts of our study sites, so there could be no large differences in their predictive value. 
-This contrasts with Koganti et al. [-@kogantiMappingPeatDepth2023], who found that radiometric total count and potassium ground concentration were better predictors than thorium or uranium ground concentration. 
+This contrasts with @kogantiMappingPeatDepth2023, who found that radiometric total count and potassium ground concentration were better predictors than thorium or uranium ground concentration. 
 
 We suspect that the primary reason for the poor predictive value of the radiometric data was the large footprint of the detector in the airborne survey. 
 With an average flight altitude of 75 m, less than half of the radiation reaching the detector comes from inside the 100 m diameter circle directly below it [@beamishEnhancingResolutionAirborne2016; @beamishDetailedMappingPeat2024]. 
@@ -546,9 +546,9 @@ Basically, the airborne radiometric data will not capture large variation over s
 Different landforms and the changes they cause in the geometry between the radioactive source and the detector can also distort airborne measurements [@reinhardtGammaraySpectrometryVersatile2019]. 
 
 Studies comparing airborne and ground radiometric surveys confirm that they are poorly correlated in low-activity areas like peatlands [@kockComparisonAirborneTerrestrial2011; @karjalainenComparisonTwoGammaray2025]. 
-Karjalainen et al. [-@karjalainenComparisonTwoGammaray2025] found that ground-based measurements predicted peat depth better than airborne measurements. 
-Nevertheless, a large radiometric footprint did not prevent strong associations with peat depth in Gatis et al. [-@gatisMappingUplandPeat2019] and Marchant [-@marchantUsingRemoteSensors2021], perhaps because the extensive blanket bog landscape in these studies has more gradual changes in depth [@lindsayBogsEcologyClassification1995]. 
-We are unsure whether short-range depth changes explain the weak associations that Siemon et al. [-@siemonAirborneElectromagneticRadiometric2020] found in a large raised bog.
+@karjalainenComparisonTwoGammaray2025 found that ground-based measurements predicted peat depth better than airborne measurements. 
+Nevertheless, a large radiometric footprint did not prevent strong associations with peat depth in @gatisMappingUplandPeat2019 and @marchantUsingRemoteSensors2021, perhaps because the extensive blanket bog landscape in these studies has more gradual changes in depth [@lindsayBogsEcologyClassification1995]. 
+We are unsure whether short-range depth changes explain the weak associations that @siemonAirborneElectromagneticRadiometric2020 found in a large raised bog.
 
 Another possible reason for the poor predictive value of the radiometric data could be that other physical parameters influencing the amount of intercepted radiation varied too much within sites.
 Initial source strength, soil moisture, bulk density, and porosity all affect the amount of radiation that reaches the detector [@beamishGammaRayAttenuation2013; @reinhardtGammaraySpectrometryVersatile2019].
@@ -556,7 +556,7 @@ Therefore, variation in these parameters could have masked the relationship betw
 This makes physical modeling of peat depth from radiometric data an undetermined problem.
 We chose the Ørskogfjellet site in part because it has a relatively homogeneous bedrock, which should reduce the variation in initial source strength.
 Soil moisture, bulk density, and porosity, however, are not easily measured across landscape scales and were assumed to be homogeneous.
-Uneven snow cover and air moisture during the Ørskogfjellet radiometric survey may also have masked the soil signal in these data, as Ofstad [-@ofstadHelicopterborneMagneticRadiometric2015] reports large variation in weather conditions.
+Uneven snow cover and air moisture during the Ørskogfjellet radiometric survey may also have masked the soil signal in these data, as @ofstadHelicopterborneMagneticRadiometric2015 reports large variation in weather conditions.
 If maps of these other physical parameters at the time of the radiometric survey were available and included in the model, the predictive value of radiometric data might improve, but this is not a practical solution for digital soil mapping of peat depth.
 
 We do not believe that the poor predictive value of the radiometric data in this study was caused primarily by full attenuation of radioactivity. 
@@ -572,7 +572,7 @@ Perhaps relatively deeper water tables in these study sites [blanket bog, draine
 ### Terrain-based variables can predict peat depth
 
 At both our sites, LiDAR-derived terrain variables predicted peat depth much better than radiometric variables (Fig. \@ref(fig:modelMetrics)).
-This is consistent with the findings of Pohjankukka et al. [-@pohjankukkaDigitalMappingPeat2025], who mapped peat depth classes at 50 m resolution across Finland.
+This is consistent with the findings of @pohjankukkaDigitalMappingPeat2025, who mapped peat depth classes at 50 m resolution across Finland.
 
 At both our sites, elevation was the most important predictor, and peat depth showed non-monotonic responses to changes in elevation (Figs. \@ref(fig:varImp), \@ref(fig:pdps)).
 We believe that the idiosyncratic elevational relationships we detected are mostly not generalizable beyond the study areas, because we see no simple mechanism (e.g., via climate) to explain the observed patterns. 
@@ -623,7 +623,7 @@ The large difference in coverage and quality of DMK peat depth at Skrimfjella ve
 
 High-quality DTMs are available for mainland Norway, which makes peat depth measurements the critical training data needed for DSM. 
 Better infrastructure to make depth measurements findable, accessible, interoperable, and reusable would help DSM and other applications. 
-Geoportal access and data exchange standards [like Natural England’s for peat surveys, -@naturalenglandDataExchangeStandard2023] are important. 
+Geoportal access and data exchange standards, such as those developed in @naturalenglandDataExchangeStandard2023 for peat surveys, are important. 
 Peat depth is quick and easy to measure, so integrating its measurement into existing national field programs, like Norway’s spatially representative nature monitoring or national forest inventory, would be helpful (although not sufficient for regional or local mapping). 
 Low-altitude, drone-mounted GPR may prove an efficient approach for collecting many, accurate depth data in a landscape, by combining the advantages of airborne deployment and active sensing [@pelletierPeatAnalysesHudson1991; @ruolsDevelopmentDronebasedGroundpenetrating2023]. 
 
@@ -635,7 +635,7 @@ Therefore, it may be advantageous to model peat depth at 1 m resolution -- even 
 
 To define a spatial extent for a particular DSM, kNNDM can be used to investigate how far the map can extend beyond a set of point measurements; if the sample-to-prediction nearest neighbor distribution cannot be simulated by any set of cross-validation folds, then the extent is too expansive [@meyerMachineLearningbasedGlobal2022; @linnenbrinkKNNDMCVKfold2024]. 
 However, the tradeoff between multiple small-extent DSM and fewer large-extent DSM needs research. 
-Bohn and Miller [-@bohnLocallyEnhancedDigital2024] advocate for bottom-up stitching of local DSM, and for peat depth we assert that these should at least stay within peatland regions (or 'supertopes'), where the composition of mesotopes is similar -- e.g., regions dominated by raised bogs versus regions dominated by sloping fens [@moenNationalAtlasNorway1999; @joostenWiseUseMires2002]. 
+@bohnLocallyEnhancedDigital2024 advocate for bottom-up stitching of local DSM, and for peat depth we assert that these should at least stay within peatland regions (or 'supertopes'), where the composition of mesotopes is similar -- e.g., regions dominated by raised bogs versus regions dominated by sloping fens [@moenNationalAtlasNorway1999; @joostenWiseUseMires2002]. 
 Depth varies systematically between bogs and fens [@lindsayPeatlandMireTypes2016], between peats formed by terrestrialization versus paludification [@buffamFillingHolesRegional2010], and probably along other axes of peatland typology. 
 Therefore, DSM is more likely to uncover consistent predictor--depth relationships within peatland regions than across them.
 
@@ -645,7 +645,7 @@ The DSM literature and our results support using flexible machine learning algor
 RF avoids negative predictions [c.f. @kogantiMappingPeatDepth2023] and produces good uncertainty estimates [our study, @vaysseUsingQuantileRegression2017;@takoutsingComparingPredictionPerformance2022]. 
 As depth data become more abundant, pixel-based learners may be surpassed by deep learning approaches like convolutional neural networks. 
 The success of Multi-Resolution Valley Bottom Flatness as a predictor of peat depth demonstrates that multiscale spatial patterns matter for peat depth, and convolutional neural networks are designed to learn such patterns [@borowiecDeepLearningTool2022]. 
-The kind of relationship described in Buffam et al. [-@buffamFillingHolesRegional2010], where peat depth in basins related to terrain slope at the basin edge, is also something a convolutional neural network could learn. 
+The kind of relationship described in @buffamFillingHolesRegional2010, where peat depth in basins related to terrain slope at the basin edge, is also something a convolutional neural network could learn. 
 However, since this approach is data-hungry, we should build soil knowledge into the DSM where we can [@minasnySoilScienceInformedMachine2024]. 
 
 ### Peat extent and depth should be mapped together
@@ -673,7 +673,7 @@ As Norway and other nations pursue nature-based climate solutions, these finding
 
 \appendixtables
 \begin{table}[ht]
-\caption{Attributes of the radiometric surveys, as reported in Baranwal et al., \citeyearpar{baranwalHelicopterborneMagneticElectromagnetic2013} and Ofstad \citeyearpar{ofstadHelicopterborneMagneticRadiometric2015}.}
+\caption{Attributes of the radiometric surveys, as reported in \citet{baranwalHelicopterborneMagneticElectromagnetic2013} and \citet{ofstadHelicopterborneMagneticRadiometric2015}.}
 \begin{tabular}{lll}
 \hline
 & Skrimfjella & Ørskogfjellet              \\ \cline{2-3} 

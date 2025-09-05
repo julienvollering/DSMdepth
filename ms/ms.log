@@ -1,9 +1,9 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.8.5)  29 AUG 2025 09:51
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.9.5)  5 SEP 2025 12:02
  restricted system commands enabled.
 **ms.tex
 (./ms.tex
 LaTeX2e <2025-06-01> patch level 1
-L3 programming layer <2025-07-20>
+L3 programming layer <2025-08-13>
 Lua module: luaotfload 2024-12-03 v3.29 Lua based OpenType font support
 Lua module: lualibs 2023-07-13 v2.76 ConTeXt Lua standard libraries.
 Lua module: lualibs-extended 2023-07-13 v2.76 ConTeXt Lua libraries -- extended collection.
@@ -93,7 +93,7 @@ Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/upquote/upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verbatim
 ) (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/regexpatch/regexpatch.sty (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2025-07-20 L3 programming layer (loader) 
+Package: expl3 2025-08-13 L3 programming layer (loader) 
 (c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
 File: l3backend-luatex.def 2025-06-09 L3 backend support: PDF output (LuaTeX)
 \l__color_backend_stack_int=\count282
@@ -711,7 +711,10 @@ File: figures/map-sites.pdf Graphic file (type pdf)
 <use figures/map-sites.pdf>
 Package luatex.def Info: figures/map-sites.pdf  used on input line 267.
 (luatex.def)             Requested size: 377.22366pt x 475.5989pt.
-
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 267.
+(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+)
 
 [4]
 
@@ -728,12 +731,12 @@ Package luatex.def Info: figures/map-sites.pdf  used on input line 267.
 [10]
 
 [11]
-<figures/map-distribution.pdf, id=476, 511.9125pt x 645.41125pt>
+<figures/map-distribution.pdf, id=481, 511.9125pt x 645.41125pt>
 File: figures/map-distribution.pdf Graphic file (type pdf)
 <use figures/map-distribution.pdf>
 Package luatex.def Info: figures/map-distribution.pdf  used on input line 489.
 (luatex.def)             Requested size: 377.22366pt x 475.5989pt.
-<figures/modelmetrics.pdf, id=478, 511.9125pt x 284.06125pt>
+<figures/modelmetrics.pdf, id=483, 511.9125pt x 284.06125pt>
 File: figures/modelmetrics.pdf Graphic file (type pdf)
 <use figures/modelmetrics.pdf>
 Package luatex.def Info: figures/modelmetrics.pdf  used on input line 500.
@@ -750,7 +753,7 @@ Overfull \hbox (3.11133pt too wide) in paragraph at lines 507--511
 
 
 [14<./figures/modelmetrics.pdf>]
-<figures/calibration_plots.pdf, id=531, 511.9125pt x 284.06125pt>
+<figures/calibration_plots.pdf, id=536, 511.9125pt x 284.06125pt>
 File: figures/calibration_plots.pdf Graphic file (type pdf)
 <use figures/calibration_plots.pdf>
 Package luatex.def Info: figures/calibration_plots.pdf  used on input line 519.
@@ -758,12 +761,12 @@ Package luatex.def Info: figures/calibration_plots.pdf  used on input line 519.
 
 
 [15<./figures/calibration_plots.pdf>]
-<figures/variable_importance.pdf, id=550, 511.9125pt x 454.69875pt>
+<figures/variable_importance.pdf, id=555, 511.9125pt x 454.69875pt>
 File: figures/variable_importance.pdf Graphic file (type pdf)
 <use figures/variable_importance.pdf>
 Package luatex.def Info: figures/variable_importance.pdf  used on input line 538.
 (luatex.def)             Requested size: 503.61377pt x 447.32933pt.
-<figures/partial_dependence.pdf, id=555, 511.9125pt x 511.9125pt>
+<figures/partial_dependence.pdf, id=560, 511.9125pt x 511.9125pt>
 File: figures/partial_dependence.pdf Graphic file (type pdf)
 <use figures/partial_dependence.pdf>
 Package luatex.def Info: figures/partial_dependence.pdf  used on input line 558.
@@ -818,12 +821,12 @@ Overfull \hbox (5.45062pt too wide) in paragraph at lines 825--830
 
 
 [28]
-<figures/GPRwavevelocity.pdf, id=884, 511.9125pt x 597.23125pt>
+<figures/GPRwavevelocity.pdf, id=909, 511.9125pt x 597.23125pt>
 File: figures/GPRwavevelocity.pdf Graphic file (type pdf)
 <use figures/GPRwavevelocity.pdf>
 Package luatex.def Info: figures/GPRwavevelocity.pdf  used on input line 841.
 (luatex.def)             Requested size: 352.2983pt x 411.01085pt.
-<figures/semivariograms.pdf, id=885, 511.9125pt x 298.11375pt>
+<figures/semivariograms.pdf, id=910, 511.9125pt x 298.11375pt>
 File: figures/semivariograms.pdf Graphic file (type pdf)
 <use figures/semivariograms.pdf>
 Package luatex.def Info: figures/semivariograms.pdf  used on input line 847.
@@ -865,11 +868,7 @@ File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 
 [36
 
-]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1089.
-(c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) (./ms.bbl
+] (./ms.bbl
 
 [37
 
@@ -1029,19 +1028,19 @@ L3 programming layer <2021/03/21>
 )
 
 Here is how much of LuaTeX's memory you used:
- 19188 strings out of 470118
+ 19188 strings out of 470117
  100000,953878 words of node,token memory allocated
- 777 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 12 kern, 1 glyph, 42 attribute, 68 glue_spec, 22 attribute_list, 2 write, 11 pdf_action nodes
-   avail lists: 2:1852,3:379,4:226,5:512,6:66,7:10343,8:43,9:775,10:20,11:84,12:1
- 46847 multiletter control sequences out of 65536+600000
+ 789 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 2 glue, 12 kern, 1 glyph, 44 attribute, 68 glue_spec, 23 attribute_list, 2 write, 12 pdf_action nodes
+   avail lists: 2:1861,3:379,4:226,5:512,6:65,7:10343,8:43,9:775,10:20,11:84,12:1
+ 46848 multiletter control sequences out of 65536+600000
  88 fonts using 5752695 bytes
  84i,13n,88p,1384b,790s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on ms.pdf (46 pages, 7854907 bytes).
+Output written on ms.pdf (46 pages, 7855830 bytes).
 
-PDF statistics: 1168 PDF objects out of 1200 (max. 8388607)
- 1079 compressed objects within 11 object streams
+PDF statistics: 1193 PDF objects out of 1200 (max. 8388607)
+ 1103 compressed objects within 12 object streams
  247 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 100000000)
 
