@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.9.5)  5 SEP 2025 12:02
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.9.5)  29 SEP 2025 13:08
  restricted system commands enabled.
 **ms.tex
 (./ms.tex
@@ -731,12 +731,12 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 [10]
 
 [11]
-<figures/map-distribution.pdf, id=481, 511.9125pt x 645.41125pt>
+<figures/map-distribution.pdf, id=484, 511.9125pt x 645.41125pt>
 File: figures/map-distribution.pdf Graphic file (type pdf)
 <use figures/map-distribution.pdf>
 Package luatex.def Info: figures/map-distribution.pdf  used on input line 489.
 (luatex.def)             Requested size: 377.22366pt x 475.5989pt.
-<figures/modelmetrics.pdf, id=483, 511.9125pt x 284.06125pt>
+<figures/modelmetrics.pdf, id=486, 511.9125pt x 284.06125pt>
 File: figures/modelmetrics.pdf Graphic file (type pdf)
 <use figures/modelmetrics.pdf>
 Package luatex.def Info: figures/modelmetrics.pdf  used on input line 500.
@@ -753,7 +753,7 @@ Overfull \hbox (3.11133pt too wide) in paragraph at lines 507--511
 
 
 [14<./figures/modelmetrics.pdf>]
-<figures/calibration_plots.pdf, id=536, 511.9125pt x 284.06125pt>
+<figures/calibration_plots.pdf, id=539, 511.9125pt x 284.06125pt>
 File: figures/calibration_plots.pdf Graphic file (type pdf)
 <use figures/calibration_plots.pdf>
 Package luatex.def Info: figures/calibration_plots.pdf  used on input line 519.
@@ -761,12 +761,12 @@ Package luatex.def Info: figures/calibration_plots.pdf  used on input line 519.
 
 
 [15<./figures/calibration_plots.pdf>]
-<figures/variable_importance.pdf, id=555, 511.9125pt x 454.69875pt>
+<figures/variable_importance.pdf, id=558, 511.9125pt x 454.69875pt>
 File: figures/variable_importance.pdf Graphic file (type pdf)
 <use figures/variable_importance.pdf>
 Package luatex.def Info: figures/variable_importance.pdf  used on input line 538.
 (luatex.def)             Requested size: 503.61377pt x 447.32933pt.
-<figures/partial_dependence.pdf, id=560, 511.9125pt x 511.9125pt>
+<figures/partial_dependence.pdf, id=563, 511.9125pt x 511.9125pt>
 File: figures/partial_dependence.pdf Graphic file (type pdf)
 <use figures/partial_dependence.pdf>
 Package luatex.def Info: figures/partial_dependence.pdf  used on input line 558.
@@ -821,12 +821,12 @@ Overfull \hbox (5.45062pt too wide) in paragraph at lines 825--830
 
 
 [28]
-<figures/GPRwavevelocity.pdf, id=909, 511.9125pt x 597.23125pt>
+<figures/GPRwavevelocity.pdf, id=915, 511.9125pt x 597.23125pt>
 File: figures/GPRwavevelocity.pdf Graphic file (type pdf)
 <use figures/GPRwavevelocity.pdf>
 Package luatex.def Info: figures/GPRwavevelocity.pdf  used on input line 841.
 (luatex.def)             Requested size: 352.2983pt x 411.01085pt.
-<figures/semivariograms.pdf, id=910, 511.9125pt x 298.11375pt>
+<figures/semivariograms.pdf, id=916, 511.9125pt x 298.11375pt>
 File: figures/semivariograms.pdf Graphic file (type pdf)
 <use figures/semivariograms.pdf>
 Package luatex.def Info: figures/semivariograms.pdf  used on input line 847.
@@ -873,148 +873,148 @@ File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 [37
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 40--41
+Underfull \hbox (badness 10000) in paragraph at lines 43--44
 []\T1/ptm/m/n/9 Beguin, J., Fuglstad, G.-A., Mansuy, N., and Paré, D.: Predicting Soil Properties in the Canadian Boreal Forest
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 40--41
+Underfull \hbox (badness 10000) in paragraph at lines 43--44
 \T1/ptm/m/n/9 with Limited Data: Comparison of Spatial and Non-Spatial Statistical Approaches, Geoderma, 306, 195--205,
  []
 
 
-Underfull \hbox (badness 8056) in paragraph at lines 58--59
+Underfull \hbox (badness 8056) in paragraph at lines 61--62
 []\T1/ptm/m/n/9 Bohn, M. P. and Miller, B. A.: Locally Enhanced Digital Soil Mapping in Support of a Bottom-up Approach Is
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 58--59
+Underfull \hbox (badness 10000) in paragraph at lines 61--62
 \T1/ptm/m/n/9 More Accurate than Conventional Soil Mapping and Top-down Digital Soil Mapping, Geoderma, 442, 116781,
  []
 
 
 
 [38]
-Underfull \hbox (badness 10000) in paragraph at lines 67--68
+Underfull \hbox (badness 10000) in paragraph at lines 70--71
 []\T1/ptm/m/n/9 Brus, D. J.: Sampling for Digital Soil Mapping: A Tutorial Supported by R Scripts, Geoderma, 338, 464--480,
  []
 
 
 
 [39]
-Underfull \hbox (badness 3557) in paragraph at lines 151--152
+
+[40]
+Underfull \hbox (badness 3557) in paragraph at lines 157--158
 []\T1/ptm/m/n/9 Karjalainen, V., Malinen, J., and Tokola, T.: Comparison of Two Gamma-Ray Datasets Measured with Different Methods
  []
 
 
-Underfull \hbox (badness 2735) in paragraph at lines 151--152
+Underfull \hbox (badness 2735) in paragraph at lines 157--158
 \T1/ptm/m/n/9 and Assessment of Their Performance to Predict Soil Properties, International Journal of Forest Engineering, 36, 29--42,
  []
 
 
 
-[40]
-
 [41]
-Underfull \hbox (badness 3302) in paragraph at lines 202--203
+Underfull \hbox (badness 3302) in paragraph at lines 211--212
 []\T1/ptm/m/n/9 Ma, T., Brus, D. J., Zhu, A.-X., Zhang, L., and Scholten, T.: Comparison of Conditioned Latin Hypercube and Feature
  []
 
 
-Underfull \hbox (badness 7981) in paragraph at lines 202--203
+Underfull \hbox (badness 7981) in paragraph at lines 211--212
 \T1/ptm/m/n/9 Space Coverage Sampling for Predicting Soil Classes Using Simulation from Soil Maps, Geoderma, 370, 114366,
- []
-
-
-Underfull \hbox (badness 3138) in paragraph at lines 241--242
-[]\T1/ptm/m/n/9 Minasny, B., Bandai, T., Ghezzehei, T. A., Huang, Y.-C., Ma, Y., McBratney, A. B., Ng, W., Norouzi, S., Padarian, J.,
- []
-
-
-Underfull \hbox (badness 1609) in paragraph at lines 241--242
-\T1/ptm/m/n/9 Rudiyanto, Sharififar, A., Styc, Q., and Widyastuti, M.: Soil Science-Informed Machine Learning, Geoderma, 452, 117094,
  []
 
 
 
 [42]
-Underfull \hbox (badness 3942) in paragraph at lines 289--290
-[]\T1/ptm/m/n/9 Pelletier, R., Davis, J., and Rossiter, J.: Peat Analyses In The Hudson Bay Lowlands Using Ground Penetrating Radar,
+Underfull \hbox (badness 3138) in paragraph at lines 250--251
+[]\T1/ptm/m/n/9 Minasny, B., Bandai, T., Ghezzehei, T. A., Huang, Y.-C., Ma, Y., McBratney, A. B., Ng, W., Norouzi, S., Padarian, J.,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 289--290
-\T1/ptm/m/n/9 in: [Proceedings] IGARSS'91 Remote Sensing: Global Monitoring for Earth Management, vol. 4, pp. 2141--2144,
+Underfull \hbox (badness 1609) in paragraph at lines 250--251
+\T1/ptm/m/n/9 Rudiyanto, Sharififar, A., Styc, Q., and Widyastuti, M.: Soil Science-Informed Machine Learning, Geoderma, 452, 117094,
  []
 
 
 
 [43]
-Underfull \hbox (badness 4108) in paragraph at lines 310--311
+Underfull \hbox (badness 3942) in paragraph at lines 301--302
+[]\T1/ptm/m/n/9 Pelletier, R., Davis, J., and Rossiter, J.: Peat Analyses In The Hudson Bay Lowlands Using Ground Penetrating Radar,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 301--302
+\T1/ptm/m/n/9 in: [Proceedings] IGARSS'91 Remote Sensing: Global Monitoring for Earth Management, vol. 4, pp. 2141--2144,
+ []
+
+
+Underfull \hbox (badness 4108) in paragraph at lines 322--323
 []\T1/ptm/m/n/9 Riihimäki, H., Kemppinen, J., Kopecký, M., and Luoto, M.: Topographic Wetness Index as a Proxy for Soil Moisture:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 310--311
+Underfull \hbox (badness 10000) in paragraph at lines 322--323
 \T1/ptm/m/n/9 The Importance of Flow-Routing Algorithm and Grid Resolution, Water Resources Research, 57, e2021WR029871,
  []
 
 
-Underfull \hbox (badness 1142) in paragraph at lines 316--317
+Underfull \hbox (badness 1142) in paragraph at lines 328--329
 \T1/ptm/m/n/9 to Improve Peat Thickness Estimations by Ground Penetrating Radar, Earth Surface Processes and Landforms, 34, 377--383,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 322--323
+Underfull \hbox (badness 10000) in paragraph at lines 334--335
 []\T1/ptm/m/n/9 Rudiyanto, Minasny, B., Setiawan, B. I., Arif, C., Saptomo, S. K., and Chadirin, Y.: Digital Mapping for Cost-
  []
 
 
-Underfull \hbox (badness 5607) in paragraph at lines 322--323
+Underfull \hbox (badness 5607) in paragraph at lines 334--335
 \T1/ptm/m/n/9 Effective and Accurate Prediction of the Depth and Carbon Stocks in Indonesian Peatlands, Geoderma, 272, 20--31,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 337--338
-[]\T1/ptm/m/n/9 Schönauer, M. and Maack, J.: R-Code for Calculating Depth-to-Water (DTW) Maps Using GRASS GIS,
  []
 
 
 
 [44]
-Underfull \hbox (badness 1337) in paragraph at lines 358--359
+Underfull \hbox (badness 10000) in paragraph at lines 349--350
+[]\T1/ptm/m/n/9 Schönauer, M. and Maack, J.: R-Code for Calculating Depth-to-Water (DTW) Maps Using GRASS GIS,
+ []
+
+
+Underfull \hbox (badness 1337) in paragraph at lines 370--371
 []\T1/ptm/m/n/9 Szabó, B., Szatmári, G., Takács, K., Laborczi, A., Makó, A., Rajkai, K., and Pásztor, L.: Mapping Soil Hydraulic Properties
  []
 
 
-Underfull \hbox (badness 1122) in paragraph at lines 358--359
+Underfull \hbox (badness 1122) in paragraph at lines 370--371
 \T1/ptm/m/n/9 Using Random-Forest-Based Pedotransfer Functions and Geostatistics, Hydrology and Earth System Sciences, 23, 2615--2635,
  []
 
 
-Underfull \hbox (badness 3861) in paragraph at lines 361--362
+Underfull \hbox (badness 3861) in paragraph at lines 373--374
 []\T1/ptm/m/n/9 Takoutsing, B. and Heuvelink, G. B.: Comparing the Prediction Performance, Uncertainty Quantification and Extrapolation
  []
 
 
-Underfull \hbox (badness 5607) in paragraph at lines 379--380
+Underfull \hbox (badness 5607) in paragraph at lines 391--392
 []\T1/ptm/m/n/9 Vollering, J., Gatis, N., Gillespie, M. K., Muggerud, K.-K., Nerhus, S. D., Rydgren, K., and Sparf, M.: Peat Depth
  []
 
 
-Underfull \hbox (badness 6859) in paragraph at lines 379--380
+Underfull \hbox (badness 6859) in paragraph at lines 391--392
 \T1/ptm/m/n/9 and Occurrence in Areas Covered by Airborne Radiometric Surveys, Southeastern and Western Norway, 1983-2023.,
  []
 
 
 
 [45]
-Underfull \hbox (badness 3333) in paragraph at lines 394--395
+Underfull \hbox (badness 3333) in paragraph at lines 406--407
 []\T1/ptm/m/n/9 Wang, L. and Liu, H.: An Efficient Method for Identifying and Filling Surface Depressions in Digital Elevation Models
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 394--395
+Underfull \hbox (badness 10000) in paragraph at lines 406--407
 \T1/ptm/m/n/9 for Hydrologic Analysis and Modelling, International Journal of Geographical Information Science, 20, 193--213,
  []
 
@@ -1028,19 +1028,19 @@ L3 programming layer <2021/03/21>
 )
 
 Here is how much of LuaTeX's memory you used:
- 19188 strings out of 470117
+ 19204 strings out of 470117
  100000,953878 words of node,token memory allocated
- 789 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 12 kern, 1 glyph, 44 attribute, 68 glue_spec, 23 attribute_list, 2 write, 12 pdf_action nodes
-   avail lists: 2:1861,3:379,4:226,5:512,6:65,7:10343,8:43,9:775,10:20,11:84,12:1
- 46848 multiletter control sequences out of 65536+600000
+ 813 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 2 glue, 12 kern, 1 glyph, 48 attribute, 68 glue_spec, 25 attribute_list, 2 write, 14 pdf_action nodes
+   avail lists: 2:1855,3:379,4:230,5:508,6:63,7:10343,8:43,9:789,10:20,11:89,12:1
+ 46860 multiletter control sequences out of 65536+600000
  88 fonts using 5752695 bytes
- 84i,13n,88p,1384b,790s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,13n,88p,1384b,792s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/Users/julienv/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on ms.pdf (46 pages, 7855830 bytes).
+Output written on ms.pdf (46 pages, 7857875 bytes).
 
-PDF statistics: 1193 PDF objects out of 1200 (max. 8388607)
- 1103 compressed objects within 12 object streams
- 247 named destinations out of 1000 (max. 131072)
+PDF statistics: 1235 PDF objects out of 1440 (max. 8388607)
+ 1145 compressed objects within 12 object streams
+ 251 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 100000000)
 

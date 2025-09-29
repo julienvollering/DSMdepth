@@ -264,7 +264,7 @@ The DTM for Skrimfjella was produced from airborne laser scanning surveys in 201
 For Ørskogfjellet, the DTM was produced from a 2015 survey with \unit{2\,pts\,m^{-2}}.
 Where necessary, DTMs were resampled to the coordinate reference system of the radiometric data.
 
-We used the *terra* R package (v1.8) to calculate from the DTMs: slope, Topographic Position Index (difference from mean of eight neighbors), Terrain Ruggedness Index (mean of absolute differences from eight neighbors), and roughness (range in the nine-cell neighborhood).
+We used the *terra* R package [v.1.8, @hijmansTerraSpatialData2025] to calculate from the DTMs: slope, Topographic Position Index (difference from mean of eight neighbors), Terrain Ruggedness Index (mean of absolute differences from eight neighbors), and roughness (range in the nine-cell neighborhood).
 These were derived at two scales to produce eight different predictors; we either calculated the indices at 1 m DTM resolution and then aggregated to 10 m resolution, or aggregated to 10 m DTM resolution and then calculated the indices.
 This kind of multiscale feature engineering of land surface parameters has been found to improve machine learning predictions of soil properties [@millerImpactMultiscalePredictor2015; @dornikOptimalScalingPredictors2022; @newmanAssessingSpatiallyHeterogeneous2023].
 We know that peat depth tends to vary at fine scales in Norway, which is why we chose 1 m and 10 m resolutions [@maxwellLandsurfaceParametersSpatial2022].
@@ -272,7 +272,7 @@ We also calculated the Multi-Resolution Valley Bottom Flatness index, which indi
 We calculated this index in SAGA GIS [v.9.3.2, Morphometry library, @conradSystemAutomatedGeoscientific2015] with default parameters (initial slope threshold = 16 %, lowness threshold = 0.4, upness threshold = 0.35, slope shape parameter = 4, elevation shape parameter = 3).
 
 The Topographic Wetness Index [@quinnPredictionHillslopeFlow1991] is notoriously scale-dependent and often matches real hydrological conditions best when calculated from moderate to coarse resolution DTMs [@agrenEvaluatingDigitalTerrain2014; @riihimakiTopographicWetnessIndex2021], so we calculated it from 5 m, 10 m, 20 m, and 50 m DTM resolution.
-The calculations were performed with Whitebox software [@lindsayWhiteboxGATCase2016], accessed through the *whitebox* R package [v2.4, @wuWhiteboxWhiteboxToolsFrontend2022].
+The calculations were performed with Whitebox software [@lindsayWhiteboxGATCase2016], accessed through the *whitebox* R package [v.2.4, @wuWhiteboxWhiteboxToolsFrontend2022].
 We filled depressions in the DTM with the algorithm in @wangEfficientMethodIdentifying2006, and used the deterministic infinity flow accumulation algorithm [@tarbotonNewMethodDetermination1997].
 
 The Depth-to-Water index [@murphyMappingWetlandsComparison2007] approximates a location's vertical height above the surface water feature (e.g., stream, lake, or sea) that it is likely to drain towards.
@@ -332,7 +332,7 @@ The spatial component in regression kriging often improves map accuracy [@beguin
 If the outcome varies at fine scales and the samples are clustered in small parts of the study area, a spatial component will hardly improve overall map accuracy.
 We used semivariograms to assess the spatial structure in the residuals of the RF predictions, and found that (non-spatial) RF was justified at both sites. 
 
-We implemented models in the *tidymodels* framework in R [@kuhnTidymodelsCollectionPackages2020], with the *ranger* R package for RFs [v0.16, @wrightRangerFastImplementation2017].
+We implemented models in the *tidymodels* framework in R [@kuhnTidymodelsCollectionPackages2020], with the *ranger* R package for RFs [v.0.16, @wrightRangerFastImplementation2017].
 RFs were fit with 1000 trees, minimum node size of 5, and the number of predictors randomly sampled at each split was the square root of the total number of predictors (*ranger* default).
 We did not tune these hyperparameters because RFs are relatively insensitive to tuning [@probstHyperparametersTuningStrategies2019], and because it would require nested spatial cross-validation to prevent data leakage [@schratzHyperparameterTuningPerformance2019].
 
@@ -347,7 +347,7 @@ To set the folds we used k-Means Nearest Neighbor Distance Matching (kNNDM), whi
 In particular, kNNDM searches for a fold assignment that minimizes the difference between two distributions: nearest neighbor distances between training and test locations in the cross-validation, and nearest neighbor distances between training and prediction locations for the model.
 That way, the spatial separation between folds is similar to the separation between training and prediction locations -- which increases the quality of the map accuracy estimate [@linnenbrinkKNNDMCVKfold2024].
 For spatially clustered training data, this approach strikes a balance between the risk of optimistic metrics from random cross-validation and the risk of pessimistic metrics from other forms of spatial cross-validation [@wadouxSpatialCrossvalidationNot2021].
-We implemented the kNNDM with the *CAST* R package [v1.0, @meyerCASTPackageTraining2024], setting prediction locations to all AR5 mire cells in the study area, and choosing a number of folds (k = 5--20) that produced the best match between the two NND distributions.
+We implemented the kNNDM with the *CAST* R package [v.1.0, @meyerCASTPackageTraining2024], setting prediction locations to all AR5 mire cells in the study area, and choosing a number of folds (k = 5--20) that produced the best match between the two NND distributions.
 From the cross-validation we quantified mean absolute error (error magnitude, original scale), R^2^ (explained variation, standardized scale), and Lin's concordance correlation coefficient (error magnitude and explained variation, standardized scale).
 We formally assessed the effect of predictor configuration on performance metrics using mixed-effects models to account for the cross-validation fold structure (folds as random effects), and testing pairwise differences between configurations.
 
@@ -364,12 +364,12 @@ For both sites, we interpreted a model trained on a non-collinear subset of vari
 Specifically, we eliminated variables from the best performing predictor configuration to obtain a set with no pairwise Pearson correlation coefficient above 0.7 (an arbitrary but conventional threshold for this purpose).
 Thus, highly correlated sets of variables are represented by a single variable for the purposes of model interpretation.
 
-We calculated variable importance with the *vip* R package (v0.4), by three different methods: *FIRM*, *permutation*, and *Shapley* [@greenwellVariableImportancePlots2020].
+We calculated variable importance with the *vip* R package (v.0.4), by three different methods: *FIRM*, *permutation*, and *Shapley* [@greenwellVariableImportancePlots2020].
 *FIRM* values measure the flatness of the partial dependence plot, *permutation* values measure the decrease in model performance when the predictor is permuted, and *Shapley* values are aggregated from local, game-theoretical measures of variable importance [@greenwellVariableImportancePlots2020].
 Since *FIRM* reflects the flatness of the partial dependence plot, it captures functional complexity rather than overall predictive impact.
 *Permutation* values were obtained from ten iterations, with root mean square error as the performance measure.
 
-We calculated partial dependence with the *pdp* R package [v0.8, @greenwellPdpPackageConstructing2017].
+We calculated partial dependence with the *pdp* R package [v.0.8, @greenwellPdpPackageConstructing2017].
 For the six most important variables, we plotted partial dependence to show the average effect of the predictor on the outcome and individual conditional expectations to show variation in the effect across observations [@goldsteinPeekingBlackBox2015].
 Non-parallel individual conditional expectation lines indicate the presence of interactions between predictors.
 
@@ -690,7 +690,7 @@ Flight line spacing (m)                  & 200          & 200              \\ \h
 \subsection{Peat depth sample selection} \label{sec:sample-selection}
 \subsubsection{Skrimfjella}
 
-At Skrimfjella, we used the *eSample* function in the *iSDM* R package (v1.0) to stratify our sample across elevation, slope, and potassium concentration.
+At Skrimfjella, we used the *eSample* function in the *iSDM* R package (v.1.0) to stratify our sample across elevation, slope, and potassium concentration.
 This function defines the environmental space as a two-dimensional convex hull around the PCA-ordinated data, then creates a regular grid across that space, and lastly finds for each grid cell the datum that is nearest [@hattabUnifiedFrameworkModel2017].
 We set a target sample size of 100, excluded the top and bottom percentile from the convex hull, and *eSample* returned 105 raster cells.
 
@@ -701,7 +701,7 @@ Specifically, we identified an elbow point in a curve of similarity between samp
 For a sequence of sample sizes (50--500) [ten replicates each, drawn by conditioned latin hypercube sampling, @minasnyConditionedLatinHypercube2006; @roudierClhsPackageConditioned2011], we calculated the mean Kullback--Leibler divergence between sample and population distributions [@maloneMethodsImproveUtility2019; @sauretteDivergenceMetricsDetermining2023].
 Then we fitted an asymptotic regression of mean divergence on sample size, and found that the curve reached 95 % of the fitted asymptote at a sample size of 160.
 
-To choose 160 locations, we performed feature space coverage sampling, implemented using the *kmeans* function in base R and the *rdist* function in the *fields* package (v14.2).
+To choose 160 locations, we performed feature space coverage sampling, implemented using the *kmeans* function in base R and the *rdist* function in the *fields* package [v.14.2, @nychkaFieldsToolsSpatial2025].
 Feature space coverage sampling chooses locations that are closest to cluster centers in standardized predictor space [@brusSamplingDigitalSoil2019].
 This approach has been found to produce higher accuracy in RFs than conditioned latin hypercube sampling [@wadouxSamplingDesignOptimization2019; @maComparisonConditionedLatin2020].
 Feature space coverage sampling works best when all dimensions are important predictors of the outcome [@wadouxSamplingDesignOptimization2019], and we used the same five predictors that we used to choose sample size: slope and four radiometrics.
@@ -766,7 +766,7 @@ In total, the GPR surveys produced 48579 point measurements of peat depth at Skr
 
 \begin{table}[h]
 
-\caption{(\#tab:pairwiseSkrimCCC)Pairwise comparisons of the concordance correlation coefficient among models for Skrimfjella, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package) on mixed-effects models (\texttt{lme4} package) to account for the cross-validation fold structure.}
+\caption{(\#tab:pairwiseSkrimCCC)Pairwise comparisons of the concordance correlation coefficient among models for Skrimfjella, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package, v.1.11.1, \citealp{lenthEmmeansEstimatedMarginal2025}) on mixed-effects models (\texttt{lme4} package, v.1.1-36, \citealp{batesFittingLinearMixedEffects2015}) to account for the cross-validation fold structure.}
 \centering
 \begin{tabular}[t]{lrrrrll}
 \hline
@@ -800,7 +800,7 @@ Terrain - TerrainDMK & -0.01 & 0.05 & 114 & -0.15 & 1 & \\
 
 \begin{table}[h]
 
-\caption{(\#tab:pairwiseSkrimRsq)Pairwise comparisons of $R^2$ among models for Skrimfjella, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package) on mixed-effects models (\texttt{lme4} package) to account for the cross-validation fold structure.}
+\caption{(\#tab:pairwiseSkrimRsq)Pairwise comparisons of $R^2$ among models for Skrimfjella, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package, v.1.11.1, \citealp{lenthEmmeansEstimatedMarginal2025}) on mixed-effects models (\texttt{lme4} package, v.1.1-36, \citealp{batesFittingLinearMixedEffects2015}) to account for the cross-validation fold structure.}
 \centering
 \begin{tabular}[t]{lrrrrrl}
 \hline
@@ -834,7 +834,7 @@ Terrain - TerrainDMK & 0.01 & 0.06 & 105.01 & 0.17 & 1.000 & \\
 
 \begin{table}[h]
 
-\caption{(\#tab:pairwiseSkrimMAE)Pairwise comparisons of mean absolute error among models for Skrimfjella, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package) on mixed-effects models (\texttt{lme4} package) to account for the cross-validation fold structure.}
+\caption{(\#tab:pairwiseSkrimMAE)Pairwise comparisons of mean absolute error among models for Skrimfjella, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package, v.1.11.1, \citealp{lenthEmmeansEstimatedMarginal2025}) on mixed-effects models (\texttt{lme4} package, v.1.1-36, \citealp{batesFittingLinearMixedEffects2015}) to account for the cross-validation fold structure.}
 \centering
 \begin{tabular}[t]{lrrrrrl}
 \hline
@@ -868,7 +868,7 @@ Terrain - TerrainDMK & 0.52 & 3.13 & 114 & 0.17 & 1.000 & \\
 
 \begin{table}[h]
 
-\caption{(\#tab:pairwiseOrskogCCC)Pairwise comparisons of the concordance correlation coefficient among models for Ørskogfjellet, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package) on mixed-effects models (\texttt{lme4} package) to account for the cross-validation fold structure.}
+\caption{(\#tab:pairwiseOrskogCCC)Pairwise comparisons of the concordance correlation coefficient among models for Ørskogfjellet, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package, v.1.11.1, \citealp{lenthEmmeansEstimatedMarginal2025}) on mixed-effects models (\texttt{lme4} package, v.1.1-36, \citealp{batesFittingLinearMixedEffects2015}) to account for the cross-validation fold structure.}
 \centering
 \begin{tabular}[t]{lrrrrrl}
 \hline
@@ -902,7 +902,7 @@ Terrain - TerrainDMK & -0.03 & 0.08 & 54 & -0.33 & 1.000 & \\
 
 \begin{table}[h]
 
-\caption{(\#tab:pairwiseOrskogRsq)Pairwise comparisons of $R^2$ among models for Ørskogfjellet, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package) on mixed-effects models (\texttt{lme4} package) to account for the cross-validation fold structure.}
+\caption{(\#tab:pairwiseOrskogRsq)Pairwise comparisons of $R^2$ among models for Ørskogfjellet, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package, v.1.11.1, \citealp{lenthEmmeansEstimatedMarginal2025}) on mixed-effects models (\texttt{lme4} package, v.1.1-36, \citealp{batesFittingLinearMixedEffects2015}) to account for the cross-validation fold structure.}
 \centering
 \begin{tabular}[t]{lrrrrll}
 \hline
@@ -936,7 +936,7 @@ Terrain - TerrainDMK & -0.04 & 0.06 & 54 & -0.67 & 0.994 & \\
 
 \begin{table}[h]
 
-\caption{(\#tab:pairwiseOrskogMAE)Pairwise comparisons of mean absolute error among models for Ørskogfjellet, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package) on mixed-effects models (\texttt{lme4} package) to account for the cross-validation fold structure.}
+\caption{(\#tab:pairwiseOrskogMAE)Pairwise comparisons of mean absolute error among models for Ørskogfjellet, based on 10-fold cross-validation. The comparisons use estimated marginal means with Tukey HSD correction and Kenward-Roger degrees of freedom approximation (\texttt{emmeans} package, v.1.11.1, \citealp{lenthEmmeansEstimatedMarginal2025}) on mixed-effects models (\texttt{lme4} package, v.1.1-36, \citealp{batesFittingLinearMixedEffects2015}) to account for the cross-validation fold structure.}
 \centering
 \begin{tabular}[t]{lrrrrrl}
 \hline
