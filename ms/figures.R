@@ -1315,6 +1315,39 @@ ggsave(
   units = 'mm'
 )
 
+## MRVBF PDP both sites (presentation) ####
+
+orskog_mrvbf <- read_csv("output/pdpice.csv") |>
+  filter(feature == "MRVBF")
+skrim_mrvbf <- read_csv("output/Skrim/pdpice.csv") |>
+  filter(feature == "MRVBF")
+
+make_mrvbf_plot <- function(data, ylim_max, subtitle = NULL) {
+  ggplot(data = data, aes(x = .borders, y = .value, group = .id)) +
+    geom_line(data = filter(data, .type == 'ice'), alpha = 0.01) +
+    geom_line(data = filter(data, .type == 'pdp'), color = "red") +
+    geom_rug(data = filter(data, .type == "observed"), sides = "b") +
+    coord_cartesian(ylim = c(0, ylim_max)) +
+    labs(x = "MRVBF (indeks)", y = "Torvdybde (cm)") +
+    ggtitle(subtitle) +
+    theme_bw() +
+    theme(panel.grid = element_blank())
+}
+
+g_mrvbf <-
+  make_mrvbf_plot(skrim_mrvbf, 250, "Skrimfjella") /
+  make_mrvbf_plot(orskog_mrvbf, 400, "Ørskogfjellet") +
+  plot_layout(axes = 'collect')
+
+ggsave(
+  g_mrvbf,
+  filename = 'pdp_mrvbf_bothsites.svg',
+  path = "ms/figures",
+  width = 120,
+  height = 160,
+  units = 'mm'
+)
+
 # GPR wave velocity calibrations ####
 
 library(tidyverse)
