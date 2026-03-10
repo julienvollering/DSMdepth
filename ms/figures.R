@@ -1289,6 +1289,32 @@ ggsave(
 # ggsave(filename = 'partial_dependence.png', path = "ms/figures",
 #        width =(210-30), height = (240-60), units = 'mm', dpi = 300) #copernicus.cls page 210x240
 
+## Elevation PDP Ørskogfjellet (presentation) ####
+
+orskog_elev <- read_csv("output/pdpice.csv") |>
+  filter(feature == "elevation")
+
+g_elev <- ggplot(
+  data = orskog_elev,
+  aes(x = .borders, y = .value, group = .id)
+) +
+  geom_line(data = filter(orskog_elev, .type == 'ice'), alpha = 0.01) +
+  geom_line(data = filter(orskog_elev, .type == 'pdp'), color = "red") +
+  geom_rug(data = filter(orskog_elev, .type == "observed"), sides = "b") +
+  coord_cartesian(ylim = c(0, 400)) +
+  labs(x = "Høyde over havet (m)", y = "Torvdybde (cm)") +
+  theme_bw() +
+  theme(panel.grid = element_blank())
+
+ggsave(
+  g_elev,
+  filename = 'pdp_elevation_orskog.svg',
+  path = "ms/figures",
+  width = 120,
+  height = 100,
+  units = 'mm'
+)
+
 # GPR wave velocity calibrations ####
 
 library(tidyverse)
