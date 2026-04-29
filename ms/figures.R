@@ -13,8 +13,13 @@ library(scales)
 
 ## Inset ####
 
-# ne_download(scale = 50, type = 'populated_places', category = 'cultural',
-#             destdir = "ms/figures/data", load = FALSE)
+ne_download(
+  scale = 50,
+  type = 'populated_places',
+  category = 'cultural',
+  destdir = "ms/figures/data",
+  load = FALSE
+)
 cities <- ne_load(
   scale = 50,
   type = 'populated_places',
@@ -630,54 +635,6 @@ ggsave(
   units = 'mm'
 ) #A4 page 210x297
 
-## Ørskogfjellet with photo panel ####
-
-photopath <- "ms/figures/foto-KKM.JPG"
-
-pOrskog <- mapOrskog +
-  inset_element(
-    densityOrskog,
-    left = 0.47,
-    bottom = 0.02,
-    right = 0.89,
-    top = 0.5,
-    align_to = "full",
-    clip = TRUE,
-    ignore_tag = TRUE
-  )
-photo <- magick::image_read(photopath) |>
-  magick::image_annotate(
-    "Photo: Karl-Kristian Muggerud",
-    size = 80,
-    color = "black",
-    gravity = "northwest",
-  ) |>
-  magick::image_ggplot()
-
-# Calculate height ratio based on aspect ratios to align widths
-# Get photo aspect ratio
-photo_info <- magick::image_info(magick::image_read(photopath))
-photo_aspect <- photo_info$width / photo_info$height
-
-# Get pOrskog aspect ratio from bounding box
-bbox_width <- bboxOrskog[3] - bboxOrskog[1]
-bbox_height <- bboxOrskog[4] - bboxOrskog[2]
-pOrskog_aspect <- bbox_width / bbox_height
-
-# Height ratio = pOrskog_aspect / photo_aspect (so widths align with same available width)
-height_ratio <- pOrskog_aspect / photo_aspect
-
-# Combine photo (top) with pOrskog map (bottom), aligning with plotting area
-photomap <- photo / pOrskog + plot_layout(heights = c(height_ratio, 1))
-ggsave(
-  photomap,
-  filename = 'map-orskog-photo.jpg',
-  path = "ms/figures",
-  width = 210 - 30,
-  height = (297 - 30 - 40),
-  units = 'mm',
-  dpi = 600
-)
 
 # Model metrics by faceting ####
 
@@ -687,6 +644,12 @@ orskog <- read_csv("output/modelmetrics.csv")
 skrim <- read_csv("output/Skrim/modelmetrics.csv")
 plotting <- bind_rows(orskog = orskog, skrim = skrim, .id = 'site') %>%
   filter(.metric != 'rmse') %>%
+  group_by(site, model, .metric) %>%
+  summarize(
+    mean = mean(.estimate),
+    std_err = sd(.estimate) / sqrt(n()),
+    .groups = "drop"
+  ) %>%
   mutate(
     site = fct_relevel(site, "orskog"),
     metric = case_when(
@@ -1289,65 +1252,6 @@ ggsave(
 # ggsave(filename = 'partial_dependence.png', path = "ms/figures",
 #        width =(210-30), height = (240-60), units = 'mm', dpi = 300) #copernicus.cls page 210x240
 
-## Elevation PDP Ørskogfjellet (presentation) ####
-
-orskog_elev <- read_csv("output/pdpice.csv") |>
-  filter(feature == "elevation")
-
-g_elev <- ggplot(
-  data = orskog_elev,
-  aes(x = .borders, y = .value, group = .id)
-) +
-  geom_line(data = filter(orskog_elev, .type == 'ice'), alpha = 0.01) +
-  geom_line(data = filter(orskog_elev, .type == 'pdp'), color = "red") +
-  geom_rug(data = filter(orskog_elev, .type == "observed"), sides = "b") +
-  coord_cartesian(ylim = c(0, 400)) +
-  labs(x = "Høyde over havet (m)", y = "Torvdybde (cm)") +
-  theme_bw() +
-  theme(panel.grid = element_blank())
-
-ggsave(
-  g_elev,
-  filename = 'pdp_elevation_orskog.svg',
-  path = "ms/figures",
-  width = 120,
-  height = 100,
-  units = 'mm'
-)
-
-## MRVBF PDP both sites (presentation) ####
-
-orskog_mrvbf <- read_csv("output/pdpice.csv") |>
-  filter(feature == "MRVBF")
-skrim_mrvbf <- read_csv("output/Skrim/pdpice.csv") |>
-  filter(feature == "MRVBF")
-
-make_mrvbf_plot <- function(data, ylim_max, subtitle = NULL) {
-  ggplot(data = data, aes(x = .borders, y = .value, group = .id)) +
-    geom_line(data = filter(data, .type == 'ice'), alpha = 0.01) +
-    geom_line(data = filter(data, .type == 'pdp'), color = "red") +
-    geom_rug(data = filter(data, .type == "observed"), sides = "b") +
-    coord_cartesian(ylim = c(0, ylim_max)) +
-    labs(x = "MRVBF (indeks)", y = "Torvdybde (cm)") +
-    ggtitle(subtitle) +
-    theme_bw() +
-    theme(panel.grid = element_blank())
-}
-
-g_mrvbf <-
-  make_mrvbf_plot(skrim_mrvbf, 250, "Skrimfjella") /
-  make_mrvbf_plot(orskog_mrvbf, 400, "Ørskogfjellet") +
-  plot_layout(axes = 'collect')
-
-ggsave(
-  g_mrvbf,
-  filename = 'pdp_mrvbf_bothsites.svg',
-  path = "ms/figures",
-  width = 120,
-  height = 160,
-  units = 'mm'
-)
-
 # GPR wave velocity calibrations ####
 
 library(tidyverse)
@@ -1447,6 +1351,367 @@ ggsave(
   height = ((240 - 30) / 2),
   units = 'mm'
 ) #copernicus.cls page 210x240
+
+# Outreach figure with photo panel ####
+
+photopath <- "ms/figures/foto-KKM.JPG"
+
+pOrskog <- mapOrskog +
+  inset_element(
+    densityOrskog,
+    left = 0.47,
+    bottom = 0.02,
+    right = 0.89,
+    top = 0.5,
+    align_to = "full",
+    clip = TRUE,
+    ignore_tag = TRUE
+  )
+photo <- magick::image_read(photopath) |>
+  magick::image_annotate(
+    "Photo: Karl-Kristian Muggerud",
+    size = 80,
+    color = "black",
+    gravity = "northwest",
+  ) |>
+  magick::image_ggplot()
+
+# Calculate height ratio based on aspect ratios to align widths
+# Get photo aspect ratio
+photo_info <- magick::image_info(magick::image_read(photopath))
+photo_aspect <- photo_info$width / photo_info$height
+
+# Get pOrskog aspect ratio from bounding box
+bbox_width <- bboxOrskog[3] - bboxOrskog[1]
+bbox_height <- bboxOrskog[4] - bboxOrskog[2]
+pOrskog_aspect <- bbox_width / bbox_height
+
+# Height ratio = pOrskog_aspect / photo_aspect (so widths align with same available width)
+height_ratio <- pOrskog_aspect / photo_aspect
+
+# Combine photo (top) with pOrskog map (bottom), aligning with plotting area
+photomap <- photo / pOrskog + plot_layout(heights = c(height_ratio, 1))
+ggsave(
+  photomap,
+  filename = 'map-orskog-photo.jpg',
+  path = "ms/figures",
+  width = 210 - 30,
+  height = (297 - 30 - 40),
+  units = 'mm',
+  dpi = 600
+)
+
+# Presentation figures (EGU26) ####
+
+library(tidyverse)
+library(patchwork)
+
+## Norway inset SVG ####
+# Like pNorway above but site polygons coloured with the Dark2 site palette (cols)
+
+pNorway_pres <- ggplot() +
+  geom_sf(data = nor50, fill = "white") +
+  geom_sf(data = norcities, color = "grey50") +
+  geom_sf_text(
+    data = norcities,
+    aes(label = NAME),
+    color = "grey50",
+    nudge_y = c(-2e4, 1.5e4, 2e4),
+    nudge_x = c(0, 5e4, 0),
+    size = 4
+  ) +
+  geom_sf(
+    data = mutate(both, site = c("orskog", "skrim")),
+    mapping = aes(color = site, fill = site)
+  ) +
+  scale_color_manual(values = cols, guide = "none") +
+  scale_fill_manual(values = cols, guide = "none") +
+  geom_text_repel(
+    data = mutate(labels, col_key = c("orskog", "skrim")),
+    aes(label = site, geometry = geom, color = col_key),
+    stat = "sf_coordinates",
+    min.segment.length = 0,
+    arrow = arrow(length = unit(0.05, "npc")),
+    direction = "y",
+    force_pull = 0.1,
+    nudge_y = c(-10e4, 12e4),
+    nudge_x = c(3e4, 4e4),
+    segment.curvature = 0.2
+  ) +
+  coord_sf(xlim = c(-6.1e4, 3.7e5), ylim = c(6.47e6, 7.05e6), crs = 25833) +
+  theme(
+    legend.position = "none",
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text = element_blank(),
+    plot.background = element_blank(),
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 0.5)
+  )
+
+ggsave(
+  pNorway_pres,
+  filename = 'pNorway.svg',
+  path = "ms/figures",
+  width = 80,
+  height = 100,
+  units = 'mm'
+)
+
+## Ørskogfjellet distribution map SVG ####
+# Reconstruct without the panel tag
+
+pOrskog <- mapOrskog +
+  geom_sf(
+    data = orskog,
+    color = cols["orskog"],
+    fill = NA,
+    linewidth = 0.5,
+    linetype = 1,
+    show.legend = FALSE
+  ) +
+  coord_sf(
+    xlim = bboxOrskog[c(1, 3)],
+    ylim = bboxOrskog[c(2, 4)],
+    crs = 25833,
+    expand = FALSE,
+    label_axes = "----"
+  ) +
+  inset_element(
+    densityOrskog,
+    left = 0.5,
+    bottom = 0.02,
+    right = 0.93,
+    top = 0.5,
+    align_to = "full",
+    clip = TRUE,
+    ignore_tag = TRUE
+  )
+
+ggsave(
+  pOrskog,
+  filename = 'map-distribution-orskog.svg',
+  path = "ms/figures",
+  width = 160,
+  height = 130,
+  units = 'mm'
+)
+
+## Skrimfjella distribution map SVG ####
+# Reconstruct without the panel tag
+
+insetwidthOrskog <- 0.93 - 0.5
+scalingfactor <- max(modelSkrim$depth_cm) / max(modelOrskog$depth_cm)
+
+pSkrim_pres <- mapSkrim +
+  geom_sf(
+    data = skrim,
+    color = cols["skrim"],
+    fill = NA,
+    linewidth = 0.5,
+    linetype = 1,
+    show.legend = FALSE
+  ) +
+  coord_sf(
+    xlim = bboxSkrim[c(1, 3)],
+    ylim = bboxSkrim[c(2, 4)],
+    crs = 25833,
+    expand = FALSE,
+    label_axes = "----"
+  ) +
+  inset_element(
+    densitySkrim,
+    left = 0.5,
+    bottom = 0.03,
+    right = 0.5 + insetwidthOrskog * scalingfactor,
+    top = 0.5,
+    align_to = "full",
+    clip = TRUE,
+    ignore_tag = TRUE
+  )
+
+ggsave(
+  pSkrim_pres,
+  filename = 'map-distribution-skrim.svg',
+  path = "ms/figures",
+  width = 160,
+  height = 100,
+  units = 'mm'
+)
+
+## Elevation PDP Ørskogfjellet ####
+
+orskog_elev <- read_csv("output/pdpice.csv") |>
+  filter(feature == "elevation")
+
+g_elev <- ggplot(
+  data = orskog_elev,
+  aes(x = .borders, y = .value, group = .id)
+) +
+  geom_line(
+    data = filter(orskog_elev, .type == 'ice') |> slice_sample(prop = 0.3),
+    color = cols["orskog"],
+    alpha = 0.01,
+    linewidth = 0.5
+  ) +
+  geom_line(
+    data = filter(orskog_elev, .type == 'pdp'),
+    color = cols["orskog"],
+    linewidth = 2
+  ) +
+  geom_segment(
+    aes(x = 60, y = 0, xend = 60, yend = 280),
+    linetype = "dashed",
+    color = "grey50"
+  ) +
+  annotate(
+    "text",
+    x = 60,
+    y = 290,
+    label = "marine limit",
+    color = "grey50",
+    hjust = 0,
+    angle = 90
+  ) +
+  geom_rug(data = filter(orskog_elev, .type == "observed"), sides = "t") +
+  coord_cartesian(ylim = c(0, 400)) +
+  scale_x_continuous(breaks = seq(0, 400, by = 50)) +
+  labs(x = "Elevation (m)", y = "Peat depth (cm)") +
+  theme_minimal()
+
+ggsave(
+  g_elev,
+  filename = 'pdp_elevation_orskog.svg',
+  path = "ms/figures",
+  width = 120,
+  height = 100,
+  units = 'mm'
+)
+
+## MRVBF PDP both sites faceted ####
+
+orskog_mrvbf <- read_csv("output/pdpice.csv") |>
+  filter(feature == "MRVBF") |>
+  mutate(site = "Ørskogfjellet")
+skrim_mrvbf <- read_csv("output/Skrim/pdpice.csv") |>
+  filter(feature == "MRVBF") |>
+  mutate(site = "Skrimfjella")
+
+mrvbf_both <- bind_rows(skrim_mrvbf, orskog_mrvbf) |>
+  mutate(site = fct_relevel(site, "Skrimfjella"))
+
+g_mrvbf_faceted <- ggplot(
+  data = mrvbf_both,
+  aes(x = .borders, y = .value, group = .id)
+) +
+  geom_line(data = filter(mrvbf_both, .type == 'ice'), alpha = 0.01) +
+  geom_line(data = filter(mrvbf_both, .type == 'pdp'), color = "red") +
+  geom_rug(data = filter(mrvbf_both, .type == "observed"), sides = "b") +
+  facet_wrap(~site, scales = "free_y", ncol = 1) +
+  labs(x = "Multi-Resolution Valley Bottom Flatness", y = "Peat depth (cm)") +
+  theme_bw() +
+  theme(panel.grid = element_blank())
+
+ggsave(
+  g_mrvbf_faceted,
+  filename = 'pdp_mrvbf_bothsites_faceted.svg',
+  path = "ms/figures",
+  width = 120,
+  height = 160,
+  units = 'mm'
+)
+
+## MAE model metrics ####
+
+orskog_mm <- read_csv("output/modelmetrics.csv")
+skrim_mm <- read_csv("output/Skrim/modelmetrics.csv")
+plotting_mae <- bind_rows(orskog = orskog_mm, skrim = skrim_mm, .id = 'site') |>
+  filter(.metric == "mae") |>
+  group_by(site, model, .metric) |>
+  summarize(
+    mean = mean(.estimate),
+    std_err = sd(.estimate) / sqrt(n()),
+    .groups = "drop"
+  ) |>
+  mutate(
+    site = fct_relevel(site, "skrim"),
+    model = case_when(
+      model == "Radiometric" ~ "radiometric",
+      model == "Terrain" ~ "terrain",
+      model == "DMK" ~ "legacy",
+      model == "RadiometricTerrain" ~ "terrain + radiometric",
+      model == "RadiometricDMK" ~ "radiometric + legacy",
+      model == "TerrainDMK" ~ "terrain + legacy",
+      model == "RadiometricTerrainDMK" ~ "all predictors"
+    ),
+    model = fct_relevel(
+      model,
+      "legacy",
+      "radiometric",
+      "radiometric + legacy",
+      "terrain",
+      "terrain + legacy",
+      "terrain + radiometric",
+      "all predictors"
+    ),
+    group = if_else(
+      model %in% c("legacy", "radiometric", "radiometric + legacy"),
+      "Without terrain",
+      "With terrain"
+    ),
+    group = fct_relevel(group, "With terrain")
+  )
+
+g_mae_pres <- ggplot(plotting_mae) +
+  geom_linerange(
+    aes(
+      y = model,
+      x = mean,
+      xmin = mean - std_err,
+      xmax = mean + std_err,
+      color = site
+    ),
+    position = position_dodge2(width = 0.35, reverse = TRUE)
+  ) +
+  geom_point(
+    aes(y = model, x = mean, color = site),
+    position = position_dodge2(width = 0.35, reverse = TRUE)
+  ) +
+  geom_text(
+    aes(y = model, x = mean, label = signif(mean, 2), group = site),
+    position = position_dodge2(width = 1, reverse = TRUE),
+    color = "grey50",
+    size = 2.5
+  ) +
+  facet_grid(group ~ ., scales = "free_y", space = "free_y", switch = "y") +
+  scale_colour_manual(
+    values = cols,
+    labels = c(orskog = "Ørskogfjellet", skrim = "Skrimfjella")
+  ) +
+  xlab("Mean Absolute Error (cm)") +
+  theme_minimal() +
+  theme(
+    axis.title.y = element_blank(),
+    panel.grid = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.x = element_blank(),
+    legend.title = element_blank(),
+    legend.position = "none",
+    # legend.position.inside = c(0.8, 0.9),
+    strip.background = element_blank(),
+    strip.placement = "outside",
+    strip.text.y.left = element_text(angle = 90)
+  )
+
+ggsave(
+  g_mae_pres,
+  filename = 'modelmetrics_mae.svg',
+  path = "ms/figures",
+  width = 160,
+  height = 120,
+  units = 'mm',
+  scale = .75
+)
 
 # sessionInfo ####
 
