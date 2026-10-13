@@ -134,6 +134,25 @@ frame |>
   group_by(dmkdepth) |> 
   summarize(n = n(), depth_cm = mean(depth_cm)) # sanity check
 
+## null: uncalibrated DMK ####
+# DMK classes taken at face value (<1 m, >1 m), with arbitrary assumed depths
+
+dmk_assumed <- c("grunn" = 30, "djup" = 200)
+dmk_unknown <- 50
+
+dmknullmetrics <- folds |> 
+  mutate(.metrics = map(splits, \(s) assessment(s) |> 
+    st_drop_geometry() |> 
+    mutate(.pred = coalesce(unname(dmk_assumed[as.character(dmkdepth)]), dmk_unknown)) |> 
+    mae(truth = depth_cm, estimate = .pred))) |> 
+  select(id, .metrics) |> 
+  unnest(.metrics) |> 
+  mutate(model = "DMKuncalibrated", .before = 1)
+dmknullmetrics |> 
+  summarize(mean = mean(.estimate), std_err = sd(.estimate) / sqrt(n()))
+
+readr::write_csv(dmknullmetrics, "output/Skrim/modelmetrics_dmknull.csv")
+
 ## preds: radiometric + terrain ####
 
 recipe_RT <- 
